@@ -3,17 +3,9 @@ project(r_type)
 
 set(CMAKE_CXX_STANDARD 17)
 
+find_package(SFML 2.6 COMPONENTS graphics audio window system REQUIRED)
+find_package(Boost REQUIRED)
 
-if(WIN32)
-    include(FetchContent)
-
-    FetchContent_Declare(
-            SFML
-            URL https://www.sfml-dev.org/files/SFML-2.6.2-sources.zip
-    )
-
-    FetchContent_MakeAvailable(SFML)
-endif()
 
 set(SOURCE_FILES src/main.cpp
         src/Systems.cpp
