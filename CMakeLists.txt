@@ -9,13 +9,15 @@ if(WIN32)
 
     FetchContent_Declare(
             SFML
-            URL https://www.sfml-dev.org/files/SFML-2.5.1-sources.zip
+            URL https://www.sfml-dev.org/files/SFML-2.6.2-sources.zip
     )
 
     FetchContent_MakeAvailable(SFML)
 endif()
 
-set(SOURCE_FILES src/main.cpp)
+set(SOURCE_FILES src/main.cpp
+        src/Systems.cpp
+)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
