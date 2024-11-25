@@ -75,7 +75,7 @@ public:
         }
 
         // Récupération de l'allocateur
-        auto& alloc = _data.get_allocator();
+        auto alloc = _data.get_allocator();
 
         // Destruction de l'objet existant, si présent
         if (_data[pos].has_value()) {
