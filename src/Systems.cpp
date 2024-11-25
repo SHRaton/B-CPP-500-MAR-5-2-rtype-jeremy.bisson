@@ -12,18 +12,19 @@ void control_system(registry &r, char c)
         {
             if (controllable.value().is_controllable)
             {
+                std::cout << "Controllable entity " << i << " is controlled" << int(c) << std::endl;
                 switch (c)
                 {
-                case 'z':
+                case sf::Keyboard::Z:
                     vel.value().vy = -1;
                     break;
-                case 's':
+                case sf::Keyboard::S:
                     vel.value().vy = 1;
                     break;
-                case 'q':
+                case sf::Keyboard::Q:
                     vel.value().vx = -1;
                     break;
-                case 'd':
+                case sf::Keyboard::D:
                     vel.value().vx = 1;
                     break;
                 default:
