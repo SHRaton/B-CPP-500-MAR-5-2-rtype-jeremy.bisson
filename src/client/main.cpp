@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
         ChatClient client(argv[1], std::stoi(argv[2]));
         client.start();
     }
-    catch (std::exception& e) {
+    catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
     }
     return 0;
