@@ -6,12 +6,12 @@
 // Exemple de la fonction menu
 void menu(sf::RenderWindow& window) {
     std::map<std::string, Sprite> sprites = {
-        {"background", Sprite("./ressources/background/background.png", true)},
-        {"small_stars", Sprite("./ressources/background/small_stars.png", true, 1.0f, 20)},
-        {"poudreBleu", Sprite("./ressources/background/poudreBleu.png", true, 1.0f, 90)},
-        {"rtype", Sprite("./ressources/background/rtype.png", false)},
-        {"play", Sprite("./ressources/background/play.png", false, 1.0f, 50, "./ressources/background/play_hover.png")},
-        {"quit", Sprite("./ressources/background/quit.png", false, 1.0f, 50, "./ressources/background/quit_hover2.png")}
+        {"background", Sprite("../ressources/background/background.png", true)},
+        {"small_stars", Sprite("../ressources/background/small_stars.png", true, 1.0f, 20)},
+        {"poudreBleu", Sprite("../ressources/background/poudreBleu.png", true, 1.0f, 90)},
+        {"rtype", Sprite("../ressources/background/rtype.png", false)},
+        {"play", Sprite("../ressources/background/play.png", false, 1.0f, 50, "../ressources/background/play_hover.png")},
+        {"quit", Sprite("../ressources/background/quit.png", false, 1.0f, 50, "../ressources/background/quit_hover2.png")}
     };
     std::vector<std::string> drawOrder = {
         "background",

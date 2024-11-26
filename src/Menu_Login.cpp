@@ -3,11 +3,11 @@
 
 void menu_login(sf::RenderWindow& window) {
     std::map<std::string, Sprite> sprites = {
-        {"background", Sprite("./ressources/background/background.png", true)},
-        {"small_stars", Sprite("./ressources/background/small_stars.png", true, 1.0f, 20)},
-        {"poudreBleu", Sprite("./ressources/background/poudreBleu.png", true, 1.0f, 90)},
-        {"rtype", Sprite("./ressources/background/rtype.png", false)},
-        {"box_opacity", Sprite("./ressources/background/box_opacity2.png", false)}
+        {"background", Sprite("../ressources/background/background.png", true)},
+        {"small_stars", Sprite("../ressources/background/small_stars.png", true, 1.0f, 20)},
+        {"poudreBleu", Sprite("../ressources/background/poudreBleu.png", true, 1.0f, 90)},
+        {"rtype", Sprite("../ressources/background/rtype.png", false)},
+        {"box_opacity", Sprite("../ressources/background/box_opacity2.png", false)}
     };
     std::vector<std::string> drawOrder = {
         "background",
