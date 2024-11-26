@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include "Menu.hpp"
 
 int main(int argc, char **argv)
 {
@@ -19,22 +20,25 @@ int main(int argc, char **argv)
 
     // Création du joueur
     Entity player = reg.spawn_entity();
-    reg.emplace_component<component::position>(player, component::position{0, 0});  // Initialisation correcte
-    reg.emplace_component<component::velocity>(player, component::velocity{0, 0}); // Initialisation correcte
-    reg.emplace_component<component::drawable>(player, component::drawable{"../player.png"});
+    reg.emplace_component<component::position>(player, component::position{0, 0});
+    reg.emplace_component<component::velocity>(player, component::velocity{0, 0});
+    reg.emplace_component<component::drawable>(player, component::drawable{"./ressources/sprites/jinx.png"});
     reg.emplace_component<component::controllable>(player, component::controllable{true});
 
     // Création de l'ennemi
     Entity enemy = reg.spawn_entity();
-    reg.emplace_component<component::position>(enemy, component::position{100, 100}); // Initialisation correcte
-    reg.emplace_component<component::velocity>(enemy, component::velocity{1, 1});    // Initialisation correcte
-    reg.emplace_component<component::drawable>(enemy, component::drawable{"../enemy.png"});
+    reg.emplace_component<component::position>(enemy, component::position{100, 100});
+    reg.emplace_component<component::velocity>(enemy, component::velocity{1, 1});
+    reg.emplace_component<component::drawable>(enemy, component::drawable{"./ressources/sprites/jinx.png"});
     reg.emplace_component<component::controllable>(enemy, component::controllable{false});
 
-    while(window.isOpen()){
+    menu(window);
+    return (1);
+
+    while(window.isOpen()) {
         sf::Event event;
         while(window.pollEvent(event)){
-            if(event.type == sf::Event::Closed){
+            if(event.type == sf::Event::Closed) {
                 window.close();
             }
             if (event.type == sf::Event::KeyPressed) {
