@@ -1,10 +1,30 @@
 #include "Gui.hpp"
 
-int gui(int argc, char **argv)
+void Core::gui(int argc, char **argv)
 {
-    sf::RenderWindow window(sf::VideoMode(1920, 1200), "ECS Test");
+    send_network_message("11111");
+    gui_menu(window);
 
-    registry reg;
+    // Gameplay du jeu
+    while(window.isOpen()) {
+        sf::Event event;
+        while(window.pollEvent(event)){
+            if(event.type == sf::Event::Closed) {
+                window.close();
+            }
+            if (event.type == sf::Event::KeyPressed) {
+                control_system(reg, event.key.code);
+            }
+        }
+        position_system(reg);
+        window.clear();
+        draw_system(reg, window);
+        window.display();
+    }
+}
+
+void Core::loadAssets()
+{
     reg.register_component<component::position>();
     reg.register_component<component::velocity>();
     reg.register_component<component::drawable>();
@@ -24,23 +44,36 @@ int gui(int argc, char **argv)
     reg.emplace_component<component::drawable>(enemy, component::drawable{"./ressources/sprites/jinx.png"});
     reg.emplace_component<component::controllable>(enemy, component::controllable{false});
 
-    menu(window);
-    return (1);
 
-    while(window.isOpen()) {
-        sf::Event event;
-        while(window.pollEvent(event)){
-            if(event.type == sf::Event::Closed) {
-                window.close();
-            }
-            if (event.type == sf::Event::KeyPressed) {
-                control_system(reg, event.key.code);
-            }
-        }
-        position_system(reg);
-        window.clear();
-        draw_system(reg, window);
-        window.display();
-    }
-    return 0;
+    sprites_menu = {
+        {"background", Sprite("../ressources/background/background.png", true)},
+        {"small_stars", Sprite("../ressources/background/small_stars.png", true, 1.0f, 20)},
+        {"poudreBleu", Sprite("../ressources/background/poudreBleu.png", true, 1.0f, 90)},
+        {"rtype", Sprite("../ressources/background/rtype.png", false)},
+        {"play", Sprite("../ressources/background/play.png", false, 1.0f, 50, "../ressources/background/play_hover.png")},
+        {"quit", Sprite("../ressources/background/quit.png", false, 1.0f, 50, "../ressources/background/quit_hover2.png")}
+    };
+    drawOrder_menu = {
+        "background",
+        "small_stars",
+        "poudreBleu",
+        "rtype",
+        "play",
+        "quit"
+    };
+
+    sprites_login = {
+        {"background", Sprite("../ressources/background/background.png", true)},
+        {"small_stars", Sprite("../ressources/background/small_stars.png", true, 1.0f, 20)},
+        {"poudreBleu", Sprite("../ressources/background/poudreBleu.png", true, 1.0f, 90)},
+        {"rtype", Sprite("../ressources/background/rtype.png", false)},
+        {"box_opacity", Sprite("../ressources/background/box_opacity2.png", false)}
+    };
+    drawOrder_login = {
+        "background",
+        "small_stars",
+        "poudreBleu",
+        "rtype",
+        "box_opacity"
+    };
 }

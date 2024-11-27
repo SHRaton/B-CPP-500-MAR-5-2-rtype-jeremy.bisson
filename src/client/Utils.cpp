@@ -1,6 +1,6 @@
 #include "Utils.hpp"
 
-sf::Sprite cat(const std::string& path)
+sf::Sprite Utils::cat(const std::string& path)
 {
     static std::map<std::string, sf::Texture> textureCache;
     if (textureCache.find(path) == textureCache.end()) {

@@ -1,37 +1,18 @@
-#include "Menu.hpp"
-#include "Menu_Login.hpp"
-#include "Utils.hpp"
-
+#include "Gui.hpp"
 
 // Exemple de la fonction menu
-void menu(sf::RenderWindow& window) {
-    std::map<std::string, Sprite> sprites = {
-        {"background", Sprite("../ressources/background/background.png", true)},
-        {"small_stars", Sprite("../ressources/background/small_stars.png", true, 1.0f, 20)},
-        {"poudreBleu", Sprite("../ressources/background/poudreBleu.png", true, 1.0f, 90)},
-        {"rtype", Sprite("../ressources/background/rtype.png", false)},
-        {"play", Sprite("../ressources/background/play.png", false, 1.0f, 50, "../ressources/background/play_hover.png")},
-        {"quit", Sprite("../ressources/background/quit.png", false, 1.0f, 50, "../ressources/background/quit_hover2.png")}
-    };
-    std::vector<std::string> drawOrder = {
-        "background",
-        "small_stars",
-        "poudreBleu",
-        "rtype",
-        "play",
-        "quit"
-    };
+void Core::gui_menu(sf::RenderWindow& window) {
 
-    sprites["poudreBleu"].setScale({2, 2});
-    sprites["rtype"].setOriginToMiddle();
-    sprites["rtype"].setScale({1.4, 1.4});
-    sprites["rtype"].setPosition({960, 100});
-    sprites["play"].setOriginToMiddle();
-    sprites["play"].setScale({0.5, 0.5});
-    sprites["play"].setPosition({960, 500});
-    sprites["quit"].setOriginToMiddle();
-    sprites["quit"].setScale({0.5, 0.5});
-    sprites["quit"].setPosition({960, 800});
+    sprites_menu["poudreBleu"].setScale({2, 2});
+    sprites_menu["rtype"].setOriginToMiddle();
+    sprites_menu["rtype"].setScale({1.4, 1.4});
+    sprites_menu["rtype"].setPosition({960, 100});
+    sprites_menu["play"].setOriginToMiddle();
+    sprites_menu["play"].setScale({0.5, 0.5});
+    sprites_menu["play"].setPosition({960, 500});
+    sprites_menu["quit"].setOriginToMiddle();
+    sprites_menu["quit"].setScale({0.5, 0.5});
+    sprites_menu["quit"].setPosition({960, 800});
 
     while (window.isOpen()) {
         sf::Event event;
@@ -42,28 +23,35 @@ void menu(sf::RenderWindow& window) {
             }
 
             if (event.type == sf::Event::MouseMoved) {
-                sprites["play"].setHovered(sprites["play"].isMouseOver(window));
-                sprites["quit"].setHovered(sprites["quit"].isMouseOver(window));
+                sprites_menu["play"].setHovered(sprites_menu["play"].isMouseOver(window));
+                sprites_menu["quit"].setHovered(sprites_menu["quit"].isMouseOver(window));
             }
 
             if (event.type == sf::Event::MouseButtonPressed && 
                 event.mouseButton.button == sf::Mouse::Left) {
-                if (sprites["play"].isMouseOver(window)) {
-                    menu_login(window);
+                if (sprites_menu["play"].isMouseOver(window)) {
+                    gui_login(window);
                 }
-                if (sprites["quit"].isMouseOver(window)) {
+                if (sprites_menu["quit"].isMouseOver(window)) {
                     window.close();
                 }
             }
+            if (event.type == sf::Event::KeyPressed) {
+                // Example: send player movement
+                send_network_message("0010 80 60");
+            }
         }
 
-        for (auto& [name, sprite] : sprites) {
+        // Update network - check for received messages
+        update_network();
+
+        for (auto& [name, sprite] : sprites_menu) {
             sprite.update();
         }
 
         window.clear();
-        for (const auto& name : drawOrder) {
-            window.draw(sprites[name].getSprite());
+        for (const auto& name : drawOrder_menu) {
+            window.draw(sprites_menu[name].getSprite());
         }
         window.display();
     }
