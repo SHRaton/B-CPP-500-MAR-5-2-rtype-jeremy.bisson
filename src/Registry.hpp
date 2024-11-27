@@ -1,3 +1,4 @@
+#pragma once
 #include <unordered_map>
 #include <any>
 #include <functional>
@@ -6,7 +7,6 @@
 #include "SparseArray.hpp"
 #include "Entity.hpp"
 
-#pragma once
 
 class registry {
 public:

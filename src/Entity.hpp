@@ -1,7 +1,7 @@
+#pragma once
 #include <iostream>
 #include <cstddef> // For size_t
 
-#pragma once
 
 class Entity {
 private:

@@ -1,10 +1,10 @@
+#pragma once
 #include <vector>
 #include <optional>
 #include <stdexcept>
 #include <algorithm>
 #include <memory>
 
-#pragma once
 
 template <typename Component>
 class sparse_array {

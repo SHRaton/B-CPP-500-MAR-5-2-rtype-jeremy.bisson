@@ -6,6 +6,8 @@
 #include <chrono>
 #include <bitset>
 #include <vector>
+#include "Mediator.hpp"
+
 
 namespace Color {
     const std::string RESET   = "\033[0m";
@@ -63,4 +65,6 @@ private:
     std::map<boost::asio::ip::udp::endpoint, ClientInfo> clients_;
     bool running_;
     std::thread receive_thread_;
+
+    registry reg;
 };

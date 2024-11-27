@@ -1,6 +1,47 @@
 #include "Systems.hpp"
 
-void control_system(registry &r, char c)
+
+void Systems::player_control_system(registry &r, int playerId, int x, int y)
+{
+    auto &velocities = r.get_components<component::velocity>();
+    auto &vel = velocities[playerId];
+    if (vel)
+    {
+        vel.value().vx = x;
+        vel.value().vy = y;
+        std::vector<std::string> params = {std::to_string(playerId), std::to_string(x), std::to_string(y)};
+        Mediator::notify(Sender::SERVER, "MOVE", params);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Systems::control_system(registry &r, char c)
 {
     auto const &controllables = r.get_components<component ::controllable>();
     auto &velocities = r.get_components<component ::velocity>();
@@ -12,19 +53,18 @@ void control_system(registry &r, char c)
         {
             if (controllable.value().is_controllable)
             {
-                std::cout << "Controllable entity " << i << " is controlled" << int(c) << std::endl;
                 switch (c)
                 {
-                case sf::Keyboard::Z:
+                case 'z':
                     vel.value().vy = -1;
                     break;
-                case sf::Keyboard::S:
+                case 's':
                     vel.value().vy = 1;
                     break;
-                case sf::Keyboard::Q:
+                case 'q':
                     vel.value().vx = -1;
                     break;
-                case sf::Keyboard::D:
+                case 'd':
                     vel.value().vx = 1;
                     break;
                 default:
@@ -37,7 +77,7 @@ void control_system(registry &r, char c)
     }
 }
 
-void position_system(registry &r)
+void Systems::position_system(registry &r)
 {
     auto &positions = r.get_components<component ::position>();
     auto const &velocities = r.get_components<component ::velocity>();
@@ -53,7 +93,7 @@ void position_system(registry &r)
     }
 }
 
-void draw_system(registry &r, sf::RenderWindow &window)
+void Systems::draw_system(registry &r, sf::RenderWindow &window)
 {
     auto const &positions = r.get_components<component ::position>();
     auto const &drawables = r.get_components<component ::drawable>();
@@ -74,7 +114,7 @@ void draw_system(registry &r, sf::RenderWindow &window)
     }
 }
 
-void logging_system(registry &r)
+void Systems::logging_system(registry &r)
 {
     auto const &positions = r.get_components<component ::position>();
     auto const &velocities = r.get_components<component ::velocity>();

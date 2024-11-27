@@ -76,6 +76,7 @@ void Server::handle_connect(const boost::asio::ip::udp::endpoint& client) {
 void Server::handle_game_message(const boost::asio::ip::udp::endpoint& sender, const GameMessage& msg) {
     if (msg.action == GameAction::CONNECT) {
         handle_connect(sender);
+        socket_.send_to(boost::asio::buffer("OK"), sender);
         return;
     }
     else if (msg.action == GameAction::DISCONNECT) {
@@ -85,9 +86,8 @@ void Server::handle_game_message(const boost::asio::ip::udp::endpoint& sender, c
 
     // Pour les autres messages
     std::string action_name = get_action_name(msg.action);
-    
     std::ostringstream log_message;
-    log_message << Color::BLUE << "[Action] Player [" << sender.address().to_string() 
+    log_message << Color::BLUE << "[Action] Player [" << sender.address().to_string()
                 << ":" << sender.port() << "] " << std::endl;
     log_message << "Binary: " << encode_action(msg.action) << " (" << action_name << ")" << std::endl;
     log_message << "Arguments:";
@@ -95,7 +95,6 @@ void Server::handle_game_message(const boost::asio::ip::udp::endpoint& sender, c
         log_message << " " << arg;
     }
     log_message << Color::RESET;
-    
     std::cout << log_message.str() << std::endl;
 
     std::ostringstream original_message;
@@ -103,8 +102,10 @@ void Server::handle_game_message(const boost::asio::ip::udp::endpoint& sender, c
     for (const auto& arg : msg.arguments) {
         original_message << " " << arg;
     }
-    
     broadcast_message(sender, original_message.str());
+
+
+    Mediator::notify(Sender::CLIENT, action_name, msg.arguments);
 }
 
 void Server::broadcast_message(const boost::asio::ip::udp::endpoint& sender, const std::string& message) {

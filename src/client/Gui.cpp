@@ -3,24 +3,25 @@
 void Core::gui(int argc, char **argv)
 {
     send_network_message("11111");
+    send_network_message("0011 10 20");
     gui_menu(window);
 
     // Gameplay du jeu
-    while(window.isOpen()) {
-        sf::Event event;
-        while(window.pollEvent(event)){
-            if(event.type == sf::Event::Closed) {
-                window.close();
-            }
-            if (event.type == sf::Event::KeyPressed) {
-                control_system(reg, event.key.code);
-            }
-        }
-        position_system(reg);
-        window.clear();
-        draw_system(reg, window);
-        window.display();
-    }
+    //while(window.isOpen()) {
+    //    sf::Event event;
+    //    while(window.pollEvent(event)){
+    //        if(event.type == sf::Event::Closed) {
+    //            window.close();
+    //        }
+    //        if (event.type == sf::Event::KeyPressed) {
+    //            Systems::control_system(reg, event.key.code, 0);
+    //        }
+    //    }
+    //    Systems::position_system(reg);
+    //    window.clear();
+    //    Systems::draw_system(reg, window);
+    //    window.display();
+    //}
 }
 
 void Core::loadAssets()
