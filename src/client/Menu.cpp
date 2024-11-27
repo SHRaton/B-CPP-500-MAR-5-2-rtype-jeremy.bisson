@@ -1,7 +1,7 @@
 #include "Gui.hpp"
 
 // Exemple de la fonction menu
-void Core::gui_menu(sf::RenderWindow& window) {
+void Core::gui_menu() {
 
     sprites_menu["poudreBleu"].setScale({2, 2});
     sprites_menu["rtype"].setOriginToMiddle();
@@ -30,7 +30,7 @@ void Core::gui_menu(sf::RenderWindow& window) {
             if (event.type == sf::Event::MouseButtonPressed && 
                 event.mouseButton.button == sf::Mouse::Left) {
                 if (sprites_menu["play"].isMouseOver(window)) {
-                    gui_login(window);
+                    gui_login();
                 }
                 if (sprites_menu["quit"].isMouseOver(window)) {
                     window.close();

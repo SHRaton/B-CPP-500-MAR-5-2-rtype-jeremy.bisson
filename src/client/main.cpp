@@ -3,8 +3,11 @@
 #include <iostream>
 
 int main(int argc, char* argv[]) {
+    if (argc != 1) {
+        std::cerr << "Usage: ./client" << std::endl;
+        return 1;
+    }
     Core core;
-    core.initialize_network(argv[1], 8081);
     core.gui(argc, argv);
     // if (argc != 3) {
     //     std::cout << "Usage: " << argv[0] << " <server_ip> <port>\n";

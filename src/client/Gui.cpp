@@ -2,26 +2,7 @@
 
 void Core::gui(int argc, char **argv)
 {
-    send_network_message("11111");
-    send_network_message("0011 10 20");
-    gui_menu(window);
-
-    // Gameplay du jeu
-    //while(window.isOpen()) {
-    //    sf::Event event;
-    //    while(window.pollEvent(event)){
-    //        if(event.type == sf::Event::Closed) {
-    //            window.close();
-    //        }
-    //        if (event.type == sf::Event::KeyPressed) {
-    //            Systems::control_system(reg, event.key.code, 0);
-    //        }
-    //    }
-    //    Systems::position_system(reg);
-    //    window.clear();
-    //    Systems::draw_system(reg, window);
-    //    window.display();
-    //}
+    gui_menu();
 }
 
 void Core::loadAssets()
@@ -68,13 +49,29 @@ void Core::loadAssets()
         {"small_stars", Sprite("../ressources/background/small_stars.png", true, 1.0f, 20)},
         {"poudreBleu", Sprite("../ressources/background/poudreBleu.png", true, 1.0f, 90)},
         {"rtype", Sprite("../ressources/background/rtype.png", false)},
-        {"box_opacity", Sprite("../ressources/background/box_opacity2.png", false)}
+        {"box_opacity", Sprite("../ressources/background/box_opacity2.png", false)},
+        {"name", Sprite("../ressources/background/name.png", false)},
+        {"ip", Sprite("../ressources/background/ip.png", false)},
+        {"port", Sprite("../ressources/background/port.png", false)},
+        {"connect", Sprite("../ressources/background/connect.png", false)}
     };
     drawOrder_login = {
         "background",
         "small_stars",
         "poudreBleu",
         "rtype",
-        "box_opacity"
+        "box_opacity",
+        "name",
+        "ip",
+        "port",
+        "connect"
     };
+    font.loadFromFile("../ressources/fonts/NicoMoji.ttf");
+    str_name = "Raton";
+    str_ip = "10.9.28.41";
+    str_port = "8081";
+    str_failed = "nooby failed to connect";
+
+    failed_connection = 0;
+    select_button = 0;
 }

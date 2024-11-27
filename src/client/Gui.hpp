@@ -43,7 +43,6 @@ class Core {
             // Convert port to string
             std::string port_str = std::to_string(port);
 
-            std::cout << server_ip << " / " << port_str;
             // Create network client
             m_network_client = std::make_shared<UDPNetworkClient>(
                 m_io_context, 
@@ -53,12 +52,16 @@ class Core {
         }
         void update_network() {
             // Check for received messages in your game loop
+
             if (m_network_client) {
                 auto messages = m_network_client->receive_messages();
                 for (const auto& msg : messages) {
                     // Process received network messages
                     handle_network_message(msg);
+                    buffer = msg;
                 }
+            } else {
+                buffer = "";
             }
         }
         void send_network_message(const std::string& message) {
@@ -68,19 +71,22 @@ class Core {
         }
 
 
-        // Display //
+        //*************** Display ***************//
         void gui(int argc, char**argv);
-        void gui_menu(sf::RenderWindow& window);
-        void gui_login(sf::RenderWindow& window);
+        // Menu D'acceuil
+        void gui_menu();
+        // Menu de Login NAME IP PORT
+        void gui_login();
+        void handleKeyboard(sf::Event::KeyEvent key);
+        void handleMouseClick(sf::Vector2i mousePosition);
+        // Game
+        void gui_game();
+
+        //*************** Display ***************//
 
         // main.cpp
         std::vector<std::string> str_to_word_array(std::string s);
         void loadAssets();
-
-        // Network Client
-        //ChatClient* chat_client;
-
-        // Window
 
         registry reg;
         std::map<std::string, Sprite> sprites_menu;
@@ -89,13 +95,6 @@ class Core {
         std::map<std::string, Sprite> sprites_login;
         std::vector<std::string> drawOrder_login;
 
-
-        // Network //
-        //void welcome();
-        //int init_socket_client();
-        //void receive_from_server();
-        //void send_to_server(std::string command);
-        //void client_loop();
     private:
         void handle_network_message(const std::string& message) {
             std::cout << "Received network message: " << message << std::endl;
@@ -106,7 +105,26 @@ class Core {
         std::thread m_io_thread;
         std::shared_ptr<UDPNetworkClient> m_network_client;
 
-        // Your existing window and other members
+        // Window
         sf::RenderWindow window;
+
+        // Strings
+        std::string str_name;
+        std::string str_ip;
+        std::string str_port;
+        std::string str_failed;
+
+        std::string buffer;
+
+        // Int
+        int select_button;
+        int failed_connection;
+
+        // Textes
+        sf::Font font;
+        sf::Text text_name;
+        sf::Text text_ip;
+        sf::Text text_port;
+        sf::Text text_failed;
 
 };
