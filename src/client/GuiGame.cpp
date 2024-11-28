@@ -1,4 +1,4 @@
-#include "Gui.hpp"
+#include "Core.hpp"
 
 void Core::gui_game() {
         // Gameplay du jeu

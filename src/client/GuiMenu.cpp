@@ -1,4 +1,4 @@
-#include "Gui.hpp"
+#include "Core.hpp"
 
 // Exemple de la fonction menu
 void Core::gui_menu() {
@@ -36,14 +36,7 @@ void Core::gui_menu() {
                     window.close();
                 }
             }
-            if (event.type == sf::Event::KeyPressed) {
-                // Example: send player movement
-                send_network_message("0010 80 60");
-            }
         }
-
-        // Update network - check for received messages
-        update_network();
 
         for (auto& [name, sprite] : sprites_menu) {
             sprite.update();

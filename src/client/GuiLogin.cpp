@@ -1,4 +1,4 @@
-#include "Gui.hpp"
+#include "Core.hpp"
 
 char keyToAscii(sf::Keyboard::Key key, bool shift)
 {
@@ -76,31 +76,35 @@ void Core::handleMouseClick(sf::Vector2i mousePosition)
         if (!str_name.empty() && !str_ip.empty() && !str_port.empty()) {
             try {
                 initialize_network(str_ip, std::stoi(str_port));
-                send_network_message("11111");
+
+                network->send("11111");
 
                 std::this_thread::sleep_for(std::chrono::seconds(1));
-
-                update_network();
-                std::cout << "RECEIVED : " << buffer << std::endl;
+                network->print_message_queue();
+                auto messages = network->receive();
+                network->print_message_queue();
+                exit (56);
 
                 if (buffer.rfind("OK", 0) == 0) {
                     failed_connection = 0;
-                    gui_game();
+                    //gui_game();
+                    utils.printLog(str_name + " logged in");
+                    std::cout << Color::YELLOW << "[Client] Connected to " << Color::BLUE << str_ip << ":" << str_port << Color::RESET << std::endl;
                     return;
                 } else {
                     failed_connection = 1;
                     str_failed = "Connection failed: No response from server";
                     text_failed.setString(str_failed);
                 }
-                std::cout << "Connection succed" << std::endl;
             } catch (const std::exception& e) {
                 failed_connection = 1;
                 str_failed = "Connection failed.";
+                text_failed.setString(str_failed);
             }
-            std::cout << "Connect to " << str_ip << ":" << str_port << std::endl;
         } else {
             failed_connection = 1;
             str_failed = "Please fill in all fields";
+            text_failed.setString(str_failed);
         }
     } else if (sprites_login["name"].getSprite().getGlobalBounds().contains(worldMousePosition)) {
         select_button = 1;
