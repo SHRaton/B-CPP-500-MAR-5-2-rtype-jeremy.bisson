@@ -68,7 +68,7 @@ void Server::handle_disconnect(const boost::asio::ip::udp::endpoint& client) {
     clients_.erase(client);
 }
 
-Entity Server::handle_connect(const boost::asio::ip::udp::endpoint& client) {
+void Server::handle_connect(const boost::asio::ip::udp::endpoint& client) {
     clients_[client] = ClientInfo{"", true};
 
 
@@ -83,14 +83,30 @@ Entity Server::handle_connect(const boost::asio::ip::udp::endpoint& client) {
     reg.emplace_component<component::controllable>(player, component::controllable{true});
     reg.emplace_component<component::health>(player, component::health{100});
     reg.emplace_component<component::damage>(player, component::damage{10});
-    return player;
+
+    socket_.send_to(boost::asio::buffer("OK " + std::to_string(player)), client);
+    broadcast_message(client, encode_action(GameAction::CONNECT) + " " + std::to_string(player));
+
+    //Envoyer tout les joueurs déjà connectés
+    auto const &controllables = reg.get_components<component::controllable>();
+    for (size_t i = 0; i < controllables.size(); ++i)
+    {
+        auto const &controllable = controllables[i];
+        if (controllable && controllable.value().is_controllable)
+        {
+            if (i != player)
+            {
+                std::string message = encode_action(GameAction::CONNECT) + " " + std::to_string(i);
+                socket_.send_to(boost::asio::buffer(message), client);
+            }
+        }
+    }
+
 }
 
 void Server::handle_game_message(const boost::asio::ip::udp::endpoint& sender, const GameMessage& msg) {
     if (msg.action == GameAction::CONNECT) {
-        Entity player = handle_connect(sender);
-        socket_.send_to(boost::asio::buffer("OK " + std::to_string(player)), sender);
-        broadcast_message(sender, encode_action(msg.action) + std::to_string(player));
+        handle_connect(sender);
         return;
     }
     else if (msg.action == GameAction::DISCONNECT) {
