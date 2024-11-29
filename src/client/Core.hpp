@@ -30,7 +30,7 @@ class Core {
         // Game
         void gui_game();
         void handleCommands(std::string command);
-        void handleMoove(int pressed);
+        void handleMoove();
         //*************** Graphic ***************//
 
         //*************** ECS ***************//
@@ -43,6 +43,9 @@ class Core {
         // Network
         void initialize_network(const std::string& server_ip, uint16_t port);
         std::unique_ptr<UDPNetworkClient> network;
+
+        // Fps
+        int fps;
 
         // Window
         sf::RenderWindow window;
@@ -64,8 +67,17 @@ class Core {
         sf::Text text_ip;
         sf::Text text_port;
         sf::Text text_failed;
+        sf::Text fpsText; // Texte pour afficher les FPS
+        sf::Text latencyText; // Texte pour afficher la latence
+
+        // Clocks
+        sf::Clock fpsClock; // Horloge pour mesurer le temps entre les frames
+        sf::Clock latencyClock; // Horloge pour simuler la mesure de la latence
+        float baseSpeed; // Vitesse de base en pixels par seconde
+        sf::Clock deltaClock;         // Horloge pour mesurer le delta time
 
         // Sprites
+        std::unordered_map<sf::Keyboard::Key, bool> keysPressed;
         sf::Sprite vaisseau;
 
         std::map<std::string, Sprite> sprites_menu;

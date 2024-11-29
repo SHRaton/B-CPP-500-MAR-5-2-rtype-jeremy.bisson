@@ -29,31 +29,26 @@ void Core::handleCommands(std::string command)
     }
 }
 
-void Core::handleMoove(int pressed)
+void Core::handleMoove()
 {
-    if (pressed == sf::Keyboard::Up) {
-        vaisseau.move(0, -4);
-        sf::Vector2f pos = vaisseau.getPosition();
-        std::ostringstream messageStream;
-        messageStream << GameAction::MOVE << " " << network->getId() << " " << pos.x << " " << pos.y;
-        network->send(messageStream.str());
+    sf::Time elapsedTime = deltaClock.restart();
+    float deltaSeconds = elapsedTime.asSeconds();
+    sf::Vector2f movement(0.f, 0.f);
+    if (keysPressed[sf::Keyboard::Up]) {
+        movement.y -= baseSpeed * deltaSeconds;
     }
-    if (pressed == sf::Keyboard::Down) {
-        vaisseau.move(0, 4);
-        sf::Vector2f pos = vaisseau.getPosition();
-        std::ostringstream messageStream;
-        messageStream << GameAction::MOVE << " " << network->getId() << " " << pos.x << " " << pos.y;
-        network->send(messageStream.str());
+    if (keysPressed[sf::Keyboard::Down]) {
+        movement.y += baseSpeed * deltaSeconds;
     }
-    if (pressed == sf::Keyboard::Left) {
-        vaisseau.move(-4, 0);
-        sf::Vector2f pos = vaisseau.getPosition();
-        std::ostringstream messageStream;
-        messageStream << GameAction::MOVE << " " << network->getId() << " " << pos.x << " " << pos.y;
-        network->send(messageStream.str());
+    if (keysPressed[sf::Keyboard::Left]) {
+        movement.x -= baseSpeed * deltaSeconds;
     }
-    if (pressed == sf::Keyboard::Right) {
-        vaisseau.move(4, 0);
+    if (keysPressed[sf::Keyboard::Right]) {
+        movement.x += baseSpeed * deltaSeconds;
+    }
+    vaisseau.move(movement);
+
+    if (movement != sf::Vector2f(0.f, 0.f)) {
         sf::Vector2f pos = vaisseau.getPosition();
         std::ostringstream messageStream;
         messageStream << GameAction::MOVE << " " << network->getId() << " " << pos.x << " " << pos.y;
@@ -70,8 +65,10 @@ void Core::gui_game() {
     vaisseau.setTextureRect(rect);
     vaisseau.setScale(3, 3);
 
-    int pressed = 0;
+    //int pressed = 0;
+    baseSpeed = 600.f;
 
+    window.setFramerateLimit(fps);
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -80,19 +77,37 @@ void Core::gui_game() {
                 window.close();
             }
             if (event.type == sf::Event::KeyPressed) {
-                pressed = event.key.code;
+                keysPressed[event.key.code] = true;
             }
             if (event.type == sf::Event::KeyReleased) {
-                pressed = 0;
+                keysPressed[event.key.code] = false;
             }
         }
 
-        handleMoove(pressed);
+        handleMoove();
 
         network->print_message_queue();
         buffer = network->receive().value_or("");
 
         handleCommands(buffer);
+        // Configure les propriétés des textes
+        fpsText.setFont(font);
+        fpsText.setCharacterSize(20);
+        fpsText.setFillColor(sf::Color::Green);
+        fpsText.setPosition(10, 10);
+        latencyText.setFont(font);
+        latencyText.setCharacterSize(20);
+        latencyText.setFillColor(sf::Color::Green);
+        latencyText.setPosition(10, 40);
+
+        float fps = 1.f / fpsClock.restart().asSeconds();
+
+        if (latencyClock.getElapsedTime().asSeconds() > 1.f) {
+            int latency = 32;
+            latencyText.setString("Ping: " + std::to_string(latency) + " ms");
+            fpsText.setString("FPS: " + std::to_string(static_cast<int>(fps)));
+            latencyClock.restart();
+        }
 
         for (auto& [name, sprite] : sprites_game) {
             if (name == "blueGalaxy") {
@@ -111,6 +126,8 @@ void Core::gui_game() {
             window.draw(other_players[i]);
             i++;
         }
+        window.draw(fpsText);
+        window.draw(latencyText);
         window.display();
     }
 }
