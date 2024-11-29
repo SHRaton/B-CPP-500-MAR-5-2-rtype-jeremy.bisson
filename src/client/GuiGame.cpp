@@ -65,7 +65,6 @@ void Core::gui_game() {
     vaisseau.setTextureRect(rect);
     vaisseau.setScale(3, 3);
 
-    //int pressed = 0;
     baseSpeed = 600.f;
 
     window.setFramerateLimit(fps);
