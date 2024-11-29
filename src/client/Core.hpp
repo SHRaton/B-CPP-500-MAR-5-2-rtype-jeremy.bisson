@@ -29,6 +29,7 @@ class Core {
         void handleMouseClick(sf::Vector2i mousePosition);
         // Game
         void gui_game();
+        void handleCommands(std::string command);
         //*************** Graphic ***************//
 
         //*************** ECS ***************//
@@ -72,4 +73,5 @@ class Core {
         std::map<std::string, Sprite> sprites_game;
         std::vector<std::string> drawOrder_game;
 
+        std::map<int, sf::Sprite> other_players;
 };
