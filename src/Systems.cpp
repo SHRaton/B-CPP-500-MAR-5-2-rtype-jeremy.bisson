@@ -10,7 +10,6 @@ void Systems::player_control_system(registry &r, int playerId, int x, int y)
         vel.value().vx = x;
         vel.value().vy = y;
         std::vector<std::string> params = {std::to_string(playerId), std::to_string(x), std::to_string(y)};
-        Mediator::notify(Sender::SERVER, "MOVE", params);
     }
 }
 

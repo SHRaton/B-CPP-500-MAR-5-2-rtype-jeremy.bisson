@@ -10,5 +10,5 @@ enum class Sender {
 
 class Mediator {
     public:
-        static void notify(Sender sender, const std::string& action, const std::vector<std::string>& params);
+        static void notify(Sender sender, const std::string& action, const std::vector<std::string>& params, registry& reg);
 };

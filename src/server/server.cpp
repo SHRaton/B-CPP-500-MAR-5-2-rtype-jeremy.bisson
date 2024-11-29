@@ -90,10 +90,12 @@ void Server::handle_game_message(const boost::asio::ip::udp::endpoint& sender, c
     if (msg.action == GameAction::CONNECT) {
         Entity player = handle_connect(sender);
         socket_.send_to(boost::asio::buffer("OK " + std::to_string(player)), sender);
+        broadcast_message(sender, encode_action(msg.action) + std::to_string(player));
         return;
     }
     else if (msg.action == GameAction::DISCONNECT) {
         handle_disconnect(sender);
+        //TODO: broadcast l'id du joueur qui s'est déconnecté
         return;
     }
 
@@ -118,7 +120,7 @@ void Server::handle_game_message(const boost::asio::ip::udp::endpoint& sender, c
     broadcast_message(sender, original_message.str());
 
 
-    Mediator::notify(Sender::CLIENT, action_name, msg.arguments);
+    Mediator::notify(Sender::CLIENT, action_name, msg.arguments, reg);
 }
 
 void Server::broadcast_message(const boost::asio::ip::udp::endpoint& sender, const std::string& message) {
