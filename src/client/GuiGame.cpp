@@ -34,9 +34,32 @@ void Core::handleMoove()
     sf::Time elapsedTime = deltaClock.restart();
     float deltaSeconds = elapsedTime.asSeconds();
     sf::Vector2f movement(0.f, 0.f);
+    
+    static int currentFrame = 0;
+    static float animationTimer = 0.0f;
+    const float FRAME_DURATION = 0.05f;
+    
     if (keysPressed[sf::Keyboard::Up]) {
         movement.y -= baseSpeed * deltaSeconds;
+        animationTimer += deltaSeconds;
+        if (animationTimer >= FRAME_DURATION && currentFrame < 4) {
+            currentFrame++;
+            animationTimer = 0;
+            vaisseau.setTextureRect(sf::IntRect(currentFrame * vaisseau.getTextureRect().width, 0, 
+                                              vaisseau.getTextureRect().width, 
+                                              vaisseau.getTextureRect().height));
+        }
+    } else if (currentFrame > 0) {
+        animationTimer += deltaSeconds;
+        if (animationTimer >= FRAME_DURATION) {
+            currentFrame--;
+            animationTimer = 0;
+            vaisseau.setTextureRect(sf::IntRect(currentFrame * vaisseau.getTextureRect().width, 0,
+                                              vaisseau.getTextureRect().width,
+                                              vaisseau.getTextureRect().height));
+        }
     }
+
     if (keysPressed[sf::Keyboard::Down]) {
         movement.y += baseSpeed * deltaSeconds;
     }
@@ -46,6 +69,7 @@ void Core::handleMoove()
     if (keysPressed[sf::Keyboard::Right]) {
         movement.x += baseSpeed * deltaSeconds;
     }
+    
     vaisseau.move(movement);
 
     if (movement != sf::Vector2f(0.f, 0.f)) {
