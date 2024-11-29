@@ -15,7 +15,7 @@ namespace Color {
 namespace GameAction {
     const std::string NONE        = "0000";  // 0
     const std::string SHOOT       = "0001";  // 1
-    const std::string MOVE        = "0010";  // 2
+    const std::string MOVE        = "00010";  // 2
     const std::string DOWN        = "0011";  // 3
     const std::string LEFT        = "0100";  // 4
     const std::string RIGHT       = "0101";  // 5

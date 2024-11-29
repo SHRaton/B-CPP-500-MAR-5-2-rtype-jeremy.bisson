@@ -30,6 +30,7 @@ class Core {
         // Game
         void gui_game();
         void handleCommands(std::string command);
+        void handleMoove(int pressed);
         //*************** Graphic ***************//
 
         //*************** ECS ***************//
@@ -63,6 +64,9 @@ class Core {
         sf::Text text_ip;
         sf::Text text_port;
         sf::Text text_failed;
+
+        // Sprites
+        sf::Sprite vaisseau;
 
         std::map<std::string, Sprite> sprites_menu;
         std::vector<std::string> drawOrder_menu;
