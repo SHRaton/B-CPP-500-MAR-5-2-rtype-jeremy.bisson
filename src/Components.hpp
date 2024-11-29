@@ -12,10 +12,6 @@ namespace component{
         int dmg;
     } Damage;
 
-    typedef struct name {
-        std::string name; //pour savoir quel sprite afficher ex: Enemy1 = spriteEnemy1.png
-    } Name;
-
     typedef struct position {
         int x;
         int y;

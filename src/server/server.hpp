@@ -58,7 +58,7 @@ private:
     void handle_game_message(const boost::asio::ip::udp::endpoint& sender, const GameMessage& msg);
     void broadcast_message(const boost::asio::ip::udp::endpoint& sender, const std::string& message);
     void handle_disconnect(const boost::asio::ip::udp::endpoint& client);
-    void handle_connect(const boost::asio::ip::udp::endpoint& client);
+    Entity handle_connect(const boost::asio::ip::udp::endpoint& client);
 
     boost::asio::io_context io_context_;
     boost::asio::ip::udp::socket socket_;

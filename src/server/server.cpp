@@ -13,6 +13,8 @@ Server::Server(uint16_t port)
     std::cout << Color::GREEN << "[Console] : Démarrage du serveur sur le port " << port << Color::RESET << std::endl;
 }
 
+
+
 std::string Server::encode_action(GameAction action) {
     std::bitset<5> bits(static_cast<unsigned long>(action));
     return bits.to_string();
@@ -66,17 +68,28 @@ void Server::handle_disconnect(const boost::asio::ip::udp::endpoint& client) {
     clients_.erase(client);
 }
 
-void Server::handle_connect(const boost::asio::ip::udp::endpoint& client) {
+Entity Server::handle_connect(const boost::asio::ip::udp::endpoint& client) {
     clients_[client] = ClientInfo{"", true};
+
+
     std::cout << Color::YELLOW << "[Console] : Un joueur s'est connecté : " 
               << client.address().to_string() 
               << ":" << client.port() << Color::RESET << std::endl;
+
+    Entity player = reg.spawn_entity();
+    reg.emplace_component<component::position>(player, component::position{0, 0});
+    reg.emplace_component<component::velocity>(player, component::velocity{0, 0});
+    reg.emplace_component<component::drawable>(player, component::drawable{"./ressources/sprites/jinx.png"});
+    reg.emplace_component<component::controllable>(player, component::controllable{true});
+    reg.emplace_component<component::health>(player, component::health{100});
+    reg.emplace_component<component::damage>(player, component::damage{10});
+    return player;
 }
 
 void Server::handle_game_message(const boost::asio::ip::udp::endpoint& sender, const GameMessage& msg) {
     if (msg.action == GameAction::CONNECT) {
-        handle_connect(sender);
-        socket_.send_to(boost::asio::buffer("OK"), sender);
+        Entity player = handle_connect(sender);
+        socket_.send_to(boost::asio::buffer(std::to_string(player)), sender);
         return;
     }
     else if (msg.action == GameAction::DISCONNECT) {
@@ -135,6 +148,14 @@ void Server::receive_messages() {
 }
 
 void Server::start() {
+    reg.register_component<component::position>();
+    reg.register_component<component::velocity>();
+    reg.register_component<component::drawable>();
+    reg.register_component<component::controllable>();
+    reg.register_component<component::health>();
+    reg.register_component<component::damage>();
+
+
     running_ = true;
     receive_thread_ = std::thread(&Server::receive_messages, this);
     while(running_) {
