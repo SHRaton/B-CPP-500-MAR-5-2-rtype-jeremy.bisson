@@ -14,6 +14,7 @@ class Sprite {
                 int interval = 50, const std::string& hoverTexturePath = "");
 
         void update();
+        void update_xy(int x, int y);
         void setHovered(bool hover);
         bool isMouseOver(const sf::RenderWindow& window);
         void setScale(sf::Vector2f scale);

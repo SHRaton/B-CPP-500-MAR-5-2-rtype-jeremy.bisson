@@ -25,6 +25,17 @@ Sprite::Sprite(const std::string& texturePath, bool scrolling, float speed, int 
     }
 }
 
+void Sprite::update_xy(int x, int y)
+{
+    if (isScrolling && clock.getElapsedTime().asMilliseconds() >= updateInterval) {
+        sprite.move(-1, 0);
+        if (sprite.getPosition().x <= -sprite.getGlobalBounds().width / 2) {
+            sprite.setPosition(x, y);
+        }
+        clock.restart();
+    }
+}
+
 void Sprite::update()
 {
     if (isScrolling && clock.getElapsedTime().asMilliseconds() >= updateInterval) {

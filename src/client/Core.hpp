@@ -10,6 +10,7 @@
 #include <SFML/Window.hpp>
 #include "Sprite.hpp"
 #include "UDPNetworkClient.hpp"
+#include <sstream>
 
 class Core {
     public :
@@ -23,6 +24,7 @@ class Core {
         void gui_menu();
         // Menu de Login NAME IP PORT
         void gui_login();
+        void login();
         void handleKeyboard(sf::Event::KeyEvent key);
         void handleMouseClick(sf::Vector2i mousePosition);
         // Game
@@ -66,5 +68,8 @@ class Core {
 
         std::map<std::string, Sprite> sprites_login;
         std::vector<std::string> drawOrder_login;
+
+        std::map<std::string, Sprite> sprites_game;
+        std::vector<std::string> drawOrder_game;
 
 };

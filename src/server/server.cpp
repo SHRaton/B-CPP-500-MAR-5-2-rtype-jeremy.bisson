@@ -89,7 +89,7 @@ Entity Server::handle_connect(const boost::asio::ip::udp::endpoint& client) {
 void Server::handle_game_message(const boost::asio::ip::udp::endpoint& sender, const GameMessage& msg) {
     if (msg.action == GameAction::CONNECT) {
         Entity player = handle_connect(sender);
-        socket_.send_to(boost::asio::buffer(std::to_string(player)), sender);
+        socket_.send_to(boost::asio::buffer("OK " + std::to_string(player)), sender);
         return;
     }
     else if (msg.action == GameAction::DISCONNECT) {

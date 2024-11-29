@@ -67,45 +67,50 @@ void Core::handleKeyboard(sf::Event::KeyEvent key)
     }
 }
 
+void Core::login()
+{
+    if (!str_name.empty() && !str_ip.empty() && !str_port.empty()) {
+        try {
+            initialize_network(str_ip, std::stoi(str_port));
+            network->send(GameAction::CONNECT);
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            network->print_message_queue();
+            buffer = network->receive().value_or("");
+            network->print_message_queue();
+            if (1) {
+                std::istringstream iss(buffer);
+                std::string status;
+                int id;
+                iss >> status >> id;
+                network->setId(id);
+                failed_connection = 0;
+                utils.printLog(str_name + " logged in");
+                std::cout << Color::YELLOW << "[Client] Connected to " << Color::BLUE << str_ip << ":" << str_port << Color::RESET << std::endl;
+                gui_game();
+            } else {
+                failed_connection = 1;
+                str_failed = "Connection failed: No response from server";
+                text_failed.setString(str_failed);
+            }
+        } catch (const std::exception& e) {
+            failed_connection = 1;
+            str_failed = "Connection failed.";
+            text_failed.setString(str_failed);
+        }
+    } else {
+        failed_connection = 1;
+        str_failed = "Please fill in all fields";
+        text_failed.setString(str_failed);
+    }
+}
+
 void Core::handleMouseClick(sf::Vector2i mousePosition)
 {
     select_button = 0;
     sf::Vector2f worldMousePosition = window.mapPixelToCoords(mousePosition);
 
     if (sprites_login["connect"].getSprite().getGlobalBounds().contains(worldMousePosition)) {
-        if (!str_name.empty() && !str_ip.empty() && !str_port.empty()) {
-            try {
-                initialize_network(str_ip, std::stoi(str_port));
-
-                network->send("11111");
-
-                std::this_thread::sleep_for(std::chrono::seconds(1));
-                network->print_message_queue();
-                auto messages = network->receive();
-                network->print_message_queue();
-                exit (56);
-
-                if (buffer.rfind("OK", 0) == 0) {
-                    failed_connection = 0;
-                    //gui_game();
-                    utils.printLog(str_name + " logged in");
-                    std::cout << Color::YELLOW << "[Client] Connected to " << Color::BLUE << str_ip << ":" << str_port << Color::RESET << std::endl;
-                    return;
-                } else {
-                    failed_connection = 1;
-                    str_failed = "Connection failed: No response from server";
-                    text_failed.setString(str_failed);
-                }
-            } catch (const std::exception& e) {
-                failed_connection = 1;
-                str_failed = "Connection failed.";
-                text_failed.setString(str_failed);
-            }
-        } else {
-            failed_connection = 1;
-            str_failed = "Please fill in all fields";
-            text_failed.setString(str_failed);
-        }
+        login();
     } else if (sprites_login["name"].getSprite().getGlobalBounds().contains(worldMousePosition)) {
         select_button = 1;
     } else if (sprites_login["ip"].getSprite().getGlobalBounds().contains(worldMousePosition)) {
@@ -118,7 +123,7 @@ void Core::handleMouseClick(sf::Vector2i mousePosition)
 }
 
 void Core::gui_login() {
-    sprites_login["poudreBleu"].setScale({2, 2});
+    sprites_login["blueGalaxy"].setScale({2, 2});
     sprites_login["rtype"].setOriginToMiddle();
     sprites_login["rtype"].setScale({1.4, 1.4});
     sprites_login["rtype"].setPosition({960 , 100});

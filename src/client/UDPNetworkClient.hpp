@@ -14,6 +14,7 @@ public:
     UDPNetworkClient(const std::string& server_ip, uint16_t server_port);
     ~UDPNetworkClient();
 
+    void check_connection();
     void send(const std::string& message);
     // Receive and delete from queue the first message of the stack
     std::optional<std::string> receive();
@@ -21,6 +22,12 @@ public:
     std::vector<std::string> receive_all();
     void print_message_queue();
     void stop();
+    void setId(int id) {
+        _id = id;
+    };
+    int getId() {
+        return(_id);
+    };
 
 private:
     void start_receive();
@@ -34,6 +41,8 @@ private:
     boost::asio::ip::udp::endpoint m_server_endpoint;
     boost::asio::ip::udp::endpoint m_remote_endpoint;
 
+    std::function<void()> m_disconnect_handler;
+
     std::queue<std::string> m_send_queue;
     std::mutex m_send_mutex;
 
@@ -43,4 +52,6 @@ private:
     std::atomic<bool> m_is_running;
     std::function<void(const std::string&)> m_message_handler;
     std::array<char, 1024> m_receive_buffer;
+
+    int _id;
 };

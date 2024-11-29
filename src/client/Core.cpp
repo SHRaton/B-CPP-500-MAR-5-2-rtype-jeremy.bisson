@@ -49,7 +49,7 @@ void Core::loadAssets()
     sprites_menu = {
         {"background", Sprite("../ressources/background/background.png", true)},
         {"small_stars", Sprite("../ressources/background/small_stars.png", true, 1.0f, 20)},
-        {"poudreBleu", Sprite("../ressources/background/poudreBleu.png", true, 1.0f, 90)},
+        {"blueGalaxy", Sprite("../ressources/background/poudreBleu.png", true, 1.0f, 90)},
         {"rtype", Sprite("../ressources/background/rtype.png", false)},
         {"play", Sprite("../ressources/background/play.png", false, 1.0f, 50, "../ressources/background/play_hover.png")},
         {"quit", Sprite("../ressources/background/quit.png", false, 1.0f, 50, "../ressources/background/quit_hover2.png")}
@@ -57,7 +57,7 @@ void Core::loadAssets()
     drawOrder_menu = {
         "background",
         "small_stars",
-        "poudreBleu",
+        "blueGalaxy",
         "rtype",
         "play",
         "quit"
@@ -66,7 +66,7 @@ void Core::loadAssets()
     sprites_login = {
         {"background", Sprite("../ressources/background/background.png", true)},
         {"small_stars", Sprite("../ressources/background/small_stars.png", true, 1.0f, 20)},
-        {"poudreBleu", Sprite("../ressources/background/poudreBleu.png", true, 1.0f, 90)},
+        {"blueGalaxy", Sprite("../ressources/background/poudreBleu.png", true, 1.0f, 90)},
         {"rtype", Sprite("../ressources/background/rtype.png", false)},
         {"box_opacity", Sprite("../ressources/background/box_opacity2.png", false)},
         {"name", Sprite("../ressources/background/name.png", false)},
@@ -77,7 +77,7 @@ void Core::loadAssets()
     drawOrder_login = {
         "background",
         "small_stars",
-        "poudreBleu",
+        "blueGalaxy",
         "rtype",
         "box_opacity",
         "name",
@@ -85,10 +85,21 @@ void Core::loadAssets()
         "port",
         "connect"
     };
+
+    sprites_game = {
+        {"background", Sprite("../ressources/background/background.png", true)},
+        {"small_stars", Sprite("../ressources/background/small_stars.png", true, 1.0f, 20)},
+        {"blueGalaxy", Sprite("../ressources/background/poudreBleu.png", true, 1.0f, 90)},
+    };
+    drawOrder_game = {
+        "background",
+        "small_stars",
+        "blueGalaxy",
+    };
     font.loadFromFile("../ressources/fonts/NicoMoji.ttf");
     str_name = "Raton";
-    str_ip = "";
-    str_port = "";
+    str_ip = "127.0.0.1";
+    str_port = "8080";
     str_failed = "nooby failed to connect";
 
     failed_connection = 0;

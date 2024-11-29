@@ -12,6 +12,23 @@ namespace Color {
     const std::string YELLOW  = "\033[33m";
     const std::string BLUE    = "\033[34m";
 }
+namespace GameAction {
+    const std::string NONE        = "0000";  // 0
+    const std::string SHOOT       = "0001";  // 1
+    const std::string MOVE        = "0010";  // 2
+    const std::string DOWN        = "0011";  // 3
+    const std::string LEFT        = "0100";  // 4
+    const std::string RIGHT       = "0101";  // 5
+    const std::string JUMP        = "0110";  // 6
+    const std::string CROUCH      = "0111";  // 7
+    const std::string POWER_UP    = "1000";  // 8
+    const std::string SHIELD      = "1001";  // 9
+    const std::string RESPAWN     = "1010";  // 10
+    const std::string DISCONNECT  = "11011"; // 27
+    const std::string CONNECT     = "11111"; // 31
+    const std::string QUIT        = "1111";   // 15
+};
+
 class Utils {
     public:
         Utils() = default;

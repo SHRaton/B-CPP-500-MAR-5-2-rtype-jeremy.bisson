@@ -39,7 +39,11 @@ void Core::gui_menu() {
         }
 
         for (auto& [name, sprite] : sprites_menu) {
-            sprite.update();
+            if (name == "blueGalaxy") {
+                sprite.update_xy(1920, 0);
+            } else {
+                sprite.update();
+            }
         }
 
         window.clear();
