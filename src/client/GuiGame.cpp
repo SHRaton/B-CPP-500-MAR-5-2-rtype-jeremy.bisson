@@ -51,7 +51,7 @@ void Core::handleMoove()
     if (movement != sf::Vector2f(0.f, 0.f)) {
         sf::Vector2f pos = vaisseau.getPosition();
         std::ostringstream messageStream;
-        messageStream << GameAction::MOVE << " " << network->getId() << " " << pos.x << " " << pos.y;
+        messageStream << GameAction::MOVE << " " << network->getId() << " " << std::round(pos.x) << " " << std::round(pos.y);
         network->send(messageStream.str());
     }
 }
