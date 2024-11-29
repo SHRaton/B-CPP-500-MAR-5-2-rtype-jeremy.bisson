@@ -16,7 +16,7 @@ void Core::gui_game() {
                 sprites_menu["quit"].setHovered(sprites_menu["quit"].isMouseOver(window));
             }
             if (event.type == sf::Event::KeyPressed) {
-                network->send(GameAction::MOVE);
+                network->send(GameAction::MOVE + " 10 10");
             }
 
             if (event.type == sf::Event::MouseButtonPressed && 
@@ -29,7 +29,8 @@ void Core::gui_game() {
                 }
             }
         }
-
+        network->print_message_queue();
+        buffer = network->receive().value_or("");
         for (auto& [name, sprite] : sprites_game) {
             if (name == "blueGalaxy") {
                 sprite.update_xy(1920, 0);
