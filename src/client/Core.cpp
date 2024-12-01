@@ -104,4 +104,6 @@ void Core::loadAssets()
 
     failed_connection = 0;
     select_button = 0;
+
+    fps = 200;
 }
