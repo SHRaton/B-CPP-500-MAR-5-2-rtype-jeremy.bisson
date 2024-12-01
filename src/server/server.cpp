@@ -152,6 +152,12 @@ void Server::broadcast_message(const boost::asio::ip::udp::endpoint& sender, con
     }
 }
 
+void Server::broadcast_message(const std::string& message) {
+    for (const auto& client : clients_) {
+        socket_.send_to(boost::asio::buffer(message), client.first);
+    }
+}
+
 void Server::receive_messages() {
     while (running_) {
         std::array<char, 1024> buffer;
@@ -165,6 +171,41 @@ void Server::receive_messages() {
     }
 }
 
+void Server::spawn_mob(int mob_type) {
+    Entity mob = reg.spawn_entity();
+    int x = 1800;
+    int y = rand() % 900;
+    reg.emplace_component<component::position>(mob, component::position{x, y});
+    if (mob_type == 0) {
+        reg.emplace_component<component::health>(mob, component::health{300});
+        reg.emplace_component<component::damage>(mob, component::damage{10});
+        reg.emplace_component<component::velocity>(mob, component::velocity{5, 5});
+    } else if (mob_type == 1) {
+        reg.emplace_component<component::health>(mob, component::health{100});
+        reg.emplace_component<component::damage>(mob, component::damage{40});
+        reg.emplace_component<component::velocity>(mob, component::velocity{10, 10});
+    } // rajouter d'autres types de mobs ici
+    broadcast_message(
+        encode_action(GameAction::MOB_SPAWN) + " "
+        + std::to_string(mob) + " "
+        + std::to_string(mob_type) + " "
+        + std::to_string(x) + " "
+        + std::to_string(y)
+    );
+}
+
+
+void Server::setup_spawn_timer(boost::asio::steady_timer& spawn_timer) {
+    spawn_timer.async_wait([this, &spawn_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            spawn_mob(rand() % 2); // Choix aléatoire du type de mob
+            spawn_timer.expires_from_now(std::chrono::seconds(10)); //TODO: si on veut changer le temps de spawn
+            setup_spawn_timer(spawn_timer);
+        }
+    });
+}
+
+
 void Server::start() {
     reg.register_component<component::position>();
     reg.register_component<component::velocity>();
@@ -176,6 +217,13 @@ void Server::start() {
 
     running_ = true;
     receive_thread_ = std::thread(&Server::receive_messages, this);
+
+    boost::asio::steady_timer spawn_timer(io_context_,
+        std::chrono::seconds(10));
+    setup_spawn_timer(spawn_timer);
+
+    //TODO: METTRE TOUT LES TIMERS ICI (EX: Mouvement des mobs, attaques des mobs, etc)
+
     while(running_) {
         io_context_.poll();
         std::this_thread::sleep_for(std::chrono::milliseconds(100));

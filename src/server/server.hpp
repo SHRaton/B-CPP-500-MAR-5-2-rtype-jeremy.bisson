@@ -29,6 +29,7 @@ enum class GameAction {
     POWER_UP    = 0b1000,  // 8
     SHIELD      = 0b1001,  // 9
     RESPAWN     = 0b1010,  // 10
+    MOB_SPAWN   = 0b1011,  // 11
     DISCONNECT  = 0b11011, // 27
     CONNECT     = 0b11111, // 31
     QUIT        = 0b1111   // 15
@@ -57,8 +58,11 @@ private:
     std::string get_action_name(GameAction action);
     void handle_game_message(const boost::asio::ip::udp::endpoint& sender, const GameMessage& msg);
     void broadcast_message(const boost::asio::ip::udp::endpoint& sender, const std::string& message);
+    void broadcast_message(const std::string& message);
     void handle_disconnect(const boost::asio::ip::udp::endpoint& client);
     void handle_connect(const boost::asio::ip::udp::endpoint& client);
+    void spawn_mob(int mob_type = 0);
+    void setup_spawn_timer(boost::asio::steady_timer& spawn_timer);
 
     boost::asio::io_context io_context_;
     boost::asio::ip::udp::socket socket_;
