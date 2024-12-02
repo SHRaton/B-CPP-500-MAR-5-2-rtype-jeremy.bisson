@@ -1,4 +1,4 @@
-name: CMake with Conan on Linux
+name: Build Project
 
 on:
   push:
@@ -9,91 +9,32 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        build_type: [Release]
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install System Dependencies
+    - name: Install base dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake build-essential python3-dev \
-          libudev-dev \
-          libasound2-dev \
-          libgl1-mesa-dev \
-          libx11-dev \
-          libx11-xcb-dev \
-          libxrandr-dev \
-          libxcursor-dev \
-          libxi-dev \
-          libopenal-dev \
-          libfontenc-dev \
-          libice-dev \
-          libsm-dev \
-          libxau-dev \
-          libxaw7-dev \
-          libxcomposite-dev \
-          libxdamage-dev \
-          libxinerama-dev \
-          libxkbfile-dev \
-          libxmu-dev \
-          libxmuu-dev \
-          libxpm-dev \
-          libxres-dev \
-          libxss-dev \
-          libxt-dev \
-          libxtst-dev \
-          libxv-dev \
-          libxxf86vm-dev \
-          libxcb-glx0-dev \
-          libxcb-render0-dev \
-          libxcb-render-util0-dev \
-          libxcb-xkb-dev \
-          libxcb-icccm4-dev \
-          libxcb-image0-dev \
-          libxcb-keysyms1-dev \
-          libxcb-randr0-dev \
-          libxcb-shape0-dev \
-          libxcb-sync-dev \
-          libxcb-xfixes0-dev \
-          libxcb-xinerama0-dev \
-          libxcb-dri3-dev \
-          uuid-dev \
-          libxcb-cursor-dev \
-          libxcb-dri2-0-dev \
-          libxcb-present-dev \
-          libxcb-composite0-dev \
-          libxcb-ewmh-dev \
-          libxcb-res0-dev \
-          libxcb-util-dev \
-          libxcb-util0-dev
+        sudo apt-get install -y cmake build-essential pkg-config
 
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
 
-    - name: Install and Configure Conan
+    - name: Install and setup Conan
       run: |
-        export LD_LIBRARY_PATH=$pythonLocation/lib:$LD_LIBRARY_PATH
-        python -m pip install --upgrade pip
+        python -m pip install --upgrade pip setuptools
         pip install conan
         conan profile detect --force
 
-    - name: Install Dependencies with Conan
+    - name: Install dependencies with Conan
       run: |
-        export LD_LIBRARY_PATH=$pythonLocation/lib:$LD_LIBRARY_PATH
-        conan install . --output-folder=build --build=missing -c tools.system.package_manager:mode=install
-
-    - name: Configure CMake
-      run: |
-        cd build
-        cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        conan install . --output-folder=build --build=missing
 
     - name: Build
       run: |
         cd build
-        cmake --build . --config ${{ matrix.build_type }}
+        cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake" -DCMAKE_BUILD_TYPE=Release
+        cmake --build .
