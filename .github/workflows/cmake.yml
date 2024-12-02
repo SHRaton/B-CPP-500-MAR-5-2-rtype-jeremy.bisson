@@ -20,10 +20,13 @@ jobs:
 
     - name: Install system dependencies
       run: |
+        sudo rm /var/lib/apt/lists/lock
+        sudo rm /var/cache/apt/archives/lock
+        sudo rm /var/lib/dpkg/lock*
+        sudo dpkg --configure -a
+        sudo apt-get clean
         sudo apt-get update
-        sudo apt-get install -y libudev-dev libgl1-mesa-dev \
-        libx11-dev libx11-xcb-dev libfontenc-dev libice-dev \
-        libsm-dev libxau-dev libxaw7-dev xorg-dev
+        sudo apt-get install -y libudev-dev libgl1-mesa-dev xorg-dev
 
     - name: Setup Conan and Build
       run: |
