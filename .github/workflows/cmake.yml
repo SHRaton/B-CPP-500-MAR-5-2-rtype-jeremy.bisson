@@ -22,9 +22,14 @@ jobs:
       run: |
         pip install conan
         conan profile detect --force
-        conan profile update settings.compiler=gcc default
-        conan profile update settings.compiler.version=11 default
-        conan profile update settings.compiler.libcxx=libstdc++11 default
+        echo "[settings]
+        arch=x86_64
+        build_type=Release
+        compiler=gcc
+        compiler.version=11
+        compiler.libcxx=libstdc++11
+        compiler.cppstd=17
+        os=Linux" > ~/.conan2/profiles/default
         conan install . --output-folder=build --build=missing
         cd build
         cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake" -DCMAKE_BUILD_TYPE=Release
