@@ -67,7 +67,9 @@ jobs:
           libxcb-present-dev \
           libxcb-composite0-dev \
           libxcb-ewmh-dev \
-          libxcb-res0-dev
+          libxcb-res0-dev \
+          libxcb-util-dev \
+          libxcb-util0-dev
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -79,10 +81,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install conan
         conan profile detect --force
-
-    - name: Install Dependencies with Conan
-      run: |
-        conan install . --output-folder=build --build=missing -c tools.system.package_manager:mode=install
+        sudo conan install . --output-folder=build --build=missing -c tools.system.package_manager:mode=install
 
     - name: Configure CMake
       run: |
