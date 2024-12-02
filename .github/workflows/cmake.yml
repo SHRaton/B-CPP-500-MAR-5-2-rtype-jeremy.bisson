@@ -21,7 +21,7 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libudev-dev
+        sudo apt-get install -y libudev-dev libgl1-mesa-dev
 
     - name: Setup Conan and Build
       run: |
@@ -37,7 +37,7 @@ jobs:
         os=Linux
         [conf]
         tools.system.package_manager:mode=install" > ~/.conan2/profiles/default
-        conan install . --output-folder=build --build=missing
+        conan install . --output-folder=build --build=missing -c tools.system.package_manager:mode=install
         cd build
         cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake" -DCMAKE_BUILD_TYPE=Release
         cmake --build .
