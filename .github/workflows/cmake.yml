@@ -16,7 +16,7 @@ jobs:
     - name: Install base dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake build-essential pkg-config
+        sudo apt-get install -y cmake build-essential pkg-config libudev-dev
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -31,7 +31,7 @@ jobs:
 
     - name: Install dependencies with Conan
       run: |
-        conan install . --output-folder=build --build=missing
+        conan install . --output-folder=build --build=missing -c tools.system.package_manager:mode=install
 
     - name: Build
       run: |
