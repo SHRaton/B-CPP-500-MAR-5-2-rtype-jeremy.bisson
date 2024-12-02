@@ -25,6 +25,7 @@ class Core {
         // Menu de Login NAME IP PORT
         void gui_login();
         void login();
+        void login_auto(std::string ip, std::string port);
         void handleKeyboard(sf::Event::KeyEvent key);
         void handleMouseClick(sf::Vector2i mousePosition);
         // Game

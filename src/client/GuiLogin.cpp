@@ -104,6 +104,35 @@ void Core::login()
     }
 }
 
+void Core::login_auto(std::string ip, std::string port)
+{
+    str_name = "Anonymous";
+    str_ip = ip;
+    str_port = port;
+    try {
+        initialize_network(str_ip, std::stoi(str_port));
+        network->send(GameAction::CONNECT);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        network->print_message_queue();
+        buffer = network->receive().value_or("");
+        network->print_message_queue();
+        if (1) {
+            std::istringstream iss(buffer);
+            std::string status;
+            int id;
+            iss >> status >> id;
+            network->setId(id);
+            utils.printLog(str_name + " logged in");
+            std::cout << Color::YELLOW << "[Client] Connected to " << Color::BLUE << str_ip << ":" << str_port << Color::RESET << std::endl;
+            gui_game();
+        } else {
+            text_failed.setString(str_failed);
+        }
+    } catch (const std::exception& e) {
+        text_failed.setString(str_failed);
+    }
+}
+
 void Core::handleMouseClick(sf::Vector2i mousePosition)
 {
     select_button = 0;
