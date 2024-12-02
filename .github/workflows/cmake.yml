@@ -20,7 +20,15 @@ jobs:
     - name: Install System Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake build-essential libudev-dev libx11-dev libxrandr-dev libxcursor-dev libxi-dev libopenal-dev libalsa-dev libgl1-mesa-dev
+        sudo apt-get install -y cmake build-essential \
+          libudev-dev \
+          libx11-dev \
+          libxrandr-dev \
+          libxcursor-dev \
+          libxi-dev \
+          libopenal-dev \
+          libasound2-dev \
+          libgl1-mesa-dev
 
     - name: Set up Python
       uses: actions/setup-python@v4
