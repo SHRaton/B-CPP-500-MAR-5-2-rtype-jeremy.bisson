@@ -17,28 +17,26 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install CMake and Build Tools
+    - name: Install System Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake build-essential
+        sudo apt-get install -y cmake build-essential libudev-dev libx11-dev libxrandr-dev libxcursor-dev libxi-dev libopenal-dev libalsa-dev libgl1-mesa-dev
 
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
 
-    - name: Install Conan
+    - name: Install and Configure Conan
       run: |
         python -m pip install --upgrade pip
         pip install conan
-
-    - name: Configure Conan
-      run: |
         conan profile detect --force
+        conan config install https://github.com/conan-io/conancenter-index.git
 
     - name: Install Dependencies with Conan
       run: |
-        conan install . --output-folder=build --build=missing
+        conan install . --output-folder=build --build=missing -c tools.system.package_manager:mode=install
 
     - name: Configure CMake
       run: |
