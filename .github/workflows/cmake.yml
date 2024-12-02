@@ -16,7 +16,7 @@ jobs:
     - name: Install base dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake build-essential pkg-config libudev-dev
+        sudo apt-get install -y cmake build-essential pkg-config libudev-dev libgl1-mesa-dev libx11-dev xorg-dev
 
     - name: Set up Python
       uses: actions/setup-python@v4
