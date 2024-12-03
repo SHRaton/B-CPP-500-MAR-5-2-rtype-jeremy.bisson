@@ -98,7 +98,7 @@ make
 1. Start the server:
 ```bash
 # Windows
-./Release/r-type_serve.exe <port>
+./Release/r-type_server.exe <port>
 
 # Linux/MacOS
 ./r-type_server <port>
