@@ -1,5 +1,5 @@
 Updated by:                                                  Meddi GUERAN
-La Table Ronde                                               Jérémy BISSON
+Roster LOL                                                  Jérémy BISSON
 Request for Comments: 4242                                   Jérémy DELFINO
                                                              Luca GIGLIO
                                                              Alexandre VITTENET
@@ -41,7 +41,7 @@ Table of contents
 
 Gueran                  Standards Track                    [Page 1]
 
-RFC 4242                    R-TYPE Protocol               November 2023
+RFC 4242                    R-TYPE Protocol               November 2024
 
 2. R-Type Network Model
 
@@ -62,7 +62,7 @@ RFC 4242                    R-TYPE Protocol               November 2023
 
 Gueran                  Standards Track                    [Page 2]
 
-RFC 4242                    R-TYPE Protocol               November 2023
+RFC 4242                    R-TYPE Protocol               November 2024
 
 3. R-TYPE Protocol TCP
     We use TCP to communicate between the client and the server. Because
@@ -115,7 +115,7 @@ RFC 4242                    R-TYPE Protocol               November 2023
 
 Gueran                  Standards Track                    [Page 3]
 
-RFC 4242                    R-TYPE Protocol               November 2023
+RFC 4242                    R-TYPE Protocol               November 2024
 
 4. R-TYPE Protocol UDP
 
@@ -151,7 +151,7 @@ RFC 4242                    R-TYPE Protocol               November 2023
 
 Gueran                  Standards Track                    [Page 5]
 
-RFC 4242                    R-TYPE Protocol               November 2023
+RFC 4242                    R-TYPE Protocol               November 2024
 
 5. Security and speed considerations
 
