@@ -1,0 +1,170 @@
+Updated by:                                                  Meddi GUERAN
+La Table Ronde                                               Jérémy BISSON
+Request for Comments: 4242                                   Jérémy DELFINO
+                                                             Luca GIGLIO
+                                                             Alexandre VITTENET
+                                                             Epitech Marseille
+                                                            November 2024
+Category: Standards Track
+                            R-TYPE Protocol
+
+Status of this Memo
+
+This memo is the official specification of the R-TYPE protocol. Distribution
+of this memo is unlimited.
+
+Table of contents
+
+    1. Introduction....................................................1
+    2. R-TYPE Network Model.............................................2
+    3. R-TYPE Protocol TCP.............................................3
+    4. R-TYPE Protocol UDP.............................................4
+    5. Security and speed considerations...............................5
+
+1. Introduction
+
+    First of all, the R-TYPE is an online multiplayer game. The game is
+    played by multiple players on a server. In order to implement this game
+    we need to define a protocol that allows the client to communicate with
+    the server. The protocol is called R-TYPE protocol.
+
+    The R-TYPE protocol is a simple protocol that allows a client to
+    request a resource from a server. The server can then respond with
+    the requested resource or an error code.
+    To send a request, we only need to specify and ACTION and a message.
+
+    Mutliple actions exists:
+    CONNECT, DISCONNET
+
+    The message is a string that can be empty. It is then interpreted by
+    the parser of the server/client.
+
+Gueran                  Standards Track                    [Page 1]
+
+RFC 4242                    R-TYPE Protocol               November 2023
+
+2. R-Type Network Model
+
+    When we want to send a request using our protocol we create an Event struct.
+    The struct contains the following fields:
+        ACTION ACTION_NAME; // The action to perform
+        std::string body; // The message to send
+    We then create an object of EventHandler that will handle the event.
+    The EventHandler will then create a NetworkEvent struct that contains the
+    messages and other data to send.
+    The NetworkEvent struct contains the following fields:
+
+    ACTION ACTION_NAME; // The action to perform
+    int original_size; // The size of the message
+    int compressed_size; // The size of the compressed message
+    char* body; // The compressed message
+
+
+Gueran                  Standards Track                    [Page 2]
+
+RFC 4242                    R-TYPE Protocol               November 2023
+
+3. R-TYPE Protocol TCP
+    We use TCP to communicate between the client and the server. Because
+    of the reliability of TCP, we can be sure that the message will be
+    received by the server/client. This protocol is only used in some cases :
+    - When the client wants to connect to the server
+    - When the client wants to create a instance
+    - When the client wants to join a instance
+
+    Therefore only a few actions will be used for the TCP protocol.
+
+    When the client joins, he will send a LIST action to the server in order
+    to get the list of instances. The server will then send a LIST action
+    with the list of instances to the client. The server will send a LIST action
+    for each instance. The body of the message would contain information about
+    the instance. (INSTANCE_NAME GAME_NAME PLAYERS_COUNT MAX_PLAYERS_COUNT PORT ID)
+
+        Example of a client joining a server:
+
+    \------------------/          \------------------/
+    |      Client      |          |      Server      |
+    \------------------/          \------------------/
+    |                  |          |                  |
+    |   CONNECTION     |          |                  |
+    |----------------->|          |                  |
+    |    LIST          |          |                  |
+    |----------------->|          |                  |
+    |                  |          |      LIST        |
+    |                  |          | A RTPE 0 4 4240 0|
+    |                  |          |                  |
+    |                  |          |<-----------------|
+    |                  |          |                  |
+    |      JOIN        |          |                  |
+    |      4240        |          |                  |
+    |----------------->|          | USER JOINED GAME |
+    |                  |          |                  |
+    \------------------/          \------------------/
+
+    Here the client connects in TCP to the server. Then he sends a LIST action
+    to the server. The server then sends a LIST action with the list of instances
+    to the client. The client then sends a JOIN action to the server with the
+    port of the instance. And connect to the instance in UDP.
+
+    When the client wants to create an instance, he will send a CREATE action
+    to the server. The server will then create an instance and send a JOINED
+    action to the client. The client will then connect in UDP to the instance.
+
+    You can find more details about our protocol inside of the docs/server.md file.
+
+
+Gueran                  Standards Track                    [Page 3]
+
+RFC 4242                    R-TYPE Protocol               November 2023
+
+4. R-TYPE Protocol UDP
+
+    This protocol is used for the game itself. As it's low latency.
+    This protocol uses the same Event struct, and ACTION enum as the TCP protocol.
+    It also uses the same compression and CRC system to ensure reliability.
+
+    You can find more details about our protocol inside of the docs/server.md file.
+
+    Most of the actions used in UDP are : LEFT, RIGHT, UP, DOWN, SPACE, QUIT,
+    PING, PONG, SPRITE, TEXT, DEAD, FLIP, RESET, UNKNOWN, CHECK, SOUND, KEY
+
+    When the client wants to move, he will send a LEFT, RIGHT, UP or DOWN action
+    to the server. The server will then update the position of the player and
+    send a SPRITE action to all clients containing new position inside of the body.
+
+    When the client wants to shoot, he will send a SPACE action to the server.
+    The server will then create a bullet and send a SPRITE action to all clients
+    containing the bullet position inside of the body.
+
+    When the client wants to quit, he will send a QUIT action to the server.
+
+    When the client presses a KEY on his keyboard, he will send a KEY action
+    to the server, containing the key pressed inside of the body.
+
+    To handle packet losses in critical moment (e.g when reicieving a SPRITE),
+    the UDP server will send a CHECK action all clients every 1000ms.
+    Inside of the body of the CHECK action, the server will send the number of
+    entities in the game. The client will then compare the number of entities
+    with the number of entities he has. If the number is different, the client
+    will send a CHECK action to the server. The server will then send all
+    entities to the client.
+
+Gueran                  Standards Track                    [Page 5]
+
+RFC 4242                    R-TYPE Protocol               November 2023
+
+5. Security and speed considerations
+
+    Because of the simplicity and the non criticality of the game, we don't
+    need to use a complex protocol. We only need to be sure that the message
+    is not corrupted. And that the message is received by the server/client.
+    We use a CRC to be sure that the message is not corrupted. And we use TCP
+    to be sure that the message is received by the server/client during critical
+    moments.
+
+    Also, each UDP and TCP server/client runs on a different thread. This way,
+    the game won't be affected by the network. And the game will run smoothly.
+
+    When ressources are shared between thread (e.g entities, events, etc..) we
+    use a ThreadSafeQueue and a mutex to be sure that the ressources are not
+    corrupted.
