@@ -17,6 +17,10 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             game->handleMoves(action, context, params);
         } else if (action == "RIGHT") {
             game->handleMoves(action, context, params);
+        } else if (action == "STOP_X") {
+            game->handleMoves(action, context, params);
+        } else if (action == "STOP_Y") {
+            game->handleMoves(action, context, params);
         }
     } else if (sender == Sender::GAME) { //Communication entre Game et Network
         if (action == "CONNECT") {
@@ -31,6 +35,10 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleMoves(action, context, params);
         } else if (action == "RIGHT") {
             network->handleMoves(action, context, params);
+        } else if (action == "STOP_X") {
+            game->handleMoves(action, context, params);
+        } else if (action == "STOP_Y") {
+            game->handleMoves(action, context, params);
         }
     }
 }

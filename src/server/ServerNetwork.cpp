@@ -43,7 +43,8 @@ std::string ServerNetwork::get_action_name(GameAction action) {
         case GameAction::LEFT: return "LEFT";
         case GameAction::RIGHT: return "RIGHT";
         case GameAction::UP: return "UP";
-        case GameAction::CROUCH: return "CROUCH";
+        case GameAction::STOP_X: return "STOP_X";
+        case GameAction::STOP_Y: return "STOP_Y";
         case GameAction::POWER_UP: return "POWER_UP";
         case GameAction::SHIELD: return "SHIELD";
         case GameAction::RESPAWN: return "RESPAWN";
@@ -103,19 +104,27 @@ void ServerNetwork::handleMoves(const std::string& action, const MediatorContext
 {
     boost::asio::ip::udp::endpoint client = context.client;
     if (action == "UP") {
-        std::string message = encode_action(GameAction::UP);
+        std::string message = encode_action(GameAction::UP) + " " + params[0];
         broadcast_message(client, message);
     }
     if (action == "DOWN") {
-        std::string message = encode_action(GameAction::DOWN);
+        std::string message = encode_action(GameAction::DOWN) + " " + params[0];
         broadcast_message(client, message);
     }
     if (action == "LEFT") {
-        std::string message = encode_action(GameAction::LEFT);
+        std::string message = encode_action(GameAction::LEFT) + " " + params[0];
         broadcast_message(client, message);
     }
     if (action == "RIGHT") {
-        std::string message = encode_action(GameAction::RIGHT);
+        std::string message = encode_action(GameAction::RIGHT) + " " + params[0];
+        broadcast_message(client, message);
+    }
+    if (action == "STOP_Y") {
+        std::string message = encode_action(GameAction::STOP_Y) + " " + params[0];
+        broadcast_message(client, message);
+    }
+    if (action == "STOP_X") {
+        std::string message = encode_action(GameAction::STOP_X) + " " + params[0];
         broadcast_message(client, message);
     }
 }

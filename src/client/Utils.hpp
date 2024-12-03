@@ -21,13 +21,15 @@ namespace GameAction {
     const std::string LEFT        = "0100";  // 4
     const std::string RIGHT       = "0101";  // 5
     const std::string UP          = "0110";  // 6
-    const std::string CROUCH      = "0111";  // 7
+    const std::string STOP        = "0111";  // 7
     const std::string POWER_UP    = "1000";  // 8
     const std::string SHIELD      = "1001";  // 9
     const std::string RESPAWN     = "1010";  // 10
     const std::string DISCONNECT  = "11011"; // 27
     const std::string CONNECT     = "11111"; // 31
     const std::string QUIT        = "1111";   // 15
+    const std::string STOP_Y       = "10000";  // 16
+    const std::string STOP_X   = "10001";  // 17
 };
 
 class Utils {

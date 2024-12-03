@@ -24,14 +24,16 @@ enum class GameAction {
     LEFT        = 0b0100,  // 4
     RIGHT       = 0b0101,  // 5
     UP          = 0b0110,  // 6
-    CROUCH      = 0b0111,  // 7
+    STOP        = 0b0111,  // 7
     POWER_UP    = 0b1000,  // 8
     SHIELD      = 0b1001,  // 9
     RESPAWN     = 0b1010,  // 10
     MOB_SPAWN   = 0b1011,  // 11
+    QUIT        = 0b1111,  // 15
+    STOP_Y      = 0b10000, // 16
+    STOP_X      = 0b10001,  // 17
     DISCONNECT  = 0b11011, // 27
-    CONNECT     = 0b11111, // 31
-    QUIT        = 0b1111   // 15
+    CONNECT     = 0b11111 // 31
 };
 
 struct GameMessage {

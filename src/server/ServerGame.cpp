@@ -110,6 +110,10 @@ void ServerGame::handleMoves(const std::string& action, const MediatorContext& c
         reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = -5;
     } else if (action == "RIGHT"){
         reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = 5;
+    } else if (action == "STOP_Y"){
+        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = 0;
+    } else if (action == "STOP_X"){
+        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = 0;
     }
     med.notify(Sender::GAME, action, params, context);
 }
