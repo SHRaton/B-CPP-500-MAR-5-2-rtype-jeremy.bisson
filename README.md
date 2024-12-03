@@ -46,8 +46,9 @@ R-Type is a modern recreation of the famous 1987 arcade shoot'em up game. This p
 ┃ ┣ 📂 server/      # Server code
 ┃ ┣ 📂 components/  # ECS components
 ┃ ┗ 📂 systems/     # Game systems
-┣ 📂 assets/        # Graphics and sound resources
-┗ 📂 docs/          # Documentation
+┣ 📂 ressources/        # Graphics and sound resources
+┣ 📂 docs/          # Documentation
+┗ 📂 tests/         # Tests
 ```
 
 ## Installation
@@ -97,26 +98,24 @@ make
 1. Start the server:
 ```bash
 # Windows
-./Release/server.exe <port>
+./Release/r-type_serve.exe <port>
 
 # Linux/MacOS
-./server <port>
+./r-type_server <port>
 ```
 
 2. Launch the client:
 ```bash
 # Windows
-./Release/r-type.exe
+./Release/r-type_client.exe
 
 # Linux/MacOS
-./r-type
+./r-type_client
 ```
 
 ### 🎯 Game Controls
 - **↑↓←→**: Movement
 - **Space**: Shoot
-- **S**: Special shot
-- **R**: Flip
 
 ## Technologies
 
@@ -124,7 +123,6 @@ make
 - 🎮 SFML
 - 🌐 Boost.Asio
 - 📦 CMake/Conan
-- 🐳 Docker
 
 ## Documentation
 
