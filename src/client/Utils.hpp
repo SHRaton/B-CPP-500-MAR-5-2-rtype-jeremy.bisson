@@ -1,9 +1,9 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
-#pragma once
 
 namespace Color {
     const std::string RESET   = "\033[0m";
@@ -12,6 +12,7 @@ namespace Color {
     const std::string YELLOW  = "\033[33m";
     const std::string BLUE    = "\033[34m";
 }
+
 namespace GameAction {
     const std::string NONE        = "0000";  // 0
     const std::string SHOOT       = "0001";  // 1

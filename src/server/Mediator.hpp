@@ -1,14 +1,29 @@
 #pragma once
 #include "../Systems.hpp"
+#include "../Registry.hpp"
+#include "ISender.hpp"
 #include <iostream>
 #include <string>
+#include <vector>
+#include <boost/asio.hpp>
+
 
 enum class Sender {
-    CLIENT,
-    SERVER
+    NETWORK,
+    GAME
 };
 
 class Mediator {
-    public:
-        static void notify(Sender sender, const std::string& action, const std::vector<std::string>& params, registry& reg);
+public:
+    Mediator() = default;
+    Mediator::Mediator(ISender* network, ISender* game)
+        : network(network), game(game) {}
+    void notify(Sender sender, const std::string& action, const std::vector<std::string>& params,
+                       const MediatorContext& context = MediatorContext());
+
+    void register_network(ISender* network) { this->network = network;}
+    void register_game(ISender* game) { this->game = game;}
+
+    ISender *network;
+    ISender *game;
 };

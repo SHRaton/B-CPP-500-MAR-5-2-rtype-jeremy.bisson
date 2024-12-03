@@ -8,8 +8,7 @@
 #include <vector>
 #include "Mediator.hpp"
 
-
-namespace Color {
+namespace Colors {
     const std::string RESET   = "\033[0m";
     const std::string RED     = "\033[31m";
     const std::string GREEN   = "\033[32m";
@@ -40,9 +39,9 @@ struct GameMessage {
     std::vector<std::string> arguments;
 };
 
-class Server {
+class ServerNetwork : public ISender {
 public:
-    Server(uint16_t port);
+    ServerNetwork(uint16_t port, Mediator& med);
     void start();
 
 private:
@@ -59,10 +58,8 @@ private:
     void handle_game_message(const boost::asio::ip::udp::endpoint& sender, const GameMessage& msg);
     void broadcast_message(const boost::asio::ip::udp::endpoint& sender, const std::string& message);
     void broadcast_message(const std::string& message);
-    void handle_disconnect(const boost::asio::ip::udp::endpoint& client);
-    void handle_connect(const boost::asio::ip::udp::endpoint& client);
-    void spawn_mob(int mob_type = 0);
-    void setup_spawn_timer(boost::asio::steady_timer& spawn_timer);
+    void handleDisconnect(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleConnect(const MediatorContext& context, const std::vector<std::string>& params) override;
 
     boost::asio::io_context io_context_;
     boost::asio::ip::udp::socket socket_;
@@ -70,5 +67,5 @@ private:
     bool running_;
     std::thread receive_thread_;
 
-    registry reg;
+    Mediator& med;
 };

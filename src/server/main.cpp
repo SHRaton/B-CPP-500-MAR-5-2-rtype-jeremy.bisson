@@ -1,4 +1,5 @@
-#include "server.hpp"
+#include "ServerNetwork.hpp"
+#include "ServerGame.hpp"
 #include <iostream>
 
 #ifdef _WIN32
@@ -22,7 +23,10 @@ int main(int argc, char* argv[]) {
     }
 
     try {
-        Server server(std::stoi(argv[1]));
+        Mediator mediator;
+        ServerNetwork server(std::stoi(argv[1]), mediator);
+        ServerGame game(mediator);
+        game.initTimers();
         server.start();
     }
     catch (std::exception& e) {
