@@ -2,7 +2,7 @@
 #include "Utils.hpp"
 
 Core::Core() :
-        window(sf::VideoMode(1920, 1080), "R-Type")
+        window(sf::VideoMode(1920, 1080), "R-Type"), player(0)
 {
     // Start the Asio IO context in a separate thread
     loadAssets();
@@ -26,25 +26,18 @@ void Core::gui(int argc, char **argv)
 
 void Core::loadAssets()
 {
+    nb_player = 0;
+
+    texture_vaisseau0.loadFromFile("../ressources/sprites/vaisseau0.png");
+    texture_vaisseau1.loadFromFile("../ressources/sprites/vaisseau1.png");
+    texture_vaisseau2.loadFromFile("../ressources/sprites/vaisseau2.png");
+    texture_vaisseau3.loadFromFile("../ressources/sprites/vaisseau3.png");
+
+
     reg.register_component<component::position>();
     reg.register_component<component::velocity>();
     reg.register_component<component::drawable>();
     reg.register_component<component::controllable>();
-
-    // Création du joueur
-    Entity player = reg.spawn_entity();
-    reg.emplace_component<component::position>(player, component::position{0, 0});
-    reg.emplace_component<component::velocity>(player, component::velocity{0, 0});
-    reg.emplace_component<component::drawable>(player, component::drawable{"./ressources/sprites/jinx.png"});
-    reg.emplace_component<component::controllable>(player, component::controllable{true});
-
-    // Création de l'ennemi
-    Entity enemy = reg.spawn_entity();
-    reg.emplace_component<component::position>(enemy, component::position{100, 100});
-    reg.emplace_component<component::velocity>(enemy, component::velocity{1, 1});
-    reg.emplace_component<component::drawable>(enemy, component::drawable{"./ressources/sprites/jinx.png"});
-    reg.emplace_component<component::controllable>(enemy, component::controllable{false});
-
 
     sprites_menu = {
         {"background", Sprite("../ressources/background/background.png", true)},

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include <string>
 
 
@@ -23,7 +25,7 @@ namespace component{
     } Velocity;
 
     typedef struct drawable {
-        std::string file;
+        sf::Sprite sprite;
     } Drawable;
 
     typedef struct controllable {

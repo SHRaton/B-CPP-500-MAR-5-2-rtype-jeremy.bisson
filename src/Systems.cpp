@@ -13,69 +13,6 @@ void Systems::player_control_system(registry &r, int playerId, int x, int y)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void Systems::control_system(registry &r, char c)
-{
-    auto const &controllables = r.get_components<component ::controllable>();
-    auto &velocities = r.get_components<component ::velocity>();
-    for (size_t i = 0; i < controllables.size() && i < velocities.size(); ++i)
-    {
-        auto const &controllable = controllables[i];
-        auto &vel = velocities[i];
-        if (controllable && vel)
-        {
-            if (controllable.value().is_controllable)
-            {
-                switch (c)
-                {
-                case 'z':
-                    vel.value().vy = -1;
-                    break;
-                case 's':
-                    vel.value().vy = 1;
-                    break;
-                case 'q':
-                    vel.value().vx = -1;
-                    break;
-                case 'd':
-                    vel.value().vx = 1;
-                    break;
-                default:
-                    vel.value().vx = 0;
-                    vel.value().vy = 0;
-                    break;
-                }
-            }
-        }
-    }
-}
-
 void Systems::position_system(registry &r)
 {
     auto &positions = r.get_components<component ::position>();
@@ -102,13 +39,9 @@ void Systems::draw_system(registry &r, sf::RenderWindow &window)
         auto const &drawable = drawables[i];
         if (pos && drawable)
         {
-            sf::Texture texture;
-            if (texture.loadFromFile(drawable.value().file))
-            {
-                sf::Sprite sprite(texture);
-                sprite.setPosition(pos.value().x, pos.value().y);
-                window.draw(sprite);
-            }
+            sf::Sprite sprite(drawable.value().sprite);
+            sprite.setPosition(pos.value().x, pos.value().y);
+            window.draw(sprite);
         }
     }
 }

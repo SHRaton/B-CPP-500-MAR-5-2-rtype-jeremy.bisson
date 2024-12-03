@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
+#include "server/Mediator.hpp"
 
 
 
@@ -18,7 +19,6 @@ class Systems
 
     //Fonctions codées dans le bootstrap
 
-    static void control_system(registry &r, char c);
     static void position_system(registry &r);
     static void draw_system(registry &r, sf::RenderWindow &window);
     static void logging_system(registry &r);

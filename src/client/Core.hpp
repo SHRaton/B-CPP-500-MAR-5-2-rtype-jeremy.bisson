@@ -11,6 +11,7 @@
 #include "Sprite.hpp"
 #include "UDPNetworkClient.hpp"
 #include <sstream>
+#include "../server/ServerNetwork.hpp"
 
 class Core {
     public :
@@ -36,6 +37,7 @@ class Core {
 
         //*************** ECS ***************//
         registry reg;
+        Systems sys;
         //*************** ECS ***************//
 
     private:
@@ -91,4 +93,18 @@ class Core {
         std::vector<std::string> drawOrder_game;
 
         std::map<int, sf::Sprite> other_players;
+
+
+        void control_system();
+        void load_spaceship();
+        sf::Texture texture_vaisseau0;
+        sf::Texture texture_vaisseau1;
+        sf::Texture texture_vaisseau2;
+        sf::Texture texture_vaisseau3;
+        sf::Clock clock_mess;
+        std::string encode_action(GameAction action);
+
+        Entity player;
+        std::unordered_map<int, Entity> player_id_map;
+        int nb_player;
 };
