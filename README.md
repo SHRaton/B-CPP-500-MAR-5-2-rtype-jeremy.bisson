@@ -140,8 +140,8 @@ For more technical details, check out:
 | Jérémy Bisson | Project Lead & Developer |
 | Meddi Gueran | Core Developer |
 | Jérémy Delfino | Network Developer |
-| Luca Giglio | Engine Developer |
-| Alexandre Vittenet | Graphics Developer |
+| Luca Giglio | Graphics Developer |
+| Alexandre Vittenet | Engine Developer |
 
 ## 🤝 Contributing
 
