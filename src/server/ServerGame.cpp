@@ -64,7 +64,6 @@ void ServerGame::spawnMob(int mob_type)
 
 
 
-
 //===================================COMMANDS=================================
 
 void ServerGame::handleConnect(const MediatorContext& context, const std::vector<std::string>& params)
@@ -72,7 +71,6 @@ void ServerGame::handleConnect(const MediatorContext& context, const std::vector
     Entity player = reg.spawn_entity();
     reg.emplace_component<component::position>(player, component::position{0, 0});
     reg.emplace_component<component::velocity>(player, component::velocity{0, 0});
-    reg.emplace_component<component::drawable>(player, component::drawable{"./ressources/sprites/jinx.png"});
     reg.emplace_component<component::controllable>(player, component::controllable{true});
     reg.emplace_component<component::health>(player, component::health{100});
     reg.emplace_component<component::damage>(player, component::damage{10});
@@ -100,4 +98,18 @@ void ServerGame::handleDisconnect(const MediatorContext& context, const std::vec
 {
     boost::asio::ip::udp::endpoint client = context.client;
     std::cout << "Un joueur s'est déconnecté" << std::endl;
+}
+
+void ServerGame::handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params)
+{
+    if (action == "UP"){
+        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = -5;
+    } else if (action == "DOWN"){
+        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = 5;
+    } else if (action == "LEFT"){
+        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = -5;
+    } else if (action == "RIGHT"){
+        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = 5;
+    }
+    med.notify(Sender::GAME, action, params, context);
 }

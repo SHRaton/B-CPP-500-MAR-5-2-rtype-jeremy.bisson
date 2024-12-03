@@ -42,7 +42,7 @@ std::string ServerNetwork::get_action_name(GameAction action) {
         case GameAction::DOWN: return "DOWN";
         case GameAction::LEFT: return "LEFT";
         case GameAction::RIGHT: return "RIGHT";
-        case GameAction::JUMP: return "JUMP";
+        case GameAction::UP: return "UP";
         case GameAction::CROUCH: return "CROUCH";
         case GameAction::POWER_UP: return "POWER_UP";
         case GameAction::SHIELD: return "SHIELD";
@@ -98,6 +98,33 @@ void ServerNetwork::handleConnect(const MediatorContext& context, const std::vec
     }
     broadcast_message(encode_action(GameAction::CONNECT) + " " + params[params.size() - 1]);
 }
+
+void ServerNetwork::handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    if (action == "UP") {
+        std::string message = encode_action(GameAction::UP);
+        broadcast_message(client, message);
+    }
+    if (action == "DOWN") {
+        std::string message = encode_action(GameAction::DOWN);
+        broadcast_message(client, message);
+    }
+    if (action == "LEFT") {
+        std::string message = encode_action(GameAction::LEFT);
+        broadcast_message(client, message);
+    }
+    if (action == "RIGHT") {
+        std::string message = encode_action(GameAction::RIGHT);
+        broadcast_message(client, message);
+    }
+}
+
+
+
+
+
+
 
 void ServerNetwork::handle_game_message(const boost::asio::ip::udp::endpoint& sender, const GameMessage& msg)
 {

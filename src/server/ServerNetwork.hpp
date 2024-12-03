@@ -23,7 +23,7 @@ enum class GameAction {
     DOWN        = 0b0011,  // 3
     LEFT        = 0b0100,  // 4
     RIGHT       = 0b0101,  // 5
-    JUMP        = 0b0110,  // 6
+    UP          = 0b0110,  // 6
     CROUCH      = 0b0111,  // 7
     POWER_UP    = 0b1000,  // 8
     SHIELD      = 0b1001,  // 9
@@ -58,8 +58,12 @@ private:
     void handle_game_message(const boost::asio::ip::udp::endpoint& sender, const GameMessage& msg);
     void broadcast_message(const boost::asio::ip::udp::endpoint& sender, const std::string& message);
     void broadcast_message(const std::string& message);
+
+
+    //ISender implementation
     void handleDisconnect(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleConnect(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params) override;
 
     boost::asio::io_context io_context_;
     boost::asio::ip::udp::socket socket_;

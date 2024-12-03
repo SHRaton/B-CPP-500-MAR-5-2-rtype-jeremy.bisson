@@ -16,12 +16,13 @@ class ServerGame : public ISender {
 
         void initTimers();
         void setup_spawn_timer(boost::asio::steady_timer& spawn_timer);
+        void spawnMob(int mob_type);
 
 
         //Chaque fonction doit se terminer par un appel à la classe Mediator
         void handleConnect(const MediatorContext& context, const std::vector<std::string>& params);
         void handleDisconnect(const MediatorContext& context, const std::vector<std::string>& params);
-        void spawnMob(int mob_type);
+        void handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params);
 
 
 

@@ -16,7 +16,7 @@ enum class Sender {
 class Mediator {
 public:
     Mediator() = default;
-    Mediator::Mediator(ISender* network, ISender* game)
+    Mediator(ISender* network, ISender* game)
         : network(network), game(game) {}
     void notify(Sender sender, const std::string& action, const std::vector<std::string>& params,
                        const MediatorContext& context = MediatorContext());

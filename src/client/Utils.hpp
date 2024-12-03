@@ -20,7 +20,7 @@ namespace GameAction {
     const std::string DOWN        = "0011";  // 3
     const std::string LEFT        = "0100";  // 4
     const std::string RIGHT       = "0101";  // 5
-    const std::string JUMP        = "0110";  // 6
+    const std::string UP          = "0110";  // 6
     const std::string CROUCH      = "0111";  // 7
     const std::string POWER_UP    = "1000";  // 8
     const std::string SHIELD      = "1001";  // 9
