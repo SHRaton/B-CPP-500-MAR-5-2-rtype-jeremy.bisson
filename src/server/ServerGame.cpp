@@ -1,5 +1,8 @@
 #include "ServerGame.hpp"
 
+using json = nlohmann::json;
+
+
 ServerGame::ServerGame(Mediator &med) : med(med)
 {
     reg.register_component<component::position>();
@@ -10,6 +13,22 @@ ServerGame::ServerGame(Mediator &med) : med(med)
     reg.register_component<component::damage>();
 
     med.register_game(this);
+
+    std::ifstream file("../../config.json");
+    json config;
+    file >> config;
+    for (auto& [key, value] : config.items()) {
+        size_t mobType = std::stoul(key); // Convertir la clé en entier
+        MobInfo attributes = {
+            value["health"].get<int>(),
+            value["damage"].get<int>(),
+            value["velocity_x"].get<int>(),
+            value["velocity_y"].get<int>(),
+            value["fire_rate"].get<int>()
+
+        };
+        mobs[mobType] = attributes;
+    }
 };
 
 //===================================TIMERS===================================

@@ -1,10 +1,6 @@
 #include "ServerNetwork.hpp"
 #include "ServerGame.hpp"
 #include <iostream>
-#include <fstream>
-#include <nlohmann/json.hpp>
-
-using json = nlohmann::json;
 
 #ifdef _WIN32
 #include <windows.h>
@@ -21,11 +17,6 @@ int main(int argc, char* argv[]) {
     #ifdef _WIN32
     enableANSI();
     #endif
-    if (argc == 3) {
-        std::ifstream file(argv[2]);
-        json config;
-        file >> config;
-    }
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " <port>\n";
         return 1;

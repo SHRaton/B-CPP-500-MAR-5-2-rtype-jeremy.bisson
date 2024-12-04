@@ -1,6 +1,26 @@
 {
-    "health": 10,
-    "damamge": 5,
-    "spawn-rate": 3,
-    "fire-rate": 1
+    "0": {
+        "health": 10,
+        "damamge": 5,
+        "spawn-rate": 3,
+        "fire-rate": 1,
+        "velocity_x": 1,
+        "velocity_y": 1
+    },
+    "1": {
+        "health": 20,
+        "damamge": 10,
+        "spawn-rate": 2,
+        "fire-rate": 2,
+        "velocity_x": 2,
+        "velocity_y": 2
+    },
+    "2": {
+        "health": 30,
+        "damamge": 15,
+        "spawn-rate": 1,
+        "fire-rate": 3,
+        "velocity_x": 3,
+        "velocity_y": 3
+    }
 }
