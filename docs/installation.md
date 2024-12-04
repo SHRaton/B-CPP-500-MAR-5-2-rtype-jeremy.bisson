@@ -1,72 +1,72 @@
-# Guide d'Installation R-Type
+# R-Type Installation Guide 📥
 
-## Prérequis par Plateforme
+## Prerequisites by Platform 💻
 
-### Linux
-- Conan2 (via Python ou gestionnaire de paquets)
+### Linux 🐧
+- Conan2 (via Python or package manager)
 - gcc & g++
 - cmake
 
-### Windows (MSVC 2022)
-**Note: Développé et testé avec MSVC (cl), non testé avec MinGW**
-- Conan2 (via Chocolatey ou Python)
-- MSVC 2022 (vérifiable avec `cl --version`)
+### Windows (MSVC 2022) 🪟
+**Note: Developed and tested with MSVC (cl), not tested with MinGW**
+- Conan2 (via Chocolatey or Python)
+- MSVC 2022 (verifiable with `cl --version`)
 - CMake
 
-### MacOS
-- Conan2 (via Python ou gestionnaire de paquets)
+### MacOS 🍎
+- Conan2 (via Python or package manager)
 - clang
 - cmake
 
-## Installation
+## Installation 🔧
 
-### Configuration de Conan
+### Conan Configuration
 ```bash
-# Si pas de profil Conan existant
+# If no existing Conan profile
 conan profile detect --force
 
-# Installation des dépendances
+# Install dependencies
 conan install . --output-folder=build --build=missing
 ```
 
-### Options de Compilation CMake
+### CMake Compilation Options 🛠️
 
-Drapeaux disponibles pour désactiver certaines parties :
+Available flags to disable certain parts:
 ```bash
--DBUILD_CLIENT=OFF    # Désactive la compilation du client
--DBUILD_SERVER=OFF    # Désactive la compilation du serveur
--DBUILD_EDITOR=OFF    # Désactive la compilation de l'éditeur
--DBUILD_TESTS=OFF     # Désactive la compilation des tests
+-DBUILD_CLIENT=OFF    # Disable client compilation
+-DBUILD_SERVER=OFF    # Disable server compilation
+-DBUILD_EDITOR=OFF    # Disable editor compilation
+-DBUILD_TESTS=OFF     # Disable test compilation
 ```
 
-### Compilation par Plateforme
+### Compilation by Platform ⚙️
 
 #### Windows (MSVC)
 ```bash
-# Dans le dossier build/
+# In build/ folder
 cmake ..
 
-# Mode Release
+# Release Mode
 cmake --build . --config Release
 
-# Mode Debug
+# Debug Mode
 cmake --build . --config Debug
 ```
 
 #### UNIX (MacOS / Linux)
 ```bash
-# Mode Release
+# Release Mode
 cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
 cmake --build .
 
-# Mode Debug
+# Debug Mode
 cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Debug
 cmake --build .
 ```
 
-## Exécution
+## Execution 🚀
 
-### Structure des Binaires
+### Binary Structure 📁
 
 ```
 📦 R-Type
@@ -78,61 +78,61 @@ cmake --build .
   ┗ 📜 r-type_server.exe
 ```
 
-### Lancement
+### Launch 🎮
 ```bash
 # Client
 ./r-type_client.exe
 
-# Serveur
+# Server
 ./r-type_server.exe
 ```
 
-## Docker
+## Docker 🐳
 
-### Images Disponibles
-- Image de compilation : [adamelm/r-type-compiler](https://hub.docker.com/r/adamelm/r-type-compiler)
-  - Basée sur ubuntu:latest
-  - Inclut toutes les dépendances nécessaires
+### Available Images
+- Compilation image: [adamelm/r-type-compiler](https://hub.docker.com/r/adamelm/r-type-compiler)
+  - Based on ubuntu:latest
+  - Includes all necessary dependencies
 
-### Compilation avec Docker
+### Docker Compilation
 ```bash
-# Construction de l'image
+# Build image
 docker build -t r-type .\Dockerfile.build
 ```
 
-### Déploiement avec Docker Compose
+### Docker Compose Deployment
 ```bash
-# Construction et lancement du serveur
+# Build and launch server
 docker-compose up
 ```
 
-## Structure du CMake
+## CMake Structure 📝
 
 ```cmake
 cmake_minimum_required(VERSION 3.15)
 project(r_type)
 
-# Configuration C++17
+# C++17 Configuration
 set(CMAKE_CXX_STANDARD 17)
 
-# Dépendances requises
+# Required dependencies
 find_package(SFML COMPONENTS graphics audio window system REQUIRED)
 find_package(Boost REQUIRED)
 
-# Sources du serveur
+# Server sources
 file(GLOB SERVER_SOURCES "src/server/*.cpp")
 add_executable(server ${SERVER_SOURCES} src/Systems.cpp src/server/Mediator.cpp)
 
-# Sources du client
+# Client sources
 file(GLOB CLIENT_SOURCES "src/client/*.cpp")
 add_executable(client ${CLIENT_SOURCES} src/Systems.cpp src/server/Mediator.cpp)
 
-# Liaison des bibliothèques
+# Library linking
 target_link_libraries(server sfml-graphics boost::boost)
 target_link_libraries(client sfml-graphics sfml-window sfml-system boost::boost)
 ```
 
-## Dépendances Principales
+## Main Dependencies 📚
 - SFML (graphics, audio, window, system)
 - Boost
-- Conan2 pour la gestion des paquets
+- Conan2 for package management

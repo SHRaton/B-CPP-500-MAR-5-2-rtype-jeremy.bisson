@@ -1,28 +1,28 @@
-# Documentation Serveur R-Type
+# R-Type Server Documentation 🖥️
 
-## Architecture Générale
+## General Architecture 🏗️
 
-Le serveur R-Type est construit sur une architecture basée sur Boost.Asio avec les caractéristiques suivantes :
-- Serveur UDP pour la communication en temps réel
-- Système de composants (ECS) pour la gestion du jeu 
-- Médiateur pour la gestion des événements
-- Spawn system pour la génération d'ennemis
+The R-Type server is built on a Boost.Asio architecture with the following features:
+- UDP server for real-time communication
+- Component system (ECS) for game management
+- Mediator for event handling
+- Spawn system for enemy generation
 
-## Composants du Serveur
+## Server Components 🧩
 
-Le serveur intègre les composants suivants :
+The server integrates the following components:
 ```cpp
-component::position    // Position des entités
-component::velocity   // Vitesse des entités
-component::drawable   // Ressources graphiques
-component::controllable // Contrôle des entités
-component::health    // Points de vie
-component::damage    // Dégâts infligés
+component::position    // Entity positions
+component::velocity   // Entity speeds
+component::drawable   // Graphical resources
+component::controllable // Entity control
+component::health    // Hit points
+component::damage    // Damage dealt
 ```
 
-## Protocole de Communication
+## Communication Protocol 📡
 
-### Actions du Jeu
+### Game Actions 🎮
 ```cpp
 enum GameAction {
     NONE,
@@ -42,120 +42,120 @@ enum GameAction {
 };
 ```
 
-### Format des Messages
-Les messages sont encodés en binaire sur 5 bits puis convertis en string :
+### Message Format 📝
+Messages are encoded in binary on 5 bits then converted to string:
 ```cpp
-// Exemple d'encodage
+// Encoding example
 "00001" // SHOOT
 "00010" // MOVE
 // etc...
 ```
 
-### Structure des messages
+### Message Structure
 ```
-[Action binaire] [Arguments...]
+[Binary Action] [Arguments...]
 ```
 
-## Gestion des Clients
+## Client Management 👥
 
-### Connexion Client
+### Client Connection
 ```cpp
 void Server::handle_connect(const boost::asio::ip::udp::endpoint& client) {
-    // 1. Création des informations client
-    // 2. Spawn d'une entité joueur
-    // 3. Envoi de confirmation
-    // 4. Broadcast aux autres clients
+    // 1. Create client information
+    // 2. Spawn player entity
+    // 3. Send confirmation
+    // 4. Broadcast to other clients
 }
 ```
 
-### Déconnexion Client
+### Client Disconnection
 ```cpp
 void Server::handle_disconnect(const boost::asio::ip::udp::endpoint& client) {
-    // Suppression du client et notification
+    // Remove client and notify
 }
 ```
 
-## Système de Spawn
+## Spawn System 👾
 
-Le serveur implémente un système de spawn automatique pour les ennemis :
+The server implements an automatic spawn system for enemies:
 
-### Types d'Ennemis
+### Enemy Types 🤖
 1. Type 0 (Tank):
-   - Santé: 300
-   - Dégâts: 10
-   - Vitesse: 5
+   - Health: 300
+   - Damage: 10
+   - Speed: 5
 
-2. Type 1 (Rapide):
-   - Santé: 100
-   - Dégâts: 40
-   - Vitesse: 10
+2. Type 1 (Fast):
+   - Health: 100
+   - Damage: 40
+   - Speed: 10
 
-### Configuration du Spawn
-- Timer de spawn: 10 secondes
-- Position: Aléatoire sur l'axe Y (0-900)
-- Position X fixe: 1800
+### Spawn Configuration ⚙️
+- Spawn timer: 10 seconds
+- Position: Random on Y axis (0-900)
+- Fixed X position: 1800
 
-## Système de Médiation
+## Mediation System 🔄
 
-Le médiateur gère la communication entre les différents systèmes :
+The mediator manages communication between different systems:
 
-### Communication Client → Serveur
+### Client → Server Communication
 ```cpp
 Mediator::notify(Sender::CLIENT, action, params, registry)
 ```
 
-Actions gérées :
-- CONNECT : Connexion d'un nouveau client
-- DISCONNECT : Déconnexion d'un client
-- MOVE : Déplacement d'un joueur
+Handled actions:
+- CONNECT: New client connection
+- DISCONNECT: Client disconnection
+- MOVE: Player movement
 
-## Démarrage du Serveur
+## Server Startup 🚀
 
-Pour lancer le serveur :
+To launch the server:
 ```bash
 ./r-type_server <port>
 ```
 
-### Initialisation
-1. Enregistrement des composants
-2. Démarrage du thread de réception
-3. Configuration du timer de spawn
-4. Boucle principale du serveur
+### Initialization
+1. Component registration
+2. Reception thread startup
+3. Spawn timer configuration
+4. Server main loop
 
-### Configuration requise
-- Port UDP ouvert
-- Support ANSI pour Windows (activé automatiquement)
+### Requirements ✅
+- Open UDP port
+- ANSI support for Windows (automatically enabled)
 - Boost.Asio
 
-## Logs et Debug
+## Logs and Debug 📊
 
-Le serveur utilise un système de couleurs pour les logs :
-- VERT : Connexions et succès
-- ROUGE : Déconnexions et erreurs
-- BLEU : Actions des joueurs
-- JAUNE : Informations système
+The server uses a color system for logs:
+- GREEN: Connections and successes
+- RED: Disconnections and errors
+- BLUE: Player actions
+- YELLOW: System information
 
-## Extension du Serveur
+## Server Extension 🔧
 
-Pour ajouter de nouvelles fonctionnalités :
+To add new features:
 
-1. Nouveaux types d'ennemis :
+1. New enemy types:
 ```cpp
 void Server::spawn_mob(int mob_type) {
-    // Ajouter de nouveaux cas dans le switch
+    // Add new cases in switch
 }
 ```
 
-2. Nouvelles actions :
+2. New actions:
 ```cpp
-// 1. Ajouter dans GameAction
-// 2. Mettre à jour get_action_name()
-// 3. Implémenter le handler dans le médiateur
+// 1. Add to GameAction
+// 2. Update get_action_name()
+// 3. Implement handler in mediator
 ```
 
-3. Nouveaux composants :
+3. New components:
 ```cpp
-// 1. Créer le composant
-// 2. Enregistrer dans Server::start()
-reg.register_component<component::nouveau_composant>();
+// 1. Create component
+// 2. Register in Server::start()
+reg.register_component<component::new_component>();
 ```

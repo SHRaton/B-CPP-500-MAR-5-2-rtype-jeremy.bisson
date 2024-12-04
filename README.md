@@ -1,159 +1,96 @@
 # R-Type 🚀
 
 ## Table of Contents
+- [Quick Start](#quick-start)
 - [Description](#description)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Installation](#installation)
-  - [Prerequisites](#prerequisites)
-  - [Building](#building)
-- [Usage](#usage)
-- [Technologies](#technologies)
-- [Documentation](#documentation)
+- [Features](#-features)
+- [Running the Game](#-running-the-game)
+- [Controls](#-controls)
+- [Tech Stack](#️-tech-stack)
+- [Team](#-team)
+- [Documentation](#-documentation)
+- [Support](#-support)
+- [License](#license)
 
-## Description
+## Quick Start
 
-R-Type is a modern recreation of the famous 1987 arcade shoot'em up game. This project implements a networked multiplayer version, allowing players to collaborate or compete in intense space battles.
-
-### 🎮 Game Overview
-- Real-time multiplayer mode
-- Graphics inspired by the original game with a modern touch
-- Dynamic combat system
-- Immersive sound and visual effects
-
-## Features
-
-### 🌟 Key Features
-- **Cross-platform**: Compatible with Windows, Linux, and MacOS
-- **Multiplayer**: Support for up to 4 simultaneous players
-- **Client-Server Architecture**: UDP communication for minimal latency
-- **ECS (Entity Component System)**: Modular and performant architecture
-- **SFML Graphics**: Smooth and optimized rendering
-
-### 🛠️ Gameplay Systems
-- Different types of spaceships with unique characteristics
-- Power-ups and upgrade system
-- Varied enemy patterns
-- Scoring and ranking system
-
-## Architecture
-
-### 📐 Project Structure
-```
-📦 R-Type
-┣ 📂 src/
-┃ ┣ 📂 client/      # Client code
-┃ ┣ 📂 server/      # Server code
-┃ ┣ 📂 components/  # ECS components
-┃ ┗ 📂 systems/     # Game systems
-┣ 📂 ressources/        # Graphics and sound resources
-┣ 📂 docs/          # Documentation
-┗ 📂 tests/         # Tests
-```
-
-## Installation
-
-### Prerequisites
-
-#### 🖥️ Development Environment
-- CMake (3.24+)
-- C++ compiler with C++17 support
-- Conan 2.0 (package manager)
-
-#### 📚 Main Dependencies
-- SFML (graphics, audio, window, system)
-- Boost (asio, system)
-- nlohmann/json
-
-### Building
-
-#### Windows
 ```bash
-# Configuration
+# Clone the repository
+git clone https://github.com/EpitechPromo2027/B-CPP-500-MAR-5-2-rtype-jeremy.bisson.git
+cd B-CPP-500-MAR-5-2-rtype-jeremy.bisson
+
+# Build using Conan and CMake
 conan profile detect --force
 conan install . --output-folder=build --build=missing
 cd build
+
+# Windows
 cmake .. -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake"
-
-# Compilation
 cmake --build . --config Release
-```
 
-#### Linux/MacOS
-```bash
-# Configuration
-conan profile detect --force
-conan install . --output-folder=build --build=missing
-cd build
+# Linux/MacOS
 cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake" -DCMAKE_BUILD_TYPE=Release
-
-# Compilation
 make
 ```
 
-## Usage
+## Description
 
-### 🎮 Running the Game
+R-Type is a modern networked multiplayer recreation of the classic 1987 shoot'em up arcade game, featuring real-time battles, dynamic combat systems, and enhanced graphics.
 
-1. Start the server:
+## 🎮 Features
+
+- **Cross-platform**: Windows, Linux, and MacOS support
+- **Multiplayer**: Up to 4 players
+- **Modern Architecture**: ECS pattern
+- **Network**: UDP-based client-server
+- **Graphics**: SFML-powered rendering
+
+## 🚀 Running the Game
+
 ```bash
-# Windows
-./Release/r-type_serve.exe <port>
-
-# Linux/MacOS
+# Start Server
 ./r-type_server <port>
-```
 
-2. Launch the client:
-```bash
-# Windows
-./Release/r-type_client.exe
-
-# Linux/MacOS
+# Launch Client
 ./r-type_client
 ```
 
-### 🎯 Game Controls
+## 🎯 Controls
 - **↑↓←→**: Movement
 - **Space**: Shoot
 
-## Technologies
+## 🛠️ Tech Stack
 
-- 🔧 C++17
-- 🎮 SFML
-- 🌐 Boost.Asio
-- 📦 CMake/Conan
+- C++17
+- SFML
+- Boost.Asio
+- CMake/Conan
 
-## Documentation
+## 👥 Team
 
-For more technical details, check out:
-- [Technical Documentation](docs/technical.md)
-- [Developer Guide](docs/developer-guide.md)
-- [Network Protocol](docs/network-protocol.md)
+| Name | Role | GitHub |
+|------|------|--------|
+| Jérémy Bisson | Project Lead | [jeremybepitech](https://github.com/jeremybepitech) |
+| Meddi Gueran | Core Developer | [MeddiGU](https://github.com/MeddiGU) |
+| Jérémy Delfino | Network Developer | [jeremydelfino](https://github.com/jeremydelfino) |
+| Luca Giglio | Graphics Developer | [LaJinxKonAime](https://github.com/LaJinxKonAime) |
+| Alexandre Vittenet | Engine Developer | [SHRaton](https://github.com/SHRaton) |
 
-## 👥 Authors
+## 📚 Documentation
 
-| Name | Role |
-|------|------|
-| Jérémy Bisson | Project Lead & Developer |
-| Meddi Gueran | Core Developer |
-| Jérémy Delfino | Network Developer |
-| Luca Giglio | Graphics Developer |
-| Alexandre Vittenet | Engine Developer |
+- [Full Documentation](docs/index.md)
+- [Installation Guide](docs/guides/installation.md)
+- [Network Protocol](docs/technical/network.md)
+- [Contributing Guide](docs/development/contributing.md)
 
-## 🤝 Contributing
+## 📬 Support
 
-Contributions are welcome! Feel free to:
-1. Fork the project
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
+- Create an [Issue](https://github.com/EpitechPromo2027/B-CPP-500-MAR-5-2-rtype-jeremy.bisson/issues)
+- Contact team members via GitHub
 
-## ⚖️ License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - See [LICENSE](LICENSE)
 
 ---
-
 Maintained by the R-Type Team 🚀
