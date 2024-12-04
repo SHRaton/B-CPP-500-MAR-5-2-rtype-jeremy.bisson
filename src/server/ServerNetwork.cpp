@@ -45,7 +45,7 @@ std::string ServerNetwork::get_action_name(GameAction action) {
         case GameAction::UP: return "UP";
         case GameAction::STOP_X: return "STOP_X";
         case GameAction::STOP_Y: return "STOP_Y";
-        case GameAction::SHOOT: return "SHOOT";
+        case GameAction::SHIELD: return "SHOOT";
         case GameAction::POWER_UP: return "POWER_UP";
         case GameAction::RESPAWN: return "RESPAWN";
         case GameAction::CONNECT: return "CONNECT";
