@@ -18,11 +18,54 @@ void ServerGame::initTimers()
 {
     spawn_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(60));
     setup_spawn_timer(*spawn_timer_);
+    position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(1));
+    setup_position_timer(*position_timer_);
+    conciliation_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(100));
+    setup_conciliation_timer(*conciliation_timer_);
+
     //TODO: initialiser d'autres timers ici
 
     io_thread_ = std::thread([this]() {
             io_context_.run();
     });
+}
+
+void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
+{
+    position_timer.async_wait([this, &position_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            Systems::position_system(reg);
+            position_timer.expires_from_now(std::chrono::milliseconds(1));
+            setup_position_timer(position_timer);
+        }
+    });
+}
+
+void ServerGame::setup_conciliation_timer(boost::asio::steady_timer& conciliation_timer)
+{
+    conciliation_timer.async_wait([this, &conciliation_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            positionConciliation();
+            conciliation_timer.expires_from_now(std::chrono::milliseconds(100));
+            setup_conciliation_timer(conciliation_timer);
+        }
+    });
+}
+
+void ServerGame::positionConciliation()
+{
+    auto &positions = reg.get_components<component::position>();
+    for (size_t i = 0; i < positions.size(); ++i)
+    {
+        if (positions[i])
+        {
+            std::vector<std::string> newParams;
+            newParams.push_back(std::to_string(i));
+            newParams.push_back(std::to_string(positions[i].value().x));
+            newParams.push_back(std::to_string(positions[i].value().y));
+            med.notify(Sender::GAME, "MOVE", newParams);
+        }
+    }
 }
 
 void ServerGame::setup_spawn_timer(boost::asio::steady_timer& spawn_timer)
@@ -103,13 +146,13 @@ void ServerGame::handleDisconnect(const MediatorContext& context, const std::vec
 void ServerGame::handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params)
 {
     if (action == "UP"){
-        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = -5;
+        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = -1;
     } else if (action == "DOWN"){
-        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = 5;
+        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = 1;
     } else if (action == "LEFT"){
-        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = -5;
+        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = -1;
     } else if (action == "RIGHT"){
-        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = 5;
+        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = 1;
     } else if (action == "STOP_Y"){
         reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = 0;
     } else if (action == "STOP_X"){

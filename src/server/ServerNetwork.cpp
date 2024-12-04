@@ -129,14 +129,34 @@ void ServerNetwork::handleMoves(const std::string& action, const MediatorContext
     }
 }
 
-
-
 void ServerNetwork::handleShoot(const MediatorContext& context, const std::vector<std::string>& params)
 {
     boost::asio::ip::udp::endpoint client = context.client;
     std::string message = encode_action(GameAction::SHOOT) + " " + params[0] + " " + params[1];
     broadcast_message(client, message);
 }
+
+void ServerNetwork::handleMobSpawn(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::MOB_SPAWN) + " " + params[0] + " " + params[1] + " " + params[2];
+    broadcast_message(client, message);
+}
+
+void ServerNetwork::handleConciliation(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::MOVE) + " " + params[0] + " " + params[1] + " " + params[2];
+    broadcast_message(client, message);
+}
+
+
+
+
+
+
+
+
 
 
 

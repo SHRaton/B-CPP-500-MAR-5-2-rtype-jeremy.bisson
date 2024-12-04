@@ -67,6 +67,8 @@ private:
     void handleConnect(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleShoot(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleMobSpawn(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleConciliation(const MediatorContext& context, const std::vector<std::string>& params) override;
 
     boost::asio::io_context io_context_;
     boost::asio::ip::udp::socket socket_;
