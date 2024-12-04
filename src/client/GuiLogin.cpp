@@ -74,29 +74,14 @@ void Core::login()
         try {
             initialize_network(str_ip, std::stoi(str_port));
             network->send(encode_action(GameAction::CONNECT));
-            //std::this_thread::sleep_for(std::chrono::seconds(1));
-            //network->print_message_queue();
-            //buffer = network->receive().value_or("");
-            //network->print_message_queue();
-            if (1) {
-                std::istringstream iss(buffer);
-                std::string status;
-                int id;
-                iss >> status >> id;
-                network->setId(id);
-                failed_connection = 0;
-                utils.printLog(str_name + " logged in");
-                std::cout << Color::YELLOW << "[Client] Connected to " << Color::BLUE << str_ip << ":" << str_port << Color::RESET << std::endl;
-                gui_game();
-            } else {
-                failed_connection = 1;
-                str_failed = "Connection failed: No response from server";
-                text_failed.setString(str_failed);
-            }
+            utils.printLog(str_name + " logged in");
+            std::cout << Color::YELLOW << "[Client] Connected to " << Color::BLUE << str_ip << ":" << str_port << Color::RESET << std::endl;
+            gui_game();
         } catch (const std::exception& e) {
             failed_connection = 1;
             str_failed = "Connection failed.";
             text_failed.setString(str_failed);
+            std::cerr << e.what() << std::endl;
         }
     } else {
         failed_connection = 1;
@@ -113,22 +98,10 @@ void Core::login_auto(std::string ip, std::string port)
     try {
         initialize_network(str_ip, std::stoi(str_port));
         network->send(encode_action(GameAction::CONNECT));
-        // std::this_thread::sleep_for(std::chrono::seconds(1));
-        // network->print_message_queue();
-        // buffer = network->receive().value_or("");
-        // network->print_message_queue();
-        if (1) {
-            // std::istringstream iss(buffer);
-            // std::string status;
-            // int id;
-            // iss >> status >> id;
-            // utils.printLog(str_name + " logged in");
-            gui_game();
-        } else {
-            text_failed.setString(str_failed);
-        }
+        gui_game();
     } catch (const std::exception& e) {
-        text_failed.setString(str_failed);
+        std::cerr << "Exception attrapée : " << e.what() << std::endl;
+        exit (84);
     }
 }
 

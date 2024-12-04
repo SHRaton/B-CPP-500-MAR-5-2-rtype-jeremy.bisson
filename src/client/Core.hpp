@@ -103,6 +103,35 @@ class Core {
         sf::Texture texture_vaisseau3;
         sf::Clock clock_mess;
         std::string encode_action(GameAction action);
+        // Constants
+        static constexpr float BASE_SPEED = 600.f;
+        static constexpr float FRAME_DURATION = 0.05f;
+        static constexpr int MAX_FRAMES = 4;
+        // Animation state
+        struct AnimationState {
+            int currentFrame = 0;
+            float animationTimer = 0.0f;
+        };
+
+        // Input state
+        struct InputState {
+            bool upSent = false;
+            bool downSent = false;
+            bool leftSent = false;
+            bool rightSent = false;
+        };
+
+        void handle_vertical_movement(float deltaSeconds, std::optional<component::velocity>& vel, std::optional<component::drawable>& drawable);
+        void handle_horizontal_movement(float deltaSeconds, std::optional<component::velocity>& vel);
+        void update_animation(float deltaSeconds, std::optional<component::drawable>& drawable);
+        void handle_idle_animation(float deltaSeconds, std::optional<component::drawable>& drawable);
+        void update_sprite_frame(sf::Sprite& sprite);
+        void send_input_if_needed(GameAction action, bool& sentFlag);
+        void handle_vertical_stop(std::optional<component::velocity>& vel);
+        void handle_horizontal_stop(std::optional<component::velocity>& vel);
+
+        AnimationState animState;
+        InputState inputState;
 
         Entity player;
         std::unordered_map<int, Entity> player_id_map;

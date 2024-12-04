@@ -131,11 +131,10 @@ void Core::handleCommands(std::string command)
 
 void Core::load_spaceship()
 {
-    usleep(100);
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     std::vector<std::string> messages = network->receive_all();
-    std::cout << "Nombre de messages : " << messages.size() << std::endl;
-    for (const auto& buffer : messages) {
-        std::cout << "Message : " << buffer << std::endl;
+    if (messages.empty()) {
+        throw std::runtime_error("Erreur de connexion au serveur!");
     }
 
     // Handle multiple player connections
@@ -164,7 +163,7 @@ void Core::load_spaceship()
             reg.emplace_component<component::position>(newPlayer, component::position{200, 500});
             reg.emplace_component<component::velocity>(newPlayer, component::velocity{0, 0});
             reg.emplace_component<component::drawable>(newPlayer, component::drawable{vaisseau});
-            reg.emplace_component<component::controllable>(newPlayer, component::controllable{false}); // Network players are not directly controllable
+            reg.emplace_component<component::controllable>(newPlayer, component::controllable{false});
         }
         i++;
     }
@@ -186,155 +185,140 @@ void Core::load_spaceship()
     }
 }
 
+void Core::handle_vertical_movement(float deltaSeconds, std::optional<component::velocity>& vel,
+                                    std::optional<component::drawable>& drawable)
+{
+    if (!vel || !drawable) return;
+
+    sf::Vector2f movement(0.f, 0.f);
+    // Handle upward movement
+    if (keysPressed[sf::Keyboard::Up]) {
+        movement.y -= BASE_SPEED * deltaSeconds;
+        update_animation(deltaSeconds, drawable);
+        vel->vy = -1;
+        send_input_if_needed(GameAction::UP, inputState.upSent);
+    } else {
+        inputState.upSent = false;
+        handle_idle_animation(deltaSeconds, drawable);
+    }
+    // Handle downward movement
+    if (keysPressed[sf::Keyboard::Down]) {
+        movement.y += BASE_SPEED * deltaSeconds;
+        vel->vy = 1;
+        send_input_if_needed(GameAction::DOWN, inputState.downSent);
+    } else {
+        inputState.downSent = false;
+    }
+    // Handle vertical stop
+    if (!keysPressed[sf::Keyboard::Up] && !keysPressed[sf::Keyboard::Down]) {
+        handle_vertical_stop(vel);
+    }
+}
+
+void Core::handle_horizontal_movement(float deltaSeconds, std::optional<component::velocity>& vel)
+{
+    if (!vel) return;
+    sf::Vector2f movement(0.f, 0.f);
+    // Handle left movement
+    if (keysPressed[sf::Keyboard::Left]) {
+        movement.x -= BASE_SPEED * deltaSeconds;
+        vel->vx = -1;
+        send_input_if_needed(GameAction::LEFT, inputState.leftSent);
+    } else {
+        inputState.leftSent = false;
+    }
+    // Handle right movement
+    if (keysPressed[sf::Keyboard::Right]) {
+        movement.x += BASE_SPEED * deltaSeconds;
+        vel->vx = 1;
+        send_input_if_needed(GameAction::RIGHT, inputState.rightSent);
+    } else {
+        inputState.rightSent = false;
+    }
+    // Handle horizontal stop
+    if (!keysPressed[sf::Keyboard::Left] && !keysPressed[sf::Keyboard::Right]) {
+        handle_horizontal_stop(vel);
+    }
+}
+
+void Core::update_animation(float deltaSeconds, std::optional<component::drawable>& drawable)
+{
+    if (!drawable) return;
+    animState.animationTimer += deltaSeconds;
+    if (animState.animationTimer >= FRAME_DURATION) {
+        animState.animationTimer = 0;
+        if (animState.currentFrame < MAX_FRAMES) {
+            animState.currentFrame++;
+            update_sprite_frame(drawable->sprite);
+        }
+    }
+}
+void Core::handle_idle_animation(float deltaSeconds, std::optional<component::drawable>& drawable)
+{
+    if (!drawable) return;
+    if (animState.currentFrame > 0) {
+        animState.animationTimer += deltaSeconds;
+        if (animState.animationTimer >= FRAME_DURATION) {
+            animState.animationTimer = 0;
+            animState.currentFrame--;
+            update_sprite_frame(drawable->sprite);
+        }
+    }
+}
+void Core::update_sprite_frame(sf::Sprite& sprite)
+{
+    sprite.setTextureRect(sf::IntRect(
+        animState.currentFrame * sprite.getTextureRect().width,
+        0,
+        sprite.getTextureRect().width,
+        sprite.getTextureRect().height
+    ));
+}
+void Core::send_input_if_needed(GameAction action, bool& sentFlag)
+{
+    if (!sentFlag) {
+        std::ostringstream messageStream;
+        messageStream << encode_action(action) << " " << network->getId();
+        network->send(messageStream.str());
+        sentFlag = true;
+    }
+}
+void Core::handle_vertical_stop(std::optional<component::velocity>& vel)
+{
+    if (!vel) return;
+    if (vel->vy != 0) {
+        std::ostringstream messageStream;
+        messageStream << encode_action(GameAction::STOP_Y) << " " << network->getId();
+        network->send(messageStream.str());
+        vel->vy = 0;
+    }
+}
+void Core::handle_horizontal_stop(std::optional<component::velocity>& vel)
+{
+    if (!vel) return;
+    if (vel->vx != 0) {
+        std::ostringstream messageStream;
+        messageStream << encode_action(GameAction::STOP_X) << " " << network->getId();
+        network->send(messageStream.str());
+        vel->vx = 0;
+    }
+}
+
 void Core::control_system()
 {
-    // Time-based movement calculation
-    sf::Time elapsedTime = deltaClock.restart();
-    float deltaSeconds = elapsedTime.asSeconds();
-    float baseSpeed = 600.f;
-
-    // Static variables for animation tracking
-    static int currentFrame = 0;
-    static float animationTimer = 0.0f;
-    const float FRAME_DURATION = 0.05f;
-
-    // Nouveaux static pour suivre l'état des touches
-    static bool upSent = false;
-    static bool downSent = false;
-    static bool leftSent = false;
-    static bool rightSent = false;
-
+    float deltaSeconds = deltaClock.restart().asSeconds();
     auto const &controllables = reg.get_components<component::controllable>();
     auto &velocities = reg.get_components<component::velocity>();
     auto &positions = reg.get_components<component::position>();
     auto &drawables = reg.get_components<component::drawable>();
-
-    for (size_t i = 0; i < controllables.size(); ++i)
-    {
+    for (size_t i = 0; i < controllables.size(); ++i) {
         auto const &controllable = controllables[i];
         auto &vel = velocities[i];
         auto &pos = positions[i];
         auto &drawable = drawables[i];
-
-        if (controllable && vel && drawable)
-        {
-            if (controllable.value().is_controllable)
-            {
-                sf::Vector2f movement(0.f, 0.f);
-
-                // Up movement with animation
-                if (keysPressed[sf::Keyboard::Up]) {
-                    movement.y -= baseSpeed * deltaSeconds;
-                    animationTimer += deltaSeconds;
-
-                    // Avance l'animation
-                    if (animationTimer >= FRAME_DURATION && currentFrame < 4) {
-                        currentFrame++;
-                        animationTimer = 0;
-                        
-                        // Update texture rect for animation
-                        sf::Sprite &sprite = drawable.value().sprite;
-                        sprite.setTextureRect(sf::IntRect(
-                            currentFrame * sprite.getTextureRect().width, 0,
-                            sprite.getTextureRect().width,
-                            sprite.getTextureRect().height
-                        ));
-                    }
-                    
-                    // Set velocity
-                    vel.value().vy = -1;
-
-                    // Envoie le message UP uniquement s'il n'a pas déjà été envoyé
-                    if (!upSent) {
-                        std::ostringstream messageStream;
-                        messageStream << encode_action(GameAction::UP) << " " << network->getId();
-                        network->send(messageStream.str());
-                        upSent = true;
-                    }
-                } else {
-                    // Réinitialise le flag quand la touche est relâchée
-                    upSent = false;
-                }
-
-                // Animation reset when not moving up
-                if (currentFrame > 0) {
-                    animationTimer += deltaSeconds;
-                    if (animationTimer >= FRAME_DURATION) {
-                        currentFrame--;
-                        animationTimer = 0;
-                        // Update texture rect for animation
-                        sf::Sprite &sprite = drawable.value().sprite;
-                        sprite.setTextureRect(sf::IntRect(
-                            currentFrame * sprite.getTextureRect().width, 0,
-                            sprite.getTextureRect().width,
-                            sprite.getTextureRect().height
-                        ));
-                    }
-                }
-
-                // Other directional movements - même logique pour DOWN, LEFT, RIGHT
-                if (keysPressed[sf::Keyboard::Down]) {
-                    movement.y += baseSpeed * deltaSeconds;
-                    vel.value().vy = 1;
-                    if (!downSent) {
-                        std::ostringstream messageStream;
-                        messageStream << encode_action(GameAction::DOWN) << " " << network->getId();
-                        network->send(messageStream.str());
-                        downSent = true;
-                    }
-                } else {
-                    downSent = false;
-                }
-
-                if (keysPressed[sf::Keyboard::Left]) {
-                    movement.x -= baseSpeed * deltaSeconds;
-                    vel.value().vx = -1;
-                    if (!leftSent) {
-                        std::ostringstream messageStream;
-                        messageStream << encode_action(GameAction::LEFT) << " " << network->getId();
-                        network->send(messageStream.str());
-                        leftSent = true;
-                    }
-                } else {
-                    leftSent = false;
-                }
-
-                if (keysPressed[sf::Keyboard::Right]) {
-                    movement.x += baseSpeed * deltaSeconds;
-                    vel.value().vx = 1;
-                    if (!rightSent) {
-                        std::ostringstream messageStream;
-                        messageStream << encode_action(GameAction::RIGHT) << " " << network->getId();
-                        network->send(messageStream.str());
-                        rightSent = true;
-                    }
-                } else {
-                    rightSent = false;
-
-                }
-
-                // Reset velocity if no movement keys are pressed
-                if (!keysPressed[sf::Keyboard::Left] && 
-                    !keysPressed[sf::Keyboard::Right]) {
-                    if (vel.value().vx != 0) {
-                        // Send STOP_X message only when velocity changes from non-zero to zero
-                        std::ostringstream messageStream;
-                        messageStream << encode_action(GameAction::STOP_X) << " " << network->getId();
-                        network->send(messageStream.str());
-                    }
-                    vel.value().vx = 0;
-                }
-                if (!keysPressed[sf::Keyboard::Up] && 
-                    !keysPressed[sf::Keyboard::Down]) {
-                    if (vel.value().vy != 0) {
-                        // Send STOP_Y message only when velocity changes from non-zero to zero
-                        std::ostringstream messageStream;
-                        messageStream << encode_action(GameAction::STOP_Y) << " " << network->getId();
-                        network->send(messageStream.str());
-                    }
-                    vel.value().vy = 0;
-                }
-            }
+        if (controllable && vel && drawable && controllable.value().is_controllable) {
+            handle_vertical_movement(deltaSeconds, vel, drawable);
+            handle_horizontal_movement(deltaSeconds, vel);
         }
     }
 }
@@ -342,7 +326,8 @@ void Core::control_system()
 void Core::gui_game() {
     load_spaceship();
     sf::Event event;
-    while (window.isOpen()) {;
+    sf::Clock clock_moove;
+    while (window.isOpen()) {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
@@ -359,7 +344,10 @@ void Core::gui_game() {
         buffer = network->receive().value_or("");
         handleCommands(buffer);
         control_system();
-        sys.position_system(reg);
+        if (clock_moove.getElapsedTime().asMilliseconds() > 1) {
+            sys.position_system(reg);
+            clock_moove.restart();
+        }
         window.clear();
         sys.draw_system(reg, window);
         window.display();
