@@ -20,7 +20,7 @@ void ServerGame::initTimers()
     setup_spawn_timer(*spawn_timer_);
     position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(1));
     setup_position_timer(*position_timer_);
-    conciliation_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(100));
+    conciliation_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(10));
     setup_conciliation_timer(*conciliation_timer_);
 
     //TODO: initialiser d'autres timers ici
@@ -48,7 +48,7 @@ void ServerGame::setup_conciliation_timer(boost::asio::steady_timer& conciliatio
     conciliation_timer.async_wait([this, &conciliation_timer](const boost::system::error_code& ec) {
         if (!ec) {
             positionConciliation();
-            conciliation_timer.expires_from_now(std::chrono::milliseconds(100));
+            conciliation_timer.expires_from_now(std::chrono::seconds(3));
             setup_conciliation_timer(conciliation_timer);
         }
     });

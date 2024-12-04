@@ -140,7 +140,7 @@ void Core::load_spaceship()
     // Handle multiple player connections
     int i = 0;
     for (const auto& buffer : messages) {
-        if (i + 1 == messages.size()) {
+        if (messages[i].rfind("OK", 0) == 0) {
             break;
         }
         std::cout << "Mess: " << buffer << "\n";
@@ -323,10 +323,31 @@ void Core::control_system()
     }
 }
 
+void Core::setup_position_timer(boost::asio::steady_timer& position_timer)
+{
+    position_timer.async_wait([this, &position_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            Systems::position_system(reg);
+            position_timer.expires_from_now(std::chrono::milliseconds(1));
+            setup_position_timer(position_timer);
+        }
+    });
+}
+
 void Core::gui_game() {
     load_spaceship();
     sf::Event event;
     sf::Clock clock_moove;
+
+    //TEST
+    position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(1));
+    setup_position_timer(*position_timer_);
+
+    io_thread_ = std::thread([this]() {
+            io_context_.run();
+    });
+    //FIN DU TEST
+
     while (window.isOpen()) {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
@@ -344,10 +365,10 @@ void Core::gui_game() {
         buffer = network->receive().value_or("");
         handleCommands(buffer);
         control_system();
-        if (clock_moove.getElapsedTime().asMilliseconds() > 1) {
+        /*if (clock_moove.getElapsedTime().asMilliseconds() > 1) {
             sys.position_system(reg);
             clock_moove.restart();
-        }
+        }*/
         window.clear();
         sys.draw_system(reg, window);
         window.display();

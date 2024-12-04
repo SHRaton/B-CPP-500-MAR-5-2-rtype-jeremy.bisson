@@ -46,7 +46,7 @@ std::string ServerNetwork::get_action_name(GameAction action) {
         case GameAction::STOP_X: return "STOP_X";
         case GameAction::STOP_Y: return "STOP_Y";
         case GameAction::POWER_UP: return "POWER_UP";
-        case GameAction::SHIELD: return "SHIELD";
+        case GameAction::POWER_UP_SPAWN: return "POWER_UP_SPAWN";
         case GameAction::RESPAWN: return "RESPAWN";
         case GameAction::CONNECT: return "CONNECT";
         case GameAction::DISCONNECT: return "DISCONNECT";
@@ -97,7 +97,8 @@ void ServerNetwork::handleConnect(const MediatorContext& context, const std::vec
     for (int i = 0; i < params.size() - 1; i++) {
         socket_.send_to(boost::asio::buffer(encode_action(GameAction::CONNECT) + " " + params[i]), client);
     }
-    broadcast_message(encode_action(GameAction::CONNECT) + " " + params[params.size() - 1]);
+    socket_.send_to(boost::asio::buffer("OK " + params[params.size() - 1]), client); //TODO: Remplacer OK par du binaire
+    broadcast_message(client, encode_action(GameAction::CONNECT) + " " + params[params.size() - 1]);
 }
 
 void ServerNetwork::handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params)

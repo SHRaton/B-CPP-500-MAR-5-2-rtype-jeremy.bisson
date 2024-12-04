@@ -136,4 +136,14 @@ class Core {
         Entity player;
         std::unordered_map<int, Entity> player_id_map;
         int nb_player;
+
+
+
+
+
+        //TEST
+        void setup_position_timer(boost::asio::steady_timer& position_timer);
+        std::unique_ptr<boost::asio::steady_timer> position_timer_;
+        boost::asio::io_context io_context_;
+        std::thread io_thread_;
 };
