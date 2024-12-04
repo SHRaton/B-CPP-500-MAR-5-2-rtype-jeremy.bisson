@@ -47,6 +47,8 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleMobSpawn(context, params);
         } else if (action == "MOVE") { //Pour la conciliation client side
             network->handleConciliation(context, params);
+        } else if (action == "POWER_UP_SPAWN") {
+            network->handlePowerUpSpawn(context, params);
         }
     }
 }

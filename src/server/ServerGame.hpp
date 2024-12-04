@@ -19,7 +19,9 @@ class ServerGame : public ISender {
         void setup_conciliation_timer(boost::asio::steady_timer& conciliation_timer_);
         void setup_position_timer(boost::asio::steady_timer& position_timer);
         void setup_spawn_timer(boost::asio::steady_timer& spawn_timer);
+        void setup_powerup_timer(boost::asio::steady_timer& powerup_timer);
         void spawnMob(int mob_type);
+        void spawnPowerUp(int powerup_type);
 
 
         //Chaque fonction doit se terminer par un appel à la classe Mediator
@@ -29,7 +31,7 @@ class ServerGame : public ISender {
         void handleShoot(const MediatorContext& context, const std::vector<std::string>& params);
         void handleMobSpawn(const MediatorContext& context, const std::vector<std::string>& params){};
         void handleConciliation(const MediatorContext& context, const std::vector<std::string>& params){};
-
+        void handlePowerUpSpawn(const MediatorContext& context, const std::vector<std::string>& params){};
 
 
         registry reg;
@@ -38,5 +40,6 @@ class ServerGame : public ISender {
         std::unique_ptr<boost::asio::steady_timer> spawn_timer_;
         std::unique_ptr<boost::asio::steady_timer> position_timer_;
         std::unique_ptr<boost::asio::steady_timer> conciliation_timer_;
+        std::unique_ptr<boost::asio::steady_timer> powerup_timer_;
         Mediator &med;
 };

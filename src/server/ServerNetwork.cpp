@@ -45,8 +45,8 @@ std::string ServerNetwork::get_action_name(GameAction action) {
         case GameAction::UP: return "UP";
         case GameAction::STOP_X: return "STOP_X";
         case GameAction::STOP_Y: return "STOP_Y";
-        case GameAction::SHIELD: return "SHOOT";
         case GameAction::POWER_UP: return "POWER_UP";
+        case GameAction::SHIELD: return "SHIELD";
         case GameAction::RESPAWN: return "RESPAWN";
         case GameAction::CONNECT: return "CONNECT";
         case GameAction::DISCONNECT: return "DISCONNECT";
@@ -129,6 +129,8 @@ void ServerNetwork::handleMoves(const std::string& action, const MediatorContext
     }
 }
 
+
+
 void ServerNetwork::handleShoot(const MediatorContext& context, const std::vector<std::string>& params)
 {
     boost::asio::ip::udp::endpoint client = context.client;
@@ -158,8 +160,12 @@ void ServerNetwork::handleConciliation(const MediatorContext& context, const std
 
 
 
-
-
+void ServerNetwork::handlePowerUpSpawn(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::POWER_UP_SPAWN) + " " + params[0] + " " + params[1];
+    broadcast_message(client, message);
+}
 
 
 void ServerNetwork::handle_game_message(const boost::asio::ip::udp::endpoint& sender, const GameMessage& msg)
