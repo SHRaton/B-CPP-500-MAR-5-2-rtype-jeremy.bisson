@@ -19,6 +19,8 @@ void ServerGame::initTimers()
     spawn_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(60));
     setup_spawn_timer(*spawn_timer_);
     //TODO: initialiser d'autres timers ici
+    powerup_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(60));
+    setup_powerup_timer(*powerup_timer_);
 
     io_thread_ = std::thread([this]() {
             io_context_.run();
@@ -35,6 +37,35 @@ void ServerGame::setup_spawn_timer(boost::asio::steady_timer& spawn_timer)
             setup_spawn_timer(spawn_timer);
         }
     });
+}
+
+void ServerGame::setup_powerup_timer(boost::asio::steady_timer& powerup_timer)
+{
+    std::cout << "Setting up powerup timer" << std::endl;
+    powerup_timer.async_wait([this, &powerup_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            spawnPowerUp(rand() % 2);
+            powerup_timer.expires_from_now(std::chrono::seconds(60));
+            setup_powerup_timer(powerup_timer);
+        }
+    });
+}
+
+void ServerGame::spawnPowerUp(int powerup_type)
+{
+    std::cout << "Spawning powerup" << std::endl;
+    Entity powerup = reg.spawn_entity();
+    int x = rand() % 1800;
+    int y = rand() % 900;
+    reg.emplace_component<component::position>(powerup, component::position{x, y});
+    reg.emplace_component<component::type>(powerup, component::type{powerup_type});
+    
+    std::vector<std::string> newParams;
+    newParams.push_back(std::to_string(powerup));
+    newParams.push_back(std::to_string(powerup_type));
+    newParams.push_back(std::to_string(x));
+    newParams.push_back(std::to_string(y));
+    med.notify(Sender::GAME, "POWERUP_SPAWN", newParams);
 }
 
 void ServerGame::spawnMob(int mob_type)

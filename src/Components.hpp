@@ -10,6 +10,10 @@ namespace component{
         int hp;
     } Health;
 
+    typedef struct type {
+        int type;
+    } Type;
+
     typedef struct damage {
         int dmg;
     } Damage;

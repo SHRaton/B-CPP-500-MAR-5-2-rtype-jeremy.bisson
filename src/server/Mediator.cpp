@@ -43,6 +43,8 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleMoves(action, context, params);
         } else if (action == "SHOOT") {
             network->handleShoot(context, params);
+        } else if (action == "POWER_UP_SPAWN") {
+            network->handlePowerUpSpawn(context, params);
         }
     }
 }

@@ -26,7 +26,7 @@ enum class GameAction {
     UP          = 0b0110,  // 6
     STOP        = 0b0111,  // 7
     POWER_UP    = 0b1000,  // 8
-    SHIELD       = 0b1001,  // 9
+    POWER_UP_SPAWN = 0b1001,  // 9
     RESPAWN     = 0b1010,  // 10
     MOB_SPAWN   = 0b1011,  // 11
     QUIT        = 0b1111,  // 15
@@ -67,6 +67,7 @@ private:
     void handleConnect(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleShoot(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handlePowerUpSpawn(const MediatorContext& context, const std::vector<std::string>& params) override;
 
     boost::asio::io_context io_context_;
     boost::asio::ip::udp::socket socket_;

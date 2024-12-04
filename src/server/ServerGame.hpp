@@ -16,7 +16,9 @@ class ServerGame : public ISender {
 
         void initTimers();
         void setup_spawn_timer(boost::asio::steady_timer& spawn_timer);
+        void setup_powerup_timer(boost::asio::steady_timer& powerup_timer);
         void spawnMob(int mob_type);
+        void spawnPowerUp(int powerup_type);
 
 
         //Chaque fonction doit se terminer par un appel à la classe Mediator
@@ -24,12 +26,13 @@ class ServerGame : public ISender {
         void handleDisconnect(const MediatorContext& context, const std::vector<std::string>& params);
         void handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params);
         void handleShoot(const MediatorContext& context, const std::vector<std::string>& params);
-
+        void handlePowerUpSpawn(const MediatorContext& context, const std::vector<std::string>& params){};
 
 
         registry reg;
         std::thread io_thread_;
         boost::asio::io_context io_context_;
         std::unique_ptr<boost::asio::steady_timer> spawn_timer_;
+        std::unique_ptr<boost::asio::steady_timer> powerup_timer_;
         Mediator &med;
 };
