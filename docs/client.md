@@ -1,67 +1,67 @@
-# Documentation Client R-Type
+# R-Type Client Documentation 🎮
 
-## Vue d'ensemble
+## Overview 👁️
 
-Le Client est le programme du joueur qui se connecte au serveur, crée/rejoint une instance de jeu et affiche le jeu.
+The Client is the player program that connects to the server, creates/joins a game instance, and displays the game.
 
-## Architecture
+## Architecture 🏗️
 
-Le client est divisé en 3 parties principales :
-- Affichage du jeu (Core et GUI)
-- Gestion des connexions/communication avec le serveur (UDPNetworkClient)
-- Système d'entités et composants (Registry)
+The client is divided into 3 main parts:
+- Game display (Core and GUI)
+- Connection management/server communication (UDPNetworkClient)
+- Entity and component system (Registry)
 
-## Affichage du jeu
+## Game Display 🖥️
 
-### Structure des fichiers
+### File Structure
 ```
 src/client/
-├── Core.cpp       # Gestion principale du jeu
-└── GuiGame.cpp    # Interface graphique du jeu
+├── Core.cpp       # Main game management
+└── GuiGame.cpp    # Game graphical interface
 ```
 
-### Fonctionnalités principales
+### Main Features ⭐
 
-La bibliothèque SFML est utilisée pour l'affichage du jeu. Le client dispose de plusieurs interfaces graphiques :
-1. Menu principal
-2. Écran de connexion 
-3. Interface de jeu
+SFML library is used for game display. The client has several graphical interfaces:
+1. Main menu
+2. Connection screen
+3. Game interface
 
-#### Classe Core
+#### Core Class 🎯
 
-La classe `Core` gère :
-- Le chargement des ressources via `loadAssets()`
-- L'initialisation de la fenêtre SFML
-- La gestion des sprites et leur ordre d'affichage
-- Le système de composants via un Registry
+The `Core` class manages:
+- Resource loading via `loadAssets()`
+- SFML window initialization
+- Sprite management and display order
+- Component system via Registry
 
-#### Collections de sprites
+#### Sprite Collections 🎨
 
 ```cpp
-sprites_menu     // Sprites du menu principal
-sprites_login    // Sprites de l'écran de connexion  
-sprites_game     // Sprites du jeu
+sprites_menu     // Main menu sprites
+sprites_login    // Login screen sprites
+sprites_game     // Game sprites
 ```
 
-#### Boucle principale
+#### Main Loop 🔄
 
-La fonction `gui_game()` gère :
-- Les événements clavier
-- La mise à jour des positions des joueurs
-- L'affichage des sprites de fond
-- L'affichage du vaisseau du joueur et des autres joueurs
-- L'affichage des informations de FPS et latence
+The `gui_game()` function manages:
+- Keyboard events
+- Player position updates
+- Background sprite display
+- Player ship and other players display
+- FPS and latency information display
 
-## Gestion des mouvements
+## Movement Management 🕹️
 
-La fonction `handleMoove()` implémente :
+The `handleMoove()` function implements:
 
-### Contrôles
-- Touches directionnelles pour le déplacement
-- Animation du sprite du vaisseau
-- Envoi des nouvelles positions au serveur via UDP
+### Controls
+- Directional keys for movement
+- Ship sprite animation
+- Sending new positions to server via UDP
 
-### Exemple de code de mouvement
+### Movement Code Example
 ```cpp
 if (keysPressed[sf::Keyboard::Up]) {
     movement.y -= baseSpeed * deltaSeconds;
@@ -69,37 +69,37 @@ if (keysPressed[sf::Keyboard::Up]) {
 }
 ```
 
-## Communication réseau 
+## Network Communication 📡
 
-### Classe UDPNetworkClient
+### UDPNetworkClient Class
 
-Fonctionnalités :
-- Connexion UDP avec le serveur
-- Files d'attente de messages
-- Thread dédié pour les opérations réseau
+Features:
+- UDP connection with server
+- Message queues
+- Dedicated network operations thread
 
-### Protocole
+### Protocol
 
-Messages principaux :
+Main messages:
 ```
-MOVE id x y     # Mise à jour de la position d'un joueur
-CONNECT id      # Connexion d'un nouveau joueur
+MOVE id x y     # Player position update
+CONNECT id      # New player connection
 ```
 
-## Système d'entités (ECS)
+## Entity System (ECS) 🧩
 
-### Components disponibles
+### Available Components
 
 | Component    | Description                |
 |-------------|----------------------------|
-| position    | Position 2D                |
-| velocity    | Vitesse de déplacement     |
-| drawable    | Ressources graphiques      |
-| controllable| Contrôle de l'entité       |
+| position    | 2D Position                |
+| velocity    | Movement speed             |
+| drawable    | Graphical resources        |
+| controllable| Entity control             |
 
-### Initialisation
+### Initialization
 
-Dans `loadAssets()` :
+In `loadAssets()`:
 ```cpp
 reg.register_component<component::position>();
 reg.register_component<component::velocity>();
@@ -107,36 +107,36 @@ reg.register_component<component::drawable>();
 reg.register_component<component::controllable>();
 ```
 
-## Configuration
+## Configuration ⚙️
 
-### Paramètres par défaut
+### Default Parameters
 ```cpp
-fps = 200           // Limite de FPS
-baseSpeed = 600.f   // Vitesse de base du vaisseau
-str_ip = "127.0.0.1"// IP par défaut
-str_port = "8080"   // Port par défaut
+fps = 200           // FPS limit
+baseSpeed = 600.f   // Base ship speed
+str_ip = "127.0.0.1"// Default IP
+str_port = "8080"   // Default port
 ```
 
-## Structure des assets
+## Asset Structure 📁
 
 ```
-ressources/
+resources/
 ├── sprites/
-│   └── vaisseau{id}.png    # Sprites des vaisseaux
+│   └── ship{id}.png       # Ship sprites
 ├── background/
-│   ├── background.png      # Fond
-│   ├── small_stars.png     # Étoiles
-│   ├── poudreBleu.png      # Galaxie bleue
-│   └── ...                 # Autres éléments d'interface
+│   ├── background.png     # Background
+│   ├── small_stars.png    # Stars
+│   ├── blueNebula.png    # Blue galaxy
+│   └── ...               # Other interface elements
 └── fonts/
-    └── NicoMoji.ttf        # Police principale
+    └── NicoMoji.ttf      # Main font
 ```
 
-### Ajout de nouveaux assets
+### Adding New Assets 🎨
 
-1. Placer les fichiers dans le dossier approprié
-2. Ajouter dans `loadAssets()` :
+1. Place files in appropriate folder
+2. Add in `loadAssets()`:
 ```cpp
-sprites_game["nouveau_sprite"] = Sprite("../ressources/path/to/sprite.png", true);
-drawOrder_game.push_back("nouveau_sprite");
+sprites_game["new_sprite"] = Sprite("../resources/path/to/sprite.png", true);
+drawOrder_game.push_back("new_sprite");
 ```
