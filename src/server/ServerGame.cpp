@@ -117,3 +117,16 @@ void ServerGame::handleMoves(const std::string& action, const MediatorContext& c
     }
     med.notify(Sender::GAME, action, params, context);
 }
+
+void ServerGame::handleShoot(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    Entity bullet = reg.spawn_entity();
+    auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
+    reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
+    reg.emplace_component<component::velocity>(bullet, component::velocity{10, 0});
+
+    std::vector<std::string> newParams;
+    newParams.push_back(std::to_string(positions.x));
+    newParams.push_back(std::to_string(positions.y));
+    med.notify(Sender::GAME, "SHOOT", newParams, context);
+}

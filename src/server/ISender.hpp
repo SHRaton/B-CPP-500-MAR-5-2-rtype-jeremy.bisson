@@ -12,5 +12,6 @@ public:
     virtual void handleConnect(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual void handleDisconnect(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual void handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params) = 0;
+    virtual void handleShoot(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual ~ISender() = default;
 };

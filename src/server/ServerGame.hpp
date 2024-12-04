@@ -23,6 +23,7 @@ class ServerGame : public ISender {
         void handleConnect(const MediatorContext& context, const std::vector<std::string>& params);
         void handleDisconnect(const MediatorContext& context, const std::vector<std::string>& params);
         void handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params);
+        void handleShoot(const MediatorContext& context, const std::vector<std::string>& params);
 
 
 
