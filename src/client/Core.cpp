@@ -83,24 +83,44 @@ void Core::loadAssets()
     };
 
     sprites_game = {
-        {"background", Sprite("../ressources/background/background.png", true)},
-        {"small_stars", Sprite("../ressources/background/small_stars.png", true, 1.0f, 20)},
-        {"blueGalaxy", Sprite("../ressources/background/poudreBleu.png", true, 1.0f, 90)},
+        {"background", Sprite("../ressources/background/background.png", true, 4.5)},
+        {"small_stars", Sprite("../ressources/background/small_stars.png", true, 2.0f, 20)},
     };
     drawOrder_game = {
         "background",
         "small_stars",
-        "blueGalaxy",
     };
+
     font.loadFromFile("../ressources/fonts/NicoMoji.ttf");
     str_name = "Raton";
     str_ip = "127.0.0.1";
     str_port = "8080";
-    str_failed = "nooby failed to connect";
+    str_failed = "Connection Failed";
 
     failed_connection = 0;
     select_button = 0;
 
     fps = 200;
     baseSpeed = 1;
+
+    //MUSIC MENU + LOGIN
+    if (!menuMusic.openFromFile("../ressources/sounds/menu.wav")) {
+        std::cout << "Error loading menu music" << std::endl;
+    }
+    menuMusic.setLoop(true);
+    menuMusic.setVolume(50.0f);
+
+    // MUSIC JEU
+    if (!Game1Music.openFromFile("../ressources/sounds/game1.wav")) {
+        std::cout << "Error loading menu music" << std::endl;
+    }
+    Game1Music.setLoop(true);
+    Game1Music.setVolume(42.0f);
+
+    // SONS
+     if (!buttonBuffer_click.loadFromFile("../ressources/sounds/click.wav")) {
+        std::cout << "Error loading button sound" << std::endl;
+    }
+    buttonSound_click.setBuffer(buttonBuffer_click);
+    buttonSound_click.setVolume(70.0f);
 }

@@ -14,6 +14,9 @@ void Core::gui_menu() {
     sprites_menu["quit"].setScale({0.5, 0.5});
     sprites_menu["quit"].setPosition({960, 800});
 
+    menuMusic.play();
+
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -30,9 +33,11 @@ void Core::gui_menu() {
             if (event.type == sf::Event::MouseButtonPressed && 
                 event.mouseButton.button == sf::Mouse::Left) {
                 if (sprites_menu["play"].isMouseOver(window)) {
+                    buttonSound_click.play();
                     gui_login();
                 }
                 if (sprites_menu["quit"].isMouseOver(window)) {
+                    buttonSound_click.play();
                     window.close();
                 }
             }

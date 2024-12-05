@@ -351,6 +351,10 @@ void Core::gui_game() {
     load_spaceship();
     sf::Event event;
 
+    menuMusic.stop();
+    Game1Music.play();
+
+
     position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(1));
     setup_position_timer(*position_timer_);
     io_thread_ = std::thread([this]() {

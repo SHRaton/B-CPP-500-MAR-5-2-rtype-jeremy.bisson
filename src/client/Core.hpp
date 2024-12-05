@@ -8,6 +8,7 @@
 #include <cstddef>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
 #include "Sprite.hpp"
 #include "UDPNetworkClient.hpp"
 #include <sstream>
@@ -135,7 +136,14 @@ class Core {
         Entity player;
         std::unordered_map<int, Entity> player_id_map;
         int nb_player;
+        
 
+        //SOUNDS
+
+        sf::Music menuMusic;
+        sf::Music Game1Music;
+        sf::SoundBuffer buttonBuffer_click;
+        sf::Sound buttonSound_click;
 
 
 
