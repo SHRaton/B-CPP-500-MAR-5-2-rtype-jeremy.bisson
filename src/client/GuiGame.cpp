@@ -23,7 +23,7 @@ void Core::handleCommands(std::string command)
             positions[id].value().x = x;
             positions[id].value().y = y;
         } else {
-            std::cout << "Erreur : ID joueur invalide." << std::endl;
+            std::cout << "Erreur : ID de l'Entitée invalide." << std::endl;
         }
     } else if (command.rfind(encode_action(GameAction::MOB_SPAWN), 0) == 0) {
         std::istringstream iss(command);
@@ -32,18 +32,19 @@ void Core::handleCommands(std::string command)
         iss >> code >> mob_type >> x >> y;
         auto newMob = reg.spawn_entity();
         sf::Sprite mob = utils.cat("../ressources/sprites/mob" + std::to_string(mob_type) + ".png");
+        mob.setPosition(x, y);
         reg.emplace_component<component::position>(newMob, component::position{x, y});
         if (mob_type == 0) {
             reg.emplace_component<component::health>(newMob, component::health{300});
             reg.emplace_component<component::damage>(newMob, component::damage{10});
-            reg.emplace_component<component::velocity>(newMob, component::velocity{1, 1});
+            reg.emplace_component<component::velocity>(newMob, component::velocity{-1, 0});
         } else if (mob_type == 1) {
             reg.emplace_component<component::health>(newMob, component::health{100});
             reg.emplace_component<component::damage>(newMob, component::damage{40});
-            reg.emplace_component<component::velocity>(newMob, component::velocity{2, 2});
+            reg.emplace_component<component::velocity>(newMob, component::velocity{-2, 0});
         }
         reg.emplace_component<component::drawable>(newMob, component::drawable{mob});
-        std::cout << "MOB SPAWNED AT " << x << " / " << y << std::endl;
+        std::cout << "MOB" << newMob << "SPAWNED AT " << x << " / " << y << std::endl;
 
     } else if (command.rfind(encode_action(GameAction::CONNECT), 0) == 0) {
         std::istringstream iss(command);
@@ -53,9 +54,10 @@ void Core::handleCommands(std::string command)
 
         // Spawn new entity in the registry
         auto newPlayer = reg.spawn_entity();
+        nb_player++;
 
         // Load sprite
-        sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(id) + ".png");
+        sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(nb_player) + ".png");
 
         // Set up sprite
         vaisseau.setPosition(200, 500);
@@ -164,15 +166,16 @@ void Core::load_spaceship()
         }
         std::cout << "Mess: " << buffer << "\n";
         if (buffer.rfind(encode_action(GameAction::CONNECT), 0) == 0) {
+            nb_player++;
             std::istringstream iss(buffer);
             std::string code;
             int id;
             iss >> code >> id;
 
             auto newPlayer = reg.spawn_entity();
-            std::cout << "Créer AUTRE sprite " << id << std::endl;
+            std::cout << "Créer AUTRE sprite " << i << std::endl;
 
-            sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(id) + ".png");
+            sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(i) + ".png");
             vaisseau.setPosition(200, 500);
             sf::IntRect rect(0, 0, vaisseau.getGlobalBounds().width / 5, vaisseau.getGlobalBounds().height);
             vaisseau.setTextureRect(rect);
@@ -190,9 +193,8 @@ void Core::load_spaceship()
     if (!messages.empty()) {
         // Création du joueur
         player = reg.spawn_entity();
-        std::cout << "Créer NOTRE sprite " << player << std::endl;
         network->setId(player);
-        std::cout << "ID DU PLAYER : " << player << "\n";
+        std::cout << "Créer NOTRE sprite " << player << std::endl;
         reg.emplace_component<component::position>(player, component::position{200, 500});
         reg.emplace_component<component::velocity>(player, component::velocity{0, 0});
         sf::Sprite sprite = utils.cat("../ressources/sprites/vaisseau" + std::to_string(player) + ".png");
@@ -205,23 +207,31 @@ void Core::load_spaceship()
 }
 
 void Core::handle_vertical_movement(float deltaSeconds, std::optional<component::velocity>& vel,
-                                    std::optional<component::drawable>& drawable)
+                                    std::optional<component::drawable>& drawable, std::optional<component::position>& pos)
 {
     if (!vel || !drawable) return;
 
     // Handle upward movement
     if (keysPressed[sf::Keyboard::Up]) {
-        update_animation(deltaSeconds, drawable);
-        vel->vy = -baseSpeed;
-        send_input_if_needed(GameAction::UP, inputState.upSent);
+        if (pos.value().y < 0) {
+            handle_vertical_stop(vel);
+        } else {
+            update_animation(deltaSeconds, drawable);
+            vel->vy = -baseSpeed;
+            send_input_if_needed(GameAction::UP, inputState.upSent);
+        }
     } else {
         inputState.upSent = false;
         handle_idle_animation(deltaSeconds, drawable);
     }
     // Handle downward movement
     if (keysPressed[sf::Keyboard::Down]) {
-        vel->vy = baseSpeed;
-        send_input_if_needed(GameAction::DOWN, inputState.downSent);
+        if (pos.value().y > 970) {
+            handle_vertical_stop(vel);
+        } else {
+            vel->vy = baseSpeed;
+            send_input_if_needed(GameAction::DOWN, inputState.downSent);
+        }
     } else {
         inputState.downSent = false;
     }
@@ -317,6 +327,31 @@ void Core::handle_horizontal_stop(std::optional<component::velocity>& vel)
     }
 }
 
+void Core::handle_shoot(float deltaSeconds, std::optional<component::position>& pos)
+{
+    if (!pos) return;
+
+    shootCooldown += deltaSeconds;
+    shootCooldown = std::min(shootCooldown / 1.0f, 1.0f);
+    shootBar.setSize(sf::Vector2f(70 * shootCooldown, 5));
+    shootBar.setPosition(pos.value().x, pos.value().y - 20);
+
+    if (keysPressed[sf::Keyboard::A] && shootCooldown >= 1.0f) {
+        send_input_if_needed(GameAction::SHOOT, inputState.shootSent);
+        Entity missile =  reg.spawn_entity();
+        reg.emplace_component<component::position>(missile, component::position{pos.value().x + 100, pos.value().y});
+        reg.emplace_component<component::velocity>(missile, component::velocity{1, 0});
+        sf::Sprite sprite = utils.cat("../ressources/sprites/shoot.png");
+        sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
+        reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
+        reg.emplace_component<component::controllable>(missile, component::controllable{false});
+
+        shootCooldown = 0.0f;
+    } else {
+        inputState.shootSent = false;
+    }
+}
+
 void Core::control_system()
 {
     float deltaSeconds = deltaClock.restart().asSeconds();
@@ -329,9 +364,10 @@ void Core::control_system()
         auto &vel = velocities[i];
         auto &pos = positions[i];
         auto &drawable = drawables[i];
-        if (controllable && vel && drawable && controllable.value().is_controllable) {
-            handle_vertical_movement(deltaSeconds, vel, drawable);
+        if (controllable && vel && drawable && controllable.value().is_controllable && pos) {
+            handle_vertical_movement(deltaSeconds, vel, drawable, pos);
             handle_horizontal_movement(deltaSeconds, vel);
+            handle_shoot(deltaSeconds, pos);
         }
     }
 }
@@ -345,6 +381,25 @@ void Core::setup_position_timer(boost::asio::steady_timer& position_timer)
             setup_position_timer(position_timer);
         }
     });
+}
+
+void Core::update_hud()
+{
+    fpsText.setFont(font);
+    fpsText.setCharacterSize(20);
+    fpsText.setFillColor(sf::Color::Green);
+    fpsText.setPosition(10, 10);
+    latencyText.setFont(font);
+    latencyText.setCharacterSize(20);
+    latencyText.setFillColor(sf::Color::Green);
+    latencyText.setPosition(10, 40);
+    float fps = 1.f / fpsClock.restart().asSeconds();
+    if (latencyClock.getElapsedTime().asSeconds() > 1.f) {
+        int latency = 32;
+        latencyText.setString("Ping: " + std::to_string(latency) + " ms");
+        fpsText.setString("FPS: " + std::to_string(static_cast<int>(fps)));
+        latencyClock.restart();
+    }
 }
 
 void Core::gui_game() {
@@ -379,22 +434,7 @@ void Core::gui_game() {
         network->print_message_queue();
         buffer = network->receive().value_or("");
         handleCommands(buffer);
-        // Configure les propriétés des textes
-        fpsText.setFont(font);
-        fpsText.setCharacterSize(20);
-        fpsText.setFillColor(sf::Color::Green);
-        fpsText.setPosition(10, 10);
-        latencyText.setFont(font);
-        latencyText.setCharacterSize(20);
-        latencyText.setFillColor(sf::Color::Green);
-        latencyText.setPosition(10, 40);
-        float fps = 1.f / fpsClock.restart().asSeconds();
-        if (latencyClock.getElapsedTime().asSeconds() > 1.f) {
-            int latency = 32;
-            latencyText.setString("Ping: " + std::to_string(latency) + " ms");
-            fpsText.setString("FPS: " + std::to_string(static_cast<int>(fps)));
-            latencyClock.restart();
-        }
+        update_hud();
         control_system();
         for (auto& [name, sprite] : sprites_game) {
             sprite.update();
@@ -406,6 +446,7 @@ void Core::gui_game() {
         sys.draw_system(reg, window);
         window.draw(fpsText);
         window.draw(latencyText);
+        window.draw(shootBar);
         window.display();
     }
 }
