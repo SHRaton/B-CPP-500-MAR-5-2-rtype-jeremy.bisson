@@ -17,7 +17,7 @@ ServerGame::ServerGame(Mediator &med) : med(med)
 
 void ServerGame::initTimers()
 {
-    spawn_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(10));
+    spawn_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(20));
     setup_spawn_timer(*spawn_timer_);
     position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(1));
     setup_position_timer(*position_timer_);
@@ -77,7 +77,7 @@ void ServerGame::setup_spawn_timer(boost::asio::steady_timer& spawn_timer)
     spawn_timer.async_wait([this, &spawn_timer](const boost::system::error_code& ec) {
         if (!ec) {
             spawnMob(rand() % 2); // Choix aléatoire du type de mob
-            spawn_timer.expires_from_now(std::chrono::seconds(20)); //TODO: si on veut changer le temps de spawn
+            spawn_timer.expires_from_now(std::chrono::seconds(2)); //TODO: si on veut changer le temps de spawn
             setup_spawn_timer(spawn_timer);
         }
     });
@@ -116,17 +116,17 @@ void ServerGame::spawnMob(int mob_type)
 {
     std::cout << "Spawning mob" << std::endl;
     Entity mob = reg.spawn_entity();
-    int x = 1800;
+    int x = 1000;
     int y = rand() % 900;
     reg.emplace_component<component::position>(mob, component::position{x, y});
     if (mob_type == 0) {
         reg.emplace_component<component::health>(mob, component::health{300});
         reg.emplace_component<component::damage>(mob, component::damage{10});
-        reg.emplace_component<component::velocity>(mob, component::velocity{1, 1});
+        reg.emplace_component<component::velocity>(mob, component::velocity{-1, 0});
     } else if (mob_type == 1) {
         reg.emplace_component<component::health>(mob, component::health{100});
         reg.emplace_component<component::damage>(mob, component::damage{40});
-        reg.emplace_component<component::velocity>(mob, component::velocity{2, 2});
+        reg.emplace_component<component::velocity>(mob, component::velocity{-2, 0});
     } // rajouter d'autres types de mobs ici
     std::vector<std::string> newParams;
     newParams.push_back(std::to_string(mob_type));
@@ -143,7 +143,7 @@ void ServerGame::spawnMob(int mob_type)
 void ServerGame::handleConnect(const MediatorContext& context, const std::vector<std::string>& params)
 {
     Entity player = reg.spawn_entity();
-    reg.emplace_component<component::position>(player, component::position{0, 0});
+    reg.emplace_component<component::position>(player, component::position{200, 500});
     reg.emplace_component<component::velocity>(player, component::velocity{0, 0});
     reg.emplace_component<component::controllable>(player, component::controllable{true});
     reg.emplace_component<component::health>(player, component::health{100});
@@ -197,7 +197,7 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
     Entity bullet = reg.spawn_entity();
     auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
     reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
-    reg.emplace_component<component::velocity>(bullet, component::velocity{10, 0});
+    reg.emplace_component<component::velocity>(bullet, component::velocity{1, 0});
 
     std::vector<std::string> newParams;
     newParams.push_back(std::to_string(positions.x));

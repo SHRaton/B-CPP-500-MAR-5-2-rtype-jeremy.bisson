@@ -102,6 +102,10 @@ void Core::loadAssets()
 
     fps = 200;
     baseSpeed = 1;
+    shootCooldown = 0.0f;
+    shootBar.setFillColor(sf::Color::Blue);
+    shootBar.setPosition(100, 70);
+    shootBar.setSize(sf::Vector2f(70, 5));
 
     //MUSIC MENU + LOGIN
     if (!menuMusic.openFromFile("../ressources/sounds/menu.wav")) {

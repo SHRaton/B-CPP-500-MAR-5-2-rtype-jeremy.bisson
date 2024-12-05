@@ -83,6 +83,7 @@ class Core {
         // Sprites
         std::unordered_map<sf::Keyboard::Key, bool> keysPressed;
         sf::Sprite vaisseau;
+        sf::RectangleShape shootBar;
 
         std::map<std::string, Sprite> sprites_menu;
         std::vector<std::string> drawOrder_menu;
@@ -119,9 +120,13 @@ class Core {
             bool downSent = false;
             bool leftSent = false;
             bool rightSent = false;
+            bool shootSent = false;
         };
 
-        void handle_vertical_movement(float deltaSeconds, std::optional<component::velocity>& vel, std::optional<component::drawable>& drawable);
+        float shootCooldown;
+
+        void handle_vertical_movement(float deltaSeconds, std::optional<component::velocity>& vel,
+        std::optional<component::drawable>& drawable, std::optional<component::position>& pos);
         void handle_horizontal_movement(float deltaSeconds, std::optional<component::velocity>& vel);
         void update_animation(float deltaSeconds, std::optional<component::drawable>& drawable);
         void handle_idle_animation(float deltaSeconds, std::optional<component::drawable>& drawable);
@@ -129,6 +134,9 @@ class Core {
         void send_input_if_needed(GameAction action, bool& sentFlag);
         void handle_vertical_stop(std::optional<component::velocity>& vel);
         void handle_horizontal_stop(std::optional<component::velocity>& vel);
+        void handle_shoot(float deltaSeconds, std::optional<component::position>& pos);
+
+        void update_hud();
 
         AnimationState animState;
         InputState inputState;
@@ -136,7 +144,6 @@ class Core {
         Entity player;
         std::unordered_map<int, Entity> player_id_map;
         int nb_player;
-        
 
         //SOUNDS
 
@@ -144,8 +151,6 @@ class Core {
         sf::Music Game1Music;
         sf::SoundBuffer buttonBuffer_click;
         sf::Sound buttonSound_click;
-
-
 
 
         //TEST
