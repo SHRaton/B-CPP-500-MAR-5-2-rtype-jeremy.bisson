@@ -80,20 +80,19 @@ void Core::loadAssets()
     };
 
     sprites_game = {
-        {"background", Sprite("../ressources/background/background.png", true)},
-        {"small_stars", Sprite("../ressources/background/small_stars.png", true, 1.0f, 20)},
-        {"blueGalaxy", Sprite("../ressources/background/poudreBleu.png", true, 1.0f, 90)},
+        {"background", Sprite("../ressources/background/background.png", true, 4.5)},
+        {"small_stars", Sprite("../ressources/background/small_stars.png", true, 2.0f, 20)},
     };
     drawOrder_game = {
         "background",
         "small_stars",
-        "blueGalaxy",
     };
+
     font.loadFromFile("../ressources/fonts/NicoMoji.ttf");
     str_name = "Raton";
     str_ip = "127.0.0.1";
     str_port = "8080";
-    str_failed = "nooby failed to connect";
+    str_failed = "Connection Failed";
 
     failed_connection = 0;
     select_button = 0;
