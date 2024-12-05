@@ -61,7 +61,7 @@ void Core::handleCommands(std::string command)
         auto &velocities = reg.get_components<component::velocity>();  // Ajout des vélocités
 
         if (id >= 0 && id < positions.size() && positions[id] && drawables[id] && velocities[id]) {
-            velocities[id].value().vy = -1;  // Définit une vélocité constante vers le haut
+            velocities[id].value().vy = -baseSpeed;  // Définit une vélocité constante vers le haut
         }
     } else if (command.rfind(encode_action(GameAction::DOWN), 0) == 0) {
         std::istringstream iss(command);
@@ -74,7 +74,7 @@ void Core::handleCommands(std::string command)
         auto &velocities = reg.get_components<component::velocity>();
 
         if (id >= 0 && id < positions.size() && positions[id] && drawables[id] && velocities[id]) {
-            velocities[id].value().vy = 1;  // Définit une vélocité constante vers le bas
+            velocities[id].value().vy = baseSpeed;  // Définit une vélocité constante vers le bas
         }
     } else if (command.rfind(encode_action(GameAction::LEFT), 0) == 0) {
         std::istringstream iss(command);
@@ -87,7 +87,7 @@ void Core::handleCommands(std::string command)
         auto &velocities = reg.get_components<component::velocity>();
 
         if (id >= 0 && id < positions.size() && positions[id] && drawables[id] && velocities[id]) {
-            velocities[id].value().vx = -1;  // Définit une vélocité constante vers la gauche
+            velocities[id].value().vx = -baseSpeed;  // Définit une vélocité constante vers la gauche
         }
     } else if (command.rfind(encode_action(GameAction::RIGHT), 0) == 0) {
         std::istringstream iss(command);
@@ -100,7 +100,7 @@ void Core::handleCommands(std::string command)
         auto &velocities = reg.get_components<component::velocity>();
 
         if (id >= 0 && id < positions.size() && positions[id] && drawables[id] && velocities[id]) {
-            velocities[id].value().vx = 1;  // Définit une vélocité constante vers la droite
+            velocities[id].value().vx = baseSpeed;  // Définit une vélocité constante vers la droite
         }
     } else if (command.rfind(encode_action(GameAction::STOP_X), 0) == 0) {
         std::istringstream iss(command);
@@ -190,12 +190,10 @@ void Core::handle_vertical_movement(float deltaSeconds, std::optional<component:
 {
     if (!vel || !drawable) return;
 
-    sf::Vector2f movement(0.f, 0.f);
     // Handle upward movement
     if (keysPressed[sf::Keyboard::Up]) {
-        movement.y -= BASE_SPEED * deltaSeconds;
         update_animation(deltaSeconds, drawable);
-        vel->vy = -1;
+        vel->vy = -baseSpeed;
         send_input_if_needed(GameAction::UP, inputState.upSent);
     } else {
         inputState.upSent = false;
@@ -203,8 +201,7 @@ void Core::handle_vertical_movement(float deltaSeconds, std::optional<component:
     }
     // Handle downward movement
     if (keysPressed[sf::Keyboard::Down]) {
-        movement.y += BASE_SPEED * deltaSeconds;
-        vel->vy = 1;
+        vel->vy = baseSpeed;
         send_input_if_needed(GameAction::DOWN, inputState.downSent);
     } else {
         inputState.downSent = false;
@@ -218,19 +215,16 @@ void Core::handle_vertical_movement(float deltaSeconds, std::optional<component:
 void Core::handle_horizontal_movement(float deltaSeconds, std::optional<component::velocity>& vel)
 {
     if (!vel) return;
-    sf::Vector2f movement(0.f, 0.f);
     // Handle left movement
     if (keysPressed[sf::Keyboard::Left]) {
-        movement.x -= BASE_SPEED * deltaSeconds;
-        vel->vx = -1;
+        vel->vx = -baseSpeed;
         send_input_if_needed(GameAction::LEFT, inputState.leftSent);
     } else {
         inputState.leftSent = false;
     }
     // Handle right movement
     if (keysPressed[sf::Keyboard::Right]) {
-        movement.x += BASE_SPEED * deltaSeconds;
-        vel->vx = 1;
+        vel->vx = baseSpeed;
         send_input_if_needed(GameAction::RIGHT, inputState.rightSent);
     } else {
         inputState.rightSent = false;
@@ -337,22 +331,20 @@ void Core::setup_position_timer(boost::asio::steady_timer& position_timer)
 void Core::gui_game() {
     load_spaceship();
     sf::Event event;
-    sf::Clock clock_moove;
 
-    //TEST
     position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(1));
     setup_position_timer(*position_timer_);
-
     io_thread_ = std::thread([this]() {
             io_context_.run();
     });
-    //FIN DU TEST
 
+    window.setFramerateLimit(fps);
     while (window.isOpen()) {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                 window.close();
+                exit (0);
             }
             if (event.type == sf::Event::KeyPressed) {
                 keysPressed[event.key.code] = true;
@@ -364,13 +356,33 @@ void Core::gui_game() {
         network->print_message_queue();
         buffer = network->receive().value_or("");
         handleCommands(buffer);
+        // Configure les propriétés des textes
+        fpsText.setFont(font);
+        fpsText.setCharacterSize(20);
+        fpsText.setFillColor(sf::Color::Green);
+        fpsText.setPosition(10, 10);
+        latencyText.setFont(font);
+        latencyText.setCharacterSize(20);
+        latencyText.setFillColor(sf::Color::Green);
+        latencyText.setPosition(10, 40);
+        float fps = 1.f / fpsClock.restart().asSeconds();
+        if (latencyClock.getElapsedTime().asSeconds() > 1.f) {
+            int latency = 32;
+            latencyText.setString("Ping: " + std::to_string(latency) + " ms");
+            fpsText.setString("FPS: " + std::to_string(static_cast<int>(fps)));
+            latencyClock.restart();
+        }
         control_system();
-        /*if (clock_moove.getElapsedTime().asMilliseconds() > 1) {
-            sys.position_system(reg);
-            clock_moove.restart();
-        }*/
+        for (auto& [name, sprite] : sprites_game) {
+            sprite.update();
+        }
         window.clear();
+        for (const auto& name : drawOrder_game) {
+            window.draw(sprites_game[name].getSprite());
+        }
         sys.draw_system(reg, window);
+        window.draw(fpsText);
+        window.draw(latencyText);
         window.display();
     }
 }

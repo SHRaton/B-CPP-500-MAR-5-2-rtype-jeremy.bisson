@@ -9,7 +9,8 @@ int main(int argc, char* argv[]) {
     Core core;
     if (argc == 3) {
         core.login_auto(std::string(argv[1]), std::string(argv[2]));
+    } else if (argc == 1) {
+        core.gui(argc, argv);
     }
-    core.gui(argc, argv);
     return 0;
 }

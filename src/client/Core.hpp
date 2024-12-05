@@ -104,7 +104,6 @@ class Core {
         sf::Clock clock_mess;
         std::string encode_action(GameAction action);
         // Constants
-        static constexpr float BASE_SPEED = 600.f;
         static constexpr float FRAME_DURATION = 0.05f;
         static constexpr int MAX_FRAMES = 4;
         // Animation state

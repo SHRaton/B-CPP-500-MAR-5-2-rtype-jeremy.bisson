@@ -99,4 +99,5 @@ void Core::loadAssets()
     select_button = 0;
 
     fps = 200;
+    baseSpeed = 1;
 }
