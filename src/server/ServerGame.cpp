@@ -8,6 +8,7 @@ ServerGame::ServerGame(Mediator &med) : med(med)
     reg.register_component<component::controllable>();
     reg.register_component<component::health>();
     reg.register_component<component::damage>();
+    reg.register_component<component::type>();
 
     med.register_game(this);
 };
