@@ -36,8 +36,11 @@ void Core::loadAssets()
 
     reg.register_component<component::position>();
     reg.register_component<component::velocity>();
+    reg.register_component<component::health>();
+    reg.register_component<component::damage>();
     reg.register_component<component::drawable>();
     reg.register_component<component::controllable>();
+    reg.register_component<component::type>();
 
     sprites_menu = {
         {"background", Sprite("../ressources/background/background.png", true)},

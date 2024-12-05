@@ -200,7 +200,7 @@ void ServerNetwork::handle_game_message(const boost::asio::ip::udp::endpoint& se
 
 
 void ServerNetwork::broadcast_message(const boost::asio::ip::udp::endpoint& sender, const std::string& message) {
-    if (clients_.size() > 1) {
+    //if (clients_.size() > 1) {
         for (const auto& client : clients_) {
             if (client.first != sender) {
                 socket_.send_to(boost::asio::buffer(message), client.first);
@@ -209,7 +209,7 @@ void ServerNetwork::broadcast_message(const boost::asio::ip::udp::endpoint& send
                          << client.first.port() << "]" << Colors::RESET << std::endl;
             }
         }
-    }
+    //}
 }
 
 void ServerNetwork::broadcast_message(const std::string& message) {

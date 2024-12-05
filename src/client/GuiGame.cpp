@@ -25,8 +25,27 @@ void Core::handleCommands(std::string command)
         } else {
             std::cout << "Erreur : ID joueur invalide." << std::endl;
         }
-    }
-    else if (command.rfind(encode_action(GameAction::CONNECT), 0) == 0) {
+    } else if (command.rfind(encode_action(GameAction::MOB_SPAWN), 0) == 0) {
+        std::istringstream iss(command);
+        std::string code;
+        int mob_type, x, y;
+        iss >> code >> mob_type >> x >> y;
+        auto newMob = reg.spawn_entity();
+        sf::Sprite mob = utils.cat("../ressources/sprites/mob" + std::to_string(mob_type) + ".png");
+        reg.emplace_component<component::position>(newMob, component::position{x, y});
+        if (mob_type == 0) {
+            reg.emplace_component<component::health>(newMob, component::health{300});
+            reg.emplace_component<component::damage>(newMob, component::damage{10});
+            reg.emplace_component<component::velocity>(newMob, component::velocity{1, 1});
+        } else if (mob_type == 1) {
+            reg.emplace_component<component::health>(newMob, component::health{100});
+            reg.emplace_component<component::damage>(newMob, component::damage{40});
+            reg.emplace_component<component::velocity>(newMob, component::velocity{2, 2});
+        }
+        reg.emplace_component<component::drawable>(newMob, component::drawable{mob});
+        std::cout << "MOB SPAWNED AT " << x << " / " << y << std::endl;
+
+    } else if (command.rfind(encode_action(GameAction::CONNECT), 0) == 0) {
         std::istringstream iss(command);
         std::string code;
         int id;

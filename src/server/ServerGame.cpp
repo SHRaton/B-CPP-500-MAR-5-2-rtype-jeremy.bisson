@@ -17,7 +17,7 @@ ServerGame::ServerGame(Mediator &med) : med(med)
 
 void ServerGame::initTimers()
 {
-    spawn_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(60));
+    spawn_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(10));
     setup_spawn_timer(*spawn_timer_);
     position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(1));
     setup_position_timer(*position_timer_);
