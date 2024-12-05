@@ -100,4 +100,25 @@ void Core::loadAssets()
 
     fps = 200;
     baseSpeed = 1;
+
+    //MUSIC MENU + LOGIN
+    if (!menuMusic.openFromFile("../ressources/sounds/menu.wav")) {
+        std::cout << "Error loading menu music" << std::endl;
+    }
+    menuMusic.setLoop(true);
+    menuMusic.setVolume(50.0f);
+
+    // MUSIC JEU
+    if (!Game1Music.openFromFile("../ressources/sounds/game1.wav")) {
+        std::cout << "Error loading menu music" << std::endl;
+    }
+    Game1Music.setLoop(true);
+    Game1Music.setVolume(42.0f);
+
+    // SONS
+     if (!buttonBuffer_click.loadFromFile("../ressources/sounds/click.wav")) {
+        std::cout << "Error loading button sound" << std::endl;
+    }
+    buttonSound_click.setBuffer(buttonBuffer_click);
+    buttonSound_click.setVolume(70.0f);
 }

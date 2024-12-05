@@ -11,4 +11,4 @@ add_executable(r-type_server ${SERVER_SOURCES} src/Systems.cpp src/server/Mediat
 file(GLOB CLIENT_SOURCES "src/client/*.cpp")
 add_executable(r-type_client ${CLIENT_SOURCES} src/Systems.cpp src/server/Mediator.cpp)
 target_link_libraries(r-type_server sfml-graphics boost::boost)
-target_link_libraries(r-type_client sfml-graphics sfml-window sfml-system boost::boost)
+target_link_libraries(r-type_client sfml-graphics sfml-window sfml-audio sfml-system boost::boost)

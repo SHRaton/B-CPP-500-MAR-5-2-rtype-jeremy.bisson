@@ -111,12 +111,16 @@ void Core::handleMouseClick(sf::Vector2i mousePosition)
     sf::Vector2f worldMousePosition = window.mapPixelToCoords(mousePosition);
 
     if (sprites_login["connect"].getSprite().getGlobalBounds().contains(worldMousePosition)) {
+        buttonSound_click.play();
         login();
     } else if (sprites_login["name"].getSprite().getGlobalBounds().contains(worldMousePosition)) {
+        buttonSound_click.play();
         select_button = 1;
     } else if (sprites_login["ip"].getSprite().getGlobalBounds().contains(worldMousePosition)) {
+        buttonSound_click.play();
         select_button = 2;
     } else if (sprites_login["port"].getSprite().getGlobalBounds().contains(worldMousePosition)) {
+        buttonSound_click.play();
         select_button = 3;
     } else {
         select_button = 0;
