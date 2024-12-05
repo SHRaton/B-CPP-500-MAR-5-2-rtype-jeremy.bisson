@@ -122,14 +122,13 @@ void ServerGame::spawnMob(int mob_type)
     if (mob_type == 0) {
         reg.emplace_component<component::health>(mob, component::health{300});
         reg.emplace_component<component::damage>(mob, component::damage{10});
-        reg.emplace_component<component::velocity>(mob, component::velocity{5, 5});
+        reg.emplace_component<component::velocity>(mob, component::velocity{1, 1});
     } else if (mob_type == 1) {
         reg.emplace_component<component::health>(mob, component::health{100});
         reg.emplace_component<component::damage>(mob, component::damage{40});
-        reg.emplace_component<component::velocity>(mob, component::velocity{10, 10});
+        reg.emplace_component<component::velocity>(mob, component::velocity{2, 2});
     } // rajouter d'autres types de mobs ici
     std::vector<std::string> newParams;
-    newParams.push_back(std::to_string(mob));
     newParams.push_back(std::to_string(mob_type));
     newParams.push_back(std::to_string(x));
     newParams.push_back(std::to_string(y));
