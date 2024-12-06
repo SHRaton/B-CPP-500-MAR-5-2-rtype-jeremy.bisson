@@ -16,10 +16,8 @@ void Core::handleCommands(std::string command)
         int id, x, y;
         iss >> code >> id >> x >> y;
 
-        // Get position components from registry
         auto &positions = reg.get_components<component::position>();
         if (id >= 0 && id < positions.size() && positions[id]) {
-            // Update position component
             positions[id].value().x = x;
             positions[id].value().y = y;
         } else {
@@ -54,10 +52,9 @@ void Core::handleCommands(std::string command)
 
         // Spawn new entity in the registry
         auto newPlayer = reg.spawn_entity();
-        nb_player++;
 
-        // Load sprite
-        sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(nb_player) + ".png");
+        // Load sprite based on player number, NOT nb_player counter
+        sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(id) + ".png");
 
         // Set up sprite
         vaisseau.setPosition(200, 500);
@@ -79,10 +76,21 @@ void Core::handleCommands(std::string command)
 
         auto &positions = reg.get_components<component::position>();
         auto &drawables = reg.get_components<component::drawable>();
-        auto &velocities = reg.get_components<component::velocity>();  // Ajout des vélocités
+        auto &velocities = reg.get_components<component::velocity>();
 
         if (id >= 0 && id < positions.size() && positions[id] && drawables[id] && velocities[id]) {
-            velocities[id].value().vy = -baseSpeed;  // Définit une vélocité constante vers le haut
+            velocities[id].value().vy = -baseSpeed;
+            
+            // Animer le sprite vers le haut
+            sf::Sprite& sprite = drawables[id].value().sprite;
+            if (animState.currentFrame < MAX_UP_FRAME) {
+                sprite.setTextureRect(sf::IntRect(
+                    MAX_UP_FRAME * sprite.getTextureRect().width,
+                    0,
+                    sprite.getTextureRect().width,
+                    sprite.getTextureRect().height
+                ));
+            }
         }
     } else if (command.rfind(encode_action(GameAction::DOWN), 0) == 0) {
         std::istringstream iss(command);
@@ -95,7 +103,18 @@ void Core::handleCommands(std::string command)
         auto &velocities = reg.get_components<component::velocity>();
 
         if (id >= 0 && id < positions.size() && positions[id] && drawables[id] && velocities[id]) {
-            velocities[id].value().vy = baseSpeed;  // Définit une vélocité constante vers le bas
+            velocities[id].value().vy = baseSpeed;
+            
+            // Animer le sprite vers le bas
+            sf::Sprite& sprite = drawables[id].value().sprite;
+            if (animState.currentFrame > MIN_DOWN_FRAME) {
+                sprite.setTextureRect(sf::IntRect(
+                    MIN_DOWN_FRAME * sprite.getTextureRect().width,
+                    0,
+                    sprite.getTextureRect().width,
+                    sprite.getTextureRect().height
+                ));
+            }
         }
     } else if (command.rfind(encode_action(GameAction::LEFT), 0) == 0) {
         std::istringstream iss(command);
@@ -108,7 +127,7 @@ void Core::handleCommands(std::string command)
         auto &velocities = reg.get_components<component::velocity>();
 
         if (id >= 0 && id < positions.size() && positions[id] && drawables[id] && velocities[id]) {
-            velocities[id].value().vx = -baseSpeed;  // Définit une vélocité constante vers la gauche
+            velocities[id].value().vx = -baseSpeed;
         }
     } else if (command.rfind(encode_action(GameAction::RIGHT), 0) == 0) {
         std::istringstream iss(command);
@@ -121,7 +140,7 @@ void Core::handleCommands(std::string command)
         auto &velocities = reg.get_components<component::velocity>();
 
         if (id >= 0 && id < positions.size() && positions[id] && drawables[id] && velocities[id]) {
-            velocities[id].value().vx = baseSpeed;  // Définit une vélocité constante vers la droite
+            velocities[id].value().vx = baseSpeed;
         }
     } else if (command.rfind(encode_action(GameAction::STOP_X), 0) == 0) {
         std::istringstream iss(command);
@@ -132,7 +151,7 @@ void Core::handleCommands(std::string command)
         auto &velocities = reg.get_components<component::velocity>();
 
         if (id >= 0 && id < velocities.size() && velocities[id]) {
-            velocities[id].value().vx = 0;  // Arrête le mouvement horizontal
+            velocities[id].value().vx = 0;
         }
     } else if (command.rfind(encode_action(GameAction::STOP_Y), 0) == 0) {
         std::istringstream iss(command);
@@ -141,9 +160,36 @@ void Core::handleCommands(std::string command)
         iss >> code >> id;
 
         auto &velocities = reg.get_components<component::velocity>();
+        auto &drawables = reg.get_components<component::drawable>();
 
-        if (id >= 0 && id < velocities.size() && velocities[id]) {
-            velocities[id].value().vy = 0;  // Arrête le mouvement vertical
+        if (id >= 0 && id < velocities.size() && velocities[id] && drawables[id]) {
+            velocities[id].value().vy = 0;
+            
+            // Retour à l'animation neutre
+            sf::Sprite& sprite = drawables[id].value().sprite;
+            sprite.setTextureRect(sf::IntRect(
+                NEUTRAL_FRAME * sprite.getTextureRect().width,
+                0,
+                sprite.getTextureRect().width,
+                sprite.getTextureRect().height
+            ));
+        }
+    } else if (command.rfind(encode_action(GameAction::SHOOT), 0) == 0) {
+        std::istringstream iss(command);
+        std::string code;
+        int id;
+        iss >> code >> id;
+
+        auto &positions = reg.get_components<component::position>();
+        
+        if (id >= 0 && id < positions.size() && positions[id]) {
+            Entity missile = reg.spawn_entity();
+            reg.emplace_component<component::position>(missile, component::position{positions[id].value().x + 100, positions[id].value().y});
+            reg.emplace_component<component::velocity>(missile, component::velocity{1, 0});
+            sf::Sprite sprite = utils.cat("../ressources/sprites/shoot.png");
+            sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
+            reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
+            reg.emplace_component<component::controllable>(missile, component::controllable{false});
         }
     } else if (!command.empty()) {
         std::cout << "Commande inconnue : " << command << std::endl;
@@ -206,6 +252,9 @@ void Core::load_spaceship()
     }
 }
 
+//===================================ANIMATION=================================
+
+
 void Core::handle_vertical_movement(float deltaSeconds, std::optional<component::velocity>& vel,
                                     std::optional<component::drawable>& drawable, std::optional<component::position>& pos)
 {
@@ -216,30 +265,102 @@ void Core::handle_vertical_movement(float deltaSeconds, std::optional<component:
         if (pos.value().y < 0) {
             handle_vertical_stop(vel);
         } else {
-            update_animation(deltaSeconds, drawable);
             vel->vy = -baseSpeed;
+            animate_up(deltaSeconds, drawable);
             send_input_if_needed(GameAction::UP, inputState.upSent);
         }
-    } else {
-        inputState.upSent = false;
-        handle_idle_animation(deltaSeconds, drawable);
-    }
+    } 
     // Handle downward movement
-    if (keysPressed[sf::Keyboard::Down]) {
+    else if (keysPressed[sf::Keyboard::Down]) {
         if (pos.value().y > 970) {
             handle_vertical_stop(vel);
         } else {
             vel->vy = baseSpeed;
+            animate_down(deltaSeconds, drawable);
             send_input_if_needed(GameAction::DOWN, inputState.downSent);
         }
-    } else {
-        inputState.downSent = false;
     }
-    // Handle vertical stop
-    if (!keysPressed[sf::Keyboard::Up] && !keysPressed[sf::Keyboard::Down]) {
+    // Return to neutral position when no vertical movement
+    else {
+        inputState.upSent = false;
+        inputState.downSent = false;
+        animate_to_neutral(deltaSeconds, drawable);
         handle_vertical_stop(vel);
     }
 }
+
+void Core::animate_up(float deltaSeconds, std::optional<component::drawable>& drawable)
+{
+    if (!drawable) return;
+    
+    animState.animationTimer += deltaSeconds;
+    if (animState.animationTimer >= FRAME_DURATION) {
+        animState.animationTimer = 0;
+        if (animState.currentFrame < MAX_UP_FRAME) {
+            animState.currentFrame++;
+            update_sprite_frame(drawable->sprite);
+        }
+    }
+}
+
+void Core::animate_down(float deltaSeconds, std::optional<component::drawable>& drawable)
+{
+    if (!drawable) return;
+    
+    animState.animationTimer += deltaSeconds;
+    if (animState.animationTimer >= FRAME_DURATION) {
+        animState.animationTimer = 0;
+        if (animState.currentFrame > MIN_DOWN_FRAME) {
+            animState.currentFrame--;
+            update_sprite_frame(drawable->sprite);
+        }
+    }
+}
+
+void Core::animate_to_neutral(float deltaSeconds, std::optional<component::drawable>& drawable)
+{
+    if (!drawable) return;
+    
+    animState.animationTimer += deltaSeconds;
+    if (animState.animationTimer >= FRAME_DURATION) {
+        animState.animationTimer = 0;
+        
+        if (animState.currentFrame > NEUTRAL_FRAME) {
+            animState.currentFrame--;
+        } else if (animState.currentFrame < NEUTRAL_FRAME) {
+            animState.currentFrame++;
+        }
+        update_sprite_frame(drawable->sprite);
+    }
+}
+
+void Core::update_sprite_frame(sf::Sprite& sprite)
+{
+    sprite.setTextureRect(sf::IntRect(
+        animState.currentFrame * sprite.getTextureRect().width,
+        0,
+        sprite.getTextureRect().width,
+        sprite.getTextureRect().height
+    ));
+}
+
+void Core::handle_idle_animation(float deltaSeconds, std::optional<component::drawable>& drawable)
+{
+    if (!drawable) return;
+    if (animState.currentFrame > 0) {
+        animState.animationTimer += deltaSeconds;
+        if (animState.animationTimer >= FRAME_DURATION) {
+            animState.animationTimer = 0;
+            animState.currentFrame--;
+            update_sprite_frame(drawable->sprite);
+        }
+    }
+}
+
+//===================================ANIMATION=================================
+
+
+
 
 void Core::handle_horizontal_movement(float deltaSeconds, std::optional<component::velocity>& vel)
 {
@@ -264,44 +385,11 @@ void Core::handle_horizontal_movement(float deltaSeconds, std::optional<componen
     }
 }
 
-void Core::update_animation(float deltaSeconds, std::optional<component::drawable>& drawable)
-{
-    if (!drawable) return;
-    animState.animationTimer += deltaSeconds;
-    if (animState.animationTimer >= FRAME_DURATION) {
-        animState.animationTimer = 0;
-        if (animState.currentFrame < MAX_FRAMES) {
-            animState.currentFrame++;
-            update_sprite_frame(drawable->sprite);
-        }
-    }
-}
-void Core::handle_idle_animation(float deltaSeconds, std::optional<component::drawable>& drawable)
-{
-    if (!drawable) return;
-    if (animState.currentFrame > 0) {
-        animState.animationTimer += deltaSeconds;
-        if (animState.animationTimer >= FRAME_DURATION) {
-            animState.animationTimer = 0;
-            animState.currentFrame--;
-            update_sprite_frame(drawable->sprite);
-        }
-    }
-}
-void Core::update_sprite_frame(sf::Sprite& sprite)
-{
-    sprite.setTextureRect(sf::IntRect(
-        animState.currentFrame * sprite.getTextureRect().width,
-        0,
-        sprite.getTextureRect().width,
-        sprite.getTextureRect().height
-    ));
-}
 void Core::send_input_if_needed(GameAction action, bool& sentFlag)
 {
     if (!sentFlag) {
         std::ostringstream messageStream;
-        messageStream << encode_action(action) << " " << network->getId();
+        messageStream << encode_action(action) << " " << network->getId() << " " << animState.currentFrame;
         network->send(messageStream.str());
         sentFlag = true;
     }

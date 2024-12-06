@@ -105,9 +105,7 @@ class Core {
         sf::Texture texture_vaisseau3;
         sf::Clock clock_mess;
         std::string encode_action(GameAction action);
-        // Constants
-        static constexpr float FRAME_DURATION = 0.05f;
-        static constexpr int MAX_FRAMES = 4;
+
         // Animation state
         struct AnimationState {
             int currentFrame = 0;
@@ -158,4 +156,15 @@ class Core {
         std::unique_ptr<boost::asio::steady_timer> position_timer_;
         boost::asio::io_context io_context_;
         std::thread io_thread_;
+
+        //ANIMATION VAISSEAU
+        void animate_up(float deltaSeconds, std::optional<component::drawable>& drawable);
+        void animate_down(float deltaSeconds, std::optional<component::drawable>& drawable);
+        void animate_to_neutral(float deltaSeconds, std::optional<component::drawable>& drawable);
+        static constexpr float FRAME_DURATION = 0.05f;
+        const int NEUTRAL_FRAME = 2;
+        const int MAX_UP_FRAME = 4;
+        const int MIN_DOWN_FRAME = 0;
+        
+
 };
