@@ -389,7 +389,7 @@ void Core::send_input_if_needed(GameAction action, bool& sentFlag)
 {
     if (!sentFlag) {
         std::ostringstream messageStream;
-        messageStream << encode_action(action) << " " << network->getId() << " " << animState.currentFrame;
+        messageStream << encode_action(action) << " " << network->getId();
         network->send(messageStream.str());
         sentFlag = true;
     }
