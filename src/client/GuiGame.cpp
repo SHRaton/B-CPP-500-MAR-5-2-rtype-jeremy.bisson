@@ -31,6 +31,7 @@ void Core::handleCommands(std::string command)
         auto newMob = reg.spawn_entity();
         sf::Sprite mob = utils.cat("../ressources/sprites/mob" + std::to_string(mob_type) + ".png");
         mob.setPosition(x, y);
+        mob.setScale(3, 3);
         reg.emplace_component<component::position>(newMob, component::position{x, y});
         if (mob_type == 0) {
             reg.emplace_component<component::health>(newMob, component::health{300});
@@ -223,7 +224,9 @@ void Core::load_spaceship()
 
             sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(i) + ".png");
             vaisseau.setPosition(200, 500);
-            sf::IntRect rect(0, 0, vaisseau.getGlobalBounds().width / 5, vaisseau.getGlobalBounds().height);
+            sf::IntRect rect(vaisseau.getGlobalBounds().width / 5 * 2, 0, 
+                     vaisseau.getGlobalBounds().width / 5, 
+                     vaisseau.getGlobalBounds().height);
             vaisseau.setTextureRect(rect);
             vaisseau.setScale(3, 3);
 
@@ -362,23 +365,35 @@ void Core::handle_idle_animation(float deltaSeconds, std::optional<component::dr
 
 
 
-void Core::handle_horizontal_movement(float deltaSeconds, std::optional<component::velocity>& vel)
+void Core::handle_horizontal_movement(float deltaSeconds, std::optional<component::velocity>& vel,
+                                    std::optional<component::drawable>& drawable, std::optional<component::position>& pos)
 {
     if (!vel) return;
+    
     // Handle left movement
     if (keysPressed[sf::Keyboard::Left]) {
-        vel->vx = -baseSpeed;
-        send_input_if_needed(GameAction::LEFT, inputState.leftSent);
+        if (pos.value().x < 0) {
+            handle_horizontal_stop(vel);
+        } else {
+            vel->vx = -baseSpeed;
+            send_input_if_needed(GameAction::LEFT, inputState.leftSent);
+        }
     } else {
         inputState.leftSent = false;
     }
-    // Handle right movement
+
+    // Handle right movement 
     if (keysPressed[sf::Keyboard::Right]) {
-        vel->vx = baseSpeed;
-        send_input_if_needed(GameAction::RIGHT, inputState.rightSent);
+        if (pos.value().x > 1810) {  // Ajustez cette valeur selon la largeur de votre fenêtre
+            handle_horizontal_stop(vel);
+        } else {
+            vel->vx = baseSpeed;
+            send_input_if_needed(GameAction::RIGHT, inputState.rightSent);
+        }
     } else {
         inputState.rightSent = false;
     }
+
     // Handle horizontal stop
     if (!keysPressed[sf::Keyboard::Left] && !keysPressed[sf::Keyboard::Right]) {
         handle_horizontal_stop(vel);
@@ -454,7 +469,7 @@ void Core::control_system()
         auto &drawable = drawables[i];
         if (controllable && vel && drawable && controllable.value().is_controllable && pos) {
             handle_vertical_movement(deltaSeconds, vel, drawable, pos);
-            handle_horizontal_movement(deltaSeconds, vel);
+            handle_horizontal_movement(deltaSeconds, vel, drawable, pos);
             handle_shoot(deltaSeconds, pos);
         }
     }

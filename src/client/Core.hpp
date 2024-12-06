@@ -125,7 +125,8 @@ class Core {
 
         void handle_vertical_movement(float deltaSeconds, std::optional<component::velocity>& vel,
         std::optional<component::drawable>& drawable, std::optional<component::position>& pos);
-        void handle_horizontal_movement(float deltaSeconds, std::optional<component::velocity>& vel);
+        void handle_horizontal_movement(float deltaSeconds, std::optional<component::velocity>& vel,
+        std::optional<component::drawable>& drawable, std::optional<component::position>& pos);
         void update_animation(float deltaSeconds, std::optional<component::drawable>& drawable);
         void handle_idle_animation(float deltaSeconds, std::optional<component::drawable>& drawable);
         void update_sprite_frame(sf::Sprite& sprite);
