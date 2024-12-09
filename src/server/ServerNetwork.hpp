@@ -33,7 +33,9 @@ enum class GameAction {
     STOP_Y      = 0b10000, // 16
     STOP_X      = 0b10001,  // 17
     DISCONNECT  = 0b11011, // 27
-    CONNECT     = 0b11111 // 31
+    CONNECT     = 0b11111, // 31
+    DEATH      = 0b10010, // 18
+    COLLISION   = 0b10100 // 20
 };
 
 struct GameMessage {
@@ -70,6 +72,8 @@ private:
     void handleMobSpawn(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleConciliation(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handlePowerUpSpawn(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleColision(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleDeath(const MediatorContext& context, const std::vector<std::string>& params) override;
 
     boost::asio::io_context io_context_;
     boost::asio::ip::udp::socket socket_;

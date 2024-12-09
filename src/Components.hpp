@@ -35,4 +35,8 @@ namespace component{
     typedef struct controllable {
         bool is_controllable;
     } Controllable;
+
+    typedef struct invincible {
+        bool is_invincible;
+    } Invincible;
 }

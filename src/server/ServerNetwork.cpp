@@ -153,7 +153,19 @@ void ServerNetwork::handleConciliation(const MediatorContext& context, const std
     broadcast_message(client, message);
 }
 
+void ServerNetwork::handleColision(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::COLLISION) + " " + params[0] + " " + params[1];
+    broadcast_message(client, message);
+}
 
+void ServerNetwork::handleDeath(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::DEATH) + " " + params[0];
+    broadcast_message(client, message);
+}
 
 
 

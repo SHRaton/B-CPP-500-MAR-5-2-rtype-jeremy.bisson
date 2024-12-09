@@ -16,5 +16,7 @@ public:
     virtual void handleMobSpawn(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual void handleConciliation(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual void handlePowerUpSpawn(const MediatorContext& context, const std::vector<std::string>& params) = 0;
+    virtual void handleColision(const MediatorContext& context, const std::vector<std::string>& params) = 0;
+    virtual void handleDeath(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual ~ISender() = default;
 };
