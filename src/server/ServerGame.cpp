@@ -26,7 +26,7 @@ void ServerGame::initTimers()
     setup_conciliation_timer(*conciliation_timer_);
 
     //TODO: initialiser d'autres timers ici
-    powerup_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(60));
+    powerup_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(25));
     setup_powerup_timer(*powerup_timer_);
 
     collision_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
@@ -134,14 +134,24 @@ void ServerGame::setup_powerup_timer(boost::asio::steady_timer& powerup_timer)
 void ServerGame::spawnPowerUp(int powerup_type)
 {
     std::cout << "Spawning powerup" << std::endl;
+
+    // Utilisation de random modern de C++11
+    std::random_device rd;  // Source d'entropie matérielle
+    std::mt19937 gen(rd()); // Générateur Mersenne Twister
+
+    // Distributions uniformes pour x et y
+    std::uniform_int_distribution<> distX(0, 1800);
+    std::uniform_int_distribution<> distY(0, 900);
+
+    // Génération des coordonnées aléatoires
+    int x = distX(gen);
+    int y = distY(gen);
+
     Entity powerup = reg.spawn_entity();
-    int x = rand() % 1800;
-    int y = rand() % 900;
     reg.emplace_component<component::position>(powerup, component::position{x, y});
     reg.emplace_component<component::type>(powerup, component::type{powerup_type});
-    
+
     std::vector<std::string> newParams;
-    newParams.push_back(std::to_string(powerup));
     newParams.push_back(std::to_string(powerup_type));
     newParams.push_back(std::to_string(x));
     newParams.push_back(std::to_string(y));
@@ -163,7 +173,7 @@ void ServerGame::spawnMob(int mob_type)
     } else if (mob_type == 1) {
         reg.emplace_component<component::health>(mob, component::health{100});
         reg.emplace_component<component::damage>(mob, component::damage{40});
-        reg.emplace_component<component::velocity>(mob, component::velocity{-2, 0});
+        reg.emplace_component<component::velocity>(mob, component::velocity{-1, 0});
         reg.emplace_component<component::type>(mob, component::type{11});
 
     } // rajouter d'autres types de mobs ici
@@ -184,22 +194,19 @@ void ServerGame::checkAllCollisions()
     for (size_t i = 0; i < positions.size(); ++i) {
 
         for (size_t j = i + 1; j < positions.size(); ++j) {
-            if (invincibles.size() > i && invincibles.size() > j) {
-                auto &invincible1 = invincibles[i];
-                auto &invincible2 = invincibles[j];
-
-
-                // Simple collision detection using position and basic size assumption
-                if (invincibles[i].value().is_invincible || invincibles[j].value().is_invincible) {
-                    continue;
-                    }
-            }
+            // if (invincibles.size() > i && invincibles.size() > j) {
+                // auto &invincible1 = invincibles[i];
+                // auto &invincible2 = invincibles[j];
+                // if (invincibles[i].value().is_invincible || invincibles[j].value().is_invincible) {
+                    // continue;
+                    // }
+            // }
             if (isColliding(positions[i].value(), positions[j].value())) {
                 if (types[i].value().type == 5 && types[j].value().type >= 10) {
-                    healths[i].value().hp -= 10;
+                    healths[i].value().hp -= 1000;
                     reg.emplace_component<component::invincible>(Entity(i), component::invincible{true});
                       if (healths[i].value().hp <= 0) {
-                        reg.kill_entity(Entity(i));
+                        //reg.kill_entity(Entity(i));
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
                     } else {
@@ -211,10 +218,10 @@ void ServerGame::checkAllCollisions()
                     }
                 }
                 if (types[i].value().type >= 10 && types[j].value().type == 5) {
-                    healths[j].value().hp -= 10;
+                    healths[j].value().hp -= 1000;
                     reg.emplace_component<component::invincible>(Entity(j), component::invincible{true});
                     if (healths[j].value().hp <= 0) {
-                        reg.kill_entity(Entity(j));
+                        //reg.kill_entity(Entity(j));
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
                     } else {
@@ -226,19 +233,19 @@ void ServerGame::checkAllCollisions()
                     }
                 }
                 if (types[i].value().type == 6 && types[j].value().type >= 10) {
-                    healths[j].value().hp -= 10;
+                    healths[j].value().hp -= 1000;
                     // Mob
                     if(healths[j].value().hp <= 0){
-                        reg.kill_entity(Entity(j));
+                        //reg.kill_entity(Entity(j));
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
                     }
                 }
                 if (types[i].value().type >= 10 && types[j].value().type == 6) {
-                    healths[i].value().hp -= 10;
+                    healths[i].value().hp -= 1000;
                     //Mob
                     if(healths[i].value().hp <= 0){
-                        reg.kill_entity(Entity(i));
+                        //reg.kill_entity(Entity(i));
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(i)});
                     }
@@ -351,6 +358,7 @@ void ServerGame::handleColision(const MediatorContext& context, const std::vecto
 
 void ServerGame::handleDeath(const MediatorContext& context, const std::vector<std::string>& params)
 {
+    std::cout << "ETSZRDFLKJKHFDGSRETEUIOLHKVN BCXFXDSGRETYGUTJOKPIJGYHUOIPUHGYFDFXSGFYJUHOIP90IUYGFDXVFGH";
     std::vector<std::string> newParams;
     newParams.push_back(params[0]);
     med.notify(Sender::GAME, "DEATH", newParams, context);

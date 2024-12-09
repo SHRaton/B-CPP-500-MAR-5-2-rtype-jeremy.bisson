@@ -5,6 +5,7 @@
 #include <map>
 #include <chrono>
 #include <bitset>
+#include <random>
 #include <vector>
 #include "../Registry.hpp"
 #include "ServerNetwork.hpp"

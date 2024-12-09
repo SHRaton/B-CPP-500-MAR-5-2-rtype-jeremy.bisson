@@ -40,7 +40,7 @@ void Core::handleCommands(std::string command)
         } else if (mob_type == 1) {
             reg.emplace_component<component::health>(newMob, component::health{100});
             reg.emplace_component<component::damage>(newMob, component::damage{40});
-            reg.emplace_component<component::velocity>(newMob, component::velocity{-2, 0});
+            reg.emplace_component<component::velocity>(newMob, component::velocity{-1, 0});
         }
         reg.emplace_component<component::drawable>(newMob, component::drawable{mob});
         std::cout << "MOB" << newMob << "SPAWNED AT " << x << " / " << y << std::endl;
@@ -191,6 +191,55 @@ void Core::handleCommands(std::string command)
         reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
         reg.emplace_component<component::controllable>(missile, component::controllable{false});
         //exit (56);
+    } else if (command.rfind(encode_action(GameAction::POWER_UP_SPAWN), 0) == 0) {
+        std::istringstream iss(command);
+        std::string code;
+        int type, x, y;
+        iss >> code >> type >> x >> y;
+
+        std::cout << "POWERUP SPAWNED -> Type: " << type << "/ x: " << x << "/ y:" << y << std::endl;
+
+        auto &positions = reg.get_components<component::position>();
+
+        Entity powerup = reg.spawn_entity();
+        reg.emplace_component<component::position>(powerup, component::position{x, y});
+        sf::Sprite sprite = utils.cat("../ressources/sprites/pow1.png");
+        sf::Sprite sprite2 = utils.cat("../ressources/sprites/pow2.png");
+        sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
+        if (type == 0) {
+            reg.emplace_component<component::drawable>(powerup, component::drawable{sprite});
+        } else if (type == 1) {
+            reg.emplace_component<component::drawable>(powerup, component::drawable{sprite2});
+        }
+        reg.emplace_component<component::type>(powerup, component::type{type});
+    } else if (command.rfind(encode_action(GameAction::COLLISION), 0) == 0) {
+        std::istringstream iss(command);
+        std::string code;
+        int id, type;
+        iss >> code >> id >> type;
+        auto &healths = reg.get_components<component::health>();
+
+        if (type == 10) {
+            std::cout << "Collision AVEC UN MOB" << std::endl;
+            healths[id].value().hp -= 10;
+        }
+        if (type == 0) {
+            healths[id].value().hp += 10;
+            std::cout << "Collision POWERUP 1" << std::endl;
+        }
+        if (type == 1) {
+            healths[id].value().hp += 20;
+            std::cout << "Collision POWERUP 2" << std::endl;
+        }
+
+    } else if (command.rfind(encode_action(GameAction::DEATH), 0) == 0) {
+        std::istringstream iss(command);
+        std::string code;
+        int id, type;
+        iss >> code >> id;
+
+        std::cout << "Jsuis mort la team... jsuis ptetre allé UNNN PEUUU LOINNNN !" << std::endl;
+
     } else if (!command.empty()) {
         std::cout << "Commande inconnue : " << command << std::endl;
     }
@@ -245,6 +294,7 @@ void Core::load_spaceship()
         std::cout << "Créer NOTRE sprite " << player << std::endl;
         reg.emplace_component<component::position>(player, component::position{200, 500});
         reg.emplace_component<component::velocity>(player, component::velocity{0, 0});
+        reg.emplace_component<component::health>(player, component::health{100});
         sf::Sprite sprite = utils.cat("../ressources/sprites/vaisseau" + std::to_string(player) + ".png");
         sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 5, sprite.getGlobalBounds().height);
         sprite.setTextureRect(rect);
@@ -461,11 +511,13 @@ void Core::control_system()
     auto &velocities = reg.get_components<component::velocity>();
     auto &positions = reg.get_components<component::position>();
     auto &drawables = reg.get_components<component::drawable>();
+    auto &healths = reg.get_components<component::health>();
     for (size_t i = 0; i < controllables.size(); ++i) {
         auto const &controllable = controllables[i];
         auto &vel = velocities[i];
         auto &pos = positions[i];
         auto &drawable = drawables[i];
+        auto &health = healths[i];
         if (controllable && vel && drawable && controllable.value().is_controllable && pos) {
             handle_vertical_movement(deltaSeconds, vel, drawable, pos);
             handle_horizontal_movement(deltaSeconds, vel, drawable, pos);
@@ -495,6 +547,13 @@ void Core::update_hud()
     latencyText.setCharacterSize(20);
     latencyText.setFillColor(sf::Color::Green);
     latencyText.setPosition(10, 40);
+
+    hp.setFont(font);
+    hp.setCharacterSize(50);
+    hp.setFillColor(sf::Color::Blue);
+    hp.setPosition(300, 40);
+    auto &healths = reg.get_components<component::health>();
+    hp.setString("HP: " + std::to_string(healths[network->getId()].value().hp));
     float fps = 1.f / fpsClock.restart().asSeconds();
     if (latencyClock.getElapsedTime().asSeconds() > 1.f) {
         int latency = 32;
@@ -549,6 +608,7 @@ void Core::gui_game() {
         window.draw(fpsText);
         window.draw(latencyText);
         window.draw(shootBar);
+        window.draw(hp);
         window.display();
     }
 }

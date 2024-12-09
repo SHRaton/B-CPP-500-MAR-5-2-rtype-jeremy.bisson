@@ -73,6 +73,7 @@ class Core {
         sf::Text text_failed;
         sf::Text fpsText; // Texte pour afficher les FPS
         sf::Text latencyText; // Texte pour afficher la latence
+        sf::Text hp;
 
         // Clocks
         sf::Clock fpsClock; // Horloge pour mesurer le temps entre les frames

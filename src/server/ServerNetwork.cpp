@@ -177,7 +177,7 @@ void ServerNetwork::handlePowerUpSpawn(const MediatorContext& context, const std
 {
     boost::asio::ip::udp::endpoint client = context.client;
     std::string message = encode_action(GameAction::POWER_UP_SPAWN) + " " + params[0] + " " + params[1];
-    broadcast_message(client, message);
+    broadcast_message(message);
 }
 
 
