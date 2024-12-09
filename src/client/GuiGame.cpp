@@ -480,7 +480,7 @@ void Core::setup_position_timer(boost::asio::steady_timer& position_timer)
     position_timer.async_wait([this, &position_timer](const boost::system::error_code& ec) {
         if (!ec) {
             Systems::position_system(reg);
-            position_timer.expires_from_now(std::chrono::milliseconds(1));
+            position_timer.expires_at(position_timer.expiry() + std::chrono::milliseconds(1));
             setup_position_timer(position_timer);
         }
     });
