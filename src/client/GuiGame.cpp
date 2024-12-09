@@ -178,20 +178,19 @@ void Core::handleCommands(std::string command)
     } else if (command.rfind(encode_action(GameAction::SHOOT), 0) == 0) {
         std::istringstream iss(command);
         std::string code;
-        int id;
-        iss >> code >> id;
+        int id, x, y;
+        iss >> code >> x >> y;
 
         auto &positions = reg.get_components<component::position>();
-        
-        if (id >= 0 && id < positions.size() && positions[id]) {
-            Entity missile = reg.spawn_entity();
-            reg.emplace_component<component::position>(missile, component::position{positions[id].value().x + 100, positions[id].value().y});
-            reg.emplace_component<component::velocity>(missile, component::velocity{1, 0});
-            sf::Sprite sprite = utils.cat("../ressources/sprites/shoot.png");
-            sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
-            reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
-            reg.emplace_component<component::controllable>(missile, component::controllable{false});
-        }
+
+        Entity missile = reg.spawn_entity();
+        reg.emplace_component<component::position>(missile, component::position{x, y});
+        reg.emplace_component<component::velocity>(missile, component::velocity{1, 0});
+        sf::Sprite sprite = utils.cat("../ressources/sprites/shoot.png");
+        sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
+        reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
+        reg.emplace_component<component::controllable>(missile, component::controllable{false});
+        //exit (56);
     } else if (!command.empty()) {
         std::cout << "Commande inconnue : " << command << std::endl;
     }
@@ -441,13 +440,13 @@ void Core::handle_shoot(float deltaSeconds, std::optional<component::position>& 
 
     if (keysPressed[sf::Keyboard::A] && shootCooldown >= 1.0f) {
         send_input_if_needed(GameAction::SHOOT, inputState.shootSent);
-        Entity missile =  reg.spawn_entity();
-        reg.emplace_component<component::position>(missile, component::position{pos.value().x + 100, pos.value().y});
-        reg.emplace_component<component::velocity>(missile, component::velocity{1, 0});
-        sf::Sprite sprite = utils.cat("../ressources/sprites/shoot.png");
-        sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
-        reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
-        reg.emplace_component<component::controllable>(missile, component::controllable{false});
+        //Entity missile =  reg.spawn_entity();
+        //reg.emplace_component<component::position>(missile, component::position{pos.value().x + 100, pos.value().y});
+        //reg.emplace_component<component::velocity>(missile, component::velocity{1, 0});
+        //sf::Sprite sprite = utils.cat("../ressources/sprites/shoot.png");
+        //sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
+        //reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
+        //reg.emplace_component<component::controllable>(missile, component::controllable{false});
 
         shootCooldown = 0.0f;
     } else {

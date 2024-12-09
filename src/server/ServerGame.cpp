@@ -18,7 +18,7 @@ ServerGame::ServerGame(Mediator &med) : med(med)
 
 void ServerGame::initTimers()
 {
-    spawn_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(60));
+    spawn_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(20));
     setup_spawn_timer(*spawn_timer_);
     position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(1));
     setup_position_timer(*position_timer_);
@@ -332,7 +332,7 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
     Entity bullet = reg.spawn_entity();
     auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
     reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
-    reg.emplace_component<component::velocity>(bullet, component::velocity{10, 0});
+    reg.emplace_component<component::velocity>(bullet, component::velocity{1, 0});
     reg.emplace_component<component::type>(bullet, component::type{6});
 
     std::vector<std::string> newParams;

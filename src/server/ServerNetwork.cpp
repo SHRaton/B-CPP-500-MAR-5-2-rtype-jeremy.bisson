@@ -136,7 +136,7 @@ void ServerNetwork::handleShoot(const MediatorContext& context, const std::vecto
 {
     boost::asio::ip::udp::endpoint client = context.client;
     std::string message = encode_action(GameAction::SHOOT) + " " + params[0] + " " + params[1];
-    broadcast_message(client, message);
+    broadcast_message(message);
 }
 
 void ServerNetwork::handleMobSpawn(const MediatorContext& context, const std::vector<std::string>& params)
