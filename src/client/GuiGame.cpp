@@ -31,17 +31,21 @@ void Core::handleCommands(std::string command)
         auto newMob = reg.spawn_entity();
         sf::Sprite mob = utils.cat("../ressources/sprites/mob" + std::to_string(mob_type) + ".png");
         mob.setPosition(x, y);
-        mob.setScale(3, 3);
         reg.emplace_component<component::position>(newMob, component::position{x, y});
         if (mob_type == 0) {
+            sf::IntRect rect(0, 0, mob.getGlobalBounds().width / 8, mob.getGlobalBounds().height);
+            mob.setTextureRect(rect);
             reg.emplace_component<component::health>(newMob, component::health{300});
             reg.emplace_component<component::damage>(newMob, component::damage{10});
             reg.emplace_component<component::velocity>(newMob, component::velocity{-1, 0});
         } else if (mob_type == 1) {
+            sf::IntRect rect(0, 0, mob.getGlobalBounds().width / 3, mob.getGlobalBounds().height);
+            mob.setTextureRect(rect);
             reg.emplace_component<component::health>(newMob, component::health{100});
             reg.emplace_component<component::damage>(newMob, component::damage{40});
             reg.emplace_component<component::velocity>(newMob, component::velocity{-1, 0});
         }
+        mob.setScale(3, 3);
         reg.emplace_component<component::drawable>(newMob, component::drawable{mob});
         std::cout << "MOB" << newMob << "SPAWNED AT " << x << " / " << y << std::endl;
 
@@ -190,7 +194,6 @@ void Core::handleCommands(std::string command)
         sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
         reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
         reg.emplace_component<component::controllable>(missile, component::controllable{false});
-        //exit (56);
     } else if (command.rfind(encode_action(GameAction::POWER_UP_SPAWN), 0) == 0) {
         std::istringstream iss(command);
         std::string code;
@@ -219,17 +222,21 @@ void Core::handleCommands(std::string command)
         iss >> code >> id >> type;
         auto &healths = reg.get_components<component::health>();
 
-        if (type == 10) {
-            std::cout << "Collision AVEC UN MOB" << std::endl;
-            healths[id].value().hp -= 10;
-        }
-        if (type == 0) {
-            healths[id].value().hp += 10;
-            std::cout << "Collision POWERUP 1" << std::endl;
-        }
-        if (type == 1) {
-            healths[id].value().hp += 20;
-            std::cout << "Collision POWERUP 2" << std::endl;
+        if (id >= 0 && id < healths.size() && healths[id]) {
+            if (type == 10) {
+                std::cout << "Collision AVEC UN MOB" << std::endl;
+                healths[id].value().hp -= 10;
+            }
+            if (type == 0) {
+                std::cout << "Collision POWERUP 1" << std::endl;
+                powerupSound.play();
+                healths[id].value().hp += 10;
+            }
+            if (type == 1) {
+                std::cout << "Collision POWERUP 2" << std::endl;
+                powerupSound.play();
+                healths[id].value().hp += 20;
+            }
         }
 
     } else if (command.rfind(encode_action(GameAction::DEATH), 0) == 0) {
@@ -286,7 +293,6 @@ void Core::load_spaceship()
         }
         i++;
     }
-
     if (!messages.empty()) {
         // Création du joueur
         player = reg.spawn_entity();
@@ -321,7 +327,7 @@ void Core::handle_vertical_movement(float deltaSeconds, std::optional<component:
             animate_up(deltaSeconds, drawable);
             send_input_if_needed(GameAction::UP, inputState.upSent);
         }
-    } 
+    }
     // Handle downward movement
     else if (keysPressed[sf::Keyboard::Down]) {
         if (pos.value().y > 970) {
@@ -490,13 +496,6 @@ void Core::handle_shoot(float deltaSeconds, std::optional<component::position>& 
 
     if (keysPressed[sf::Keyboard::A] && shootCooldown >= 1.0f) {
         send_input_if_needed(GameAction::SHOOT, inputState.shootSent);
-        //Entity missile =  reg.spawn_entity();
-        //reg.emplace_component<component::position>(missile, component::position{pos.value().x + 100, pos.value().y});
-        //reg.emplace_component<component::velocity>(missile, component::velocity{1, 0});
-        //sf::Sprite sprite = utils.cat("../ressources/sprites/shoot.png");
-        //sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
-        //reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
-        //reg.emplace_component<component::controllable>(missile, component::controllable{false});
 
         shootCooldown = 0.0f;
     } else {
@@ -563,7 +562,8 @@ void Core::update_hud()
     }
 }
 
-void Core::gui_game() {
+void Core::gui_game()
+{
     load_spaceship();
     sf::Event event;
 

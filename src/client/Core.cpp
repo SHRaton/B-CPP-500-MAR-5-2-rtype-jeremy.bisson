@@ -122,9 +122,15 @@ void Core::loadAssets()
     Game1Music.setVolume(42.0f);
 
     // SONS
-     if (!buttonBuffer_click.loadFromFile("../ressources/sounds/click.wav")) {
+    if (!buttonBuffer_click.loadFromFile("../ressources/sounds/click.wav")) {
         std::cout << "Error loading button sound" << std::endl;
     }
     buttonSound_click.setBuffer(buttonBuffer_click);
     buttonSound_click.setVolume(70.0f);
+
+    if (!powerupBuffer.loadFromFile("../ressources/sounds/click.wav")) {
+        std::cout << "Error loading button sound" << std::endl;
+    }
+    powerupSound.setBuffer(powerupBuffer);
+    powerupSound.setVolume(70.0f);
 }

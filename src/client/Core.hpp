@@ -152,6 +152,9 @@ class Core {
         sf::SoundBuffer buttonBuffer_click;
         sf::Sound buttonSound_click;
 
+        sf::SoundBuffer powerupBuffer;
+        sf::Sound powerupSound;
+
 
         //TEST
         void setup_position_timer(boost::asio::steady_timer& position_timer);
