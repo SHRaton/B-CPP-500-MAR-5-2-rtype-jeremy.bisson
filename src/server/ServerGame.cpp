@@ -10,6 +10,7 @@ ServerGame::ServerGame(Mediator &med) : med(med)
     reg.register_component<component::damage>();
     reg.register_component<component::type>();
     reg.register_component<component::invincible>();
+    reg.register_component<component::size>();
 
     med.register_game(this);
 };
@@ -56,7 +57,7 @@ void ServerGame::setup_conciliation_timer(boost::asio::steady_timer& conciliatio
     conciliation_timer.async_wait([this, &conciliation_timer](const boost::system::error_code& ec) {
         if (!ec) {
             positionConciliation();
-            conciliation_timer.expires_from_now(std::chrono::seconds(3));
+            conciliation_timer.expires_at(conciliation_timer.expiry() + std::chrono::seconds(3));
             setup_conciliation_timer(conciliation_timer);
         }
     });
@@ -67,7 +68,7 @@ void ServerGame::setup_collision_timer(boost::asio::steady_timer& collision_time
     collision_timer.async_wait([this, &collision_timer](const boost::system::error_code& ec) {
         if (!ec) {
             checkAllCollisions();
-            collision_timer.expires_from_now(std::chrono::milliseconds(100)); // Check every millisecond
+            collision_timer.expires_at(collision_timer.expiry() + std::chrono::milliseconds(10));
             setup_collision_timer(collision_timer);
         }
     });
@@ -84,7 +85,7 @@ void ServerGame::setup_invincible_timer(boost::asio::steady_timer& invincible_ti
                     invincibles[i].value().is_invincible = false;
                 }
             }
-            invincible_timer.expires_from_now(std::chrono::seconds(1));
+            invincible_timer.expires_at(invincible_timer.expiry() + std::chrono::seconds(1));
             setup_invincible_timer(invincible_timer);
         }
     });
@@ -150,6 +151,7 @@ void ServerGame::spawnPowerUp(int powerup_type)
     Entity powerup = reg.spawn_entity();
     reg.emplace_component<component::position>(powerup, component::position{x, y});
     reg.emplace_component<component::type>(powerup, component::type{powerup_type});
+    reg.emplace_component<component::size>(powerup, component::size{50, 50});
 
     std::vector<std::string> newParams;
     newParams.push_back(std::to_string(powerup_type));
@@ -170,11 +172,13 @@ void ServerGame::spawnMob(int mob_type)
         reg.emplace_component<component::damage>(mob, component::damage{10});
         reg.emplace_component<component::velocity>(mob, component::velocity{-1, 0});
         reg.emplace_component<component::type>(mob, component::type{10});
+        reg.emplace_component<component::size>(mob, component::size{100, 50});
     } else if (mob_type == 1) {
         reg.emplace_component<component::health>(mob, component::health{100});
         reg.emplace_component<component::damage>(mob, component::damage{40});
         reg.emplace_component<component::velocity>(mob, component::velocity{-1, 0});
         reg.emplace_component<component::type>(mob, component::type{11});
+        reg.emplace_component<component::size>(mob, component::size{100, 50});
 
     } // rajouter d'autres types de mobs ici
     std::vector<std::string> newParams;
@@ -187,6 +191,7 @@ void ServerGame::spawnMob(int mob_type)
 void ServerGame::checkAllCollisions()
 {
     auto& positions = reg.get_components<component::position>();
+    auto& sizes = reg.get_components<component::size>();
     auto& types = reg.get_components<component::type>();
     auto& healths = reg.get_components<component::health>();
     auto& invincibles = reg.get_components<component::invincible>();
@@ -201,14 +206,16 @@ void ServerGame::checkAllCollisions()
                     // continue;
                     // }
             // }
-            if (isColliding(positions[i].value(), positions[j].value())) {
-                if (types[i].value().type == 5 && types[j].value().type >= 10) {
+            if (isColliding(positions[i].value(), positions[j].value(), sizes[i].value(), sizes[j].value())) {
+                if (types[i].value().type == 5 && types[j].value().type >= 10) { // MOB vs PLAYER
                     healths[i].value().hp -= 1000;
                     reg.emplace_component<component::invincible>(Entity(i), component::invincible{true});
                       if (healths[i].value().hp <= 0) {
-                        //reg.kill_entity(Entity(i));
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
+                        reg.kill_entity(Entity(i));
+                        checkAllCollisions();
+                        return;
                     } else {
                         std::vector<std::string> collisionParams;
                         collisionParams.push_back(std::to_string(i));
@@ -216,14 +223,15 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                }
-                if (types[i].value().type >= 10 && types[j].value().type == 5) {
+                } else if (types[i].value().type >= 10 && types[j].value().type == 5) { // MOB vs PLAYER
                     healths[j].value().hp -= 1000;
                     reg.emplace_component<component::invincible>(Entity(j), component::invincible{true});
                     if (healths[j].value().hp <= 0) {
-                        //reg.kill_entity(Entity(j));
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
+                        reg.kill_entity(Entity(j));
+                        checkAllCollisions();
+                        return;
                     } else {
                         std::vector<std::string> collisionParams;
                         collisionParams.push_back(std::to_string(j));
@@ -231,50 +239,61 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                }
-                if (types[i].value().type == 6 && types[j].value().type >= 10) {
+                } else if (types[i].value().type == 6 && types[j].value().type >= 10) { // BULLET vs MOB
+                    std::cout << "BULLET vs MOB" << std::endl;
                     healths[j].value().hp -= 1000;
                     // Mob
                     if(healths[j].value().hp <= 0){
-                        //reg.kill_entity(Entity(j));
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
+                        reg.kill_entity(Entity(j));
+                        checkAllCollisions();
+                        return;
                     }
-                }
-                if (types[i].value().type >= 10 && types[j].value().type == 6) {
+                } else if (types[i].value().type >= 10 && types[j].value().type == 6) { // BULLET vs MOB
+                    std::cout << "BULLET vs MOB" << std::endl;
                     healths[i].value().hp -= 1000;
                     //Mob
                     if(healths[i].value().hp <= 0){
-                        //reg.kill_entity(Entity(i));
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(i)});
+                        reg.kill_entity(Entity(i));
+                        checkAllCollisions();
+                        return;
                     }
-                }
-                if ((types[i].value().type == 0 || types[i].value().type == 1) && types[j].value().type == 5) {
+                } else if ((types[i].value().type == 0 || types[i].value().type == 1) && types[j].value().type == 5) { // PLAYER vs POWERUP
                     std::vector<std::string> collisionParams;
                     collisionParams.push_back(std::to_string(j));
                     collisionParams.push_back(std::to_string(types[i].value().type));
                     MediatorContext dummyContext;
                     handleColision(dummyContext, collisionParams);
-                }
-                if ((types[j].value().type == 0 || types[j].value().type == 1) && types[i].value().type == 5) {
+                    std::cout << "PLAYER vs POWERUP" << std::endl;
+                    reg.kill_entity(Entity(i));
+                    std::cout << "Killed entity" << std::endl;
+                    checkAllCollisions();
+                    return;
+                } else if ((types[j].value().type == 0 || types[j].value().type == 1) && types[i].value().type == 5) { // PLAYER vs POWERUP
                     std::vector<std::string> collisionParams;
                     collisionParams.push_back(std::to_string(i));
                     collisionParams.push_back(std::to_string(types[j].value().type));
                     MediatorContext dummyContext;
                     handleColision(dummyContext, collisionParams);
+                    std::cout << "PLAYER vs POWERUP" << std::endl;
+                    reg.kill_entity(Entity(j));
+                    std::cout << "Killed entity" << std::endl;
+                    checkAllCollisions();
+                    return;
                 }
             }
         }
     }
 }
 
-bool ServerGame::isColliding(const component::position& pos1, const component::position& pos2)
+bool ServerGame::isColliding(const component::position& pos1, const component::position& pos2, const component::size& size1, const component::size& size2)
 {
-    float threshold = 50.0f;
-    float dx = std::abs(pos1.x - pos2.x);
-    float dy = std::abs(pos1.y - pos2.y);
-    return (dx < threshold && dy < threshold);
+    bool x_collision = pos1.x < pos2.x + size2.width && pos2.x < pos1.x + size1.width;
+    bool y_collision = pos1.y < pos2.y + size2.height && pos2.y < pos1.y + size1.height;
+    return x_collision && y_collision;
 }
 
 
@@ -290,6 +309,7 @@ void ServerGame::handleConnect(const MediatorContext& context, const std::vector
     reg.emplace_component<component::health>(player, component::health{100});
     reg.emplace_component<component::damage>(player, component::damage{10});
     reg.emplace_component<component::type>(player, component::type{5});
+    reg.emplace_component<component::size>(player, component::size{50, 50});
 
     std::vector<std::string> newParams;
 
@@ -341,6 +361,7 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
     reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
     reg.emplace_component<component::velocity>(bullet, component::velocity{1, 0});
     reg.emplace_component<component::type>(bullet, component::type{6});
+    reg.emplace_component<component::size>(bullet, component::size{10, 10});
 
     std::vector<std::string> newParams;
     newParams.push_back(std::to_string(positions.x));
@@ -358,7 +379,6 @@ void ServerGame::handleColision(const MediatorContext& context, const std::vecto
 
 void ServerGame::handleDeath(const MediatorContext& context, const std::vector<std::string>& params)
 {
-    std::cout << "ETSZRDFLKJKHFDGSRETEUIOLHKVN BCXFXDSGRETYGUTJOKPIJGYHUOIPUHGYFDFXSGFYJUHOIP90IUYGFDXVFGH";
     std::vector<std::string> newParams;
     newParams.push_back(params[0]);
     med.notify(Sender::GAME, "DEATH", newParams, context);

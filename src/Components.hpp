@@ -39,4 +39,9 @@ namespace component{
     typedef struct invincible {
         bool is_invincible;
     } Invincible;
+
+    typedef struct size {
+        int width;
+        int height;
+    } Size;
 }

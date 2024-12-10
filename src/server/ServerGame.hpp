@@ -26,7 +26,7 @@ class ServerGame : public ISender {
         void spawnMob(int mob_type);
         void spawnPowerUp(int powerup_type);
         void checkAllCollisions();
-        bool isColliding(const component::position& pos1, const component::position& pos2);
+        bool isColliding(const component::position& pos1, const component::position& pos2, const component::size& size1, const component::size& size2);
 
 
         //Chaque fonction doit se terminer par un appel à la classe Mediator
