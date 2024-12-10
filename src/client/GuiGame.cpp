@@ -245,6 +245,12 @@ void Core::handleCommands(std::string command)
         int id, type;
         iss >> code >> id;
 
+        if (id == network->getId()) {
+            exit(0);
+        }
+
+        reg.kill_entity(Entity(id));
+
         std::cout << "Jsuis mort la team... jsuis ptetre allé UNNN PEUUU LOINNNN !" << std::endl;
 
     } else if (!command.empty()) {

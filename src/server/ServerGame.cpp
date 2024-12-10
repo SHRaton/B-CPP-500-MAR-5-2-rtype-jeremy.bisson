@@ -217,7 +217,7 @@ void ServerGame::checkAllCollisions()
                     //reg.emplace_component<component::invincible>(Entity(i), component::invincible{true});
                     if (healths[i].value().hp <= 0) {
                         MediatorContext dummyContext;
-                        handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
+                        handleDeath(dummyContext, std::vector<std::string>{std::to_string(i)});
                         reg.kill_entity(Entity(i));
                         checkAllCollisions();
                         return;
@@ -272,6 +272,7 @@ void ServerGame::checkAllCollisions()
                     collisionParams.push_back(std::to_string(types[i].value().type));
                     MediatorContext dummyContext;
                     handleColision(dummyContext, collisionParams);
+                    handleDeath(dummyContext, std::vector<std::string>{std::to_string(i)});
                     // std::cout << "PLAYER vs POWERUP" << std::endl;
                     reg.kill_entity(Entity(i));
                     // std::cout << "Killed entity" << std::endl;
@@ -283,6 +284,7 @@ void ServerGame::checkAllCollisions()
                     collisionParams.push_back(std::to_string(types[j].value().type));
                     MediatorContext dummyContext;
                     handleColision(dummyContext, collisionParams);
+                    handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
                     // std::cout << "PLAYER vs POWERUP" << std::endl;
                     reg.kill_entity(Entity(j));
                     // std::cout << "Killed entity" << std::endl;

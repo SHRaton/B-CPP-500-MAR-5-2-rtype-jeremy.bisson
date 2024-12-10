@@ -17,6 +17,7 @@ int main(int argc, char* argv[]) {
     #ifdef _WIN32
     enableANSI();
     #endif
+    srand(time(NULL));
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " <port>\n";
         return 1;
