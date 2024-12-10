@@ -95,7 +95,7 @@ public:
 
     void erase(size_type pos) {
         if (pos < _data.size()) {
-            _data[pos].reset();
+            _data.erase(_data.begin() + pos);
         }
     }
 

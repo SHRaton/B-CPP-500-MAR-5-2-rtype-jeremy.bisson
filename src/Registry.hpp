@@ -83,6 +83,7 @@ public:
         {
             erase_function(*this, e);
         }
+        _entities.erase(_entities.begin() + e);
     }
 
     template <typename Component>
