@@ -199,13 +199,13 @@ void Core::gui_login() {
         window.clear();
         renderTexture.clear(sf::Color::Black);
         for (const auto& name : drawOrder_login) {
-            renderTexture.draw(sprites_login[name].getSprite(), states);
+            renderTexture.draw(sprites_login[name].getSprite());
         }
-        renderTexture.draw(text_name, states);
-        renderTexture.draw(text_ip, states);
-        renderTexture.draw(text_port, states);
+        renderTexture.draw(text_name);
+        renderTexture.draw(text_ip);
+        renderTexture.draw(text_port);
         if (failed_connection == 1) {
-            renderTexture.draw(text_failed, states);
+            renderTexture.draw(text_failed);
         }
         renderTexture.display();
         sf::Sprite screenSprite(renderTexture.getTexture());
