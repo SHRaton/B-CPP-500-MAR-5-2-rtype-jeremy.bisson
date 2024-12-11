@@ -158,7 +158,7 @@ make
 
 ### Run Client
 ```bash
-./r-type_client
+./build/src/client/r-type_client
 ```
 
 ## Asset Structure 📁
