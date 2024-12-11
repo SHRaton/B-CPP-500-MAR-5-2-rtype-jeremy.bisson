@@ -16,8 +16,21 @@ The client is divided into 3 main parts:
 ### File Structure
 ```
 src/client/
-├── Core.cpp       # Main game management
-└── GuiGame.cpp    # Game graphical interface
+├── logs/
+│   ├── .gitkeep
+│   └── log.txt
+├── Core.cpp
+├── Core.hpp
+├── GuiGame.cpp
+├── GuiLogin.cpp
+├── GuiMenu.cpp
+├── Main.cpp
+├── Sprite.cpp
+├── Sprite.hpp
+├── UDPNetworkClient.cpp
+├── UDPNetworkClient.hpp
+├── Utils.cpp
+└── Utils.hpp
 ```
 
 ### Main Features ⭐
@@ -65,7 +78,7 @@ The `handleMoove()` function implements:
 ```cpp
 if (keysPressed[sf::Keyboard::Up]) {
     movement.y -= baseSpeed * deltaSeconds;
-    // Animation logic...
+    networkClient.sendAction(GameAction::UP);
 }
 ```
 
@@ -78,12 +91,29 @@ Features:
 - Message queues
 - Dedicated network operations thread
 
-### Protocol
-
-Main messages:
-```
-MOVE id x y     # Player position update
-CONNECT id      # New player connection
+### Game Actions
+```cpp
+enum class GameAction {
+    NONE = 0b0000,            // 0
+    SHOOT = 0b0001,           // 1
+    MOVE = 0b0010,            // 2
+    DOWN = 0b0011,            // 3
+    LEFT = 0b0100,            // 4
+    RIGHT = 0b0101,           // 5
+    UP = 0b0110,             // 6
+    STOP = 0b0111,           // 7
+    POWER_UP = 0b1000,        // 8
+    POWER_UP_SPAWN = 0b1001,  // 9
+    RESPAWN = 0b1010,         // 10
+    MOB_SPAWN = 0b1011,       // 11
+    QUIT = 0b1111,           // 15
+    STOP_Y = 0b10000,        // 16
+    STOP_X = 0b10001,        // 17
+    DISCONNECT = 0b11011,     // 27
+    CONNECT = 0b11111,       // 31
+    DEATH = 0b10010,         // 18
+    COLLISION = 0b10100       // 20
+};
 ```
 
 ## Entity System (ECS) 🧩
@@ -115,6 +145,20 @@ fps = 200           // FPS limit
 baseSpeed = 600.f   // Base ship speed
 str_ip = "127.0.0.1"// Default IP
 str_port = "8080"   // Default port
+```
+
+## Build and Run 🚀
+
+### Build Project
+```bash
+mkdir build && cd build
+cmake ..
+make
+```
+
+### Run Client
+```bash
+./r-type_client
 ```
 
 ## Asset Structure 📁
