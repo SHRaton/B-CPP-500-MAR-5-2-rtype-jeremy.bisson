@@ -37,8 +37,13 @@ void ServerGame::initTimers()
     invincible_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
     setup_invincible_timer(*invincible_timer_);
 
+
+    ia_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(15));
+    setup_iaMobs(*ia_timer_);
+
     triple_shot_expiration_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
     setup_triple_shot_expiration_timer(*triple_shot_expiration_timer_);
+
 
     io_thread_ = std::thread([this]() {
             io_context_.run();
@@ -93,6 +98,49 @@ void ServerGame::setup_invincible_timer(boost::asio::steady_timer& invincible_ti
             setup_invincible_timer(invincible_timer);
         }
     });
+}
+
+void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
+{
+    std::cout << Colors::GREEN << "[Console] Setting up IA timer" << Colors::RESET << std::endl;
+    
+    try {
+        ia_timer.async_wait([this, &ia_timer](const boost::system::error_code& ec) {
+            if (!ec) {
+                std::cout << Colors::BLUE << "[Console] IA Timer tick" << Colors::RESET << std::endl;
+                
+                auto& types = reg.get_components<component::type>();
+                auto& velocities = reg.get_components<component::velocity>();
+                
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_int_distribution<> dist(0, 1);
+                
+                for (size_t i = 0; i < types.size(); ++i) {
+                    if (types[i].has_value() && types[i].value().type >= 10) {
+                        int direction = dist(gen);
+                        
+                        if (direction == 0) {
+                            velocities[i].value().vy = -1;
+                        } else {
+                            velocities[i].value().vy = 1;
+                        }
+                        
+                        std::vector<std::string> params = {std::to_string(i)};
+                        MediatorContext dummyContext;
+                        handleMoves((direction == 0 ? "UP" : "DOWN"), dummyContext, params);
+                    }
+                }
+                
+                ia_timer.expires_from_now(std::chrono::milliseconds(300));
+                setup_iaMobs(ia_timer);
+            } else {
+                std::cout << Colors::RED << "[Error] IA timer error: " << ec.message() << Colors::RESET << std::endl;
+            }
+        });
+    } catch (const std::exception& e) {
+        std::cout << Colors::RED << "[Error] Exception in setup_iaMobs: " << e.what() << Colors::RESET << std::endl;
+    }
 }
 
 void ServerGame::setup_triple_shot_expiration_timer(boost::asio::steady_timer& triple_shot_timer)
