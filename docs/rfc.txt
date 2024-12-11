@@ -4,7 +4,7 @@ Request for Comments: 4242                                   Jérémy DELFINO
                                                              Luca GIGLIO
                                                              Alexandre VITTENET
                                                              Epitech Marseille
-                                                            November 2024
+                                                            December 2024
 Category: Standards Track
                             R-TYPE Protocol
 
@@ -17,154 +17,95 @@ Table of contents
 
     1. Introduction....................................................1
     2. R-TYPE Network Model.............................................2
-    3. R-TYPE Protocol TCP.............................................3
-    4. R-TYPE Protocol UDP.............................................4
-    5. Security and speed considerations...............................5
+    3. R-TYPE Protocol Commands........................................3
+    4. R-TYPE Protocol Implementation..................................4
+    5. Security and Performance Considerations.........................5
 
 1. Introduction
 
-    First of all, the R-TYPE is an online multiplayer game. The game is
-    played by multiple players on a server. In order to implement this game
-    we need to define a protocol that allows the client to communicate with
-    the server. The protocol is called R-TYPE protocol.
+    The R-TYPE is an online multiplayer game that requires real-time communication
+    between clients and server. The protocol is built around binary-encoded
+    actions using a 5-bit system, allowing for efficient packet transmission
+    while maintaining readability through debug color coding.
 
-    The R-TYPE protocol is a simple protocol that allows a client to
-    request a resource from a server. The server can then respond with
-    the requested resource or an error code.
-    To send a request, we only need to specify and ACTION and a message.
-
-    Mutliple actions exists:
-    CONNECT, DISCONNET
-
-    The message is a string that can be empty. It is then interpreted by
-    the parser of the server/client.
-
-Gueran                  Standards Track                    [Page 1]
-
-RFC 4242                    R-TYPE Protocol               November 2024
+    The protocol defines a set of specific actions that cover all game events
+    from movement to power-up spawning. Each action can carry additional
+    parameters as needed.
 
 2. R-Type Network Model
 
-    When we want to send a request using our protocol we create an Event struct.
-    The struct contains the following fields:
-        ACTION ACTION_NAME; // The action to perform
-        std::string body; // The message to send
-    We then create an object of EventHandler that will handle the event.
-    The EventHandler will then create a NetworkEvent struct that contains the
-    messages and other data to send.
-    The NetworkEvent struct contains the following fields:
+    The server manages client connections through UDP endpoints, with each client
+    being tracked in a ClientInfo structure containing:
+        - Name (string)
+        - Connection status (bool)
+        - Endpoint information (IP:Port)
 
-    ACTION ACTION_NAME; // The action to perform
-    int original_size; // The size of the message
-    int compressed_size; // The size of the compressed message
-    char* body; // The compressed message
+    Messages are encoded using a 5-bit binary system where each action is
+    represented by a unique binary code. The message structure is:
+        BINARY_CODE [ARGUMENT1] [ARGUMENT2] ...
 
+    Example:
+        "00001 playerID position" represents a SHOOT action
 
-Gueran                  Standards Track                    [Page 2]
+3. R-TYPE Protocol Commands
 
-RFC 4242                    R-TYPE Protocol               November 2024
+    The protocol defines the following actions:
+    +---------------+------------+--------------------+
+    | Action        | Binary     | Description       |
+    +---------------+------------+--------------------+
+    | NONE          | 0b0000     | No action         |
+    | SHOOT         | 0b0001     | Player shoots     |
+    | MOVE          | 0b0010     | Generic movement  |
+    | DOWN          | 0b0011     | Move downward     |
+    | LEFT          | 0b0100     | Move left         |
+    | RIGHT         | 0b0101     | Move right        |
+    | UP            | 0b0110     | Move upward       |
+    | STOP          | 0b0111     | Stop movement     |
+    | POWER_UP      | 0b1000     | Use power-up      |
+    | POWER_UP_SPAWN| 0b1001     | Spawn power-up    |
+    | RESPAWN       | 0b1010     | Player respawn    |
+    | MOB_SPAWN     | 0b1011     | Spawn enemy       |
+    | QUIT          | 0b1111     | Exit game         |
+    | STOP_Y        | 0b10000    | Stop vertical     |
+    | STOP_X        | 0b10001    | Stop horizontal   |
+    | DEATH         | 0b10010    | Player death      |
+    | COLLISION     | 0b10100    | Object collision  |
+    | DISCONNECT    | 0b11011    | Client disconnect |
+    | CONNECT       | 0b11111    | Client connect    |
+    +---------------+------------+--------------------+
 
-3. R-TYPE Protocol TCP
-    We use TCP to communicate between the client and the server. Because
-    of the reliability of TCP, we can be sure that the message will be
-    received by the server/client. This protocol is only used in some cases :
-    - When the client wants to connect to the server
-    - When the client wants to create a instance
-    - When the client wants to join a instance
+4. R-TYPE Protocol Implementation
 
-    Therefore only a few actions will be used for the TCP protocol.
+    The server implementation uses boost::asio for network operations and
+    runs on multiple threads:
+    - Main thread for server management
+    - Receive thread for handling incoming messages
+    - Game logic thread for state updates
 
-    When the client joins, he will send a LIST action to the server in order
-    to get the list of instances. The server will then send a LIST action
-    with the list of instances to the client. The server will send a LIST action
-    for each instance. The body of the message would contain information about
-    the instance. (INSTANCE_NAME GAME_NAME PLAYERS_COUNT MAX_PLAYERS_COUNT PORT ID)
+    Message handling follows this flow:
+    1. Receive raw message from client
+    2. Decode binary action code
+    3. Parse additional arguments
+    4. Process game action
+    5. Broadcast updates to other clients
 
-        Example of a client joining a server:
+    Debug messages use color coding for better visibility:
+    - GREEN: Server status messages
+    - RED: Disconnection events
+    - YELLOW: Connection events
+    - BLUE: Action logging
 
-    \------------------/          \------------------/
-    |      Client      |          |      Server      |
-    \------------------/          \------------------/
-    |                  |          |                  |
-    |   CONNECTION     |          |                  |
-    |----------------->|          |                  |
-    |    LIST          |          |                  |
-    |----------------->|          |                  |
-    |                  |          |      LIST        |
-    |                  |          | A RTPE 0 4 4240 0|
-    |                  |          |                  |
-    |                  |          |<-----------------|
-    |                  |          |                  |
-    |      JOIN        |          |                  |
-    |      4240        |          |                  |
-    |----------------->|          | USER JOINED GAME |
-    |                  |          |                  |
-    \------------------/          \------------------/
+5. Security and Performance Considerations
 
-    Here the client connects in TCP to the server. Then he sends a LIST action
-    to the server. The server then sends a LIST action with the list of instances
-    to the client. The client then sends a JOIN action to the server with the
-    port of the instance. And connect to the instance in UDP.
+    The system implements several important features for game stability:
+    - Thread-safe message handling
+    - Asynchronous network operations
+    - Binary encoding for reduced bandwidth
+    - Broadcast optimization (sender excluded from broadcasts)
+    - Comprehensive error handling
+    - Debug logging system
 
-    When the client wants to create an instance, he will send a CREATE action
-    to the server. The server will then create an instance and send a JOINED
-    action to the client. The client will then connect in UDP to the instance.
-
-    You can find more details about our protocol inside of the docs/server.md file.
-
-
-Gueran                  Standards Track                    [Page 3]
-
-RFC 4242                    R-TYPE Protocol               November 2024
-
-4. R-TYPE Protocol UDP
-
-    This protocol is used for the game itself. As it's low latency.
-    This protocol uses the same Event struct, and ACTION enum as the TCP protocol.
-    It also uses the same compression and CRC system to ensure reliability.
-
-    You can find more details about our protocol inside of the docs/server.md file.
-
-    Most of the actions used in UDP are : LEFT, RIGHT, UP, DOWN, SPACE, QUIT,
-    PING, PONG, SPRITE, TEXT, DEAD, FLIP, RESET, UNKNOWN, CHECK, SOUND, KEY
-
-    When the client wants to move, he will send a LEFT, RIGHT, UP or DOWN action
-    to the server. The server will then update the position of the player and
-    send a SPRITE action to all clients containing new position inside of the body.
-
-    When the client wants to shoot, he will send a SPACE action to the server.
-    The server will then create a bullet and send a SPRITE action to all clients
-    containing the bullet position inside of the body.
-
-    When the client wants to quit, he will send a QUIT action to the server.
-
-    When the client presses a KEY on his keyboard, he will send a KEY action
-    to the server, containing the key pressed inside of the body.
-
-    To handle packet losses in critical moment (e.g when reicieving a SPRITE),
-    the UDP server will send a CHECK action all clients every 1000ms.
-    Inside of the body of the CHECK action, the server will send the number of
-    entities in the game. The client will then compare the number of entities
-    with the number of entities he has. If the number is different, the client
-    will send a CHECK action to the server. The server will then send all
-    entities to the client.
-
-Gueran                  Standards Track                    [Page 5]
-
-RFC 4242                    R-TYPE Protocol               November 2024
-
-5. Security and speed considerations
-
-    Because of the simplicity and the non criticality of the game, we don't
-    need to use a complex protocol. We only need to be sure that the message
-    is not corrupted. And that the message is received by the server/client.
-    We use a CRC to be sure that the message is not corrupted. And we use TCP
-    to be sure that the message is received by the server/client during critical
-    moments.
-
-    Also, each UDP and TCP server/client runs on a different thread. This way,
-    the game won't be affected by the network. And the game will run smoothly.
-
-    When ressources are shared between thread (e.g entities, events, etc..) we
-    use a ThreadSafeQueue and a mutex to be sure that the ressources are not
-    corrupted.
+    The UDP protocol was chosen for its low latency characteristics,
+    essential for real-time gameplay. While it doesn't guarantee delivery,
+    the game design accounts for potential packet loss through regular
+    state updates and client-side prediction.

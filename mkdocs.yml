@@ -1,1 +1,18 @@
-site_name: R-Type Docs
+# Project information
+site_name: R-Type Documentation
+site_description: "Documentation complète du projet R-Type"
+site_author: "Epitech Marseille"
+
+# Theme
+theme: readthedocs
+
+
+# Markdown extensions
+markdown_extensions:
+  - admonition
+  - footnotes
+  - attr_list
+  - def_list
+
+# Repository
+repo_url: https://github.com/EpitechPromo2027/B-CPP-500-MAR-5-2-rtype-jeremy.bisson
