@@ -43,8 +43,11 @@ void Sprite::update()
         sf::Time elapsed = clock.restart();
         float deltaTime = elapsed.asSeconds();
         sprite.move(-scrollSpeed * 60 * deltaTime, 0);
-        if (sprite.getPosition().x <= -sprite.getGlobalBounds().width / 2) {
-            sprite.setPosition(0, 0);
+
+        if (!isGameBackground) {
+            if (sprite.getPosition().x <= -sprite.getGlobalBounds().width / 2) {
+                sprite.setPosition(0, 0);
+            }
         }
     }
 }

@@ -107,12 +107,12 @@ void Core::loadAssets()
     };
 
     sprites_game = {
-        {"background", Sprite("../ressources/background/background.png", true, 4.5)},
-        {"small_stars", Sprite("../ressources/background/small_stars.png", true, 2.0f, 20)},
+        {"background_menu", Sprite("../ressources/background/back_game1.png", true, 4.5)}
     };
+    sprites_game["background_menu"].setAsGameBackground();
+
     drawOrder_game = {
-        "background",
-        "small_stars",
+        "background_menu",
     };
 
     font.loadFromFile("../ressources/fonts/NicoMoji.ttf");
@@ -158,4 +158,60 @@ void Core::loadAssets()
     }
     powerupSound.setBuffer(powerupBuffer);
     powerupSound.setVolume(soundVolume * 100.0);
+}
+
+bool Core::loadDaltonismShader(sf::Shader& shader, DaltonismType type)
+{
+    std::string fragmentShader;
+    switch(type) {
+        case PROTANOPIA:
+            fragmentShader = R"(
+                uniform sampler2D texture;
+                void main() {
+                    vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
+                    // Matrice de transformation pour protanopie
+                    mat3 protanopiaMatrix = mat3(
+                        0.567, 0.433, 0.000,
+                        0.558, 0.442, 0.000,
+                        0.000, 0.242, 0.758
+                    );
+                    vec3 transformedColor = protanopiaMatrix * pixel.rgb;
+                    gl_FragColor = vec4(transformedColor, pixel.a);
+                }
+            )";
+            break;
+        case DEUTERANOPIA:
+            fragmentShader = R"(
+                uniform sampler2D texture;
+                void main() {
+                    vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
+                    // Matrice de transformation pour deutéranopie
+                    mat3 deuteranopiaMatrix = mat3(
+                        0.625, 0.375, 0.000,
+                        0.700, 0.300, 0.000,
+                        0.000, 0.300, 0.700
+                    );
+                    vec3 transformedColor = deuteranopiaMatrix * pixel.rgb;
+                    gl_FragColor = vec4(transformedColor, pixel.a);
+                }
+            )";
+            break;
+        case TRITANOPIA:
+            fragmentShader = R"(
+                uniform sampler2D texture;
+                void main() {
+                    vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
+                    // Matrice de transformation pour tritanopie
+                    mat3 tritanopiaMatrix = mat3(
+                        0.950, 0.050, 0.000,
+                        0.000, 0.433, 0.567,
+                        0.000, 0.475, 0.525
+                    );
+                    vec3 transformedColor = tritanopiaMatrix * pixel.rgb;
+                    gl_FragColor = vec4(transformedColor, pixel.a);
+                }
+            )";
+            break;
+    }
+    return shader.loadFromMemory(fragmentShader, sf::Shader::Fragment);
 }

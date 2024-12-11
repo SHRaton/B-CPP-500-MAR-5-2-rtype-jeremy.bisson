@@ -13,6 +13,7 @@ class Sprite {
         Sprite(const std::string& texturePath, bool scrolling = false, float speed = 1.0f,
                 int interval = 50, const std::string& hoverTexturePath = "");
 
+        void setAsGameBackground() { isGameBackground = true; };
         void update();
         void update_xy(int x, int y);
         void setHovered(bool hover);
@@ -31,4 +32,5 @@ class Sprite {
         int updateInterval = 0;
         bool isHoverable = false;
         bool isHovered = false;
+        bool isGameBackground = false;
 };
