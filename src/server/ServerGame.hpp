@@ -43,6 +43,7 @@ class ServerGame : public ISender {
         void handlePowerUpSpawn(const MediatorContext& context, const std::vector<std::string>& params){};
         void handleColision(const MediatorContext& context, const std::vector<std::string>& params);
         void handleDeath(const MediatorContext& context, const std::vector<std::string>& params);
+        void handleMobShoot(const MediatorContext& context, const std::vector<std::string>& params){};
 
 
 

@@ -107,31 +107,44 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
     try {
         ia_timer.async_wait([this, &ia_timer](const boost::system::error_code& ec) {
             if (!ec) {
+                MediatorContext dummyContext;
                 std::cout << Colors::BLUE << "[Console] IA Timer tick" << Colors::RESET << std::endl;
-                
+
                 auto& types = reg.get_components<component::type>();
                 auto& velocities = reg.get_components<component::velocity>();
-                
+
                 std::random_device rd;
                 std::mt19937 gen(rd());
                 std::uniform_int_distribution<> dist(0, 1);
-                
+
                 for (size_t i = 0; i < types.size(); ++i) {
+                    Entity bullet = reg.spawn_entity();
+                    auto const &positions = reg.get_components<component::position>()[i].value();
+                    std::vector<std::string> newParams;
+                    newParams.push_back(std::to_string(positions.x));
+                    newParams.push_back(std::to_string(positions.y));
+
+                    reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
+                    reg.emplace_component<component::velocity>(bullet, component::velocity{-1, 0});
+                    reg.emplace_component<component::type>(bullet, component::type{6});
+                    reg.emplace_component<component::size>(bullet, component::size{10, 10});
+
+                    med.notify(Sender::GAME, "MOB_SHOOT", newParams, dummyContext);
+
+
+
+
                     if (types[i].has_value() && types[i].value().type >= 10) {
                         int direction = dist(gen);
-                        
                         if (direction == 0) {
                             velocities[i].value().vy = -1;
                         } else {
                             velocities[i].value().vy = 1;
                         }
-                        
                         std::vector<std::string> params = {std::to_string(i)};
-                        MediatorContext dummyContext;
                         handleMoves((direction == 0 ? "UP" : "DOWN"), dummyContext, params);
                     }
                 }
-                
                 ia_timer.expires_from_now(std::chrono::milliseconds(300));
                 setup_iaMobs(ia_timer);
             } else {
