@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <string>
+#include <vector>
+#include <chrono>
 
 
 namespace component{
@@ -44,4 +46,9 @@ namespace component{
         int width;
         int height;
     } Size;
+
+    struct triple_shot {
+        bool is_active = false;
+        std::chrono::steady_clock::time_point activation_time;
+    };
 }
