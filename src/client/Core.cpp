@@ -107,12 +107,16 @@ void Core::loadAssets()
     };
 
     sprites_game = {
-        {"background_menu", Sprite("../ressources/background/back_game1.png", true, 4.5)}
+        {"background_game1", Sprite("../ressources/background/back_game1.png", true, 4.5)},
+        {"background_game2", Sprite("../ressources/background/back_game2.png", true, 4.5)},
     };
-    sprites_game["background_menu"].setAsGameBackground();
+    sprites_game["background_game1"].setAsGameBackground();
+    sprites_game["background_game2"].setAsGameBackground();
+    sprites_game["background_game2"].setPosition(sf::Vector2f(14190, 0));
 
     drawOrder_game = {
-        "background_menu",
+        "background_game1",
+        "background_game2",
     };
 
     font.loadFromFile("../ressources/fonts/NicoMoji.ttf");
@@ -153,11 +157,17 @@ void Core::loadAssets()
     buttonSound_click.setBuffer(buttonBuffer_click);
     buttonSound_click.setVolume(soundVolume * 100.0);
 
-    if (!powerupBuffer.loadFromFile("../ressources/sounds/click.wav")) {
+    if (!powerupBuffer.loadFromFile("../ressources/sounds/shot_sound.wav")) {
         std::cout << "Error loading button sound" << std::endl;
     }
     powerupSound.setBuffer(powerupBuffer);
     powerupSound.setVolume(soundVolume * 100.0);
+
+    if (!shotBuffer.loadFromFile("../ressources/sounds/click.wav")) {
+        std::cout << "Error loading button sound" << std::endl;
+    }
+    shotSound.setBuffer(powerupBuffer);
+    shotSound.setVolume(soundVolume * 100.0);
 }
 
 bool Core::loadDaltonismShader(sf::Shader& shader, DaltonismType type)

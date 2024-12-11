@@ -501,7 +501,7 @@ void Core::handle_shoot(float deltaSeconds, std::optional<component::position>& 
 
     if (keysPressed[sf::Keyboard::A] && shootCooldown >= 1.0f) {
         send_input_if_needed(GameAction::SHOOT, inputState.shootSent);
-
+        shotSound.play();
         shootCooldown = 0.0f;
     } else {
         inputState.shootSent = false;
