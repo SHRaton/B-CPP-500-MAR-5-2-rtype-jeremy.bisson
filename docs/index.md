@@ -65,21 +65,19 @@ cmake --build . --config Release
 - **Networking**: Boost.Asio
 - **Build System**: CMake
 - **Package Manager**: Conan
-- **Containerization**: Docker
 
 ## 📦 Project Structure
 
 ```
 r-type/
 ├── docs/               # Documentation files
+├── build/              # Conan build files
 ├── src/               # Source files
 │   ├── client/        # Client implementation
-│   ├── server/        # Server implementation
-│   ├── components/    # ECS components
-│   └── systems/       # Game systems
-├── assets/            # Game resources
+│   └──  server/        # Server implementation
+│   systems/       # Game systems
+├── ressources/            # Game resources
 ├── tests/             # Test files
-└── docker/            # Docker configuration
 ```
 
 ## 🔄 Development Workflow
@@ -103,14 +101,6 @@ r-type/
    - Build for target platforms
    - Package the application
    - Deploy using Docker (optional)
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](./development/contributing.md) for details on:
-- Code style
-- Commit messages
-- Pull request process
-- Development workflow
 
 ## 📫 Support
 
