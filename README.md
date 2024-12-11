@@ -79,9 +79,15 @@ R-Type is a modern networked multiplayer recreation of the classic 1987 shoot'em
 ## 📚 Documentation
 
 - [Full Documentation](docs/index.md)
-- [Installation Guide](docs/guides/installation.md)
-- [Network Protocol](docs/technical/network.md)
-- [Contributing Guide](docs/development/contributing.md)
+- [Server Documentation](docs/server.md)
+- [Client Documentation](docs/client.md)
+- [Installation Guide](docs/installation.md)
+- [Network Protocol](docs/rfc.txt)
+- [Accessibility](docs/Accessibility.md)
+
+- [Technical Comparative](docs/TechnicalComparative.md)
+- [Network Choice](docs/NetworkChoice.md)
+- [Architecture Choice](docs/ArchitectureChoice.md)
 
 ## 📬 Support
 
