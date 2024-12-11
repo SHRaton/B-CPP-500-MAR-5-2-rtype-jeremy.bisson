@@ -418,7 +418,6 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
     auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
     auto& triple_shots = reg.get_components<component::triple_shot>();
 
-
     if (triple_shots.size() > player_id && triple_shots[player_id].value().is_active) {
         // Tir multiple
         struct MissileConfig {
@@ -435,27 +434,25 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
 
         for (const auto& missile : missiles) {
             Entity bullet = reg.spawn_entity();
+            std::vector<std::string> newParams;
+            newParams.push_back(std::to_string(positions.x));
+            newParams.push_back(std::to_string(positions.y + missile.y_offset));
             reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y + missile.y_offset});
             reg.emplace_component<component::velocity>(bullet, component::velocity{missile.vx, missile.vy});
             reg.emplace_component<component::type>(bullet, component::type{6});
             reg.emplace_component<component::size>(bullet, component::size{10, 10});
-
-            // Notification de tir pour chaque missile
-            std::vector<std::string> newParams;
-            newParams.push_back(std::to_string(positions.x));
-            newParams.push_back(std::to_string(positions.y + missile.y_offset));
             med.notify(Sender::GAME, "SHOOT", newParams, context);
         }
     } else {
         // Tir normal
         Entity bullet = reg.spawn_entity();
+        std::vector<std::string> newParams;
+        newParams.push_back(std::to_string(positions.x));
+        newParams.push_back(std::to_string(positions.y));
         reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
         reg.emplace_component<component::velocity>(bullet, component::velocity{1, 0});
         reg.emplace_component<component::type>(bullet, component::type{6});
         reg.emplace_component<component::size>(bullet, component::size{10, 10});
-        std::vector<std::string> newParams;
-        newParams.push_back(std::to_string(positions.x));
-        newParams.push_back(std::to_string(positions.y));
         med.notify(Sender::GAME, "SHOOT", newParams, context);
     }
 }
