@@ -70,40 +70,23 @@ cmake --build .
 
 ```
 📦 R-Type
-┣ 📂 Release/
-┃ ┣ 📜 r-type_client.exe
-┃ ┗ 📜 r-type_server.exe
-┗ 📂 Debug/
-  ┣ 📜 r-type_client.exe
-  ┗ 📜 r-type_server.exe
+┣ 📂 build/
+┃ ┣ 📂 src/
+┃ ┃ ┣ 📂 client/
+┃ ┃ ┃ ┣ 📜 r-type_client.exe
+┃ ┃ ┣ 📂 server/
+┃ ┃ ┃ ┗ 📜 r-type_server.exe
+┗
+
 ```
 
 ### Launch 🎮
 ```bash
 # Client
-./r-type_client.exe
+./build/src/client/r-type_client.exe
 
 # Server
-./r-type_server.exe
-```
-
-## Docker 🐳
-
-### Available Images
-- Compilation image: [adamelm/r-type-compiler](https://hub.docker.com/r/adamelm/r-type-compiler)
-  - Based on ubuntu:latest
-  - Includes all necessary dependencies
-
-### Docker Compilation
-```bash
-# Build image
-docker build -t r-type .\Dockerfile.build
-```
-
-### Docker Compose Deployment
-```bash
-# Build and launch server
-docker-compose up
+./build/src/server/r-type_server.exe
 ```
 
 ## CMake Structure 📝

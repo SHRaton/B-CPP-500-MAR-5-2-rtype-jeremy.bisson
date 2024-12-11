@@ -14,6 +14,7 @@ The server integrates the following components:
 ```cpp
 component::position    // Entity positions
 component::velocity   // Entity speeds
+component::type       // Entity type
 component::drawable   // Graphical resources
 component::controllable // Entity control
 component::health    // Hit points
@@ -194,7 +195,7 @@ Handled actions:
 
 To launch the server:
 ```bash
-./r-type_server <port>
+./build/src/server/r-type_server <port>
 ```
 
 ### Initialization
@@ -263,7 +264,7 @@ reg.register_component<component::new_component>();
 
 To launch the server:
 ```bash
-./r-type_server <port>
+./build/src/server/r-type_server <port>
 ```
 
 ### Requirements ✅
