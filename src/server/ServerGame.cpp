@@ -240,7 +240,7 @@ void ServerGame::checkAllCollisions()
                     //reg.emplace_component<component::invincible>(Entity(i), component::invincible{true});
                     if (healths[i].value().hp <= 0) {
                         MediatorContext dummyContext;
-                        handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
+                        handleDeath(dummyContext, std::vector<std::string>{std::to_string(i)});
                         reg.kill_entity(Entity(i));
                         checkAllCollisions();
                         return;
