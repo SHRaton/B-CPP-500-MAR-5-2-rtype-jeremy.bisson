@@ -14,6 +14,13 @@
 #include <sstream>
 #include "../server/ServerNetwork.hpp"
 
+enum DaltonismType {
+    PROTANOPIA,    // Rouge-vert (faiblesse des cônes rouges)
+    DEUTERANOPIA,  // Rouge-vert (faiblesse des cônes verts)
+    TRITANOPIA,    // Bleu-jaune (rare)
+    NONE
+};
+
 class Core {
     public :
         Core();
@@ -34,6 +41,9 @@ class Core {
         void gui_game();
         void handleCommands(std::string command);
         void handleMoove();
+        bool loadDaltonismShader(sf::Shader& shader, DaltonismType type);
+        // Option
+        void gui_option();
         //*************** Graphic ***************//
 
         //*************** ECS ***************//
@@ -88,6 +98,19 @@ class Core {
 
         std::map<std::string, Sprite> sprites_menu;
         std::vector<std::string> drawOrder_menu;
+
+        std::map<std::string, Sprite> sprites_option;
+        std::vector<std::string> drawOrder_option;
+        sf::RectangleShape soundBar;
+        sf::RectangleShape soundBarHitBox;
+        sf::Text text_option;
+        sf::Text text_graphics;
+        sf::Text text_sound;
+        sf::Text text_sound_general;
+        float soundVolume;
+
+        // Texture to concat all draw and apply Shader on it
+        sf::RenderTexture renderTexture;
 
         std::map<std::string, Sprite> sprites_login;
         std::vector<std::string> drawOrder_login;
@@ -170,6 +193,8 @@ class Core {
         const int NEUTRAL_FRAME = 2;
         const int MAX_UP_FRAME = 4;
         const int MIN_DOWN_FRAME = 0;
-        
 
+        DaltonismType daltonismType;
+        sf::Shader daltonismShader;
+        sf::RenderStates states;
 };

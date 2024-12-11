@@ -568,6 +568,62 @@ void Core::update_hud()
     }
 }
 
+bool Core::loadDaltonismShader(sf::Shader& shader, DaltonismType type)
+{
+    std::string fragmentShader;
+    switch(type) {
+        case PROTANOPIA:
+            fragmentShader = R"(
+                uniform sampler2D texture;
+                void main() {
+                    vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
+                    // Matrice de transformation pour protanopie
+                    mat3 protanopiaMatrix = mat3(
+                        0.567, 0.433, 0.000,
+                        0.558, 0.442, 0.000,
+                        0.000, 0.242, 0.758
+                    );
+                    vec3 transformedColor = protanopiaMatrix * pixel.rgb;
+                    gl_FragColor = vec4(transformedColor, pixel.a);
+                }
+            )";
+            break;
+        case DEUTERANOPIA:
+            fragmentShader = R"(
+                uniform sampler2D texture;
+                void main() {
+                    vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
+                    // Matrice de transformation pour deutéranopie
+                    mat3 deuteranopiaMatrix = mat3(
+                        0.625, 0.375, 0.000,
+                        0.700, 0.300, 0.000,
+                        0.000, 0.300, 0.700
+                    );
+                    vec3 transformedColor = deuteranopiaMatrix * pixel.rgb;
+                    gl_FragColor = vec4(transformedColor, pixel.a);
+                }
+            )";
+            break;
+        case TRITANOPIA:
+            fragmentShader = R"(
+                uniform sampler2D texture;
+                void main() {
+                    vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
+                    // Matrice de transformation pour tritanopie
+                    mat3 tritanopiaMatrix = mat3(
+                        0.950, 0.050, 0.000,
+                        0.000, 0.433, 0.567,
+                        0.000, 0.475, 0.525
+                    );
+                    vec3 transformedColor = tritanopiaMatrix * pixel.rgb;
+                    gl_FragColor = vec4(transformedColor, pixel.a);
+                }
+            )";
+            break;
+    }
+    return shader.loadFromMemory(fragmentShader, sf::Shader::Fragment);
+}
+
 void Core::gui_game()
 {
     load_spaceship();
@@ -583,7 +639,12 @@ void Core::gui_game()
             io_context_.run();
     });
 
-    window.setFramerateLimit(fps);
+    //window.setFramerateLimit(fps);
+    if (daltonismType != DaltonismType::NONE) {
+        if (!loadDaltonismShader(daltonismShader, daltonismType)) {
+            throw std::runtime_error("Error when loading Shader for daltonism");
+        }
+    }
     while (window.isOpen()) {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
@@ -607,14 +668,23 @@ void Core::gui_game()
             sprite.update();
         }
         window.clear();
+        renderTexture.clear(sf::Color::Black);
+        states.shader = &daltonismShader;
         for (const auto& name : drawOrder_game) {
-            window.draw(sprites_game[name].getSprite());
+            renderTexture.draw(sprites_game[name].getSprite());
         }
-        sys.draw_system(reg, window);
-        window.draw(fpsText);
-        window.draw(latencyText);
-        window.draw(shootBar);
-        window.draw(hp);
+        sys.draw_system(reg, renderTexture);
+        renderTexture.draw(fpsText);
+        renderTexture.draw(latencyText);
+        renderTexture.draw(shootBar);
+        renderTexture.draw(hp);
+        renderTexture.display();
+        sf::Sprite screenSprite(renderTexture.getTexture());
+        if (daltonismType != DaltonismType::NONE) {
+            window.draw(screenSprite, &daltonismShader);
+        } else {
+            window.draw(screenSprite);
+        }
         window.display();
     }
 }

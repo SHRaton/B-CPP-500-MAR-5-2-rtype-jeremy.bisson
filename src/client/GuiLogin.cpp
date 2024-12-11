@@ -179,8 +179,10 @@ void Core::gui_login() {
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
+            if (event.type == sf::Event::Closed || 
+                (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                 window.close();
+                exit (0);
             }
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
@@ -195,14 +197,22 @@ void Core::gui_login() {
             sprite.update();
         }
         window.clear();
+        renderTexture.clear(sf::Color::Black);
         for (const auto& name : drawOrder_login) {
-            window.draw(sprites_login[name].getSprite());
+            renderTexture.draw(sprites_login[name].getSprite(), states);
         }
-        window.draw(text_name);
-        window.draw(text_ip);
-        window.draw(text_port);
+        renderTexture.draw(text_name, states);
+        renderTexture.draw(text_ip, states);
+        renderTexture.draw(text_port, states);
         if (failed_connection == 1) {
-            window.draw(text_failed);
+            renderTexture.draw(text_failed, states);
+        }
+        renderTexture.display();
+        sf::Sprite screenSprite(renderTexture.getTexture());
+        if (daltonismType != DaltonismType::NONE) {
+            window.draw(screenSprite, &daltonismShader);
+        } else {
+            window.draw(screenSprite);
         }
         window.display();
     }

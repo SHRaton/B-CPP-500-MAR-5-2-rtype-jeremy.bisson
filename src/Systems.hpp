@@ -20,6 +20,6 @@ class Systems
     //Fonctions codées dans le bootstrap
 
     static void position_system(registry &r);
-    static void draw_system(registry &r, sf::RenderWindow &window);
+    static void draw_system(registry &r, sf::RenderTexture &renderTexture);
     static void logging_system(registry &r);
 };

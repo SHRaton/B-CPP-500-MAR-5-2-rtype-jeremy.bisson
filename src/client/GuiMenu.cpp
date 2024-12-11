@@ -14,6 +14,10 @@ void Core::gui_menu() {
     sprites_menu["quit"].setScale({0.5, 0.5});
     sprites_menu["quit"].setPosition({960, 800});
 
+    sprites_menu["option"].setOriginToMiddle();
+    sprites_menu["option"].setScale({0.2, 0.2});
+    sprites_menu["option"].setPosition({1850, 950});
+
     menuMusic.play();
 
 
@@ -28,6 +32,7 @@ void Core::gui_menu() {
             if (event.type == sf::Event::MouseMoved) {
                 sprites_menu["play"].setHovered(sprites_menu["play"].isMouseOver(window));
                 sprites_menu["quit"].setHovered(sprites_menu["quit"].isMouseOver(window));
+                sprites_menu["option"].setHovered(sprites_menu["option"].isMouseOver(window));
             }
 
             if (event.type == sf::Event::MouseButtonPressed && 
@@ -39,6 +44,11 @@ void Core::gui_menu() {
                 if (sprites_menu["quit"].isMouseOver(window)) {
                     buttonSound_click.play();
                     window.close();
+                }
+                if (sprites_menu["option"].isMouseOver(window)) {
+                    buttonSound_click.play();
+                    //exit(77);
+                    gui_option();
                 }
             }
         }
@@ -52,8 +62,16 @@ void Core::gui_menu() {
         }
 
         window.clear();
+        renderTexture.clear(sf::Color::Black);
         for (const auto& name : drawOrder_menu) {
-            window.draw(sprites_menu[name].getSprite());
+            renderTexture.draw(sprites_menu[name].getSprite());
+        }
+        renderTexture.display();
+        sf::Sprite screenSprite(renderTexture.getTexture());
+        if (daltonismType != DaltonismType::NONE) {
+            window.draw(screenSprite, &daltonismShader);
+        } else {
+            window.draw(screenSprite);
         }
         window.display();
     }

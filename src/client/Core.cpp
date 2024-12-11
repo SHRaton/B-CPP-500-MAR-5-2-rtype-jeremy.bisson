@@ -27,6 +27,9 @@ void Core::gui(int argc, char **argv)
 void Core::loadAssets()
 {
     nb_player = 0;
+    daltonismType = DaltonismType::NONE;
+
+    renderTexture.create(window.getSize().x, window.getSize().y);
 
     texture_vaisseau0.loadFromFile("../ressources/sprites/vaisseau0.png");
     texture_vaisseau1.loadFromFile("../ressources/sprites/vaisseau1.png");
@@ -48,7 +51,8 @@ void Core::loadAssets()
         {"blueGalaxy", Sprite("../ressources/background/poudreBleu.png", true, 1.0f, 90)},
         {"rtype", Sprite("../ressources/background/rtype.png", false)},
         {"play", Sprite("../ressources/background/play.png", false, 1.0f, 50, "../ressources/background/play_hover.png")},
-        {"quit", Sprite("../ressources/background/quit.png", false, 1.0f, 50, "../ressources/background/quit_hover2.png")}
+        {"quit", Sprite("../ressources/background/quit.png", false, 1.0f, 50, "../ressources/background/quit_hover2.png")},
+        {"option", Sprite("../ressources/background/option.png", false, 1.0f, 50, "../ressources/background/option_hover.png")}
     };
     drawOrder_menu = {
         "background",
@@ -56,7 +60,27 @@ void Core::loadAssets()
         "blueGalaxy",
         "rtype",
         "play",
-        "quit"
+        "quit",
+        "option"
+    };
+
+    sprites_option = {
+        {"option_background", Sprite("../ressources/background/option_background.png")},
+        {"back", Sprite("../ressources/background/back.png")},
+        {"none", Sprite("../ressources/background/none.png")},
+        {"deuteranopy", Sprite("../ressources/background/deuteranopy.png")},
+        {"tritanopy", Sprite("../ressources/background/tritanopy.png")},
+        {"protanopy", Sprite("../ressources/background/protanopy.png")},
+        {"is_active", Sprite("../ressources/background/is_active.png")}
+    };
+    drawOrder_option = {
+        "option_background",
+        "back",
+        "none",
+        "deuteranopy",
+        "tritanopy",
+        "protanopy",
+        "is_active"
     };
 
     sprites_login = {
@@ -107,30 +131,31 @@ void Core::loadAssets()
     shootBar.setPosition(100, 70);
     shootBar.setSize(sf::Vector2f(70, 5));
 
+    soundVolume = 0.5f;
     //MUSIC MENU + LOGIN
     if (!menuMusic.openFromFile("../ressources/sounds/menu.wav")) {
         std::cout << "Error loading menu music" << std::endl;
     }
     menuMusic.setLoop(true);
-    menuMusic.setVolume(50.0f);
+    menuMusic.setVolume(soundVolume * 100.0);
 
     // MUSIC JEU
     if (!Game1Music.openFromFile("../ressources/sounds/game1.wav")) {
         std::cout << "Error loading menu music" << std::endl;
     }
     Game1Music.setLoop(true);
-    Game1Music.setVolume(42.0f);
+    Game1Music.setVolume(soundVolume * 100.0);
 
     // SONS
     if (!buttonBuffer_click.loadFromFile("../ressources/sounds/click.wav")) {
         std::cout << "Error loading button sound" << std::endl;
     }
     buttonSound_click.setBuffer(buttonBuffer_click);
-    buttonSound_click.setVolume(70.0f);
+    buttonSound_click.setVolume(soundVolume * 100.0);
 
     if (!powerupBuffer.loadFromFile("../ressources/sounds/click.wav")) {
         std::cout << "Error loading button sound" << std::endl;
     }
     powerupSound.setBuffer(powerupBuffer);
-    powerupSound.setVolume(70.0f);
+    powerupSound.setVolume(soundVolume * 100.0);
 }

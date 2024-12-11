@@ -29,7 +29,7 @@ void Systems::position_system(registry &r)
     }
 }
 
-void Systems::draw_system(registry &r, sf::RenderWindow &window)
+void Systems::draw_system(registry &r, sf::RenderTexture &renderTexture)
 {
     auto const &positions = r.get_components<component ::position>();
     auto const &drawables = r.get_components<component ::drawable>();
@@ -41,7 +41,8 @@ void Systems::draw_system(registry &r, sf::RenderWindow &window)
         {
             sf::Sprite sprite(drawable.value().sprite);
             sprite.setPosition(pos.value().x, pos.value().y);
-            window.draw(sprite);
+
+            renderTexture.draw(sprite);
         }
     }
 }
