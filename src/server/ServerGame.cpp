@@ -55,7 +55,7 @@ void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
     position_timer.async_wait([this, &position_timer](const boost::system::error_code& ec) {
         if (!ec) {
             Systems::position_system(reg);
-            position_timer.expires_at(position_timer.expiry() + std::chrono::milliseconds(1));
+            position_timer.expires_at(position_timer.expiry() + std::chrono::milliseconds(10));
             setup_position_timer(position_timer);
         }
     });
@@ -113,39 +113,39 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
                 auto& types = reg.get_components<component::type>();
                 auto& velocities = reg.get_components<component::velocity>();
 
-                std::random_device rd;
-                std::mt19937 gen(rd());
-                std::uniform_int_distribution<> dist(0, 1);
-
                 for (size_t i = 0; i < types.size(); ++i) {
-                    Entity bullet = reg.spawn_entity();
-                    auto const &positions = reg.get_components<component::position>()[i].value();
-                    std::vector<std::string> newParams;
-                    newParams.push_back(std::to_string(positions.x));
-                    newParams.push_back(std::to_string(positions.y));
-
-                    reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
-                    reg.emplace_component<component::velocity>(bullet, component::velocity{-1, 0});
-                    reg.emplace_component<component::type>(bullet, component::type{6});
-                    reg.emplace_component<component::size>(bullet, component::size{10, 10});
-
-                    med.notify(Sender::GAME, "MOB_SHOOT", newParams, dummyContext);
-
-
-
 
                     if (types[i].has_value() && types[i].value().type >= 10) {
-                        int direction = dist(gen);
+                        Entity bullet = reg.spawn_entity();
+                        auto const &positions = reg.get_components<component::position>()[i].value();
+                        std::vector<std::string> newParams;
+                        newParams.push_back(std::to_string(positions.x));
+                        newParams.push_back(std::to_string(positions.y));
+
+                        reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
+                        reg.emplace_component<component::velocity>(bullet, component::velocity{-5, 0});
+                        reg.emplace_component<component::type>(bullet, component::type{7});
+                        reg.emplace_component<component::size>(bullet, component::size{10, 10});
+
+                        med.notify(Sender::GAME, "MOB_SHOOT", newParams, dummyContext);
+                        int direction = rand() % 2;
+                        //Make the mob staying in the map
+                        if (positions.y < 100) {
+                            direction = 1;
+                        } else if (positions.y > 900) {
+                            direction = 0;
+                        }
+
                         if (direction == 0) {
-                            velocities[i].value().vy = -1;
+                            velocities[i].value().vy = -5;
                         } else {
-                            velocities[i].value().vy = 1;
+                            velocities[i].value().vy = 5;
                         }
                         std::vector<std::string> params = {std::to_string(i)};
                         handleMoves((direction == 0 ? "UP" : "DOWN"), dummyContext, params);
                     }
                 }
-                ia_timer.expires_from_now(std::chrono::milliseconds(300));
+                ia_timer.expires_from_now(std::chrono::milliseconds(700));
                 setup_iaMobs(ia_timer);
             } else {
                 std::cout << Colors::RED << "[Error] IA timer error: " << ec.message() << Colors::RESET << std::endl;
@@ -197,7 +197,7 @@ void ServerGame::setup_spawn_timer(boost::asio::steady_timer& spawn_timer)
     spawn_timer.async_wait([this, &spawn_timer](const boost::system::error_code& ec) {
         if (!ec) {
             spawnMob(rand() % 2); // Choix aléatoire du type de mob
-            spawn_timer.expires_from_now(std::chrono::seconds(20)); //TODO: si on veut changer le temps de spawn
+            spawn_timer.expires_from_now(std::chrono::seconds(10)); //TODO: si on veut changer le temps de spawn
             setup_spawn_timer(spawn_timer);
         }
     });
@@ -253,13 +253,13 @@ void ServerGame::spawnMob(int mob_type)
     if (mob_type == 0) {
         reg.emplace_component<component::health>(mob, component::health{300});
         reg.emplace_component<component::damage>(mob, component::damage{10});
-        reg.emplace_component<component::velocity>(mob, component::velocity{-1, 0});
+        reg.emplace_component<component::velocity>(mob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(mob, component::type{10});
         reg.emplace_component<component::size>(mob, component::size{100, 50});
     } else if (mob_type == 1) {
         reg.emplace_component<component::health>(mob, component::health{100});
         reg.emplace_component<component::damage>(mob, component::damage{40});
-        reg.emplace_component<component::velocity>(mob, component::velocity{-1, 0});
+        reg.emplace_component<component::velocity>(mob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(mob, component::type{11});
         reg.emplace_component<component::size>(mob, component::size{100, 50});
 
@@ -313,6 +313,38 @@ void ServerGame::checkAllCollisions()
                         handleColision(dummyContext, collisionParams);
                     }
                 } else if (types[i].value().type >= 10 && types[j].value().type == 5) { // MOB vs PLAYER
+                    healths[j].value().hp -= 1000;
+                    //reg.emplace_component<component::invincible>(Entity(j), component::invincible{true});
+                    if (healths[j].value().hp <= 0) {
+                        MediatorContext dummyContext;
+                        handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
+                        reg.kill_entity(Entity(j));
+                        checkAllCollisions();
+                        return;
+                    } else {
+                        std::vector<std::string> collisionParams;
+                        collisionParams.push_back(std::to_string(j));
+                        collisionParams.push_back(std::to_string(10));
+                        MediatorContext dummyContext;
+                        handleColision(dummyContext, collisionParams);
+                    }
+                } else if (types[i].value().type == 7 && types[j].value().type == 5) { // MOB_BULLET vs PLAYER
+                    healths[j].value().hp -= 1000;
+                    //reg.emplace_component<component::invincible>(Entity(j), component::invincible{true});
+                    if (healths[j].value().hp <= 0) {
+                        MediatorContext dummyContext;
+                        handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
+                        reg.kill_entity(Entity(j));
+                        checkAllCollisions();
+                        return;
+                    } else {
+                        std::vector<std::string> collisionParams;
+                        collisionParams.push_back(std::to_string(j));
+                        collisionParams.push_back(std::to_string(10));
+                        MediatorContext dummyContext;
+                        handleColision(dummyContext, collisionParams);
+                    }
+                } else if (types[i].value().type == 7 && types[j].value().type == 5) { // MOB_BULLET vs PLAYER
                     healths[j].value().hp -= 1000;
                     //reg.emplace_component<component::invincible>(Entity(j), component::invincible{true});
                     if (healths[j].value().hp <= 0) {
@@ -457,13 +489,13 @@ void ServerGame::handleDisconnect(const MediatorContext& context, const std::vec
 void ServerGame::handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params)
 {
     if (action == "UP"){
-        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = -1;
+        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = -5;
     } else if (action == "DOWN"){
-        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = 1;
+        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = 5;
     } else if (action == "LEFT"){
-        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = -1;
+        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = -5;
     } else if (action == "RIGHT"){
-        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = 1;
+        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = 5;
     } else if (action == "STOP_Y"){
         reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = 0;
     } else if (action == "STOP_X"){
@@ -499,7 +531,7 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
             newParams.push_back(std::to_string(positions.x));
             newParams.push_back(std::to_string(positions.y + missile.y_offset));
             reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y + missile.y_offset});
-            reg.emplace_component<component::velocity>(bullet, component::velocity{missile.vx, missile.vy});
+            reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
             reg.emplace_component<component::type>(bullet, component::type{6});
             reg.emplace_component<component::size>(bullet, component::size{10, 10});
             med.notify(Sender::GAME, "SHOOT", newParams, context);
@@ -511,7 +543,7 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
         newParams.push_back(std::to_string(positions.x));
         newParams.push_back(std::to_string(positions.y));
         reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
-        reg.emplace_component<component::velocity>(bullet, component::velocity{1, 0});
+        reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
         reg.emplace_component<component::type>(bullet, component::type{6});
         reg.emplace_component<component::size>(bullet, component::size{10, 10});
         med.notify(Sender::GAME, "SHOOT", newParams, context);

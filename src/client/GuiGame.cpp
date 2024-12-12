@@ -37,13 +37,13 @@ void Core::handleCommands(std::string command)
             mob.setTextureRect(rect);
             reg.emplace_component<component::health>(newMob, component::health{300});
             reg.emplace_component<component::damage>(newMob, component::damage{10});
-            reg.emplace_component<component::velocity>(newMob, component::velocity{-1, 0});
+            reg.emplace_component<component::velocity>(newMob, component::velocity{-5, 0});
         } else if (mob_type == 1) {
             sf::IntRect rect(0, 0, mob.getGlobalBounds().width / 3, mob.getGlobalBounds().height);
             mob.setTextureRect(rect);
             reg.emplace_component<component::health>(newMob, component::health{100});
             reg.emplace_component<component::damage>(newMob, component::damage{40});
-            reg.emplace_component<component::velocity>(newMob, component::velocity{-1, 0});
+            reg.emplace_component<component::velocity>(newMob, component::velocity{-5, 0});
         }
         mob.setScale(3, 3);
         reg.emplace_component<component::drawable>(newMob, component::drawable{mob});
@@ -85,7 +85,7 @@ void Core::handleCommands(std::string command)
 
         if (id >= 0 && id < positions.size() && positions[id] && drawables[id] && velocities[id]) {
             velocities[id].value().vy = -baseSpeed;
-            
+
             // Animer le sprite vers le haut
             sf::Sprite& sprite = drawables[id].value().sprite;
             if (animState.currentFrame < MAX_UP_FRAME) {
@@ -189,7 +189,22 @@ void Core::handleCommands(std::string command)
 
         Entity missile = reg.spawn_entity();
         reg.emplace_component<component::position>(missile, component::position{x, y});
-        reg.emplace_component<component::velocity>(missile, component::velocity{1, 0});
+        reg.emplace_component<component::velocity>(missile, component::velocity{5, 0});
+        sf::Sprite sprite = utils.cat("../ressources/sprites/shoot.png");
+        sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
+        reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
+        reg.emplace_component<component::controllable>(missile, component::controllable{false});
+    } else if (command.rfind(encode_action(GameAction::MOB_SHOOT), 0) == 0) {
+        std::istringstream iss(command);
+        std::string code;
+        int id, x, y;
+        iss >> code >> x >> y;
+
+        auto &positions = reg.get_components<component::position>();
+
+        Entity missile = reg.spawn_entity();
+        reg.emplace_component<component::position>(missile, component::position{x, y});
+        reg.emplace_component<component::velocity>(missile, component::velocity{-5, 0});
         sf::Sprite sprite = utils.cat("../ressources/sprites/shoot.png");
         sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
         reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
@@ -535,7 +550,7 @@ void Core::setup_position_timer(boost::asio::steady_timer& position_timer)
     position_timer.async_wait([this, &position_timer](const boost::system::error_code& ec) {
         if (!ec) {
             Systems::position_system(reg);
-            position_timer.expires_at(position_timer.expiry() + std::chrono::milliseconds(1));
+            position_timer.expires_at(position_timer.expiry() + std::chrono::milliseconds(10));
             setup_position_timer(position_timer);
         }
     });
@@ -576,7 +591,7 @@ void Core::gui_game()
     Game1Music.play();
 
 
-    position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(1));
+    position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(2));
     setup_position_timer(*position_timer_);
     io_thread_ = std::thread([this]() {
             io_context_.run();

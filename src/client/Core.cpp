@@ -129,7 +129,7 @@ void Core::loadAssets()
     select_button = 0;
 
     fps = 200;
-    baseSpeed = 1;
+    baseSpeed = 5;
     shootCooldown = 0.0f;
     shootBar.setFillColor(sf::Color::Blue);
     shootBar.setPosition(100, 70);
