@@ -205,7 +205,7 @@ void Core::handleCommands(std::string command)
         Entity missile = reg.spawn_entity();
         reg.emplace_component<component::position>(missile, component::position{x, y});
         reg.emplace_component<component::velocity>(missile, component::velocity{-5, 0});
-        sf::Sprite sprite = utils.cat("../ressources/sprites/shoot.png");
+        sf::Sprite sprite = utils.cat("../ressources/sprites/shoot_mob.png");
         sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
         reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
         reg.emplace_component<component::controllable>(missile, component::controllable{false});

@@ -157,16 +157,16 @@ void Core::loadAssets()
     buttonSound_click.setBuffer(buttonBuffer_click);
     buttonSound_click.setVolume(soundVolume * 100.0);
 
-    if (!powerupBuffer.loadFromFile("../ressources/sounds/shot_sound.wav")) {
+    if (!powerupBuffer.loadFromFile("../ressources/sounds/powerup.wav")) {
         std::cout << "Error loading button sound" << std::endl;
     }
     powerupSound.setBuffer(powerupBuffer);
     powerupSound.setVolume(soundVolume * 100.0);
 
-    if (!shotBuffer.loadFromFile("../ressources/sounds/click.wav")) {
+    if (!shotBuffer.loadFromFile("../ressources/sounds/shot_sound.wav")) {
         std::cout << "Error loading button sound" << std::endl;
     }
-    shotSound.setBuffer(powerupBuffer);
+    shotSound.setBuffer(shotBuffer);
     shotSound.setVolume(soundVolume * 100.0);
 }
 
