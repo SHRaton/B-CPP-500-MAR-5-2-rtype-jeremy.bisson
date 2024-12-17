@@ -295,9 +295,8 @@ void ServerGame::checkAllCollisions()
                 std::cout << "No position for entity !!!!!!!!!!!!!!!!!!!!!!!!! " << j << std::endl;
             }
             if (isColliding(positions[i].value(), positions[j].value(), sizes[i].value(), sizes[j].value())) {
-                // std::cout << "Collision detected" << std::endl;
                 if (types[i].value().type == 5 && types[j].value().type >= 10) { // MOB vs PLAYER
-                    healths[i].value().hp -= 1000;
+                    healths[i].value().hp -= 50;
                     //reg.emplace_component<component::invincible>(Entity(i), component::invincible{true});
                     if (healths[i].value().hp <= 0) {
                         MediatorContext dummyContext;
@@ -313,7 +312,7 @@ void ServerGame::checkAllCollisions()
                         handleColision(dummyContext, collisionParams);
                     }
                 } else if (types[i].value().type >= 10 && types[j].value().type == 5) { // MOB vs PLAYER
-                    healths[j].value().hp -= 1000;
+                    healths[j].value().hp -= 50;
                     //reg.emplace_component<component::invincible>(Entity(j), component::invincible{true});
                     if (healths[j].value().hp <= 0) {
                         MediatorContext dummyContext;
@@ -329,7 +328,7 @@ void ServerGame::checkAllCollisions()
                         handleColision(dummyContext, collisionParams);
                     }
                 } else if (types[i].value().type == 7 && types[j].value().type == 5) { // MOB_BULLET vs PLAYER
-                    healths[j].value().hp -= 1000;
+                    healths[j].value().hp -= 30;
                     //reg.emplace_component<component::invincible>(Entity(j), component::invincible{true});
                     if (healths[j].value().hp <= 0) {
                         MediatorContext dummyContext;
@@ -345,7 +344,7 @@ void ServerGame::checkAllCollisions()
                         handleColision(dummyContext, collisionParams);
                     }
                 } else if (types[i].value().type == 7 && types[j].value().type == 5) { // MOB_BULLET vs PLAYER
-                    healths[j].value().hp -= 1000;
+                    healths[j].value().hp -= 30;
                     //reg.emplace_component<component::invincible>(Entity(j), component::invincible{true});
                     if (healths[j].value().hp <= 0) {
                         MediatorContext dummyContext;
@@ -488,6 +487,12 @@ void ServerGame::handleDisconnect(const MediatorContext& context, const std::vec
 
 void ServerGame::handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params)
 {
+    try {
+        params.size() == 0 ? throw std::runtime_error("No params") : 0;
+    } catch(const std::exception& e) {
+        std::cout << Colors::RED << "[Error] Exception in handleMoves: " << e.what() << Colors::RESET << std::endl;
+        return;
+    }
     if (action == "UP"){
         reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = -5;
     } else if (action == "DOWN"){
@@ -506,52 +511,63 @@ void ServerGame::handleMoves(const std::string& action, const MediatorContext& c
 
 void ServerGame::handleShoot(const MediatorContext& context, const std::vector<std::string>& params)
 {
-    // Entity bullet = reg.spawn_entity();
-    int player_id = std::stoi(params[0]);
-    auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
-    auto& triple_shots = reg.get_components<component::triple_shot>();
+    try {
+        params.size() == 0 ? throw std::runtime_error("No params") : 0;
+        } catch(const std::exception& e) {
+            std::cout << Colors::RED << "[Error] Exception in handleShoot: " << e.what() << Colors::RESET << std::endl;
+            return;
+        }
+        int player_id = std::stoi(params[0]);
+        auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
+        auto& triple_shots = reg.get_components<component::triple_shot>();
 
-    if (triple_shots.size() > player_id && triple_shots[player_id].value().is_active) {
-        // Tir multiple
-        struct MissileConfig {
-            int y_offset;
-            int vx;
-            int vy;
-        };
+        if (triple_shots.size() > player_id && triple_shots[player_id].value().is_active) {
+            // Tir multiple
+            struct MissileConfig {
+                int y_offset;
+                int vx;
+                int vy;
+            };
 
-        std::vector<MissileConfig> missiles = {
-            {-20, 1, -1},   // Missile vers le haut
-            {0, 1, 0},      // Missile droit
-            {20, 1, 1}      // Missile vers le bas
-        };
+            std::vector<MissileConfig> missiles = {
+                {-20, 1, -1},   // Missile vers le haut
+                {0, 1, 0},      // Missile droit
+                {20, 1, 1}      // Missile vers le bas
+            };
 
-        for (const auto& missile : missiles) {
+            for (const auto& missile : missiles) {
+                Entity bullet = reg.spawn_entity();
+                std::vector<std::string> newParams;
+                newParams.push_back(std::to_string(positions.x));
+                newParams.push_back(std::to_string(positions.y + missile.y_offset));
+                reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y + missile.y_offset});
+                reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
+                reg.emplace_component<component::type>(bullet, component::type{6});
+                reg.emplace_component<component::size>(bullet, component::size{10, 10});
+                med.notify(Sender::GAME, "SHOOT", newParams, context);
+            }
+        } else {
+            // Tir normal
             Entity bullet = reg.spawn_entity();
             std::vector<std::string> newParams;
             newParams.push_back(std::to_string(positions.x));
-            newParams.push_back(std::to_string(positions.y + missile.y_offset));
-            reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y + missile.y_offset});
+            newParams.push_back(std::to_string(positions.y));
+            reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
             reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
             reg.emplace_component<component::type>(bullet, component::type{6});
             reg.emplace_component<component::size>(bullet, component::size{10, 10});
             med.notify(Sender::GAME, "SHOOT", newParams, context);
         }
-    } else {
-        // Tir normal
-        Entity bullet = reg.spawn_entity();
-        std::vector<std::string> newParams;
-        newParams.push_back(std::to_string(positions.x));
-        newParams.push_back(std::to_string(positions.y));
-        reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
-        reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
-        reg.emplace_component<component::type>(bullet, component::type{6});
-        reg.emplace_component<component::size>(bullet, component::size{10, 10});
-        med.notify(Sender::GAME, "SHOOT", newParams, context);
-    }
 }
 
 void ServerGame::handleColision(const MediatorContext& context, const std::vector<std::string>& params)
 {
+    try {
+        params.size() == 0 ? throw std::runtime_error("No params") : 0;
+    } catch(const std::exception& e) {
+        std::cout << Colors::RED << "[Error] Exception in handleColision: " << e.what() << Colors::RESET << std::endl;
+        return;
+    }
     std::vector<std::string> newParams;
     newParams.push_back(params[0]);
     newParams.push_back(params[1]);
@@ -560,6 +576,12 @@ void ServerGame::handleColision(const MediatorContext& context, const std::vecto
 
 void ServerGame::handleDeath(const MediatorContext& context, const std::vector<std::string>& params)
 {
+    try {
+        params.size() == 0 ? throw std::runtime_error("No params") : 0;
+    } catch(const std::exception& e) {
+        std::cout << Colors::RED << "[Error] Exception in handleDeath: " << e.what() << Colors::RESET << std::endl;
+        return;
+    }
     std::vector<std::string> newParams;
     newParams.push_back(params[0]);
     med.notify(Sender::GAME, "DEATH", newParams, context);
