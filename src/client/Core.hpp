@@ -109,7 +109,7 @@ class Core {
         sf::Text text_sound_general;
         float soundVolume;
 
-        // Texture to concat all draw and apply Shader on it
+        // Texture to concat all draw and apply Shader on texture
         sf::RenderTexture renderTexture;
 
         std::map<std::string, Sprite> sprites_login;

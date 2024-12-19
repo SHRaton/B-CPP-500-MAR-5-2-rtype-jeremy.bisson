@@ -495,11 +495,11 @@ void Core::handle_shoot(float deltaSeconds, std::optional<component::position>& 
     if (!pos) return;
 
     shootCooldown += deltaSeconds;
-    shootCooldown = std::min(shootCooldown / 1.0f, 1.0f);
-    shootBar.setSize(sf::Vector2f(70 * shootCooldown, 5));
+    shootCooldown = std::min(shootCooldown, 0.3f);
+    shootBar.setSize(sf::Vector2f(200 * shootCooldown, 5));
     shootBar.setPosition(pos.value().x, pos.value().y - 20);
 
-    if (keysPressed[sf::Keyboard::A] && shootCooldown >= 1.0f) {
+    if (keysPressed[sf::Keyboard::A] && shootCooldown >= 0.3) {
         send_input_if_needed(GameAction::SHOOT, inputState.shootSent);
 
         shootCooldown = 0.0f;
