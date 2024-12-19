@@ -172,11 +172,15 @@ class Core {
 
         sf::Music menuMusic;
         sf::Music Game1Music;
+
         sf::SoundBuffer buttonBuffer_click;
         sf::Sound buttonSound_click;
 
         sf::SoundBuffer powerupBuffer;
         sf::Sound powerupSound;
+
+        sf::SoundBuffer shotBuffer;
+        sf::Sound shotSound;
 
 
         //TEST
