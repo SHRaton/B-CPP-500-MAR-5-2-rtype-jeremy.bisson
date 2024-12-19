@@ -166,6 +166,13 @@ class Core {
 
         Entity player;
         std::unordered_map<int, Entity> player_id_map;
+        
+        struct PlayerInfo {
+            int id;
+            int hp;
+            sf::Text hpText;
+        };
+        std::vector<PlayerInfo> otherPlayers;
         int nb_player;
 
         //SOUNDS
@@ -185,6 +192,8 @@ class Core {
 
         //TEST
         void setup_position_timer(boost::asio::steady_timer& position_timer);
+        void checkInvincibility();
+        std::unique_ptr<boost::asio::steady_timer> invulnerability_timer_;
         std::unique_ptr<boost::asio::steady_timer> position_timer_;
         boost::asio::io_context io_context_;
         std::thread io_thread_;
@@ -201,4 +210,5 @@ class Core {
         DaltonismType daltonismType;
         sf::Shader daltonismShader;
         sf::RenderStates states;
+
 };

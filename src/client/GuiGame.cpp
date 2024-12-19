@@ -72,6 +72,18 @@ void Core::handleCommands(std::string command)
         reg.emplace_component<component::velocity>(newPlayer, component::velocity{0, 0});
         reg.emplace_component<component::drawable>(newPlayer, component::drawable{vaisseau});
         reg.emplace_component<component::controllable>(newPlayer, component::controllable{false});
+        reg.emplace_component<component::health>(newPlayer, component::health{100});
+        reg.emplace_component<component::invincible>(newPlayer, component::invincible{false});
+        
+        PlayerInfo playerInfo;
+        playerInfo.id = id;
+        playerInfo.hp = 100;
+        playerInfo.hpText.setFont(font);
+        playerInfo.hpText.setCharacterSize(35);
+        playerInfo.hpText.setFillColor(sf::Color::Blue);
+        playerInfo.hpText.setPosition(300, 40 + otherPlayers.size() * 50);
+        playerInfo.hpText.setString("Player " + std::to_string(id) + ": " + std::to_string(playerInfo.hp));
+        otherPlayers.push_back(playerInfo);
 
     } else if (command.rfind(encode_action(GameAction::UP), 0) == 0) {
         std::istringstream iss(command);
@@ -236,21 +248,49 @@ void Core::handleCommands(std::string command)
         int id, type;
         iss >> code >> id >> type;
         auto &healths = reg.get_components<component::health>();
+        auto &drawables = reg.get_components<component::drawable>();
+        auto &invincibles = reg.get_components<component::invincible>();
 
         if (id >= 0 && id < healths.size() && healths[id]) {
-            if (type == 10) {
+            if (type == 10 && invincibles[id].value().is_invincible == false) {
                 std::cout << "Collision AVEC UN MOB" << std::endl;
-                healths[id].value().hp -= 10;
+                healths[id].value().hp -= 50;
+                invincibles[id].value().is_invincible = true;
+                invincibles[id].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+                if (drawables[id]) {
+                    drawables[id].value().sprite.setColor(sf::Color::Red);
+                }
             }
             if (type == 0) {
                 std::cout << "Collision POWERUP 1" << std::endl;
                 powerupSound.play();
                 healths[id].value().hp += 10;
+                if (healths[id].value().hp >= 100) {
+                    healths[id].value().hp = 100;
+                }
             }
             if (type == 1) {
                 std::cout << "Collision POWERUP 2" << std::endl;
                 powerupSound.play();
                 healths[id].value().hp += 20;
+                if (healths[id].value().hp >= 100) {
+                    healths[id].value().hp = 100;
+                }
+            }
+            if (type == 7 && invincibles[id].value().is_invincible == false) {
+                std::cout << "Collision AVEC UN MISSILE DE MOB" << std::endl;
+                healths[id].value().hp -= 30;
+                invincibles[id].value().is_invincible = true;
+                invincibles[id].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+                if (drawables[id]) {
+                    drawables[id].value().sprite.setColor(sf::Color::Red);
+                }
+            }
+            for (auto& player : otherPlayers) {
+                if (player.id == id) {
+                    player.hp = healths[id].value().hp;
+                    player.hpText.setString("Player " + std::to_string(id) + ": " + std::to_string(player.hp));
+                }
             }
         }
 
@@ -310,6 +350,18 @@ void Core::load_spaceship()
             reg.emplace_component<component::velocity>(newPlayer, component::velocity{0, 0});
             reg.emplace_component<component::drawable>(newPlayer, component::drawable{vaisseau});
             reg.emplace_component<component::controllable>(newPlayer, component::controllable{false});
+            reg.emplace_component<component::health>(newPlayer, component::health{100});
+            reg.emplace_component<component::invincible>(newPlayer, component::invincible{false});
+            
+            PlayerInfo playerInfo;
+            playerInfo.id = id;
+            playerInfo.hp = 100;
+            playerInfo.hpText.setFont(font);
+            playerInfo.hpText.setCharacterSize(35);
+            playerInfo.hpText.setFillColor(sf::Color::Blue);
+            playerInfo.hpText.setPosition(300, 40 + otherPlayers.size() * 50);
+            playerInfo.hpText.setString("Player " + std::to_string(id) + ": " + std::to_string(playerInfo.hp));
+            otherPlayers.push_back(playerInfo);
         }
         i++;
     }
@@ -327,6 +379,17 @@ void Core::load_spaceship()
         sprite.setScale(3, 3);
         reg.emplace_component<component::drawable>(player, component::drawable{sprite});
         reg.emplace_component<component::controllable>(player, component::controllable{true});
+        reg.emplace_component<component::invincible>(player, component::invincible{false});
+        
+        PlayerInfo playerInfo;
+        playerInfo.id = player;
+        playerInfo.hp = 100;
+        playerInfo.hpText.setFont(font);
+        playerInfo.hpText.setCharacterSize(35);
+        playerInfo.hpText.setFillColor(sf::Color::Blue);
+        playerInfo.hpText.setPosition(300, 40 + otherPlayers.size() * 50);
+        playerInfo.hpText.setString("Player " + std::to_string(player) + ": " + std::to_string(playerInfo.hp));
+        otherPlayers.push_back(playerInfo);
     }
 }
 
@@ -556,6 +619,20 @@ void Core::setup_position_timer(boost::asio::steady_timer& position_timer)
     });
 }
 
+void Core::checkInvincibility()
+{
+    auto& invincibles = reg.get_components<component::invincible>();
+    auto& drawables = reg.get_components<component::drawable>();
+    auto now = std::chrono::steady_clock::now();
+
+    for (size_t i = 0; i < invincibles.size(); ++i) {
+        if (invincibles[i].value().is_invincible && now >= invincibles[i].value().expiration_time) {
+            invincibles[i].value().is_invincible = false;
+            drawables[i].value().sprite.setColor(sf::Color::White);
+        }
+    }
+}
+
 void Core::update_hud()
 {
     fpsText.setFont(font);
@@ -567,12 +644,12 @@ void Core::update_hud()
     latencyText.setFillColor(sf::Color::Green);
     latencyText.setPosition(10, 40);
 
-    hp.setFont(font);
-    hp.setCharacterSize(50);
-    hp.setFillColor(sf::Color::Blue);
-    hp.setPosition(300, 40);
-    auto &healths = reg.get_components<component::health>();
-    hp.setString("HP: " + std::to_string(healths[network->getId()].value().hp));
+    // hp.setFont(font);
+    // hp.setCharacterSize(50);
+    // hp.setFillColor(sf::Color::Blue);
+    // hp.setPosition(300, 40);
+    // auto &healths = reg.get_components<component::health>();
+    // hp.setString("HP: " + std::to_string(healths[network->getId()].value().hp));
     float fps = 1.f / fpsClock.restart().asSeconds();
     if (latencyClock.getElapsedTime().asSeconds() > 1.f) {
         int latency = 32;
@@ -622,6 +699,7 @@ void Core::gui_game()
         handleCommands(buffer);
         update_hud();
         control_system();
+        checkInvincibility();
         for (auto& [name, sprite] : sprites_game) {
             sprite.update();
         }
@@ -635,7 +713,9 @@ void Core::gui_game()
         renderTexture.draw(fpsText);
         renderTexture.draw(latencyText);
         renderTexture.draw(shootBar);
-        renderTexture.draw(hp);
+        for (const auto& player : otherPlayers) {
+            renderTexture.draw(player.hpText);
+        }
         renderTexture.display();
         sf::Sprite screenSprite(renderTexture.getTexture());
         if (daltonismType != DaltonismType::NONE) {

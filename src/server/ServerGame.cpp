@@ -34,7 +34,7 @@ void ServerGame::initTimers()
     collision_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
     setup_collision_timer(*collision_timer_);
 
-    invincible_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
+    invincible_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(10));
     setup_invincible_timer(*invincible_timer_);
 
 
@@ -89,12 +89,16 @@ void ServerGame::setup_invincible_timer(boost::asio::steady_timer& invincible_ti
     invincible_timer.async_wait([this, &invincible_timer](const boost::system::error_code& ec) {
         if (!ec) {
             auto& invincibles = reg.get_components<component::invincible>();
+            auto now = std::chrono::steady_clock::now();
+
             for (size_t i = 0; i < invincibles.size(); ++i) {
-                if (invincibles[i].value().is_invincible) {
-                    invincibles[i].value().is_invincible = false;
+                if (invincibles[i].has_value() && invincibles[i].value().is_invincible) {
+                    if (now >= invincibles[i].value().expiration_time) {
+                        invincibles[i].value().is_invincible = false;
+                    }
                 }
             }
-            invincible_timer.expires_at(invincible_timer.expiry() + std::chrono::seconds(1));
+            invincible_timer.expires_at(invincible_timer.expiry() + std::chrono::milliseconds(10));
             setup_invincible_timer(invincible_timer);
         }
     });
@@ -278,18 +282,19 @@ void ServerGame::checkAllCollisions()
     auto& types = reg.get_components<component::type>();
     auto& healths = reg.get_components<component::health>();
     auto& triple_shots = reg.get_components<component::triple_shot>();
-    //auto& invincibles = reg.get_components<component::invincible>();
+    auto& invincibles = reg.get_components<component::invincible>();
 
     for (size_t i = 0; i < positions.size(); ++i) {
 
         for (size_t j = i + 1; j < positions.size(); ++j) {
-            // if (invincibles.size() > i && invincibles.size() > j) {
-                // auto &invincible1 = invincibles[i];
-                // auto &invincible2 = invincibles[j];
-                // if (invincibles[i].value().is_invincible || invincibles[j].value().is_invincible) {
-                    // continue;
-                    // }
-            // }
+            if (types[i].has_value() && types[j].has_value()) {
+                // Si l'un des deux est un joueur, on vérifie son invincibilité
+                if ((types[i].value().type == 5 && invincibles[i].has_value() && invincibles[i].value().is_invincible) ||
+                    (types[j].value().type == 5 && invincibles[j].has_value() && invincibles[j].value().is_invincible)) {
+                    continue;
+                }
+            }
+
             if (positions[i].has_value() == false || positions[j].has_value() == false) {
                 std::cout << "No position for entity !!!!!!!!!!!!!!!!!!!!!!!!! " << i << std::endl;
                 std::cout << "No position for entity !!!!!!!!!!!!!!!!!!!!!!!!! " << j << std::endl;
@@ -297,7 +302,8 @@ void ServerGame::checkAllCollisions()
             if (isColliding(positions[i].value(), positions[j].value(), sizes[i].value(), sizes[j].value())) {
                 if (types[i].value().type == 5 && types[j].value().type >= 10) { // MOB vs PLAYER
                     healths[i].value().hp -= 50;
-                    //reg.emplace_component<component::invincible>(Entity(i), component::invincible{true});
+                    invincibles[i].value().is_invincible = true;
+                    invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
                     if (healths[i].value().hp <= 0) {
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(i)});
@@ -313,7 +319,8 @@ void ServerGame::checkAllCollisions()
                     }
                 } else if (types[i].value().type >= 10 && types[j].value().type == 5) { // MOB vs PLAYER
                     healths[j].value().hp -= 50;
-                    //reg.emplace_component<component::invincible>(Entity(j), component::invincible{true});
+                    invincibles[j].value().is_invincible = true;
+                    invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
                     if (healths[j].value().hp <= 0) {
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
@@ -327,25 +334,27 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                } else if (types[i].value().type == 7 && types[j].value().type == 5) { // MOB_BULLET vs PLAYER
-                    healths[j].value().hp -= 30;
-                    //reg.emplace_component<component::invincible>(Entity(j), component::invincible{true});
-                    if (healths[j].value().hp <= 0) {
+                } else if (types[j].value().type == 7 && types[i].value().type == 5) { // MOB_BULLET vs PLAYER
+                    healths[i].value().hp -= 30;
+                    invincibles[i].value().is_invincible = true;
+                    invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+                    if (healths[i].value().hp <= 0) {
                         MediatorContext dummyContext;
-                        handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
-                        reg.kill_entity(Entity(j));
+                        handleDeath(dummyContext, std::vector<std::string>{std::to_string(i)});
+                        reg.kill_entity(Entity(i));
                         checkAllCollisions();
                         return;
                     } else {
                         std::vector<std::string> collisionParams;
-                        collisionParams.push_back(std::to_string(j));
-                        collisionParams.push_back(std::to_string(10));
+                        collisionParams.push_back(std::to_string(i));
+                        collisionParams.push_back(std::to_string(7));
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
                 } else if (types[i].value().type == 7 && types[j].value().type == 5) { // MOB_BULLET vs PLAYER
                     healths[j].value().hp -= 30;
-                    //reg.emplace_component<component::invincible>(Entity(j), component::invincible{true});
+                    invincibles[j].value().is_invincible = true;
+                    invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
                     if (healths[j].value().hp <= 0) {
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
@@ -355,7 +364,7 @@ void ServerGame::checkAllCollisions()
                     } else {
                         std::vector<std::string> collisionParams;
                         collisionParams.push_back(std::to_string(j));
-                        collisionParams.push_back(std::to_string(10));
+                        collisionParams.push_back(std::to_string(7));
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
@@ -371,7 +380,7 @@ void ServerGame::checkAllCollisions()
                     }
                 } else if (types[i].value().type >= 10 && types[j].value().type == 6) { // BULLET vs MOB
                     healths[i].value().hp -= 1000;
-                    //Mob
+                    // Mob
                     if(healths[i].value().hp <= 0){
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(i)});
@@ -459,6 +468,7 @@ void ServerGame::handleConnect(const MediatorContext& context, const std::vector
     reg.emplace_component<component::type>(player, component::type{5});
     reg.emplace_component<component::size>(player, component::size{50, 50});
     reg.emplace_component<component::triple_shot>(player, component::triple_shot{false, {}});
+    reg.emplace_component<component::invincible>(player, component::invincible{false});
 
     std::vector<std::string> newParams;
 

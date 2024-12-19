@@ -44,6 +44,7 @@ void Core::loadAssets()
     reg.register_component<component::drawable>();
     reg.register_component<component::controllable>();
     reg.register_component<component::type>();
+    reg.register_component<component::invincible>();
 
     sprites_menu = {
         {"background", Sprite("../ressources/background/background.png", true)},

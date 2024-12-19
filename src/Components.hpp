@@ -40,6 +40,7 @@ namespace component{
 
     typedef struct invincible {
         bool is_invincible;
+        std::chrono::steady_clock::time_point expiration_time;
     } Invincible;
 
     typedef struct size {
