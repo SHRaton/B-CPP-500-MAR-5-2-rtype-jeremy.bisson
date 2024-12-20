@@ -9,11 +9,14 @@
 #include "../Systems.hpp"
 #include "../server/ServerNetwork.hpp"
 
-void Core::handleServerCommands(const std::string& command)
+void Core::handleServerCommands()
 {
-    if (command.empty()) return;
+    network->print_message_queue();
+    buffer = network->receive().value_or("");
 
-    std::istringstream iss(command);
+    if (buffer.empty()) return;
+
+    std::istringstream iss(buffer);
     std::string code;
     iss >> code;
 
@@ -50,7 +53,7 @@ void Core::handleServerCommands(const std::string& command)
         handleDeathCommand(iss);
     }
     else {
-        std::cout << "Commande inconnue : " << command << std::endl;
+        std::cout << "Commande inconnue : " << buffer << std::endl;
     }
 }
 
@@ -321,6 +324,7 @@ void Core::updatePlayerHealth(int id, int newHealth)
             }
             // Check for player death
             if (newHealth <= 0) {
+
                 std::ostringstream messageStream;
                 messageStream << encode_action(GameAction::DEATH) << " " << id;
                 network->send(messageStream.str());
@@ -330,14 +334,34 @@ void Core::updatePlayerHealth(int id, int newHealth)
     }
 }
 
+void Core::updatePlayerId()
+{
+    auto& types = reg.get_components<component::type>();
+
+    for (size_t i = 0; i < types.size(); ++i) {
+        if (types[i] && types[i].value().type == 696) {
+            network->setId(i);
+            std::cout << "Mise à jour de l'ID du joueur à " << i << std::endl;
+            return;
+        }
+    }
+    network->setId(-1);
+    std::cout << "Aucune entité contrôlable trouvée, ID du joueur défini à -1" << std::endl;
+}
+
+
 void Core::handleDeathCommand(std::istringstream& iss)
 {
     int id;
     iss >> id;
 
+    auto& healths = reg.get_components<component::health>();
     if (id == network->getId()) {
-        exit(0);
+        std::cout << "Mort du joueur " << id << std::endl;
+        healths[id].value().hp = 0;
+        updatePlayerHealth(id, healths[id].value().hp);
+        isDead = true;
     }
     reg.kill_entity(Entity(id));
-    std::cout << "Mort du joueur " << id << std::endl;
+    updatePlayerId();
 }

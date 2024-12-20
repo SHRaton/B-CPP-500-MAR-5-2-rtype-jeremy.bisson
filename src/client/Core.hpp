@@ -39,9 +39,9 @@ class Core {
         void handleMouseClick(sf::Vector2i mousePosition);
         // Game
         void gui_game();
-        void handleCommands(std::string command);
-        void handleMoove();
+        void display_all();
         bool loadDaltonismShader(sf::Shader& shader, DaltonismType type);
+        bool loadBlackAndWhiteShader();
         // Option
         void gui_option();
         //*************** Graphic ***************//
@@ -160,7 +160,7 @@ class Core {
         void handle_horizontal_stop(std::optional<component::velocity>& vel);
         void handle_shoot(float deltaSeconds, std::optional<component::position>& pos);
 
-        void handleServerCommands(const std::string& command);
+        void handleServerCommands();
         void handleMoveCommand(std::istringstream& iss);
         void handleMobSpawnCommand(std::istringstream& iss);
         void handleConnectCommand(std::istringstream& iss);
@@ -178,7 +178,7 @@ class Core {
         void handleMobCollision(int id, sparse_array<component::health>& healths, 
                             sparse_array<component::drawable>& drawables,
                             sparse_array<component::invincible>& invincibles);
-
+        void updatePlayerId();
         void update_hud();
         void displayRegistryInfo();
         sf::Text registryInfo;
@@ -231,6 +231,10 @@ class Core {
 
         DaltonismType daltonismType;
         sf::Shader daltonismShader;
+        sf::Shader blackAndWhiteShader;
         sf::RenderStates states;
+
+
+        bool isDead;
 
 };

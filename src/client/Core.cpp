@@ -28,6 +28,7 @@ void Core::gui(int argc, char **argv)
 void Core::loadAssets()
 {
     nb_player = 0;
+    isDead = false;
     daltonismType = DaltonismType::NONE;
 
     renderTexture.create(window.getSize().x, window.getSize().y);
@@ -170,6 +171,15 @@ void Core::loadAssets()
     }
     shotSound.setBuffer(shotBuffer);
     shotSound.setVolume(soundVolume * 100.0);
+}
+
+bool Core::loadBlackAndWhiteShader()
+{
+    if (!blackAndWhiteShader.loadFromFile("../ressources/shaders/black_and_white.frag", sf::Shader::Fragment)) {
+        std::cerr << "Failed to load black and white shader" << std::endl;
+        return false;
+    }
+    return true;
 }
 
 bool Core::loadDaltonismShader(sf::Shader& shader, DaltonismType type)

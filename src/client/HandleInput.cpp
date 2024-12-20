@@ -100,12 +100,17 @@ void Core::control_system()
     auto &positions = reg.get_components<component::position>();
     auto &drawables = reg.get_components<component::drawable>();
     auto &healths = reg.get_components<component::health>();
+    auto &types = reg.get_components<component::type>();
     for (size_t i = 0; i < controllables.size(); ++i) {
         auto const &controllable = controllables[i];
         auto &vel = velocities[i];
         auto &pos = positions[i];
         auto &drawable = drawables[i];
         auto &health = healths[i];
+        auto &type = types[i];
+        if (isDead == true && type && type.value().type == 696) {
+            break;
+        }
         if (controllable && vel && drawable && controllable.value().is_controllable && pos) {
             handle_vertical_movement(deltaSeconds, vel, drawable, pos);
             handle_horizontal_movement(deltaSeconds, vel, drawable, pos);

@@ -259,6 +259,51 @@ void Core::update_hud()
     }
 }
 
+void Core::display_all()
+{
+    window.clear();
+    renderTexture.clear(sf::Color::Black);
+    if (isDead) {
+        states.shader = &blackAndWhiteShader;
+    } else {
+        states.shader = nullptr;
+    }
+    for (const auto& name : drawOrder_game) {
+        renderTexture.draw(sprites_game[name].getSprite());
+    }
+    sys.draw_system(reg, renderTexture);
+    renderTexture.draw(fpsText);
+    renderTexture.draw(latencyText);
+    if (!isDead) {
+        renderTexture.draw(shootBar);
+    }
+    for (const auto& player : otherPlayers) {
+        renderTexture.draw(player.hpText);
+    }
+    if (isDead) {
+        sf::Text deadText;
+        deadText.setFont(font);
+        deadText.setCharacterSize(50);
+        deadText.setFillColor(sf::Color::Red);
+        deadText.setPosition(window.getSize().x - 450, window.getSize().y - 80);
+        deadText.setString("You are Dead");
+        renderTexture.draw(deadText);
+    }
+    renderTexture.display();
+    sf::Sprite screenSprite(renderTexture.getTexture());
+    if (daltonismType != DaltonismType::NONE && !isDead) {
+        window.draw(screenSprite, &daltonismShader);
+    } else if (isDead) {
+        window.draw(screenSprite, states);
+    } else {
+        window.draw(screenSprite);
+    }
+    window.display();
+    registryWindow.clear();
+    displayRegistryInfo();
+    registryWindow.display();
+}
+
 void Core::gui_game()
 {
     load_spaceship();
@@ -281,6 +326,9 @@ void Core::gui_game()
             throw std::runtime_error("Error when loading Shader for daltonism");
         }
     }
+    if (!loadBlackAndWhiteShader()) {
+        throw std::runtime_error("Error when loading black and white shader");
+    }
     while (window.isOpen() && registryWindow.isOpen()) {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
@@ -302,39 +350,13 @@ void Core::gui_game()
                 exit (0);
             }
         }
-        network->print_message_queue();
-        buffer = network->receive().value_or("");
-        handleServerCommands(buffer);
+        handleServerCommands();
         update_hud();
         control_system();
         checkInvincibility();
         for (auto& [name, sprite] : sprites_game) {
             sprite.update();
         }
-        window.clear();
-        renderTexture.clear(sf::Color::Black);
-        states.shader = &daltonismShader;
-        for (const auto& name : drawOrder_game) {
-            renderTexture.draw(sprites_game[name].getSprite());
-        }
-        sys.draw_system(reg, renderTexture);
-        renderTexture.draw(fpsText);
-        renderTexture.draw(latencyText);
-        renderTexture.draw(shootBar);
-        for (const auto& player : otherPlayers) {
-            renderTexture.draw(player.hpText);
-        }
-        renderTexture.display();
-        sf::Sprite screenSprite(renderTexture.getTexture());
-        if (daltonismType != DaltonismType::NONE) {
-            window.draw(screenSprite, &daltonismShader);
-        } else {
-            window.draw(screenSprite);
-        }
-        window.display();
-
-        registryWindow.clear();
-        displayRegistryInfo();
-        registryWindow.display();
+        display_all();
     }
 }
