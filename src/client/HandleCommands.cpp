@@ -336,7 +336,7 @@ void Core::handleDeathCommand(std::istringstream& iss)
     iss >> id;
 
     if (id == network->getId()) {
-        exit(0);
+        gui_gameover();
     }
     reg.kill_entity(Entity(id));
     std::cout << "Mort du joueur " << id << std::endl;

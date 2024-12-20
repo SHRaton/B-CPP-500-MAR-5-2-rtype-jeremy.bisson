@@ -51,6 +51,10 @@ class Core {
         Systems sys;
         //*************** ECS ***************//
 
+
+        void gui_gameover();
+        void gui_gamewin();
+
     private:
         Utils utils;
 
@@ -202,6 +206,9 @@ class Core {
         sf::Music menuMusic;
         sf::Music Game1Music;
 
+        sf::Music gameoverMusic;
+        sf::Music winMusic;
+
         sf::SoundBuffer buttonBuffer_click;
         sf::Sound buttonSound_click;
 
@@ -232,5 +239,13 @@ class Core {
         DaltonismType daltonismType;
         sf::Shader daltonismShader;
         sf::RenderStates states;
+
+        //GAMEOVER SCREEN
+        sf::Sprite gameOverSprite;
+        sf::Texture gameOverTexture;
+
+        //WIN SCREEN
+        sf::Sprite gameWinSprite;
+        sf::Texture gameWinTexture;
 
 };
