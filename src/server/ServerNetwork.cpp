@@ -182,8 +182,19 @@ void ServerNetwork::handleMobShoot(const MediatorContext& context, const std::ve
     broadcast_message(message);
 }
 
+void ServerNetwork::handleWin(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::WIN);
+    broadcast_message(message);
+}
 
-
+void ServerNetwork::handleLoose(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::LOOSE);
+    broadcast_message(message);
+}
 
 
 
