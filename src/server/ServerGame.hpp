@@ -44,6 +44,8 @@ class ServerGame : public ISender {
         void handleColision(const MediatorContext& context, const std::vector<std::string>& params);
         void handleDeath(const MediatorContext& context, const std::vector<std::string>& params);
         void handleMobShoot(const MediatorContext& context, const std::vector<std::string>& params){};
+        void handleWin(const MediatorContext& context, const std::vector<std::string>& params){};
+        void handleLoose(const MediatorContext& context, const std::vector<std::string>& params){};
 
 
 
@@ -58,5 +60,6 @@ class ServerGame : public ISender {
         std::unique_ptr<boost::asio::steady_timer> invincible_timer_;
         std::unique_ptr<boost::asio::steady_timer> ia_timer_;
         std::unique_ptr<boost::asio::steady_timer> triple_shot_expiration_timer_;
+        std::unique_ptr<boost::asio::steady_timer> win_timer_;
         Mediator &med;
 };

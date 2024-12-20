@@ -55,6 +55,10 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleDeath(context, params);
         } else if (action == "MOB_SHOOT") {
             network->handleMobShoot(context, params);
+        } else if (action == "WIN") {
+            network->handleWin(context, params);
+        } else if (action == "LOOSE") {
+            network->handleLoose(context, params);
         }
     }
 }

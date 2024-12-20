@@ -259,6 +259,67 @@ void Core::update_hud()
     }
 }
 
+void Core::gui_gamewin() {
+    if (!gameWinTexture.loadFromFile("../ressources/sprites/win.png")) {
+        throw std::runtime_error("Error loading game win texture");
+    }
+    gameWinSprite.setTexture(gameWinTexture);
+    Game1Music.stop();
+    winMusic.play();
+    
+    // Centrer l'image
+    gameWinSprite.setPosition(
+        window.getSize().x / 2 - gameWinSprite.getGlobalBounds().width / 2,
+        window.getSize().y / 2 - gameWinSprite.getGlobalBounds().height / 2
+    );
+
+    sf::Event event;
+    while (window.isOpen()) {
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed || 
+                (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+                window.close();
+                exit(0);
+            }
+        }
+
+        window.clear(sf::Color::Black);
+        window.draw(gameWinSprite);
+        window.display();
+    }
+}
+
+
+void Core::gui_gameover() {
+    if (!gameOverTexture.loadFromFile("../ressources/sprites/lose.png")) {
+        throw std::runtime_error("Error loading game over texture");
+    }
+    gameOverSprite.setTexture(gameOverTexture);
+    Game1Music.stop();
+    gameoverMusic.play();
+    
+    // Centrer l'image
+    gameOverSprite.setPosition(
+        window.getSize().x / 2 - gameOverSprite.getGlobalBounds().width / 2,
+        window.getSize().y / 2 - gameOverSprite.getGlobalBounds().height / 2
+    );
+
+    sf::Event event;
+    while (window.isOpen()) {
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed || 
+                (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+                window.close();
+                exit(0);
+            }
+        }
+
+        window.clear(sf::Color::Black);
+        window.draw(gameOverSprite);
+        window.display();
+    }
+}
+
 void Core::display_all()
 {
     window.clear();
@@ -320,7 +381,6 @@ void Core::gui_game()
             io_context_.run();
     });
 
-    //window.setFramerateLimit(fps);
     if (daltonismType != DaltonismType::NONE) {
         if (!loadDaltonismShader(daltonismShader, daltonismType)) {
             throw std::runtime_error("Error when loading Shader for daltonism");
@@ -350,6 +410,13 @@ void Core::gui_game()
                 exit (0);
             }
         }
+        
+        sf::Vector2f background2Pos = sprites_game["background_game2"].getSprite().getPosition();
+        if (background2Pos.x <= -15100) {
+            gui_gamewin();
+            return;
+        }
+
         handleServerCommands();
         update_hud();
         control_system();

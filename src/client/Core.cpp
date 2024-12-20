@@ -171,6 +171,16 @@ void Core::loadAssets()
     }
     shotSound.setBuffer(shotBuffer);
     shotSound.setVolume(soundVolume * 100.0);
+
+    if (!winMusic.openFromFile("../ressources/sounds/win.wav")) {
+        std::cout << "Error loading menu music" << std::endl;
+    }
+    winMusic.setVolume(soundVolume * 150.0);
+
+    if (!gameoverMusic.openFromFile("../ressources/sounds/gameover.wav")) {
+        std::cout << "Error loading menu music" << std::endl;
+    }
+    gameoverMusic.setVolume(soundVolume * 150.0);
 }
 
 bool Core::loadBlackAndWhiteShader()
