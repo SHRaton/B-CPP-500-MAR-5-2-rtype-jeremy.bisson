@@ -182,6 +182,7 @@ class Core {
         void handleMobCollision(int id, sparse_array<component::health>& healths, 
                             sparse_array<component::drawable>& drawables,
                             sparse_array<component::invincible>& invincibles);
+        void handleWinCommand(std::istringstream& iss);
         void updatePlayerId();
         void update_hud();
         void displayRegistryInfo();

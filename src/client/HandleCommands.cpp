@@ -52,6 +52,9 @@ void Core::handleServerCommands()
     else if (code == encode_action(GameAction::DEATH)) {
         handleDeathCommand(iss);
     }
+    else if (code == encode_action(GameAction::WIN)) {
+        handleWinCommand(iss);
+    }
     else {
         std::cout << "Commande inconnue : " << buffer << std::endl;
     }
@@ -349,6 +352,10 @@ void Core::updatePlayerId()
     std::cout << "Aucune entité contrôlable trouvée, ID du joueur défini à -1" << std::endl;
 }
 
+void Core::handleWinCommand(std::istringstream& iss)
+{
+    gui_gamewin();
+}
 
 void Core::handleDeathCommand(std::istringstream& iss)
 {
