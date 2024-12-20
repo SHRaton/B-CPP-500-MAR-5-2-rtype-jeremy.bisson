@@ -63,6 +63,7 @@ class Core {
 
         // Window
         sf::RenderWindow window;
+        sf::RenderWindow registryWindow;
 
         // Strings
         std::string str_name;
@@ -159,7 +160,28 @@ class Core {
         void handle_horizontal_stop(std::optional<component::velocity>& vel);
         void handle_shoot(float deltaSeconds, std::optional<component::position>& pos);
 
+        void handleServerCommands(const std::string& command);
+        void handleMoveCommand(std::istringstream& iss);
+        void handleMobSpawnCommand(std::istringstream& iss);
+        void handleConnectCommand(std::istringstream& iss);
+        void handleMovementCommands(std::istringstream& iss, GameAction action);
+        void handleShootCommands(std::istringstream& iss);
+        void handleMobShootCommand(std::istringstream& iss);
+        void handlePowerUpCommand(std::istringstream& iss);
+        void handleCollisionCommand(std::istringstream& iss);
+        void handleDeathCommand(std::istringstream& iss);
+        void updatePlayerHealth(int id, int newHealth);
+        void handlePowerUpCollision(int id, int type, sparse_array<component::health>& healths);
+        void handleMobMissileCollision(int id, sparse_array<component::health>& healths,
+                                   sparse_array<component::drawable>& drawables,
+                                   sparse_array<component::invincible>& invincibles);
+        void handleMobCollision(int id, sparse_array<component::health>& healths, 
+                            sparse_array<component::drawable>& drawables,
+                            sparse_array<component::invincible>& invincibles);
+
         void update_hud();
+        void displayRegistryInfo();
+        sf::Text registryInfo;
 
         AnimationState animState;
         InputState inputState;

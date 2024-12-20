@@ -3,6 +3,7 @@
 
 Core::Core() :
         window(sf::VideoMode(1920, 1080), "R-Type"), player(0)
+
 {
     // Start the Asio IO context in a separate thread
     loadAssets();

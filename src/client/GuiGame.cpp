@@ -8,310 +8,6 @@ std::string Core::encode_action(GameAction action)
     return bits.to_string();
 }
 
-void Core::handleCommands(std::string command)
-{
-    if (command.rfind(encode_action(GameAction::MOVE), 0) == 0) {
-        std::istringstream iss(command);
-        std::string code;
-        int id, x, y;
-        iss >> code >> id >> x >> y;
-
-        auto &positions = reg.get_components<component::position>();
-        if (id >= 0 && id < positions.size() && positions[id]) {
-            positions[id].value().x = x;
-            positions[id].value().y = y;
-        } else {
-            std::cout << "Erreur : ID de l'Entitée invalide." << std::endl;
-        }
-    } else if (command.rfind(encode_action(GameAction::MOB_SPAWN), 0) == 0) {
-        std::istringstream iss(command);
-        std::string code;
-        int mob_type, x, y;
-        iss >> code >> mob_type >> x >> y;
-        auto newMob = reg.spawn_entity();
-        sf::Sprite mob = utils.cat("../ressources/sprites/mob" + std::to_string(mob_type) + ".png");
-        mob.setPosition(x, y);
-        reg.emplace_component<component::position>(newMob, component::position{x, y});
-        if (mob_type == 0) {
-            sf::IntRect rect(0, 0, mob.getGlobalBounds().width / 8, mob.getGlobalBounds().height);
-            mob.setTextureRect(rect);
-            reg.emplace_component<component::health>(newMob, component::health{300});
-            reg.emplace_component<component::damage>(newMob, component::damage{10});
-            reg.emplace_component<component::velocity>(newMob, component::velocity{-5, 0});
-        } else if (mob_type == 1) {
-            sf::IntRect rect(0, 0, mob.getGlobalBounds().width / 3, mob.getGlobalBounds().height);
-            mob.setTextureRect(rect);
-            reg.emplace_component<component::health>(newMob, component::health{100});
-            reg.emplace_component<component::damage>(newMob, component::damage{40});
-            reg.emplace_component<component::velocity>(newMob, component::velocity{-5, 0});
-        }
-        mob.setScale(3, 3);
-        reg.emplace_component<component::drawable>(newMob, component::drawable{mob});
-        std::cout << "MOB" << newMob << "SPAWNED AT " << x << " / " << y << std::endl;
-
-    } else if (command.rfind(encode_action(GameAction::CONNECT), 0) == 0) {
-        std::istringstream iss(command);
-        std::string code;
-        int id;
-        iss >> code >> id;
-
-        // Spawn new entity in the registry
-        auto newPlayer = reg.spawn_entity();
-
-        // Load sprite based on player number, NOT nb_player counter
-        sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(id) + ".png");
-
-        // Set up sprite
-        vaisseau.setPosition(200, 500);
-        sf::IntRect rect(0, 0, vaisseau.getGlobalBounds().width / 5, vaisseau.getGlobalBounds().height);
-        vaisseau.setTextureRect(rect);
-        vaisseau.setScale(3, 3);
-
-        // Add components to the new entity
-        reg.emplace_component<component::position>(newPlayer, component::position{200, 500});
-        reg.emplace_component<component::velocity>(newPlayer, component::velocity{0, 0});
-        reg.emplace_component<component::drawable>(newPlayer, component::drawable{vaisseau});
-        reg.emplace_component<component::controllable>(newPlayer, component::controllable{false});
-        reg.emplace_component<component::health>(newPlayer, component::health{100});
-        reg.emplace_component<component::invincible>(newPlayer, component::invincible{false});
-        
-        PlayerInfo playerInfo;
-        playerInfo.id = id;
-        playerInfo.hp = 100;
-        playerInfo.hpText.setFont(font);
-        playerInfo.hpText.setCharacterSize(35);
-        playerInfo.hpText.setFillColor(sf::Color::Blue);
-        playerInfo.hpText.setPosition(300, 40 + otherPlayers.size() * 50);
-        playerInfo.hpText.setString("Player " + std::to_string(id) + ": " + std::to_string(playerInfo.hp));
-        otherPlayers.push_back(playerInfo);
-
-    } else if (command.rfind(encode_action(GameAction::UP), 0) == 0) {
-        std::istringstream iss(command);
-        std::string code;
-        int id;
-        iss >> code >> id;
-
-        auto &positions = reg.get_components<component::position>();
-        auto &drawables = reg.get_components<component::drawable>();
-        auto &velocities = reg.get_components<component::velocity>();
-
-        if (id >= 0 && id < positions.size() && positions[id] && drawables[id] && velocities[id]) {
-            velocities[id].value().vy = -baseSpeed;
-
-            // Animer le sprite vers le haut
-            sf::Sprite& sprite = drawables[id].value().sprite;
-            if (animState.currentFrame < MAX_UP_FRAME) {
-                sprite.setTextureRect(sf::IntRect(
-                    MAX_UP_FRAME * sprite.getTextureRect().width,
-                    0,
-                    sprite.getTextureRect().width,
-                    sprite.getTextureRect().height
-                ));
-            }
-        }
-    } else if (command.rfind(encode_action(GameAction::DOWN), 0) == 0) {
-        std::istringstream iss(command);
-        std::string code;
-        int id;
-        iss >> code >> id;
-
-        auto &positions = reg.get_components<component::position>();
-        auto &drawables = reg.get_components<component::drawable>();
-        auto &velocities = reg.get_components<component::velocity>();
-
-        if (id >= 0 && id < positions.size() && positions[id] && drawables[id] && velocities[id]) {
-            velocities[id].value().vy = baseSpeed;
-            
-            // Animer le sprite vers le bas
-            sf::Sprite& sprite = drawables[id].value().sprite;
-            if (animState.currentFrame > MIN_DOWN_FRAME) {
-                sprite.setTextureRect(sf::IntRect(
-                    MIN_DOWN_FRAME * sprite.getTextureRect().width,
-                    0,
-                    sprite.getTextureRect().width,
-                    sprite.getTextureRect().height
-                ));
-            }
-        }
-    } else if (command.rfind(encode_action(GameAction::LEFT), 0) == 0) {
-        std::istringstream iss(command);
-        std::string code;
-        int id;
-        iss >> code >> id;
-
-        auto &positions = reg.get_components<component::position>();
-        auto &drawables = reg.get_components<component::drawable>();
-        auto &velocities = reg.get_components<component::velocity>();
-
-        if (id >= 0 && id < positions.size() && positions[id] && drawables[id] && velocities[id]) {
-            velocities[id].value().vx = -baseSpeed;
-        }
-    } else if (command.rfind(encode_action(GameAction::RIGHT), 0) == 0) {
-        std::istringstream iss(command);
-        std::string code;
-        int id;
-        iss >> code >> id;
-
-        auto &positions = reg.get_components<component::position>();
-        auto &drawables = reg.get_components<component::drawable>();
-        auto &velocities = reg.get_components<component::velocity>();
-
-        if (id >= 0 && id < positions.size() && positions[id] && drawables[id] && velocities[id]) {
-            velocities[id].value().vx = baseSpeed;
-        }
-    } else if (command.rfind(encode_action(GameAction::STOP_X), 0) == 0) {
-        std::istringstream iss(command);
-        std::string code;
-        int id;
-        iss >> code >> id;
-
-        auto &velocities = reg.get_components<component::velocity>();
-
-        if (id >= 0 && id < velocities.size() && velocities[id]) {
-            velocities[id].value().vx = 0;
-        }
-    } else if (command.rfind(encode_action(GameAction::STOP_Y), 0) == 0) {
-        std::istringstream iss(command);
-        std::string code;
-        int id;
-        iss >> code >> id;
-
-        auto &velocities = reg.get_components<component::velocity>();
-        auto &drawables = reg.get_components<component::drawable>();
-
-        if (id >= 0 && id < velocities.size() && velocities[id] && drawables[id]) {
-            velocities[id].value().vy = 0;
-            
-            // Retour à l'animation neutre
-            sf::Sprite& sprite = drawables[id].value().sprite;
-            sprite.setTextureRect(sf::IntRect(
-                NEUTRAL_FRAME * sprite.getTextureRect().width,
-                0,
-                sprite.getTextureRect().width,
-                sprite.getTextureRect().height
-            ));
-        }
-    } else if (command.rfind(encode_action(GameAction::SHOOT), 0) == 0) {
-        std::istringstream iss(command);
-        std::string code;
-        int id, x, y;
-        iss >> code >> x >> y;
-
-        auto &positions = reg.get_components<component::position>();
-
-        Entity missile = reg.spawn_entity();
-        reg.emplace_component<component::position>(missile, component::position{x, y});
-        reg.emplace_component<component::velocity>(missile, component::velocity{5, 0});
-        sf::Sprite sprite = utils.cat("../ressources/sprites/shoot.png");
-        sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
-        reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
-        reg.emplace_component<component::controllable>(missile, component::controllable{false});
-    } else if (command.rfind(encode_action(GameAction::MOB_SHOOT), 0) == 0) {
-        std::istringstream iss(command);
-        std::string code;
-        int id, x, y;
-        iss >> code >> x >> y;
-
-        auto &positions = reg.get_components<component::position>();
-
-        Entity missile = reg.spawn_entity();
-        reg.emplace_component<component::position>(missile, component::position{x, y});
-        reg.emplace_component<component::velocity>(missile, component::velocity{-5, 0});
-        sf::Sprite sprite = utils.cat("../ressources/sprites/shoot_mob.png");
-        sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
-        reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
-        reg.emplace_component<component::controllable>(missile, component::controllable{false});
-    } else if (command.rfind(encode_action(GameAction::POWER_UP_SPAWN), 0) == 0) {
-        std::istringstream iss(command);
-        std::string code;
-        int type, x, y;
-        iss >> code >> type >> x >> y;
-
-        std::cout << "POWERUP SPAWNED -> Type: " << type << "/ x: " << x << "/ y:" << y << std::endl;
-
-        auto &positions = reg.get_components<component::position>();
-
-        Entity powerup = reg.spawn_entity();
-        reg.emplace_component<component::position>(powerup, component::position{x, y});
-        sf::Sprite sprite = utils.cat("../ressources/sprites/pow1.png");
-        sf::Sprite sprite2 = utils.cat("../ressources/sprites/pow2.png");
-        sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
-        if (type == 0) {
-            reg.emplace_component<component::drawable>(powerup, component::drawable{sprite});
-        } else if (type == 1) {
-            reg.emplace_component<component::drawable>(powerup, component::drawable{sprite2});
-        }
-        reg.emplace_component<component::type>(powerup, component::type{type});
-    } else if (command.rfind(encode_action(GameAction::COLLISION), 0) == 0) {
-        std::istringstream iss(command);
-        std::string code;
-        int id, type;
-        iss >> code >> id >> type;
-        auto &healths = reg.get_components<component::health>();
-        auto &drawables = reg.get_components<component::drawable>();
-        auto &invincibles = reg.get_components<component::invincible>();
-
-        if (id >= 0 && id < healths.size() && healths[id]) {
-            if (type == 10 && invincibles[id].value().is_invincible == false) {
-                std::cout << "Collision AVEC UN MOB" << std::endl;
-                healths[id].value().hp -= 50;
-                invincibles[id].value().is_invincible = true;
-                invincibles[id].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
-                if (drawables[id]) {
-                    drawables[id].value().sprite.setColor(sf::Color::Red);
-                }
-            }
-            if (type == 0) {
-                std::cout << "Collision POWERUP 1" << std::endl;
-                powerupSound.play();
-                healths[id].value().hp += 10;
-                if (healths[id].value().hp >= 100) {
-                    healths[id].value().hp = 100;
-                }
-            }
-            if (type == 1) {
-                std::cout << "Collision POWERUP 2" << std::endl;
-                powerupSound.play();
-                healths[id].value().hp += 20;
-                if (healths[id].value().hp >= 100) {
-                    healths[id].value().hp = 100;
-                }
-            }
-            if (type == 7 && invincibles[id].value().is_invincible == false) {
-                std::cout << "Collision AVEC UN MISSILE DE MOB" << std::endl;
-                healths[id].value().hp -= 30;
-                invincibles[id].value().is_invincible = true;
-                invincibles[id].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
-                if (drawables[id]) {
-                    drawables[id].value().sprite.setColor(sf::Color::Red);
-                }
-            }
-            for (auto& player : otherPlayers) {
-                if (player.id == id) {
-                    player.hp = healths[id].value().hp;
-                    player.hpText.setString("Player " + std::to_string(id) + ": " + std::to_string(player.hp));
-                }
-            }
-        }
-
-    } else if (command.rfind(encode_action(GameAction::DEATH), 0) == 0) {
-        std::istringstream iss(command);
-        std::string code;
-        int id, type;
-        iss >> code >> id;
-
-        if (id == network->getId()) {
-            exit(0);
-        }
-        reg.kill_entity(Entity(id));
-
-        std::cout << "Jsuis mort la team... jsuis ptetre allé UNNN PEUUU LOINNNN !" << std::endl;
-
-    } else if (!command.empty()) {
-        std::cout << "Commande inconnue : " << command << std::endl;
-    }
-}
-
 void Core::load_spaceship()
 {
     std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -352,7 +48,7 @@ void Core::load_spaceship()
             reg.emplace_component<component::controllable>(newPlayer, component::controllable{false});
             reg.emplace_component<component::health>(newPlayer, component::health{100});
             reg.emplace_component<component::invincible>(newPlayer, component::invincible{false});
-            
+            reg.emplace_component<component::type>(newPlayer, component::type{667});
             PlayerInfo playerInfo;
             playerInfo.id = id;
             playerInfo.hp = 100;
@@ -380,7 +76,7 @@ void Core::load_spaceship()
         reg.emplace_component<component::drawable>(player, component::drawable{sprite});
         reg.emplace_component<component::controllable>(player, component::controllable{true});
         reg.emplace_component<component::invincible>(player, component::invincible{false});
-        
+        reg.emplace_component<component::type>(player, component::type{696});
         PlayerInfo playerInfo;
         playerInfo.id = player;
         playerInfo.hp = 100;
@@ -393,220 +89,6 @@ void Core::load_spaceship()
     }
 }
 
-//===================================ANIMATION=================================
-
-
-void Core::handle_vertical_movement(float deltaSeconds, std::optional<component::velocity>& vel,
-                                    std::optional<component::drawable>& drawable, std::optional<component::position>& pos)
-{
-    if (!vel || !drawable) return;
-
-    // Handle upward movement
-    if (keysPressed[sf::Keyboard::Up]) {
-        if (pos.value().y < 0) {
-            handle_vertical_stop(vel);
-        } else {
-            vel->vy = -baseSpeed;
-            animate_up(deltaSeconds, drawable);
-            send_input_if_needed(GameAction::UP, inputState.upSent);
-        }
-    }
-    // Handle downward movement
-    else if (keysPressed[sf::Keyboard::Down]) {
-        if (pos.value().y > 970) {
-            handle_vertical_stop(vel);
-        } else {
-            vel->vy = baseSpeed;
-            animate_down(deltaSeconds, drawable);
-            send_input_if_needed(GameAction::DOWN, inputState.downSent);
-        }
-    }
-    // Return to neutral position when no vertical movement
-    else {
-        inputState.upSent = false;
-        inputState.downSent = false;
-        animate_to_neutral(deltaSeconds, drawable);
-        handle_vertical_stop(vel);
-    }
-}
-
-void Core::animate_up(float deltaSeconds, std::optional<component::drawable>& drawable)
-{
-    if (!drawable) return;
-    
-    animState.animationTimer += deltaSeconds;
-    if (animState.animationTimer >= FRAME_DURATION) {
-        animState.animationTimer = 0;
-        if (animState.currentFrame < MAX_UP_FRAME) {
-            animState.currentFrame++;
-            update_sprite_frame(drawable->sprite);
-        }
-    }
-}
-
-void Core::animate_down(float deltaSeconds, std::optional<component::drawable>& drawable)
-{
-    if (!drawable) return;
-    
-    animState.animationTimer += deltaSeconds;
-    if (animState.animationTimer >= FRAME_DURATION) {
-        animState.animationTimer = 0;
-        if (animState.currentFrame > MIN_DOWN_FRAME) {
-            animState.currentFrame--;
-            update_sprite_frame(drawable->sprite);
-        }
-    }
-}
-
-void Core::animate_to_neutral(float deltaSeconds, std::optional<component::drawable>& drawable)
-{
-    if (!drawable) return;
-    
-    animState.animationTimer += deltaSeconds;
-    if (animState.animationTimer >= FRAME_DURATION) {
-        animState.animationTimer = 0;
-        
-        if (animState.currentFrame > NEUTRAL_FRAME) {
-            animState.currentFrame--;
-        } else if (animState.currentFrame < NEUTRAL_FRAME) {
-            animState.currentFrame++;
-        }
-        update_sprite_frame(drawable->sprite);
-    }
-}
-
-void Core::update_sprite_frame(sf::Sprite& sprite)
-{
-    sprite.setTextureRect(sf::IntRect(
-        animState.currentFrame * sprite.getTextureRect().width,
-        0,
-        sprite.getTextureRect().width,
-        sprite.getTextureRect().height
-    ));
-}
-
-void Core::handle_idle_animation(float deltaSeconds, std::optional<component::drawable>& drawable)
-{
-    if (!drawable) return;
-    if (animState.currentFrame > 0) {
-        animState.animationTimer += deltaSeconds;
-        if (animState.animationTimer >= FRAME_DURATION) {
-            animState.animationTimer = 0;
-            animState.currentFrame--;
-            update_sprite_frame(drawable->sprite);
-        }
-    }
-}
-
-//===================================ANIMATION=================================
-
-
-
-
-void Core::handle_horizontal_movement(float deltaSeconds, std::optional<component::velocity>& vel,
-                                    std::optional<component::drawable>& drawable, std::optional<component::position>& pos)
-{
-    if (!vel) return;
-    
-    // Handle left movement
-    if (keysPressed[sf::Keyboard::Left]) {
-        if (pos.value().x < 0) {
-            handle_horizontal_stop(vel);
-        } else {
-            vel->vx = -baseSpeed;
-            send_input_if_needed(GameAction::LEFT, inputState.leftSent);
-        }
-    } else {
-        inputState.leftSent = false;
-    }
-
-    // Handle right movement 
-    if (keysPressed[sf::Keyboard::Right]) {
-        if (pos.value().x > 1810) {  // Ajustez cette valeur selon la largeur de votre fenêtre
-            handle_horizontal_stop(vel);
-        } else {
-            vel->vx = baseSpeed;
-            send_input_if_needed(GameAction::RIGHT, inputState.rightSent);
-        }
-    } else {
-        inputState.rightSent = false;
-    }
-
-    // Handle horizontal stop
-    if (!keysPressed[sf::Keyboard::Left] && !keysPressed[sf::Keyboard::Right]) {
-        handle_horizontal_stop(vel);
-    }
-}
-
-void Core::send_input_if_needed(GameAction action, bool& sentFlag)
-{
-    if (!sentFlag) {
-        std::ostringstream messageStream;
-        messageStream << encode_action(action) << " " << network->getId();
-        network->send(messageStream.str());
-        sentFlag = true;
-    }
-}
-void Core::handle_vertical_stop(std::optional<component::velocity>& vel)
-{
-    if (!vel) return;
-    if (vel->vy != 0) {
-        std::ostringstream messageStream;
-        messageStream << encode_action(GameAction::STOP_Y) << " " << network->getId();
-        network->send(messageStream.str());
-        vel->vy = 0;
-    }
-}
-void Core::handle_horizontal_stop(std::optional<component::velocity>& vel)
-{
-    if (!vel) return;
-    if (vel->vx != 0) {
-        std::ostringstream messageStream;
-        messageStream << encode_action(GameAction::STOP_X) << " " << network->getId();
-        network->send(messageStream.str());
-        vel->vx = 0;
-    }
-}
-
-void Core::handle_shoot(float deltaSeconds, std::optional<component::position>& pos)
-{
-    if (!pos) return;
-
-    shootCooldown += deltaSeconds;
-    shootCooldown = std::min(shootCooldown, 0.3f);
-    shootBar.setSize(sf::Vector2f(200 * shootCooldown, 5));
-    shootBar.setPosition(pos.value().x, pos.value().y - 20);
-
-    if (keysPressed[sf::Keyboard::A] && shootCooldown >= 0.3) {
-        send_input_if_needed(GameAction::SHOOT, inputState.shootSent);
-        shotSound.play();
-        shootCooldown = 0.0f;
-    } else {
-        inputState.shootSent = false;
-    }
-}
-
-void Core::control_system()
-{
-    float deltaSeconds = deltaClock.restart().asSeconds();
-    auto const &controllables = reg.get_components<component::controllable>();
-    auto &velocities = reg.get_components<component::velocity>();
-    auto &positions = reg.get_components<component::position>();
-    auto &drawables = reg.get_components<component::drawable>();
-    auto &healths = reg.get_components<component::health>();
-    for (size_t i = 0; i < controllables.size(); ++i) {
-        auto const &controllable = controllables[i];
-        auto &vel = velocities[i];
-        auto &pos = positions[i];
-        auto &drawable = drawables[i];
-        auto &health = healths[i];
-        if (controllable && vel && drawable && controllable.value().is_controllable && pos) {
-            handle_vertical_movement(deltaSeconds, vel, drawable, pos);
-            handle_horizontal_movement(deltaSeconds, vel, drawable, pos);
-            handle_shoot(deltaSeconds, pos);
-        }
-    }
-}
 
 void Core::setup_position_timer(boost::asio::steady_timer& position_timer)
 {
@@ -633,6 +115,113 @@ void Core::checkInvincibility()
     }
 }
 
+void Core::displayRegistryInfo()
+{
+    auto& positions = reg.get_components<component::position>();
+    auto& velocities = reg.get_components<component::velocity>();
+    auto& healths = reg.get_components<component::health>();
+    auto& drawables = reg.get_components<component::drawable>();
+    auto& controllables = reg.get_components<component::controllable>();
+    auto& invincibles = reg.get_components<component::invincible>();
+    auto& damages = reg.get_components<component::damage>();
+    auto& types = reg.get_components<component::type>();
+
+    float yPosition = 10.0f; // Position initiale en Y pour le texte
+
+    for (size_t i = 0; i < positions.size(); ++i) {
+        sf::Color entityColor = sf::Color::White; // Couleur par défaut
+
+        std::ostringstream oss;
+        oss << "Entity " << i;
+        if (types.size() > i && types[i]) {
+            switch (types[i].value().type) {
+                case 667: // Vaisseau
+                    oss << "( Other SpaceShip ) :\n";
+                    entityColor = sf::Color::Green;
+                    break;
+                case 696: // Vaisseau
+                    oss << "( My SpaceShip ) :\n";
+                    entityColor = sf::Color::Blue;
+                    break;
+                case 10: // Mob
+                    oss << "( Mob 1 ) :\n";
+                    entityColor = sf::Color::Red;
+                    break;
+                case 11: // Mob
+                    oss << "( Mob 2 ) :\n";
+                    entityColor = sf::Color::Red;
+                    break;
+                case 0: // PowerUp
+                    oss << "( PowerUp 1 ) :\n";
+                    entityColor = sf::Color::White;
+                    break;
+                case 1: // PowerUp
+                    oss << "( PowerUp 2 ) :\n";
+                    entityColor = sf::Color::White;
+                    break;
+                case 6: // Missile
+                    oss << "( Bullet ) :\n";
+                    entityColor = sf::Color::Yellow;
+                    break;
+                case 7: // Mob Bullet
+                    oss << "( Mob Bullet ) :\n";
+                    entityColor = sf::Color::Magenta;
+                    break;
+                default:
+                    oss << "( Unknown ):\n";
+                    entityColor = sf::Color::White;
+                    break;
+            }
+        }
+
+        if (positions[i]) {
+            oss << "  Position: (" << positions[i].value().x << ", " << positions[i].value().y << ")  |  ";
+        }
+        if (velocities.size() > i && velocities[i]) {
+            oss << "  Velocity: (" << velocities[i].value().vx << ", " << velocities[i].value().vy << ")  |  ";
+        }
+        if (healths.size() > i && healths[i]) {
+            oss << "  Health: " << healths[i].value().hp << "  |  ";
+        }
+        if (drawables.size() > i && drawables[i]) {
+            oss << "  Drawable: Yes  |  ";
+        }
+        if (controllables.size() > i && controllables[i]) {
+            oss << "  Controllable: " << (controllables[i].value().is_controllable ? "Yes" : "No") << "  |  ";
+        }
+        if (invincibles.size() > i && invincibles[i]) {
+            oss << "  Invincible: " << (invincibles[i].value().is_invincible ? "Yes" : "No") << "  |  ";
+        }
+        if (damages.size() > i && damages[i]) {
+            oss << "  Damage: " << damages[i].value().dmg << "  |  ";
+        }
+        oss << "\n";
+
+        // Créer un texte SFML pour cette entité
+        sf::Text entityInfo;
+        entityInfo.setFont(font);
+        entityInfo.setCharacterSize(20);
+        entityInfo.setFillColor(sf::Color::Black);
+        entityInfo.setPosition(10, yPosition);
+        entityInfo.setString(oss.str());
+
+        float textHeight = entityInfo.getLocalBounds().height + 10.0f;
+        sf::RectangleShape rect;
+        rect.setSize(sf::Vector2f(registryWindow.getSize().x, textHeight));
+        rect.setFillColor(entityColor);
+        rect.setPosition(10, yPosition);
+
+        // Dessiner le texte dans la deuxième fenêtre
+        registryWindow.draw(rect);
+        registryWindow.draw(entityInfo);
+
+
+        // Mettre à jour la position Y pour le prochain texte
+        yPosition += textHeight;
+    }
+}
+
+
 void Core::update_hud()
 {
     fpsText.setFont(font);
@@ -644,12 +233,6 @@ void Core::update_hud()
     latencyText.setFillColor(sf::Color::Green);
     latencyText.setPosition(10, 40);
 
-    // hp.setFont(font);
-    // hp.setCharacterSize(50);
-    // hp.setFillColor(sf::Color::Blue);
-    // hp.setPosition(300, 40);
-    // auto &healths = reg.get_components<component::health>();
-    // hp.setString("HP: " + std::to_string(healths[network->getId()].value().hp));
     float fps = 1.f / fpsClock.restart().asSeconds();
     if (latencyClock.getElapsedTime().asSeconds() > 1.f) {
         int latency = 32;
@@ -667,6 +250,7 @@ void Core::gui_game()
     menuMusic.stop();
     Game1Music.play();
 
+    registryWindow.create(sf::VideoMode(1400, 1080), "ECS Debuger");
 
     position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(2));
     setup_position_timer(*position_timer_);
@@ -680,7 +264,7 @@ void Core::gui_game()
             throw std::runtime_error("Error when loading Shader for daltonism");
         }
     }
-    while (window.isOpen()) {
+    while (window.isOpen() && registryWindow.isOpen()) {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
@@ -694,9 +278,16 @@ void Core::gui_game()
                 keysPressed[event.key.code] = false;
             }
         }
+        while (registryWindow.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+                registryWindow.close();
+                exit (0);
+            }
+        }
         network->print_message_queue();
         buffer = network->receive().value_or("");
-        handleCommands(buffer);
+        handleServerCommands(buffer);
         update_hud();
         control_system();
         checkInvincibility();
@@ -724,5 +315,9 @@ void Core::gui_game()
             window.draw(screenSprite);
         }
         window.display();
+
+        registryWindow.clear();
+        displayRegistryInfo();
+        registryWindow.display();
     }
 }
