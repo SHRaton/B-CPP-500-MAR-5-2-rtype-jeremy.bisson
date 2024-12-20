@@ -55,7 +55,7 @@ void Core::load_spaceship()
             playerInfo.hpText.setFont(font);
             playerInfo.hpText.setCharacterSize(35);
             playerInfo.hpText.setFillColor(sf::Color::Blue);
-            playerInfo.hpText.setPosition(300, 40 + otherPlayers.size() * 50);
+            playerInfo.hpText.setPosition(1500, 10 + otherPlayers.size() * 50);
             playerInfo.hpText.setString("Player " + std::to_string(id) + ": " + std::to_string(playerInfo.hp));
             otherPlayers.push_back(playerInfo);
         }
@@ -64,6 +64,7 @@ void Core::load_spaceship()
     if (!messages.empty()) {
         // Création du joueur
         player = reg.spawn_entity();
+        nb_player++;
         network->setId(player);
         std::cout << "Créer NOTRE sprite " << player << std::endl;
         reg.emplace_component<component::position>(player, component::position{200, 500});
@@ -83,7 +84,7 @@ void Core::load_spaceship()
         playerInfo.hpText.setFont(font);
         playerInfo.hpText.setCharacterSize(35);
         playerInfo.hpText.setFillColor(sf::Color::Blue);
-        playerInfo.hpText.setPosition(300, 40 + otherPlayers.size() * 50);
+        playerInfo.hpText.setPosition(1500, 10 + otherPlayers.size() * 50);
         playerInfo.hpText.setString("Player " + std::to_string(player) + ": " + std::to_string(playerInfo.hp));
         otherPlayers.push_back(playerInfo);
     }
@@ -126,7 +127,7 @@ void Core::displayRegistryInfo()
     auto& damages = reg.get_components<component::damage>();
     auto& types = reg.get_components<component::type>();
 
-    float yPosition = 10.0f; // Position initiale en Y pour le texte
+    float yPosition = 50.0f; // Position initiale en Y pour le texte
 
     for (size_t i = 0; i < positions.size(); ++i) {
         sf::Color entityColor = sf::Color::White; // Couleur par défaut
@@ -211,6 +212,7 @@ void Core::displayRegistryInfo()
         rect.setFillColor(entityColor);
         rect.setPosition(10, yPosition);
 
+
         // Dessiner le texte dans la deuxième fenêtre
         registryWindow.draw(rect);
         registryWindow.draw(entityInfo);
@@ -219,6 +221,21 @@ void Core::displayRegistryInfo()
         // Mettre à jour la position Y pour le prochain texte
         yPosition += textHeight;
     }
+    sf::Text nbPlayer;
+    nbPlayer.setFont(font);
+    nbPlayer.setCharacterSize(25);
+    nbPlayer.setFillColor(sf::Color::White);
+    nbPlayer.setPosition(10, 10);
+    nbPlayer.setString("Number of player : " + std::to_string(nb_player));
+    registryWindow.draw(nbPlayer);
+
+    sf::Text myId;
+    myId.setFont(font);
+    myId.setCharacterSize(25);
+    myId.setFillColor(sf::Color::White);
+    myId.setPosition(400, 10);
+    myId.setString("My ID : " + std::to_string(network->getId()));
+    registryWindow.draw(myId);
 }
 
 

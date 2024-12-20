@@ -105,6 +105,7 @@ void Core::handleConnectCommand(std::istringstream& iss)
     int id;
     iss >> id;
 
+    nb_player++;
     auto newPlayer = reg.spawn_entity();
     sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(id) + ".png");
 
@@ -126,7 +127,7 @@ void Core::handleConnectCommand(std::istringstream& iss)
     playerInfo.hpText.setFont(font);
     playerInfo.hpText.setCharacterSize(35);
     playerInfo.hpText.setFillColor(sf::Color::Blue);
-    playerInfo.hpText.setPosition(300, 40 + otherPlayers.size() * 50);
+    playerInfo.hpText.setPosition(1500, 10 + otherPlayers.size() * 50);
     playerInfo.hpText.setString("Player " + std::to_string(id) + ": " + std::to_string(playerInfo.hp));
     otherPlayers.push_back(playerInfo);
 }
