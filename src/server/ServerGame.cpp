@@ -498,35 +498,41 @@ void ServerGame::handleDisconnect(const MediatorContext& context, const std::vec
 void ServerGame::handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params)
 {
     try {
-        params.size() == 0 ? throw std::runtime_error("No params") : 0;
+        if (params.empty()) {
+            throw std::runtime_error("No params");
+        }
+        size_t entityId = std::stoi(params[0]);
+        auto& velocities = reg.get_components<component::velocity>();
+
+        // Modifier la vélocité selon l'action
+        auto& velocity = velocities[entityId].value();
+        if (action == "UP") {
+            velocity.vy = -5;
+        } else if (action == "DOWN") {
+            velocity.vy = 5;
+        } else if (action == "LEFT") {
+            velocity.vx = -5;
+        } else if (action == "RIGHT") {
+            velocity.vx = 5;
+        } else if (action == "STOP_Y") {
+            velocity.vy = 0;
+        } else if (action == "STOP_X") {
+            velocity.vx = 0;
+        }
+
+        // Notifier seulement si l'entité existe toujours
+        med.notify(Sender::GAME, action, params, context);
+
     } catch(const std::exception& e) {
         std::cout << Colors::RED << "[Error] Exception in handleMoves: " << e.what() << Colors::RESET << std::endl;
         return;
     }
-    if (action == "UP"){
-        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = -5;
-    } else if (action == "DOWN"){
-        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = 5;
-    } else if (action == "LEFT"){
-        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = -5;
-    } else if (action == "RIGHT"){
-        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = 5;
-    } else if (action == "STOP_Y"){
-        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vy = 0;
-    } else if (action == "STOP_X"){
-        reg.get_components<component::velocity>()[std::stoi(params[0])].value().vx = 0;
-    }
-    med.notify(Sender::GAME, action, params, context);
 }
 
 void ServerGame::handleShoot(const MediatorContext& context, const std::vector<std::string>& params)
 {
     try {
         params.size() == 0 ? throw std::runtime_error("No params") : 0;
-        } catch(const std::exception& e) {
-            std::cout << Colors::RED << "[Error] Exception in handleShoot: " << e.what() << Colors::RESET << std::endl;
-            return;
-        }
         int player_id = std::stoi(params[0]);
         auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
         auto& triple_shots = reg.get_components<component::triple_shot>();
@@ -568,31 +574,35 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
             reg.emplace_component<component::size>(bullet, component::size{10, 10});
             med.notify(Sender::GAME, "SHOOT", newParams, context);
         }
+    } catch(const std::exception& e) {
+        std::cout << Colors::RED << "[Error] Exception in handleShoot: " << e.what() << Colors::RESET << std::endl;
+        return;
+    }
 }
 
 void ServerGame::handleColision(const MediatorContext& context, const std::vector<std::string>& params)
 {
     try {
         params.size() == 0 ? throw std::runtime_error("No params") : 0;
+        std::vector<std::string> newParams;
+        newParams.push_back(params[0]);
+        newParams.push_back(params[1]);
+        med.notify(Sender::GAME, "COLISION", newParams, context);
     } catch(const std::exception& e) {
         std::cout << Colors::RED << "[Error] Exception in handleColision: " << e.what() << Colors::RESET << std::endl;
         return;
     }
-    std::vector<std::string> newParams;
-    newParams.push_back(params[0]);
-    newParams.push_back(params[1]);
-    med.notify(Sender::GAME, "COLISION", newParams, context);
 }
 
 void ServerGame::handleDeath(const MediatorContext& context, const std::vector<std::string>& params)
 {
     try {
         params.size() == 0 ? throw std::runtime_error("No params") : 0;
-    } catch(const std::exception& e) {
+        std::vector<std::string> newParams;
+        newParams.push_back(params[0]);
+        med.notify(Sender::GAME, "DEATH", newParams, context);
+     } catch(const std::exception& e) {
         std::cout << Colors::RED << "[Error] Exception in handleDeath: " << e.what() << Colors::RESET << std::endl;
         return;
     }
-    std::vector<std::string> newParams;
-    newParams.push_back(params[0]);
-    med.notify(Sender::GAME, "DEATH", newParams, context);
 }
