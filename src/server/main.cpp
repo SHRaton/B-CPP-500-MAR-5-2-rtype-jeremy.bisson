@@ -27,7 +27,6 @@ int main(int argc, char* argv[]) {
         Mediator mediator;
         ServerNetwork server(std::stoi(argv[1]), mediator);
         ServerGame game(mediator);
-        game.initTimers();
         server.start();
     }
     catch (std::exception& e) {

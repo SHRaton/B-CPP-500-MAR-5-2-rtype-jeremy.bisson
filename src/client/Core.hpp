@@ -148,6 +148,7 @@ class Core {
             bool leftSent = false;
             bool rightSent = false;
             bool shootSent = false;
+            bool startSent = false;
         };
 
         float shootCooldown;
@@ -163,6 +164,7 @@ class Core {
         void handle_vertical_stop(std::optional<component::velocity>& vel);
         void handle_horizontal_stop(std::optional<component::velocity>& vel);
         void handle_shoot(float deltaSeconds, std::optional<component::position>& pos);
+        void handle_start(float deltaSeconds, std::optional<component::position>& pos);
 
         void handleServerCommands();
         void handleMoveCommand(std::istringstream& iss);

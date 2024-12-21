@@ -52,6 +52,7 @@ std::string ServerNetwork::get_action_name(GameAction action) {
         case GameAction::CONNECT: return "CONNECT";
         case GameAction::DISCONNECT: return "DISCONNECT";
         case GameAction::QUIT: return "QUIT";
+        case GameAction::START: return "START";
         default: return "UNKNOWN";
     }
 }
@@ -186,6 +187,13 @@ void ServerNetwork::handleWin(const MediatorContext& context, const std::vector<
 {
     boost::asio::ip::udp::endpoint client = context.client;
     std::string message = encode_action(GameAction::WIN);
+    broadcast_message(message);
+}
+
+void ServerNetwork::handleStart(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::START);
     broadcast_message(message);
 }
 

@@ -13,6 +13,7 @@ ServerGame::ServerGame(Mediator &med) : med(med)
     reg.register_component<component::size>();
     reg.register_component<component::triple_shot>();
 
+    state = GameState::LOBBY;
     med.register_game(this);
 };
 
@@ -505,6 +506,9 @@ void ServerGame::handleDisconnect(const MediatorContext& context, const std::vec
 
 void ServerGame::handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params)
 {
+    if (state == GameState::LOBBY) {
+        return;
+    }
     try {
         if (params.empty()) {
             throw std::runtime_error("No params");
@@ -537,8 +541,22 @@ void ServerGame::handleMoves(const std::string& action, const MediatorContext& c
     }
 }
 
+void ServerGame::handleStart(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    if (state == GameState::INGAME) {
+        return;
+    }
+    std::cout << "Game started" << std::endl;
+    state = GameState::INGAME;
+    initTimers();
+    med.notify(Sender::GAME, "START", params, context);
+}
+
 void ServerGame::handleShoot(const MediatorContext& context, const std::vector<std::string>& params)
 {
+    if (state == GameState::LOBBY) {
+        return;
+    }
     try {
         params.size() == 0 ? throw std::runtime_error("No params") : 0;
         int player_id = std::stoi(params[0]);

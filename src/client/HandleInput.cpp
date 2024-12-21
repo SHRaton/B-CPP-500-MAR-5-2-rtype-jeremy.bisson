@@ -92,6 +92,17 @@ void Core::handle_shoot(float deltaSeconds, std::optional<component::position>& 
     }
 }
 
+void Core::handle_start(float deltaSeconds, std::optional<component::position>& pos)
+{
+    if (!pos) return;
+
+    if (keysPressed[sf::Keyboard::Space]) {
+        send_input_if_needed(GameAction::START, inputState.startSent);
+    } else {
+        inputState.startSent = false;
+    }
+}
+
 void Core::control_system()
 {
     float deltaSeconds = deltaClock.restart().asSeconds();
@@ -115,6 +126,7 @@ void Core::control_system()
             handle_vertical_movement(deltaSeconds, vel, drawable, pos);
             handle_horizontal_movement(deltaSeconds, vel, drawable, pos);
             handle_shoot(deltaSeconds, pos);
+            handle_start(deltaSeconds, pos);
         }
     }
 }

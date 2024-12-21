@@ -11,6 +11,11 @@
 #include "ServerNetwork.hpp"
 #include "Mediator.hpp"
 
+enum class GameState{
+    LOBBY,
+    INGAME
+};
+
 class ServerGame : public ISender {
     public:
         ServerGame(Mediator &med);
@@ -46,6 +51,7 @@ class ServerGame : public ISender {
         void handleMobShoot(const MediatorContext& context, const std::vector<std::string>& params){};
         void handleWin(const MediatorContext& context, const std::vector<std::string>& params){};
         void handleLoose(const MediatorContext& context, const std::vector<std::string>& params){};
+        void handleStart(const MediatorContext& context, const std::vector<std::string>& params);
 
 
 
@@ -62,4 +68,5 @@ class ServerGame : public ISender {
         std::unique_ptr<boost::asio::steady_timer> triple_shot_expiration_timer_;
         std::unique_ptr<boost::asio::steady_timer> win_timer_;
         Mediator &med;
+        GameState state;
 };
