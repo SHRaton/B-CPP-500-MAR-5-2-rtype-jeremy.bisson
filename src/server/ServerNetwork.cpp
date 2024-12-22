@@ -81,6 +81,15 @@ void ServerNetwork::handleDisconnect(const MediatorContext& context, const std::
     std::cout << Colors::RED << "[Console] : Un joueur s'est déconnecté : "
               << client.address().to_string() << ":"
               << client.port() << Colors::RESET << std::endl;
+
+    if (params.empty()) {
+        std::cout << Colors::RED << "[Erreur] : Pas d'ID de joueur fourni pour la déconnexion" 
+                  << Colors::RESET << std::endl;
+        return;
+    }
+    std::string player_id = params[0];
+    std::string disconnect_message = encode_action(GameAction::DISCONNECT) + " " + player_id;
+    broadcast_message(client, disconnect_message);
     clients_.erase(client);
 
     //TODO: broadcast à tout les autres l'id du joueur qui s'est déconnecté

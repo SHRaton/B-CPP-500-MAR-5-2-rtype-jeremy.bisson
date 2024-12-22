@@ -28,6 +28,7 @@ class Core {
 
         //*************** Graphic ***************//
         void loadAssets();
+        void loadAssetsGame();
         void gui(int argc, char**argv);
         // Menu D'acceuil
         void gui_menu();
@@ -37,6 +38,8 @@ class Core {
         void login_auto(std::string ip, std::string port);
         void handleKeyboard(sf::Event::KeyEvent key);
         void handleMouseClick(sf::Vector2i mousePosition);
+        // Lobby
+        void gui_lobby();
         // Game
         void gui_game();
         void display_all();
@@ -114,6 +117,12 @@ class Core {
         sf::Text text_sound_general;
         float soundVolume;
 
+        sf::Vector2i mousePosition;
+        sf::Vector2f worldMousePosition;
+        sf::Sprite background_lobby;
+        sf::Sprite ready;
+        sf::Sprite start;
+
         // Texture to concat all draw and apply Shader on texture
         sf::RenderTexture renderTexture;
 
@@ -164,12 +173,13 @@ class Core {
         void handle_vertical_stop(std::optional<component::velocity>& vel);
         void handle_horizontal_stop(std::optional<component::velocity>& vel);
         void handle_shoot(float deltaSeconds, std::optional<component::position>& pos);
-        void handle_start(float deltaSeconds, std::optional<component::position>& pos);
+        void handle_start(std::optional<component::position>& pos);
 
         void handleServerCommands();
         void handleMoveCommand(std::istringstream& iss);
         void handleMobSpawnCommand(std::istringstream& iss);
         void handleConnectCommand(std::istringstream& iss);
+        void handleDisconnectCommand(std::istringstream& iss);
         void handleMovementCommands(std::istringstream& iss, GameAction action);
         void handleShootCommands(std::istringstream& iss);
         void handleMobShootCommand(std::istringstream& iss);
@@ -185,6 +195,7 @@ class Core {
                             sparse_array<component::drawable>& drawables,
                             sparse_array<component::invincible>& invincibles);
         void handleWinCommand(std::istringstream& iss);
+        void handleStartCommand(std::istringstream& iss);
         void updatePlayerId();
         void update_hud();
         void displayRegistryInfo();
@@ -197,6 +208,7 @@ class Core {
         std::unordered_map<int, Entity> player_id_map;
         
         struct PlayerInfo {
+            bool isReady;
             int id;
             int hp;
             sf::Text hpText;

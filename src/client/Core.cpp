@@ -25,6 +25,22 @@ void Core::gui(int argc, char **argv)
     gui_menu();
 }
 
+void Core::loadAssetsGame()
+{
+    sprites_game = {
+        {"background_game1", Sprite("../ressources/background/back_game1.png", true, 4.5)},
+        {"background_game2", Sprite("../ressources/background/back_game2.png", true, 4.5)},
+    };
+    sprites_game["background_game1"].setAsGameBackground();
+    sprites_game["background_game2"].setAsGameBackground();
+    sprites_game["background_game2"].setPosition(sf::Vector2f(14190, 0));
+
+    drawOrder_game = {
+        "background_game1",
+        "background_game2",
+    };
+}
+
 void Core::loadAssets()
 {
     nb_player = 0;
@@ -107,19 +123,6 @@ void Core::loadAssets()
         "ip",
         "port",
         "connect"
-    };
-
-    sprites_game = {
-        {"background_game1", Sprite("../ressources/background/back_game1.png", true, 4.5)},
-        {"background_game2", Sprite("../ressources/background/back_game2.png", true, 4.5)},
-    };
-    sprites_game["background_game1"].setAsGameBackground();
-    sprites_game["background_game2"].setAsGameBackground();
-    sprites_game["background_game2"].setPosition(sf::Vector2f(14190, 0));
-
-    drawOrder_game = {
-        "background_game1",
-        "background_game2",
     };
 
     font.loadFromFile("../ressources/fonts/NicoMoji.ttf");

@@ -76,7 +76,8 @@ void Core::login()
             network->send(encode_action(GameAction::CONNECT));
             utils.printLog(str_name + " logged in");
             std::cout << Color::YELLOW << "[Client] Connected to " << Color::BLUE << str_ip << ":" << str_port << Color::RESET << std::endl;
-            gui_game();
+            gui_lobby();
+            //gui_game();
         } catch (const std::exception& e) {
             failed_connection = 1;
             str_failed = "Connection failed.";
@@ -98,6 +99,7 @@ void Core::login_auto(std::string ip, std::string port)
     try {
         initialize_network(str_ip, std::stoi(str_port));
         network->send(encode_action(GameAction::CONNECT));
+        gui_lobby();
         gui_game();
     } catch (const std::exception& e) {
         std::cerr << "Exception attrapée : " << e.what() << std::endl;

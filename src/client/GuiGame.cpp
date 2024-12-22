@@ -50,6 +50,7 @@ void Core::load_spaceship()
             reg.emplace_component<component::invincible>(newPlayer, component::invincible{false});
             reg.emplace_component<component::type>(newPlayer, component::type{667});
             PlayerInfo playerInfo;
+            playerInfo.isReady = false;
             playerInfo.id = id;
             playerInfo.hp = 100;
             playerInfo.hpText.setFont(font);
@@ -79,6 +80,7 @@ void Core::load_spaceship()
         reg.emplace_component<component::invincible>(player, component::invincible{false});
         reg.emplace_component<component::type>(player, component::type{696});
         PlayerInfo playerInfo;
+        playerInfo.isReady = false;
         playerInfo.id = player;
         playerInfo.hp = 100;
         playerInfo.hpText.setFont(font);
@@ -278,6 +280,9 @@ void Core::gui_gamewin() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+                std::ostringstream messageStream;
+                messageStream << encode_action(GameAction::DISCONNECT) << " " << network->getId();
+                network->send(messageStream.str());
                 window.close();
                 exit(0);
             }
@@ -309,6 +314,9 @@ void Core::gui_gameover() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+                std::ostringstream messageStream;
+                messageStream << encode_action(GameAction::DISCONNECT) << " " << network->getId();
+                network->send(messageStream.str());
                 window.close();
                 exit(0);
             }
@@ -367,7 +375,8 @@ void Core::display_all()
 
 void Core::gui_game()
 {
-    load_spaceship();
+    //load_spaceship();
+    loadAssetsGame();
     sf::Event event;
 
     menuMusic.stop();
@@ -393,6 +402,9 @@ void Core::gui_game()
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+                std::ostringstream messageStream;
+                messageStream << encode_action(GameAction::DISCONNECT) << " " << network->getId();
+                network->send(messageStream.str());
                 window.close();
                 exit (0);
             }
@@ -405,6 +417,9 @@ void Core::gui_game()
         }
         while (registryWindow.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
+                std::ostringstream messageStream;
+                messageStream << encode_action(GameAction::DISCONNECT) << " " << network->getId();
+                network->send(messageStream.str());
                 window.close();
                 registryWindow.close();
                 exit (0);

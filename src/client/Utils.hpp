@@ -18,6 +18,7 @@ class Utils {
         Utils() = default;
         ~Utils() = default;
         sf::Sprite cat(const std::string& path);
+        void setOriginToMiddle(sf::Sprite& sprite);
         void printTerminal(std::string color, std::string mess);
         void printLog(std::string mess);
 

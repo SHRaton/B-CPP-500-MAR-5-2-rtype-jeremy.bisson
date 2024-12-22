@@ -16,6 +16,12 @@ sf::Sprite Utils::cat(const std::string& path)
     return sprite;
 }
 
+void Utils::setOriginToMiddle(sf::Sprite& sprite)
+{
+    sf::FloatRect bounds = sprite.getLocalBounds();
+    sprite.setOrigin(bounds.width/2, bounds.height/2);
+}
+
 void Utils::printTerminal(std::string color, std::string mess)
 {
     std::cout << color << "[Console] : " << mess << Color::RESET << std::endl;

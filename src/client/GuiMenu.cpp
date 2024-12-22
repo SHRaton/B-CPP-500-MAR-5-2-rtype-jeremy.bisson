@@ -47,7 +47,6 @@ void Core::gui_menu() {
                 }
                 if (sprites_menu["option"].isMouseOver(window)) {
                     buttonSound_click.play();
-                    //exit(77);
                     gui_option();
                 }
             }

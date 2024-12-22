@@ -29,6 +29,9 @@ void Core::handleServerCommands()
     else if (code == encode_action(GameAction::CONNECT)) {
         handleConnectCommand(iss);
     }
+    else if (code == encode_action(GameAction::DISCONNECT)) {
+        handleDisconnectCommand(iss);
+    }
     else if (code == encode_action(GameAction::UP) || 
              code == encode_action(GameAction::DOWN) ||
              code == encode_action(GameAction::LEFT) ||
@@ -54,6 +57,9 @@ void Core::handleServerCommands()
     }
     else if (code == encode_action(GameAction::WIN)) {
         handleWinCommand(iss);
+    }
+    else if (code == encode_action(GameAction::START)) {
+        handleStartCommand(iss);
     }
     else {
         std::cout << "Commande inconnue : " << buffer << std::endl;
@@ -128,6 +134,7 @@ void Core::handleConnectCommand(std::istringstream& iss)
     reg.emplace_component<component::invincible>(newPlayer, component::invincible{false});
     reg.emplace_component<component::type>(newPlayer, component::type{667});
     PlayerInfo playerInfo;
+    playerInfo.isReady = false;
     playerInfo.id = id;
     playerInfo.hp = 100;
     playerInfo.hpText.setFont(font);
@@ -357,6 +364,12 @@ void Core::handleWinCommand(std::istringstream& iss)
     gui_gamewin();
 }
 
+void Core::handleStartCommand(std::istringstream& iss)
+{
+    std::cout << "START THE GAME COTE CLIENT";
+    gui_game();
+}
+
 void Core::handleDeathCommand(std::istringstream& iss)
 {
     int id;
@@ -370,5 +383,25 @@ void Core::handleDeathCommand(std::istringstream& iss)
         isDead = true;
     }
     reg.kill_entity(Entity(id));
+    updatePlayerId();
+}
+
+void Core::handleDisconnectCommand(std::istringstream& iss)
+{
+    int id;
+    iss >> id;
+    std::cout << "Deconnexion du joueur " << id << std::endl;
+
+    // Trouver et supprimer le joueur avec l'ID spécifique
+    auto it = std::find_if(otherPlayers.begin(), otherPlayers.end(),
+        [id](const PlayerInfo& player) {
+            return player.id == id;
+        });
+
+    if (it != otherPlayers.end()) {
+        otherPlayers.erase(it);
+    }
+    reg.kill_entity(Entity(id));
+    nb_player--;
     updatePlayerId();
 }

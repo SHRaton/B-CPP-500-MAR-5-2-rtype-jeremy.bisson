@@ -92,7 +92,7 @@ void Core::handle_shoot(float deltaSeconds, std::optional<component::position>& 
     }
 }
 
-void Core::handle_start(float deltaSeconds, std::optional<component::position>& pos)
+void Core::handle_start(std::optional<component::position>& pos)
 {
     if (!pos) return;
 
@@ -126,7 +126,6 @@ void Core::control_system()
             handle_vertical_movement(deltaSeconds, vel, drawable, pos);
             handle_horizontal_movement(deltaSeconds, vel, drawable, pos);
             handle_shoot(deltaSeconds, pos);
-            handle_start(deltaSeconds, pos);
         }
     }
 }

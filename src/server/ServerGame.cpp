@@ -501,9 +501,19 @@ void ServerGame::handleConnect(const MediatorContext& context, const std::vector
 void ServerGame::handleDisconnect(const MediatorContext& context, const std::vector<std::string>& params)
 {
     boost::asio::ip::udp::endpoint client = context.client;
-    std::cout << "Un joueur s'est déconnecté" << std::endl;
-}
+    auto& controllables = reg.get_components<component::controllable>();
+    size_t entityId = std::stoi(params[0]);
 
+    for (size_t i = 0; i < controllables.size(); ++i) {
+        if (i == entityId) {
+            std::vector<std::string> disconnectParams = {std::to_string(i)};
+            med.notify(Sender::GAME, "DISCONNECT", disconnectParams, context);
+            reg.kill_entity(Entity(i));
+            std::cout << "Joueur " << i << " s'est déconnecté" << std::endl;
+            break;
+        }
+    }
+}
 void ServerGame::handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params)
 {
     if (state == GameState::LOBBY) {
