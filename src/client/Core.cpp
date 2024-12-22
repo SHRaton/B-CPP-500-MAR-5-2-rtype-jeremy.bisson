@@ -143,7 +143,7 @@ void Core::loadAssets()
 
     soundVolume = 0.5f;
     //MUSIC MENU + LOGIN
-    if (!menuMusic.openFromFile("../ressources/sounds/menu.wav")) {
+    if (!menuMusic.openFromFile("../ressources/sounds/menu1.wav")) {
         std::cout << "Error loading menu music" << std::endl;
     }
     menuMusic.setLoop(true);
@@ -154,7 +154,7 @@ void Core::loadAssets()
         std::cout << "Error loading menu music" << std::endl;
     }
     Game1Music.setLoop(true);
-    Game1Music.setVolume(soundVolume * 100.0);
+    Game1Music.setVolume(soundVolume * 80.0);
 
     // SONS
     if (!buttonBuffer_click.loadFromFile("../ressources/sounds/click.wav")) {

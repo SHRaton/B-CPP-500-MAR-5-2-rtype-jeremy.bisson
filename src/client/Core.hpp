@@ -120,6 +120,7 @@ class Core {
         sf::Vector2i mousePosition;
         sf::Vector2f worldMousePosition;
         sf::Sprite background_lobby;
+        sf::Sprite background_lobby2;
         sf::Sprite ready;
         sf::Sprite start;
 

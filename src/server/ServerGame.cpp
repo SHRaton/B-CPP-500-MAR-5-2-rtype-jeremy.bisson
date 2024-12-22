@@ -45,7 +45,7 @@ void ServerGame::initTimers()
     setup_triple_shot_expiration_timer(*triple_shot_expiration_timer_);
 
     // Timer temporaire de win
-    win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(30));
+    win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(123));
     win_timer_->async_wait([this](const boost::system::error_code& ec) {
         if (!ec) {
             med.notify(Sender::GAME, "WIN", {}, MediatorContext());

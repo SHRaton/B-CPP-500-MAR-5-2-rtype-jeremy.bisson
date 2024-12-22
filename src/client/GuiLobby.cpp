@@ -1,18 +1,15 @@
-/*
-** EPITECH PROJECT, 2024
-** B-CPP-500-MAR-5-2-rtype-jeremy.bisson
-** File description:
-** GuiLobby
-*/
-
 #include "Core.hpp"
 
 void Core::gui_lobby()
 {
     load_spaceship();
     sf::Event event;
+    float scrollSpeed = 50.0f;
+    float backgroundPos = 0.0f;
+    sf::Clock clock;
 
-    background_lobby = utils.cat("../ressources/background/lobby.png");
+    background_lobby = utils.cat("../ressources/background/lobby3.png");
+    background_lobby2 = utils.cat("../ressources/background/background.png");
     ready = utils.cat("../ressources/background/ready.png");
     utils.setOriginToMiddle(ready);
     ready.setPosition(1420, 675);
@@ -20,17 +17,34 @@ void Core::gui_lobby()
     utils.setOriginToMiddle(start);
     start.setPosition(1420, 775);
 
+    sf::Texture* backgroundTexture = new sf::Texture();
+    if (backgroundTexture->loadFromFile("../ressources/background/background.png")) {
+        backgroundTexture->setRepeated(true);
+        background_lobby2.setTexture(*backgroundTexture);
+    }
+
+
     registryWindow.create(sf::VideoMode(1400, 1080), "ECS Debuger");
 
     while (window.isOpen() && registryWindow.isOpen()) {
+        sf::Time elapsed = clock.restart();
         mousePosition = sf::Mouse::getPosition(window);
         worldMousePosition = window.mapPixelToCoords(mousePosition);
+
+        backgroundPos += scrollSpeed * elapsed.asSeconds();
+        if (backgroundPos >= backgroundTexture->getSize().x) {
+            backgroundPos = 0.0f;
+        }
+        background_lobby2.setTextureRect(sf::IntRect(static_cast<int>(backgroundPos), 0,
+            window.getSize().x, window.getSize().y));
+
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                 std::ostringstream messageStream;
                 messageStream << encode_action(GameAction::DISCONNECT) << " " << network->getId();
                 network->send(messageStream.str());
+                delete backgroundTexture;
                 window.close();
                 exit (0);
             }
@@ -69,6 +83,7 @@ void Core::gui_lobby()
         renderTexture.clear(sf::Color::Black);
         renderTexture.draw(fpsText);
         renderTexture.draw(latencyText);
+        renderTexture.draw(background_lobby2);
         renderTexture.draw(background_lobby);
         renderTexture.draw(ready);
         renderTexture.draw(start);
@@ -101,4 +116,5 @@ void Core::gui_lobby()
         displayRegistryInfo();
         registryWindow.display();
     }
+    delete backgroundTexture;
 }
