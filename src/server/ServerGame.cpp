@@ -85,6 +85,7 @@ void ServerGame::spawnDecor()
     int y = rand() % 900;
     reg.emplace_component<component::position>(decor, component::position{x, y});
     reg.emplace_component<component::type>(decor, component::type{20});
+    reg.emplace_component<component::velocity>(decor, component::velocity{-5, 0});
     reg.emplace_component<component::size>(decor, component::size{100, 50});
 
     std::vector<std::string> newParams;
