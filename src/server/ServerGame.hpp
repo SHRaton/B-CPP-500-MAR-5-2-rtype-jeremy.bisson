@@ -30,11 +30,13 @@ class ServerGame : public ISender {
         void setup_invincible_timer(boost::asio::steady_timer& invincible_timer);
         void setup_iaMobs(boost::asio::steady_timer& ia_timer);
         void setup_triple_shot_expiration_timer(boost::asio::steady_timer& triple_shot_timer);
+        void setup_laser_shot_expiration_timer(boost::asio::steady_timer& laser_shot_timer);
         void spawnMob(int mob_type);
         void spawnPowerUp(int powerup_type);
         void checkAllCollisions();
         bool isColliding(const component::position& pos1, const component::position& pos2, const component::size& size1, const component::size& size2);
         void checkTripleShotExpiration();
+        void checkLaserExpiration();
 
 
 
@@ -66,6 +68,7 @@ class ServerGame : public ISender {
         std::unique_ptr<boost::asio::steady_timer> invincible_timer_;
         std::unique_ptr<boost::asio::steady_timer> ia_timer_;
         std::unique_ptr<boost::asio::steady_timer> triple_shot_expiration_timer_;
+        std::unique_ptr<boost::asio::steady_timer> laser_shot_expiration_timer_;
         std::unique_ptr<boost::asio::steady_timer> win_timer_;
         Mediator &med;
         GameState state;

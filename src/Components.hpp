@@ -52,4 +52,8 @@ namespace component{
         bool is_active = false;
         std::chrono::steady_clock::time_point activation_time;
     };
+    struct laser_shot {
+        bool is_active = false;
+        std::chrono::steady_clock::time_point activation_time;
+    };
 }
