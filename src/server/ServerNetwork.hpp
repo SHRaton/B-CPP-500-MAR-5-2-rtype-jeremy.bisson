@@ -30,6 +30,7 @@ enum class GameAction {
     RESPAWN     = 0b1010,  // 10
     MOB_SPAWN   = 0b1011,  // 11
     MOB_SHOOT   = 0b1100,  // 12
+    DECOR_SPAWN   = 0b1101,  // 13
     QUIT        = 0b1111,  // 15
     STOP_Y      = 0b10000, // 16
     STOP_X      = 0b10001,  // 17
@@ -82,6 +83,7 @@ private:
     void handleWin(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleLoose(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleStart(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleDecorSpawn(const MediatorContext& context, const std::vector<std::string>& params) override;
 
     boost::asio::io_context io_context_;
     boost::asio::ip::udp::socket socket_;

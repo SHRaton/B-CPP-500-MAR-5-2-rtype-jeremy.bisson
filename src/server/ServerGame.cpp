@@ -28,6 +28,9 @@ void ServerGame::initTimers()
     conciliation_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(10));
     setup_conciliation_timer(*conciliation_timer_);
 
+    spawn_decor_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(3));
+    setup_spawn_decor_timer(*spawn_decor_timer_);
+
     //TODO: initialiser d'autres timers ici
     powerup_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(25));
     setup_powerup_timer(*powerup_timer_);
@@ -62,6 +65,35 @@ void ServerGame::initTimers()
             io_context_.run();
     });
 }
+
+void ServerGame::setup_spawn_decor_timer(boost::asio::steady_timer& spawn_decor_timer)
+{
+    spawn_decor_timer.async_wait([this, &spawn_decor_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            spawnDecor();
+            spawn_decor_timer.expires_from_now(std::chrono::seconds(3));
+            setup_spawn_decor_timer(spawn_decor_timer);
+        }
+    });
+}
+
+void ServerGame::spawnDecor()
+{
+    std::cout << "Spawning decor" << std::endl;
+    Entity decor = reg.spawn_entity();
+    int x = 1800;
+    int y = rand() % 900;
+    reg.emplace_component<component::position>(decor, component::position{x, y});
+    reg.emplace_component<component::type>(decor, component::type{20});
+    reg.emplace_component<component::size>(decor, component::size{100, 50});
+
+    std::vector<std::string> newParams;
+    newParams.push_back(std::to_string(20));
+    newParams.push_back(std::to_string(x));
+    newParams.push_back(std::to_string(y));
+    med.notify(Sender::GAME, "DECOR_SPAWN", newParams);
+}
+
 
 void ServerGame::StopAllTimers()
 {

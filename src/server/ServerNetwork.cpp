@@ -213,6 +213,12 @@ void ServerNetwork::handleLoose(const MediatorContext& context, const std::vecto
     broadcast_message(message);
 }
 
+void ServerNetwork::handleDecorSpawn(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::DECOR_SPAWN) + " " + params[1] + " " + params[2];
+    broadcast_message(message);
+}
 
 
 
