@@ -21,7 +21,7 @@ ServerGame::ServerGame(Mediator &med) : med(med)
 
 void ServerGame::initTimers()
 {
-    spawn_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(20));
+    spawn_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(5));
     setup_spawn_timer(*spawn_timer_);
     position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(1));
     setup_position_timer(*position_timer_);
@@ -38,7 +38,7 @@ void ServerGame::initTimers()
     invincible_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(10));
     setup_invincible_timer(*invincible_timer_);
 
-    ia_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(15));
+    ia_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(5));
     setup_iaMobs(*ia_timer_);
 
     triple_shot_expiration_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
@@ -49,15 +49,74 @@ void ServerGame::initTimers()
     win_timer_->async_wait([this](const boost::system::error_code& ec) {
         if (!ec) {
             med.notify(Sender::GAME, "WIN", {}, MediatorContext());
+            StopAllTimers();
             std::cout << "SHEEEEEESSSSSSHHH CEST LA WIN" << std::endl;
         }
     });
 
+    game_over_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
+    setup_game_over_timer(*game_over_timer_);
+    std::cout << Colors::GREEN << "[Game] Game over timer initialized" << Colors::RESET << std::endl;
 
     io_thread_ = std::thread([this]() {
             io_context_.run();
     });
 }
+
+void ServerGame::StopAllTimers()
+{
+    spawn_timer_->cancel();
+    position_timer_->cancel();
+    conciliation_timer_->cancel();
+    powerup_timer_->cancel();
+    collision_timer_->cancel();
+    invincible_timer_->cancel();
+    ia_timer_->cancel();
+    triple_shot_expiration_timer_->cancel();
+    win_timer_->cancel();
+    game_over_timer_->cancel();
+}
+
+void ServerGame::setup_game_over_timer(boost::asio::steady_timer& game_over_timer)
+{
+    game_over_timer.async_wait([this, &game_over_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            if (state == GameState::INGAME && !areAllPlayersDead()) {
+                med.notify(Sender::GAME, "LOOSE", {}, MediatorContext());
+                StopAllTimers();
+                state = GameState::LOBBY;
+                std::cout << Colors::RED << "[Game] All players are dead - Game Over!" << Colors::RESET << std::endl;
+                return;
+            }
+            game_over_timer.expires_at(game_over_timer.expiry() + std::chrono::seconds(2));
+            setup_game_over_timer(game_over_timer);
+        } else {
+            std::cout << Colors::RED << "[Error] Game over timer error: " << ec.message() << Colors::RESET << std::endl;
+        }
+    });
+}
+
+bool ServerGame::areAllPlayersDead()
+{
+    auto& types = reg.get_components<component::type>();
+    auto& healths = reg.get_components<component::health>();
+    bool playersExist = false;
+    int playerCount = 0;
+    int deadPlayerCount = 0;
+    
+    for (size_t i = 0; i < types.size(); ++i) {
+        if (types[i].has_value() && types[i].value().type == 5) {
+            playerCount++;
+            playersExist = true;
+        }
+    }
+    if (playerCount == 0) {
+        return false;
+    }
+
+    return playersExist ;
+}
+
 
 void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
 {
@@ -158,7 +217,7 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
                         handleMoves((direction == 0 ? "UP" : "DOWN"), dummyContext, params);
                     }
                 }
-                ia_timer.expires_from_now(std::chrono::milliseconds(700));
+                ia_timer.expires_from_now(std::chrono::milliseconds(500));
                 setup_iaMobs(ia_timer);
             } else {
                 std::cout << Colors::RED << "[Error] IA timer error: " << ec.message() << Colors::RESET << std::endl;
@@ -210,7 +269,7 @@ void ServerGame::setup_spawn_timer(boost::asio::steady_timer& spawn_timer)
     spawn_timer.async_wait([this, &spawn_timer](const boost::system::error_code& ec) {
         if (!ec) {
             spawnMob(rand() % 2); // Choix aléatoire du type de mob
-            spawn_timer.expires_from_now(std::chrono::seconds(10)); //TODO: si on veut changer le temps de spawn
+            spawn_timer.expires_from_now(std::chrono::seconds(5)); //TODO: si on veut changer le temps de spawn
             setup_spawn_timer(spawn_timer);
         }
     });
