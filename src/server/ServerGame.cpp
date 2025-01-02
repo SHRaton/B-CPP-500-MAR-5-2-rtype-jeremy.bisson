@@ -435,7 +435,19 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                } else if (types[j].value().type == 7 && types[i].value().type == 5) { // MOB_BULLET vs PLAYER
+                } else if (types[i].value().type == 20 && (types[j].value().type == 5 || types[j].value().type >= 10 || types[j].value().type == 7 || types[j].value().type == 6)) { // DECOR vs PLAYER
+                    MediatorContext dummyContext;
+                    handleDeath(dummyContext, std::vector<std::string>{std::to_string(i)});
+                    reg.kill_entity(Entity(j));
+                    checkAllCollisions();
+                    return;
+                } else if (types[j].value().type == 20 && (types[i].value().type == 5 || types[i].value().type >= 10 || types[i].value().type == 7 || types[i].value().type == 6)){ // DECOR vs PLAYER
+                    MediatorContext dummyContext;
+                    handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
+                    reg.kill_entity(Entity(i));
+                    checkAllCollisions();
+                    return;
+                }else if (types[j].value().type == 7 && types[i].value().type == 5) { // MOB_BULLET vs PLAYER
                     healths[i].value().hp -= 30;
                     invincibles[i].value().is_invincible = true;
                     invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
