@@ -22,5 +22,7 @@ public:
     virtual void handleWin(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual void handleLoose(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual void handleStart(const MediatorContext& context, const std::vector<std::string>& params) = 0;
+    virtual void handleLaserShoot(const MediatorContext& context, const std::vector<std::string>& params) = 0;
+    virtual void handleSuperShoot(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual ~ISender() = default;
 };

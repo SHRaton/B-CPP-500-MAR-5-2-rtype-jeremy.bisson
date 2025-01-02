@@ -24,6 +24,10 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             game->handleShoot(context, params);
         } else if (action == "START") {
             game->handleStart(context, params);
+        } else if (action == "LASER_SHOOT") {
+            game->handleLaserShoot(context, params);
+        } else if (action == "SUPER_SHOOT") {
+            game->handleSuperShoot(context, params);
         }
     } else if (sender == Sender::GAME) { //Communication entre Game et Network
         if (action == "CONNECT") {
@@ -62,6 +66,10 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleLoose(context, params);
         } else if (action == "START") {
             network->handleStart(context, params);
+        } else if (action == "LASER_SHOOT") {
+            network->handleLaserShoot(context, params);
+        } else if(action == "SUPER_SHOOT") {
+            network->handleSuperShoot(context, params);
         }
     }
 }

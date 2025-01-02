@@ -56,4 +56,9 @@ namespace component{
         bool is_active = false;
         std::chrono::steady_clock::time_point activation_time;
     };
+    struct super_shot {
+        bool is_ready = true;  // Prêt à être utilisé initialement
+        std::chrono::steady_clock::time_point last_use_time;
+        static constexpr int COOLDOWN_SECONDS = 15;  // Cooldown entre chaque super tir
+    };
 }

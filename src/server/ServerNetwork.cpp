@@ -213,7 +213,19 @@ void ServerNetwork::handleLoose(const MediatorContext& context, const std::vecto
     broadcast_message(message);
 }
 
+void ServerNetwork::handleLaserShoot(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::LASER_SHOOT) + " " + params[0] + " " + params[1];
+    broadcast_message(message);
+}
 
+void ServerNetwork::handleSuperShoot(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::SUPER_SHOOT) + " " + params[0] + " " + params[1];
+    broadcast_message(message);
+}
 
 
 void ServerNetwork::handle_game_message(const boost::asio::ip::udp::endpoint& sender, const GameMessage& msg)

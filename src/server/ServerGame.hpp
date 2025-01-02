@@ -31,6 +31,7 @@ class ServerGame : public ISender {
         void setup_iaMobs(boost::asio::steady_timer& ia_timer);
         void setup_triple_shot_expiration_timer(boost::asio::steady_timer& triple_shot_timer);
         void setup_laser_shot_expiration_timer(boost::asio::steady_timer& laser_shot_timer);
+        void setup_super_shot_timer(boost::asio::steady_timer& super_shot_timer);
         void spawnMob(int mob_type);
         void spawnPowerUp(int powerup_type);
         void checkAllCollisions();
@@ -54,6 +55,8 @@ class ServerGame : public ISender {
         void handleWin(const MediatorContext& context, const std::vector<std::string>& params){};
         void handleLoose(const MediatorContext& context, const std::vector<std::string>& params){};
         void handleStart(const MediatorContext& context, const std::vector<std::string>& params);
+        void handleLaserShoot(const MediatorContext& context, const std::vector<std::string>& params);
+        void handleSuperShoot(const MediatorContext& context, const std::vector<std::string>& params);
 
 
 
@@ -70,6 +73,7 @@ class ServerGame : public ISender {
         std::unique_ptr<boost::asio::steady_timer> triple_shot_expiration_timer_;
         std::unique_ptr<boost::asio::steady_timer> laser_shot_expiration_timer_;
         std::unique_ptr<boost::asio::steady_timer> win_timer_;
+        std::unique_ptr<boost::asio::steady_timer> super_shot_timer_;
         Mediator &med;
         GameState state;
 };
