@@ -103,7 +103,7 @@ bool ServerGame::areAllPlayersDead()
     bool playersExist = false;
     int playerCount = 0;
     int deadPlayerCount = 0;
-    
+
     for (size_t i = 0; i < types.size(); ++i) {
         if (types[i].has_value() && types[i].value().type == 5) {
             playerCount++;
@@ -243,15 +243,16 @@ void ServerGame::setup_triple_shot_expiration_timer(boost::asio::steady_timer& t
 void ServerGame::positionConciliation()
 {
     auto &positions = reg.get_components<component::position>();
-    for (size_t i = 0; i < positions.size(); ++i)
+    for (size_t i =  0; i < positions.size(); ++i)
     {
         if (positions[i].value().x < -100 || positions[i].value().x > 2000)
         {
             handleDeath(MediatorContext(), std::vector<std::string>{std::to_string(i)});
             reg.kill_entity(Entity(i));
-            return;
+            i = 0;
+            continue;
         }
-
+        showAllEnityAlive();
         if (positions[i])
         {
                 std::vector<std::string> newParams;
@@ -259,6 +260,19 @@ void ServerGame::positionConciliation()
                 newParams.push_back(std::to_string(positions[i].value().x));
                 newParams.push_back(std::to_string(positions[i].value().y));
                 med.notify(Sender::GAME, "MOVE", newParams);
+        }
+    }
+}
+
+void ServerGame::showAllEnityAlive()
+{
+    auto &positions = reg.get_components<component::position>();
+    auto &types = reg.get_components<component::type>();
+    for (size_t i = 0; i < positions.size(); ++i)
+    {
+        if (positions[i])
+        {
+            std::cout << "Entity " << types[i].value().type << " is alive." << std::endl;
         }
     }
 }

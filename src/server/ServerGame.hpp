@@ -40,7 +40,7 @@ class ServerGame : public ISender {
         bool isColliding(const component::position& pos1, const component::position& pos2, const component::size& size1, const component::size& size2);
         void checkTripleShotExpiration();
         bool areAllPlayersDead();
-
+        void showAllEnityAlive();
 
 
         //Chaque fonction doit se terminer par un appel à la classe Mediator
