@@ -220,6 +220,20 @@ void ServerNetwork::handleScoreUpdate(const MediatorContext& context, const std:
     broadcast_message(message);
 }
 
+void ServerNetwork::handleBitSpawn(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::BIT_SPAWN) + " " + params[0] + " " + params[1];
+    broadcast_message(message);
+}
+
+void ServerNetwork::handleBitShoot(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::BIT_SHOOT) + " " + params[0] + " " + params[1];
+    broadcast_message(message);
+}
+
 
 
 void ServerNetwork::handle_game_message(const boost::asio::ip::udp::endpoint& sender, const GameMessage& msg)

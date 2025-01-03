@@ -40,7 +40,9 @@ enum class GameAction {
     WIN        = 0b10101, // 21
     LOOSE     = 0b10110, // 22
     START     = 0b10111, // 23
-    SCORE_UPDATE = 0b11001 // 25
+    SCORE_UPDATE = 0b11001, // 25
+    BIT_SPAWN = 0b11010, // 26
+    BIT_SHOOT = 0b11100 // 28
 };
 
 struct GameMessage {
@@ -84,6 +86,8 @@ private:
     void handleLoose(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleStart(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleScoreUpdate(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleBitSpawn(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleBitShoot(const MediatorContext& context, const std::vector<std::string>& params) override;
 
     boost::asio::io_context io_context_;
     boost::asio::ip::udp::socket socket_;

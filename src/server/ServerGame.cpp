@@ -13,6 +13,8 @@ ServerGame::ServerGame(Mediator &med) : med(med)
     reg.register_component<component::size>();
     reg.register_component<component::triple_shot>();
     reg.register_component<component::score>();
+    reg.register_component<component::bit>();
+    reg.register_component<component::bit_shoot_timer>();
 
     state = GameState::LOBBY;
     med.register_game(this);
@@ -44,6 +46,9 @@ void ServerGame::initTimers()
 
     triple_shot_expiration_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
     setup_triple_shot_expiration_timer(*triple_shot_expiration_timer_);
+
+    bits_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(16));
+    setup_bits_timer(*bits_timer_);
 
     // Timer temporaire de win
     win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(123));
@@ -77,6 +82,18 @@ void ServerGame::StopAllTimers()
     win_timer_->cancel();
     game_over_timer_->cancel();
 }
+
+void ServerGame::setup_bits_timer(boost::asio::steady_timer& bits_timer) {
+    bits_timer.async_wait([this, &bits_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            updateBitsPosition();
+            handleBitsShooting();
+            bits_timer.expires_at(bits_timer.expiry() + std::chrono::milliseconds(16));
+            setup_bits_timer(bits_timer);
+        }
+    });
+}
+
 
 void ServerGame::setup_game_over_timer(boost::asio::steady_timer& game_over_timer)
 {
@@ -400,6 +417,17 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
+                } else if ((types[i].value().type == 9 && types[j].value().type >= 10) ||
+                            (types[i].value().type >= 10 && types[j].value().type == 9)) {
+                    Entity mob = types[i].value().type >= 10 ? Entity(i) : Entity(j);
+                    auto& mob_health = healths[mob];
+                    mob_health.value().hp -= 5;  // Dégâts des missiles de bits
+
+                    if (mob_health.value().hp <= 0) {
+                        handleDeath(MediatorContext(), {std::to_string(mob)});
+                        reg.kill_entity(mob);
+                    }
+
                 } else if (types[i].value().type >= 10 && types[j].value().type == 5) { // MOB vs PLAYER
                     healths[j].value().hp -= 50;
                     invincibles[j].value().is_invincible = true;
@@ -563,6 +591,49 @@ void ServerGame::checkTripleShotExpiration()
     }
 }
 
+void ServerGame::spawnBit(size_t player_id, bool is_top) {
+    Entity bit = reg.spawn_entity();
+    auto& player_pos = reg.get_components<component::position>()[player_id].value();
+    float offset_y = is_top ? -30.0f : 30.0f;  // Décalage vertical
+
+    reg.emplace_component<component::position>(bit, 
+        component::position{player_pos.x, static_cast<int>(player_pos.y + offset_y)});
+    reg.emplace_component<component::velocity>(bit, component::velocity{0, 0});
+    reg.emplace_component<component::type>(bit, component::type{8}); // 8 = type pour les bits
+    reg.emplace_component<component::size>(bit, component::size{20, 20});
+    reg.emplace_component<component::bit>(bit, 
+        component::bit{player_id, is_top, offset_y});
+    reg.emplace_component<component::bit_shoot_timer>(bit,
+        component::bit_shoot_timer{std::chrono::steady_clock::now(), 2.0f});
+
+    // Notifier les clients du spawn du bit
+    std::vector<std::string> params = {
+        std::to_string(reg.entity_from_index(bit)),
+        std::to_string(player_id),
+        is_top ? "1" : "0"
+    };
+    med.notify(Sender::GAME, "BIT_SPAWN", params, MediatorContext());
+}
+
+
+void ServerGame::updateBitsPosition() {
+    auto& bits = reg.get_components<component::bit>();
+    auto& bit_positions = reg.get_components<component::position>();
+    auto& player_positions = reg.get_components<component::position>();
+
+    for (size_t i = 0; i < bits.size(); ++i) {
+        if (!bits[i].has_value()) continue;
+
+        auto& bit = bits[i].value();
+        size_t owner_id = bit.owner_id;
+
+        if (player_positions[owner_id].has_value()) {
+            // Mettre à jour la position du bit par rapport au joueur
+            bit_positions[i].value().x = player_positions[owner_id].value().x;
+            bit_positions[i].value().y = player_positions[owner_id].value().y + bit.offset_y;
+        }
+    }
+}
 
 //===================================COMMANDS=================================
 
@@ -595,7 +666,8 @@ void ServerGame::handleConnect(const MediatorContext& context, const std::vector
         }
     }
 
-
+    spawnBit(player, true);
+    spawnBit(player, false);
     med.notify(Sender::GAME, "CONNECT", newParams, context);
 }
 
@@ -741,5 +813,46 @@ void ServerGame::handleDeath(const MediatorContext& context, const std::vector<s
      } catch(const std::exception& e) {
         std::cout << Colors::RED << "[Error] Exception in handleDeath: " << e.what() << Colors::RESET << std::endl;
         return;
+    }
+}
+
+
+void ServerGame::handleBitsShooting() {
+    auto& bits = reg.get_components<component::bit>();
+    auto& timers = reg.get_components<component::bit_shoot_timer>();
+    auto& positions = reg.get_components<component::position>();
+    auto now = std::chrono::steady_clock::now();
+
+    for (size_t i = 0; i < bits.size(); ++i) {
+        if (!bits[i].has_value() || !timers[i].has_value()) continue;
+
+        auto& timer = timers[i].value();
+        if (std::chrono::duration_cast<std::chrono::seconds>(
+            now - timer.last_shot).count() >= timer.cooldown) {
+
+            // Créer un missile
+            Entity missile = reg.spawn_entity();
+            auto& bit_pos = positions[i].value();
+
+            reg.emplace_component<component::position>(missile, 
+                component::position{bit_pos.x, bit_pos.y});
+            reg.emplace_component<component::velocity>(missile, 
+                component::velocity{5, 0});
+            reg.emplace_component<component::type>(missile, 
+                component::type{9}); // 9 = type pour les missiles des bits
+            reg.emplace_component<component::size>(missile, 
+                component::size{10, 5});
+            reg.emplace_component<component::damage>(missile, 
+                component::damage{5}); // Moins de dégâts que les tirs normaux
+
+            // Notifier les clients
+            std::vector<std::string> params = {
+                std::to_string(bit_pos.x),
+                std::to_string(bit_pos.y)
+            };
+            med.notify(Sender::GAME, "BIT_SHOOT", params, MediatorContext());
+
+            timer.last_shot = now;
+        }
     }
 }

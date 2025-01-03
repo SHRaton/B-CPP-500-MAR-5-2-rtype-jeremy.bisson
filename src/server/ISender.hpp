@@ -23,5 +23,7 @@ public:
     virtual void handleLoose(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual void handleStart(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual void handleScoreUpdate(const MediatorContext& context, const std::vector<std::string>& params) = 0;
+    virtual void handleBitSpawn(const MediatorContext& context, const std::vector<std::string>& params) = 0;
+    virtual void handleBitShoot(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual ~ISender() = default;
 };

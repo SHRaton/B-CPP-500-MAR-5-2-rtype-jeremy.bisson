@@ -55,4 +55,13 @@ namespace component{
     struct score {
         int value;
     };
+    struct bit {
+        size_t owner_id;
+        bool is_top;
+        float offset_y;
+    };
+    struct bit_shoot_timer {
+        std::chrono::steady_clock::time_point last_shot;
+        float cooldown;
+    };
 }
