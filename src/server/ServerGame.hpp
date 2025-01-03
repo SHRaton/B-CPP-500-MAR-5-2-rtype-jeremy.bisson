@@ -57,6 +57,7 @@ class ServerGame : public ISender {
         void handleWin(const MediatorContext& context, const std::vector<std::string>& params){};
         void handleLoose(const MediatorContext& context, const std::vector<std::string>& params){};
         void handleStart(const MediatorContext& context, const std::vector<std::string>& params);
+        void handleScoreUpdate(const MediatorContext& context, const std::vector<std::string>& params){};
 
 
 
