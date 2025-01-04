@@ -62,6 +62,8 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleLoose(context, params);
         } else if (action == "START") {
             network->handleStart(context, params);
+        } else if (action == "SCORE_UPDATE") {
+            network->handleScoreUpdate(context, params);
         }
     }
 }

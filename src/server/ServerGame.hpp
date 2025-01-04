@@ -41,7 +41,7 @@ class ServerGame : public ISender {
         bool isColliding(const component::position& pos1, const component::position& pos2, const component::size& size1, const component::size& size2);
         void checkTripleShotExpiration();
         bool areAllPlayersDead();
-
+        void showAllEnityAlive();
         void loadLuaScript(const std::string& scriptPath);
 
 
@@ -59,6 +59,7 @@ class ServerGame : public ISender {
         void handleWin(const MediatorContext& context, const std::vector<std::string>& params){};
         void handleLoose(const MediatorContext& context, const std::vector<std::string>& params){};
         void handleStart(const MediatorContext& context, const std::vector<std::string>& params);
+        void handleScoreUpdate(const MediatorContext& context, const std::vector<std::string>& params){};
 
 
         registry reg;

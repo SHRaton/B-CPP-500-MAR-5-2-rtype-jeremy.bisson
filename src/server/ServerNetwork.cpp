@@ -217,6 +217,12 @@ void ServerNetwork::handleLoose(const MediatorContext& context, const std::vecto
     broadcast_message(message);
 }
 
+void ServerNetwork::handleScoreUpdate(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::SCORE_UPDATE) + " " + params[0] + " " + params[1];
+    broadcast_message(message);
+}
 
 
 

@@ -47,6 +47,7 @@ ServerGame::ServerGame(Mediator &med) : med(med), lua()
     reg.register_component<component::invincible>();
     reg.register_component<component::size>();
     reg.register_component<component::triple_shot>();
+    reg.register_component<component::score>();
 
     state = GameState::LOBBY;
     med.register_game(this);
@@ -148,7 +149,7 @@ bool ServerGame::areAllPlayersDead()
     bool playersExist = false;
     int playerCount = 0;
     int deadPlayerCount = 0;
-    
+
     for (size_t i = 0; i < types.size(); ++i) {
         if (types[i].has_value() && types[i].value().type == 5) {
             playerCount++;
@@ -275,15 +276,16 @@ void ServerGame::setup_triple_shot_expiration_timer(boost::asio::steady_timer& t
 void ServerGame::positionConciliation()
 {
     auto &positions = reg.get_components<component::position>();
-    for (size_t i = 0; i < positions.size(); ++i)
+    for (size_t i =  0; i < positions.size(); ++i)
     {
         if (positions[i].value().x < -100 || positions[i].value().x > 2000)
         {
             handleDeath(MediatorContext(), std::vector<std::string>{std::to_string(i)});
             reg.kill_entity(Entity(i));
-            return;
+            i = 0;
+            continue;
         }
-
+        showAllEnityAlive();
         if (positions[i])
         {
                 std::vector<std::string> newParams;
@@ -291,6 +293,19 @@ void ServerGame::positionConciliation()
                 newParams.push_back(std::to_string(positions[i].value().x));
                 newParams.push_back(std::to_string(positions[i].value().y));
                 med.notify(Sender::GAME, "MOVE", newParams);
+        }
+    }
+}
+
+void ServerGame::showAllEnityAlive()
+{
+    auto &positions = reg.get_components<component::position>();
+    auto &types = reg.get_components<component::type>();
+    for (size_t i = 0; i < positions.size(); ++i)
+    {
+        if (positions[i])
+        {
+            std::cout << "Entity " << types[i].value().type << " is alive." << std::endl;
         }
     }
 }
@@ -470,6 +485,19 @@ void ServerGame::checkAllCollisions()
                     }
                 } else if (types[i].value().type == 6 && types[j].value().type >= 10) { // BULLET vs MOB
                     healths[j].value().hp -= 1000;
+                    for (size_t k = 0; k < types.size(); ++k) {
+                        if (types[k].has_value() && types[k].value().type == 5) {
+                            auto& scores = reg.get_components<component::score>();
+                            if (scores[k].has_value()) {
+                                scores[k].value().value += 10;
+                                std::vector<std::string> scoreParams = {
+                                    std::to_string(k),
+                                    std::to_string(scores[k].value().value)
+                                };
+                                med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
+                            }
+                        }
+                    }
                     // Mob
                     if(healths[j].value().hp <= 0){
                         MediatorContext dummyContext;
@@ -480,6 +508,19 @@ void ServerGame::checkAllCollisions()
                     }
                 } else if (types[i].value().type >= 10 && types[j].value().type == 6) { // BULLET vs MOB
                     healths[i].value().hp -= 1000;
+                    for (size_t k = 0; k < types.size(); ++k) {
+                        if (types[k].has_value() && types[k].value().type == 5) {
+                            auto& scores = reg.get_components<component::score>();
+                            if (scores[k].has_value()) {
+                                scores[k].value().value += 10;
+                                std::vector<std::string> scoreParams = {
+                                    std::to_string(k),
+                                    std::to_string(scores[k].value().value)
+                                };
+                                med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
+                            }
+                        }
+                    }
                     // Mob
                     if(healths[i].value().hp <= 0){
                         MediatorContext dummyContext;
@@ -569,6 +610,7 @@ void ServerGame::handleConnect(const MediatorContext& context, const std::vector
     reg.emplace_component<component::size>(player, component::size{50, 50});
     reg.emplace_component<component::triple_shot>(player, component::triple_shot{false, {}});
     reg.emplace_component<component::invincible>(player, component::invincible{false});
+    reg.emplace_component<component::score>(player, component::score{0});
 
     std::vector<std::string> newParams;
 
