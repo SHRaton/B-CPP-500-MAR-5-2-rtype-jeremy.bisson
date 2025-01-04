@@ -1,5 +1,6 @@
 #pragma once
 #include <boost/asio.hpp>
+#include <sol/sol.hpp>
 #include <string>
 #include <thread>
 #include <map>
@@ -41,6 +42,7 @@ class ServerGame : public ISender {
         void checkTripleShotExpiration();
         bool areAllPlayersDead();
 
+        void loadLuaScript(const std::string& scriptPath);
 
 
         //Chaque fonction doit se terminer par un appel à la classe Mediator
@@ -59,7 +61,6 @@ class ServerGame : public ISender {
         void handleStart(const MediatorContext& context, const std::vector<std::string>& params);
 
 
-
         registry reg;
         std::thread io_thread_;
         boost::asio::io_context io_context_;
@@ -75,4 +76,5 @@ class ServerGame : public ISender {
         std::unique_ptr<boost::asio::steady_timer> game_over_timer_;
         Mediator &med;
         GameState state;
+        sol::state lua; // Machine virtuelle Lua avec sol2
 };

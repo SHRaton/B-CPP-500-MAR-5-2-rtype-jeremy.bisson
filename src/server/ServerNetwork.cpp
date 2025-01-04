@@ -97,6 +97,10 @@ void ServerNetwork::handleDisconnect(const MediatorContext& context, const std::
 
 void ServerNetwork::handleConnect(const MediatorContext& context, const std::vector<std::string>& params)
 {
+    if (context.client.address().is_unspecified()) {
+        broadcast_message(encode_action(GameAction::CONNECT) + " " + params[params.size() - 1]);
+        return;
+    }
     boost::asio::ip::udp::endpoint client = context.client;
     clients_[client] = ClientInfo{"", true};
 

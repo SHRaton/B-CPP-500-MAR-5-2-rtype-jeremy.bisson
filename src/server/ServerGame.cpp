@@ -1,7 +1,42 @@
 #include "ServerGame.hpp"
 
-ServerGame::ServerGame(Mediator &med) : med(med)
+ServerGame::ServerGame(Mediator &med) : med(med), lua()
 {
+    lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::table, sol::lib::os);
+
+    // Exposer une fonction C++ à Lua
+    lua.set_function("print_from_cpp", [](const std::string& message) {
+        std::cout << "[Lua] " << message << std::endl;
+    });
+
+    // Exemple d'exposition d'une méthode pour manipuler l'IA
+    lua.set_function("update_velocity", [&](size_t entityId, double vx, double vy) {
+        std::cout << "Updating velocity for entity " << entityId << " to (" << vx << ", " << vy << ")" << std::endl;
+        auto& velocities = reg.get_components<component::velocity>();
+        if (entityId < velocities.size() && velocities[entityId]) {
+            velocities[entityId]->vx = vx;
+            velocities[entityId]->vy = vy;
+            if (vx > 0) {
+                handleMoves("RIGHT", MediatorContext(), {std::to_string(entityId)});
+            } else if (vx < 0) {
+                handleMoves("LEFT", MediatorContext(), {std::to_string(entityId)});
+            } else {
+                handleMoves("STOP_X", MediatorContext(), {std::to_string(entityId)});
+            }
+            if (vy > 0) {
+                handleMoves("DOWN", MediatorContext(), {std::to_string(entityId)});
+            } else if (vy < 0) {
+                handleMoves("UP", MediatorContext(), {std::to_string(entityId)});
+            } else {
+                handleMoves("STOP_Y", MediatorContext(), {std::to_string(entityId)});
+            }
+        }
+    });
+
+    loadLuaScript("../src/lua/enemy_ai.lua");
+
+    std::cout << "Lua VM initialized!" << std::endl;
+
     reg.register_component<component::position>();
     reg.register_component<component::velocity>();
     reg.register_component<component::drawable>();
@@ -16,6 +51,16 @@ ServerGame::ServerGame(Mediator &med) : med(med)
     state = GameState::LOBBY;
     med.register_game(this);
 };
+
+void ServerGame::loadLuaScript(const std::string& scriptPath) {
+    try {
+        lua.script_file(scriptPath);
+        std::cout << "Lua script loaded: " << scriptPath << std::endl;
+    } catch (const sol::error& e) {
+        std::cerr << "Error loading Lua script: " << e.what() << std::endl;
+    }
+}
+
 
 //===================================TIMERS===================================
 
@@ -200,21 +245,8 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
                         reg.emplace_component<component::size>(bullet, component::size{10, 10});
 
                         med.notify(Sender::GAME, "MOB_SHOOT", newParams, dummyContext);
-                        int direction = rand() % 2;
-                        //Make the mob staying in the map
-                        if (positions.y < 100) {
-                            direction = 1;
-                        } else if (positions.y > 900) {
-                            direction = 0;
-                        }
-
-                        if (direction == 0) {
-                            velocities[i].value().vy = -5;
-                        } else {
-                            velocities[i].value().vy = 5;
-                        }
-                        std::vector<std::string> params = {std::to_string(i)};
-                        handleMoves((direction == 0 ? "UP" : "DOWN"), dummyContext, params);
+                        std::cout << "position of " << i << positions.x << " " << positions.y << std::endl;
+                        lua["enemy_ai"](i, positions.x, positions.y); // Appel Lua
                     }
                 }
                 ia_timer.expires_from_now(std::chrono::milliseconds(500));
@@ -615,6 +647,13 @@ void ServerGame::handleStart(const MediatorContext& context, const std::vector<s
     if (state == GameState::INGAME) {
         return;
     }
+    if (reg.get_components<component::controllable>().size() == 1){
+        handleConnect(MediatorContext(), params);
+        std::cout << "AI started" << std::endl;
+        loadLuaScript("../src/lua/player_ai.lua");
+        lua["player_ai"](1);
+    }
+
     std::cout << "Game started" << std::endl;
     state = GameState::INGAME;
     initTimers();
