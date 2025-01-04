@@ -21,7 +21,7 @@ class ServerGame : public ISender {
     public:
         ServerGame(Mediator &med);
 
-        void initTimers();
+        void initTimers(bool isAi);
         void StopAllTimers();
         void positionConciliation();
         void setup_conciliation_timer(boost::asio::steady_timer& conciliation_timer_);
@@ -31,6 +31,7 @@ class ServerGame : public ISender {
         void setup_collision_timer(boost::asio::steady_timer& collision_timer);
         void setup_invincible_timer(boost::asio::steady_timer& invincible_timer);
         void setup_iaMobs(boost::asio::steady_timer& ia_timer);
+        void setup_ia_player(boost::asio::steady_timer& player_ia_timer);
         void setup_triple_shot_expiration_timer(boost::asio::steady_timer& triple_shot_timer);
         void setup_game_over_timer(boost::asio::steady_timer& game_over_timer);
 
@@ -72,6 +73,7 @@ class ServerGame : public ISender {
         std::unique_ptr<boost::asio::steady_timer> collision_timer_;
         std::unique_ptr<boost::asio::steady_timer> invincible_timer_;
         std::unique_ptr<boost::asio::steady_timer> ia_timer_;
+        std::unique_ptr<boost::asio::steady_timer> player_ia_timer_;
         std::unique_ptr<boost::asio::steady_timer> triple_shot_expiration_timer_;
         std::unique_ptr<boost::asio::steady_timer> win_timer_;
         std::unique_ptr<boost::asio::steady_timer> game_over_timer_;

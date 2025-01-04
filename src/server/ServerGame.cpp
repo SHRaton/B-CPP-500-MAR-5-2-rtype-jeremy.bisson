@@ -33,6 +33,22 @@ ServerGame::ServerGame(Mediator &med) : med(med), lua()
         }
     });
 
+    lua.set_function("spawn_bullet", [&](size_t entityId) {
+        auto& positions = reg.get_components<component::position>();
+        int x = positions[entityId].value().x + 50;
+        int y = positions[entityId].value().y + 50;
+        std::cout << "Spawning bullet for entity " << entityId << " at (" << x << ", " << y << ")" << std::endl;
+        Entity bullet = reg.spawn_entity();
+        reg.emplace_component<component::position>(bullet, component::position{x, y});
+        reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
+        reg.emplace_component<component::type>(bullet, component::type{6});
+        reg.emplace_component<component::size>(bullet, component::size{10, 10});
+        std::vector<std::string> newParams;
+        newParams.push_back(std::to_string(x));
+        newParams.push_back(std::to_string(y));
+        med.notify(Sender::GAME, "SHOOT", newParams, MediatorContext());
+    });
+
     loadLuaScript("../src/lua/enemy_ai.lua");
 
     std::cout << "Lua VM initialized!" << std::endl;
@@ -65,7 +81,7 @@ void ServerGame::loadLuaScript(const std::string& scriptPath) {
 
 //===================================TIMERS===================================
 
-void ServerGame::initTimers()
+void ServerGame::initTimers(bool isAi)
 {
     spawn_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(5));
     setup_spawn_timer(*spawn_timer_);
@@ -86,6 +102,11 @@ void ServerGame::initTimers()
 
     ia_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(5));
     setup_iaMobs(*ia_timer_);
+
+    if (isAi) {
+        player_ia_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
+        setup_ia_player(*player_ia_timer_);
+    }
 
     triple_shot_expiration_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
     setup_triple_shot_expiration_timer(*triple_shot_expiration_timer_);
@@ -258,6 +279,28 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
         });
     } catch (const std::exception& e) {
         std::cout << Colors::RED << "[Error] Exception in setup_iaMobs: " << e.what() << Colors::RESET << std::endl;
+    }
+}
+
+void ServerGame::setup_ia_player(boost::asio::steady_timer& player_ia_timer)
+{
+    std::cout << Colors::GREEN << "[Console] Setting up IA player timer" << Colors::RESET << std::endl;
+
+    try {
+        player_ia_timer.async_wait([this, &player_ia_timer](const boost::system::error_code& ec) {
+            if (!ec) {
+                MediatorContext dummyContext;
+                auto const &positions = reg.get_components<component::position>()[1].value();
+                lua["player_ai"](1, positions.x, positions.y); // Appel Lua
+
+                player_ia_timer.expires_from_now(std::chrono::milliseconds(1000));
+                setup_ia_player(player_ia_timer);
+            } else {
+                std::cout << Colors::RED << "[Error] IA player timer error: " << ec.message() << Colors::RESET << std::endl;
+            }
+        });
+    } catch (const std::exception& e) {
+        std::cout << Colors::RED << "[Error] Exception in setup_ia_player: " << e.what() << Colors::RESET << std::endl;
     }
 }
 
@@ -689,16 +732,17 @@ void ServerGame::handleStart(const MediatorContext& context, const std::vector<s
     if (state == GameState::INGAME) {
         return;
     }
+    bool isAI = 0;
     if (reg.get_components<component::controllable>().size() == 1){
         handleConnect(MediatorContext(), params);
         std::cout << "AI started" << std::endl;
         loadLuaScript("../src/lua/player_ai.lua");
-        lua["player_ai"](1);
+        isAI = 1;
     }
 
     std::cout << "Game started" << std::endl;
     state = GameState::INGAME;
-    initTimers();
+    initTimers(isAI);
     med.notify(Sender::GAME, "START", params, context);
 }
 
