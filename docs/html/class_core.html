@@ -1,0 +1,3909 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>R-Type: Référence de la classe Core</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">R-Type
+   </div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('class_core.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-methods">Fonctions membres publiques</a> &#124;
+<a href="#pub-attribs">Attributs publics</a> &#124;
+<a href="#pri-methods">Fonctions membres privées</a> &#124;
+<a href="#pri-attribs">Attributs privés</a> &#124;
+<a href="#pri-static-attribs">Attributs privés statiques</a> &#124;
+<a href="class_core-members.html">Liste de tous les membres</a>  </div>
+  <div class="headertitle"><div class="title">Référence de la classe Core</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Classe principale du client de jeu.  
+ <a href="#details">Plus de détails...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_core_8hpp_source.html">Core.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Graphe de collaboration de Core:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_core__coll__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_core_1_1_animation_state.html">AnimationState</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_core_1_1_input_state.html">InputState</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_core_1_1_player_info.html">PlayerInfo</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Fonctions membres publiques</h2></td></tr>
+<tr class="memitem:a14e63188e0aa7c4a6f72d5501384d1f9" id="r_a14e63188e0aa7c4a6f72d5501384d1f9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14e63188e0aa7c4a6f72d5501384d1f9">Core</a> ()</td></tr>
+<tr class="separator:a14e63188e0aa7c4a6f72d5501384d1f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a776f8c46504b14183883c6273f93eaed" id="r_a776f8c46504b14183883c6273f93eaed"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a776f8c46504b14183883c6273f93eaed">~Core</a> ()</td></tr>
+<tr class="separator:a776f8c46504b14183883c6273f93eaed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a781a67dd973c49c3b1a6e8ec8bd8bac4" id="r_a781a67dd973c49c3b1a6e8ec8bd8bac4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a781a67dd973c49c3b1a6e8ec8bd8bac4">loadAssets</a> ()</td></tr>
+<tr class="separator:a781a67dd973c49c3b1a6e8ec8bd8bac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7598cae8d7f080449adeb642bec57f82" id="r_a7598cae8d7f080449adeb642bec57f82"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7598cae8d7f080449adeb642bec57f82">loadAssetsGame</a> ()</td></tr>
+<tr class="separator:a7598cae8d7f080449adeb642bec57f82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6045a2323610bfa0ee712b028eb43e4" id="r_aa6045a2323610bfa0ee712b028eb43e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6045a2323610bfa0ee712b028eb43e4">gui</a> (int argc, char **argv)</td></tr>
+<tr class="separator:aa6045a2323610bfa0ee712b028eb43e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78dfa9b9ed54a7ba8cfe1be701b79feb" id="r_a78dfa9b9ed54a7ba8cfe1be701b79feb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78dfa9b9ed54a7ba8cfe1be701b79feb">gui_menu</a> ()</td></tr>
+<tr class="separator:a78dfa9b9ed54a7ba8cfe1be701b79feb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1460b7116a24aa8c866c33c4f16bd5a4" id="r_a1460b7116a24aa8c866c33c4f16bd5a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1460b7116a24aa8c866c33c4f16bd5a4">gui_login</a> ()</td></tr>
+<tr class="separator:a1460b7116a24aa8c866c33c4f16bd5a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae373e5e53d26163bfc20d236fd116f89" id="r_ae373e5e53d26163bfc20d236fd116f89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae373e5e53d26163bfc20d236fd116f89">login</a> ()</td></tr>
+<tr class="separator:ae373e5e53d26163bfc20d236fd116f89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe1c190b0d03ded99b7408538b16998c" id="r_afe1c190b0d03ded99b7408538b16998c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe1c190b0d03ded99b7408538b16998c">login_auto</a> (std::string ip, std::string port)</td></tr>
+<tr class="separator:afe1c190b0d03ded99b7408538b16998c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2541081efed787d436e3a3e3f4d496f9" id="r_a2541081efed787d436e3a3e3f4d496f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2541081efed787d436e3a3e3f4d496f9">handleKeyboard</a> (sf::Event::KeyEvent key)</td></tr>
+<tr class="separator:a2541081efed787d436e3a3e3f4d496f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a245f461d8f0f1feaa8b126f329c7db22" id="r_a245f461d8f0f1feaa8b126f329c7db22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a245f461d8f0f1feaa8b126f329c7db22">handleMouseClick</a> (sf::Vector2i <a class="el" href="#add29eb9803d59248f25807e165a15758">mousePosition</a>)</td></tr>
+<tr class="separator:a245f461d8f0f1feaa8b126f329c7db22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5c7da5be504f0f34380b1ca5b97924b" id="r_ab5c7da5be504f0f34380b1ca5b97924b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5c7da5be504f0f34380b1ca5b97924b">gui_lobby</a> ()</td></tr>
+<tr class="separator:ab5c7da5be504f0f34380b1ca5b97924b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42623cce6be1bf30af3a1bca1ed73ed6" id="r_a42623cce6be1bf30af3a1bca1ed73ed6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a42623cce6be1bf30af3a1bca1ed73ed6">gui_game</a> ()</td></tr>
+<tr class="separator:a42623cce6be1bf30af3a1bca1ed73ed6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6b37e20d4a33fc29c07a9cd61f8a993" id="r_aa6b37e20d4a33fc29c07a9cd61f8a993"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6b37e20d4a33fc29c07a9cd61f8a993">display_all</a> ()</td></tr>
+<tr class="separator:aa6b37e20d4a33fc29c07a9cd61f8a993"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87bcabef342dd958994c72d7a6f90893" id="r_a87bcabef342dd958994c72d7a6f90893"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87bcabef342dd958994c72d7a6f90893">loadDaltonismShader</a> (sf::Shader &amp;shader, <a class="el" href="_core_8hpp.html#a08c629beb375f7cacb3f8c70bf7447b1">DaltonismType</a> type)</td></tr>
+<tr class="separator:a87bcabef342dd958994c72d7a6f90893"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60c2e3c959b9936a76fc4ece0c15c824" id="r_a60c2e3c959b9936a76fc4ece0c15c824"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60c2e3c959b9936a76fc4ece0c15c824">loadBlackAndWhiteShader</a> ()</td></tr>
+<tr class="separator:a60c2e3c959b9936a76fc4ece0c15c824"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a740b86b14dc5a3d314b1ef4122c18977" id="r_a740b86b14dc5a3d314b1ef4122c18977"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a740b86b14dc5a3d314b1ef4122c18977">gui_option</a> ()</td></tr>
+<tr class="separator:a740b86b14dc5a3d314b1ef4122c18977"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab6ce4588ad3f88438d30f12b7e9f8e7" id="r_aab6ce4588ad3f88438d30f12b7e9f8e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab6ce4588ad3f88438d30f12b7e9f8e7">gui_gameover</a> ()</td></tr>
+<tr class="separator:aab6ce4588ad3f88438d30f12b7e9f8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39ca9509fdb72319509d1ec5a35e648b" id="r_a39ca9509fdb72319509d1ec5a35e648b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39ca9509fdb72319509d1ec5a35e648b">gui_gamewin</a> ()</td></tr>
+<tr class="separator:a39ca9509fdb72319509d1ec5a35e648b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Attributs publics</h2></td></tr>
+<tr class="memitem:ac4b068bca68663c09b9c79c7482ac548" id="r_ac4b068bca68663c09b9c79c7482ac548"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classregistry.html">registry</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4b068bca68663c09b9c79c7482ac548">reg</a></td></tr>
+<tr class="separator:ac4b068bca68663c09b9c79c7482ac548"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0fac1d5524d05900a2a3506935dcced" id="r_aa0fac1d5524d05900a2a3506935dcced"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_systems.html">Systems</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0fac1d5524d05900a2a3506935dcced">sys</a></td></tr>
+<tr class="separator:aa0fac1d5524d05900a2a3506935dcced"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Fonctions membres privées</h2></td></tr>
+<tr class="memitem:ac2963ce92440f711e50162e324d8b942" id="r_ac2963ce92440f711e50162e324d8b942"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2963ce92440f711e50162e324d8b942">initialize_network</a> (const std::string &amp;server_ip, uint16_t port)</td></tr>
+<tr class="separator:ac2963ce92440f711e50162e324d8b942"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9493dc851e77126a1bc9c005ec499159" id="r_a9493dc851e77126a1bc9c005ec499159"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9493dc851e77126a1bc9c005ec499159">control_system</a> ()</td></tr>
+<tr class="separator:a9493dc851e77126a1bc9c005ec499159"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3c5d8f82146c2112fe37135b574120a" id="r_af3c5d8f82146c2112fe37135b574120a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af3c5d8f82146c2112fe37135b574120a">load_spaceship</a> ()</td></tr>
+<tr class="separator:af3c5d8f82146c2112fe37135b574120a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad563284176b829fa64177092388ef31" id="r_aad563284176b829fa64177092388ef31"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad563284176b829fa64177092388ef31">encode_action</a> (<a class="el" href="_server_network_8hpp.html#a5827805c542ab9cccf700dc3697cbafc">GameAction</a> action)</td></tr>
+<tr class="separator:aad563284176b829fa64177092388ef31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a1438f7b147b90acbe4130458a3048c" id="r_a7a1438f7b147b90acbe4130458a3048c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a1438f7b147b90acbe4130458a3048c">handle_vertical_movement</a> (float deltaSeconds, std::optional&lt; <a class="el" href="structcomponent_1_1velocity.html">component::velocity</a> &gt; &amp;vel, std::optional&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;drawable, std::optional&lt; <a class="el" href="structcomponent_1_1position.html">component::position</a> &gt; &amp;pos)</td></tr>
+<tr class="separator:a7a1438f7b147b90acbe4130458a3048c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63200a1cc9505da6942f9bd7642df237" id="r_a63200a1cc9505da6942f9bd7642df237"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a63200a1cc9505da6942f9bd7642df237">handle_horizontal_movement</a> (float deltaSeconds, std::optional&lt; <a class="el" href="structcomponent_1_1velocity.html">component::velocity</a> &gt; &amp;vel, std::optional&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;drawable, std::optional&lt; <a class="el" href="structcomponent_1_1position.html">component::position</a> &gt; &amp;pos)</td></tr>
+<tr class="separator:a63200a1cc9505da6942f9bd7642df237"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57a868d6a65fed6d7790682a12c45c09" id="r_a57a868d6a65fed6d7790682a12c45c09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a57a868d6a65fed6d7790682a12c45c09">update_animation</a> (float deltaSeconds, std::optional&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;drawable)</td></tr>
+<tr class="separator:a57a868d6a65fed6d7790682a12c45c09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ec1087b7f01d8deedbc292eddb69476" id="r_a3ec1087b7f01d8deedbc292eddb69476"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ec1087b7f01d8deedbc292eddb69476">handle_idle_animation</a> (float deltaSeconds, std::optional&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;drawable)</td></tr>
+<tr class="separator:a3ec1087b7f01d8deedbc292eddb69476"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae37ec3409102a80e9958b8c2910f16ef" id="r_ae37ec3409102a80e9958b8c2910f16ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae37ec3409102a80e9958b8c2910f16ef">update_sprite_frame</a> (sf::Sprite &amp;sprite)</td></tr>
+<tr class="separator:ae37ec3409102a80e9958b8c2910f16ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76ad333a648e0e20b1b12fb5a416774c" id="r_a76ad333a648e0e20b1b12fb5a416774c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76ad333a648e0e20b1b12fb5a416774c">send_input_if_needed</a> (<a class="el" href="_server_network_8hpp.html#a5827805c542ab9cccf700dc3697cbafc">GameAction</a> action, bool &amp;sentFlag)</td></tr>
+<tr class="separator:a76ad333a648e0e20b1b12fb5a416774c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a358f46d664d8eaa3680ec8de58a0fa1e" id="r_a358f46d664d8eaa3680ec8de58a0fa1e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a358f46d664d8eaa3680ec8de58a0fa1e">handle_vertical_stop</a> (std::optional&lt; <a class="el" href="structcomponent_1_1velocity.html">component::velocity</a> &gt; &amp;vel)</td></tr>
+<tr class="separator:a358f46d664d8eaa3680ec8de58a0fa1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bf4669d69fe8e52f0c41dff71c2c592" id="r_a5bf4669d69fe8e52f0c41dff71c2c592"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5bf4669d69fe8e52f0c41dff71c2c592">handle_horizontal_stop</a> (std::optional&lt; <a class="el" href="structcomponent_1_1velocity.html">component::velocity</a> &gt; &amp;vel)</td></tr>
+<tr class="separator:a5bf4669d69fe8e52f0c41dff71c2c592"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8463d54a65aacc36654e1dcd96166b9" id="r_ac8463d54a65aacc36654e1dcd96166b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8463d54a65aacc36654e1dcd96166b9">handle_shoot</a> (float deltaSeconds, std::optional&lt; <a class="el" href="structcomponent_1_1position.html">component::position</a> &gt; &amp;pos)</td></tr>
+<tr class="separator:ac8463d54a65aacc36654e1dcd96166b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3735bea8b545e7ff9e5ae56299818352" id="r_a3735bea8b545e7ff9e5ae56299818352"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3735bea8b545e7ff9e5ae56299818352">handle_start</a> (std::optional&lt; <a class="el" href="structcomponent_1_1position.html">component::position</a> &gt; &amp;pos)</td></tr>
+<tr class="separator:a3735bea8b545e7ff9e5ae56299818352"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae2b137a9885ae1ac3d740786cfdcb34" id="r_aae2b137a9885ae1ac3d740786cfdcb34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae2b137a9885ae1ac3d740786cfdcb34">handleServerCommands</a> ()</td></tr>
+<tr class="separator:aae2b137a9885ae1ac3d740786cfdcb34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18c325c19760f36a20ba7372ab9c69cd" id="r_a18c325c19760f36a20ba7372ab9c69cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18c325c19760f36a20ba7372ab9c69cd">handleMoveCommand</a> (std::istringstream &amp;iss)</td></tr>
+<tr class="separator:a18c325c19760f36a20ba7372ab9c69cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a886c451a25e2e20ec3b5917250601f3d" id="r_a886c451a25e2e20ec3b5917250601f3d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a886c451a25e2e20ec3b5917250601f3d">handleMobSpawnCommand</a> (std::istringstream &amp;iss)</td></tr>
+<tr class="separator:a886c451a25e2e20ec3b5917250601f3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38f36a0900fda03c200f0b900d25af9f" id="r_a38f36a0900fda03c200f0b900d25af9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38f36a0900fda03c200f0b900d25af9f">handleConnectCommand</a> (std::istringstream &amp;iss)</td></tr>
+<tr class="separator:a38f36a0900fda03c200f0b900d25af9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c67115737d781142c2e45bee998daac" id="r_a7c67115737d781142c2e45bee998daac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c67115737d781142c2e45bee998daac">handleDisconnectCommand</a> (std::istringstream &amp;iss)</td></tr>
+<tr class="separator:a7c67115737d781142c2e45bee998daac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54f1d074e15b44725e628aa9367ef985" id="r_a54f1d074e15b44725e628aa9367ef985"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54f1d074e15b44725e628aa9367ef985">handleMovementCommands</a> (std::istringstream &amp;iss, <a class="el" href="_server_network_8hpp.html#a5827805c542ab9cccf700dc3697cbafc">GameAction</a> action)</td></tr>
+<tr class="separator:a54f1d074e15b44725e628aa9367ef985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa792853f5ed5d5c6248e20fad821f6ca" id="r_aa792853f5ed5d5c6248e20fad821f6ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa792853f5ed5d5c6248e20fad821f6ca">handleShootCommands</a> (std::istringstream &amp;iss)</td></tr>
+<tr class="separator:aa792853f5ed5d5c6248e20fad821f6ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5db2bb533195df4af29c23d833e5a061" id="r_a5db2bb533195df4af29c23d833e5a061"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5db2bb533195df4af29c23d833e5a061">handleMobShootCommand</a> (std::istringstream &amp;iss)</td></tr>
+<tr class="separator:a5db2bb533195df4af29c23d833e5a061"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab225cc2ef8539bcf400e02e46d16f7a1" id="r_ab225cc2ef8539bcf400e02e46d16f7a1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab225cc2ef8539bcf400e02e46d16f7a1">handlePowerUpCommand</a> (std::istringstream &amp;iss)</td></tr>
+<tr class="separator:ab225cc2ef8539bcf400e02e46d16f7a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a402d54bcd5820fda94013f08a54fe394" id="r_a402d54bcd5820fda94013f08a54fe394"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a402d54bcd5820fda94013f08a54fe394">handleCollisionCommand</a> (std::istringstream &amp;iss)</td></tr>
+<tr class="separator:a402d54bcd5820fda94013f08a54fe394"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6336489bf72426dc2c618a61832238ce" id="r_a6336489bf72426dc2c618a61832238ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6336489bf72426dc2c618a61832238ce">handleDeathCommand</a> (std::istringstream &amp;iss)</td></tr>
+<tr class="separator:a6336489bf72426dc2c618a61832238ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a398cf70a8dafff61d11f9d0928ed6111" id="r_a398cf70a8dafff61d11f9d0928ed6111"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a398cf70a8dafff61d11f9d0928ed6111">updatePlayerHealth</a> (int id, int newHealth)</td></tr>
+<tr class="separator:a398cf70a8dafff61d11f9d0928ed6111"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22e0fed60eb09cc09408650d66c38617" id="r_a22e0fed60eb09cc09408650d66c38617"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22e0fed60eb09cc09408650d66c38617">handlePowerUpCollision</a> (int id, int type, <a class="el" href="classsparse__array.html">sparse_array</a>&lt; <a class="el" href="structcomponent_1_1health.html">component::health</a> &gt; &amp;healths)</td></tr>
+<tr class="separator:a22e0fed60eb09cc09408650d66c38617"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a517f4f0a345db4205dd553669bd72852" id="r_a517f4f0a345db4205dd553669bd72852"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a517f4f0a345db4205dd553669bd72852">handleMobMissileCollision</a> (int id, <a class="el" href="classsparse__array.html">sparse_array</a>&lt; <a class="el" href="structcomponent_1_1health.html">component::health</a> &gt; &amp;healths, <a class="el" href="classsparse__array.html">sparse_array</a>&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;drawables, <a class="el" href="classsparse__array.html">sparse_array</a>&lt; <a class="el" href="structcomponent_1_1invincible.html">component::invincible</a> &gt; &amp;invincibles)</td></tr>
+<tr class="separator:a517f4f0a345db4205dd553669bd72852"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18d897088678ca2d82d41413bd62c824" id="r_a18d897088678ca2d82d41413bd62c824"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18d897088678ca2d82d41413bd62c824">handleMobCollision</a> (int id, <a class="el" href="classsparse__array.html">sparse_array</a>&lt; <a class="el" href="structcomponent_1_1health.html">component::health</a> &gt; &amp;healths, <a class="el" href="classsparse__array.html">sparse_array</a>&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;drawables, <a class="el" href="classsparse__array.html">sparse_array</a>&lt; <a class="el" href="structcomponent_1_1invincible.html">component::invincible</a> &gt; &amp;invincibles)</td></tr>
+<tr class="separator:a18d897088678ca2d82d41413bd62c824"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99550195181899dc74f311dec7d3df4e" id="r_a99550195181899dc74f311dec7d3df4e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99550195181899dc74f311dec7d3df4e">handleWinCommand</a> (std::istringstream &amp;iss)</td></tr>
+<tr class="separator:a99550195181899dc74f311dec7d3df4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b2840725a18b5e49614dd429f449289" id="r_a3b2840725a18b5e49614dd429f449289"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b2840725a18b5e49614dd429f449289">handleStartCommand</a> (std::istringstream &amp;iss)</td></tr>
+<tr class="separator:a3b2840725a18b5e49614dd429f449289"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9e2c3752fe957de05a7aa7a6675d502" id="r_ad9e2c3752fe957de05a7aa7a6675d502"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9e2c3752fe957de05a7aa7a6675d502">updatePlayerId</a> ()</td></tr>
+<tr class="separator:ad9e2c3752fe957de05a7aa7a6675d502"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add546b58affbab300bbc14b34b7f091e" id="r_add546b58affbab300bbc14b34b7f091e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add546b58affbab300bbc14b34b7f091e">update_hud</a> ()</td></tr>
+<tr class="separator:add546b58affbab300bbc14b34b7f091e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4b485ff1d26a87dbfb1f94051e1f902" id="r_ae4b485ff1d26a87dbfb1f94051e1f902"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4b485ff1d26a87dbfb1f94051e1f902">displayRegistryInfo</a> ()</td></tr>
+<tr class="separator:ae4b485ff1d26a87dbfb1f94051e1f902"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29ffabe78710e79a74cdcb1bebe48c72" id="r_a29ffabe78710e79a74cdcb1bebe48c72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a29ffabe78710e79a74cdcb1bebe48c72">setup_position_timer</a> (boost::asio::steady_timer &amp;position_timer)</td></tr>
+<tr class="separator:a29ffabe78710e79a74cdcb1bebe48c72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a554a2d7af7f9aefe0a66e89773e681b2" id="r_a554a2d7af7f9aefe0a66e89773e681b2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a554a2d7af7f9aefe0a66e89773e681b2">checkInvincibility</a> ()</td></tr>
+<tr class="separator:a554a2d7af7f9aefe0a66e89773e681b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32360bca0d21983d2d9b920229144fab" id="r_a32360bca0d21983d2d9b920229144fab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32360bca0d21983d2d9b920229144fab">animate_up</a> (float deltaSeconds, std::optional&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;drawable)</td></tr>
+<tr class="separator:a32360bca0d21983d2d9b920229144fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ae796fe1ad262de4484a8838fa53c48" id="r_a1ae796fe1ad262de4484a8838fa53c48"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ae796fe1ad262de4484a8838fa53c48">animate_down</a> (float deltaSeconds, std::optional&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;drawable)</td></tr>
+<tr class="separator:a1ae796fe1ad262de4484a8838fa53c48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c24c3d1aa2061ee09283ffe7943e256" id="r_a5c24c3d1aa2061ee09283ffe7943e256"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c24c3d1aa2061ee09283ffe7943e256">animate_to_neutral</a> (float deltaSeconds, std::optional&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;drawable)</td></tr>
+<tr class="separator:a5c24c3d1aa2061ee09283ffe7943e256"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Attributs privés</h2></td></tr>
+<tr class="memitem:ac56f7f61ee7ba5c4ebba8cf3b73c64a1" id="r_ac56f7f61ee7ba5c4ebba8cf3b73c64a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_utils.html">Utils</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac56f7f61ee7ba5c4ebba8cf3b73c64a1">utils</a></td></tr>
+<tr class="separator:ac56f7f61ee7ba5c4ebba8cf3b73c64a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69b37e1b10afa6ee23774bf6c7dc25a7" id="r_a69b37e1b10afa6ee23774bf6c7dc25a7"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_u_d_p_network_client.html">UDPNetworkClient</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a69b37e1b10afa6ee23774bf6c7dc25a7">network</a></td></tr>
+<tr class="separator:a69b37e1b10afa6ee23774bf6c7dc25a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6894f9f516b8c9a11ab8f874859e24d5" id="r_a6894f9f516b8c9a11ab8f874859e24d5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6894f9f516b8c9a11ab8f874859e24d5">fps</a></td></tr>
+<tr class="separator:a6894f9f516b8c9a11ab8f874859e24d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace35b3e740f52a0e9beefc12fc111f98" id="r_ace35b3e740f52a0e9beefc12fc111f98"><td class="memItemLeft" align="right" valign="top">sf::RenderWindow&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace35b3e740f52a0e9beefc12fc111f98">window</a></td></tr>
+<tr class="separator:ace35b3e740f52a0e9beefc12fc111f98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15a16492c2e979244b711ae39223223d" id="r_a15a16492c2e979244b711ae39223223d"><td class="memItemLeft" align="right" valign="top">sf::RenderWindow&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a15a16492c2e979244b711ae39223223d">registryWindow</a></td></tr>
+<tr class="separator:a15a16492c2e979244b711ae39223223d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f6dba6f71f77c9396ddc2ac87aae78e" id="r_a0f6dba6f71f77c9396ddc2ac87aae78e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f6dba6f71f77c9396ddc2ac87aae78e">str_name</a></td></tr>
+<tr class="separator:a0f6dba6f71f77c9396ddc2ac87aae78e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93fac4ed99e3e555ec0e1da7d600389a" id="r_a93fac4ed99e3e555ec0e1da7d600389a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a93fac4ed99e3e555ec0e1da7d600389a">str_ip</a></td></tr>
+<tr class="separator:a93fac4ed99e3e555ec0e1da7d600389a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7404447e0811cacab3abd55ee82426fe" id="r_a7404447e0811cacab3abd55ee82426fe"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7404447e0811cacab3abd55ee82426fe">str_port</a></td></tr>
+<tr class="separator:a7404447e0811cacab3abd55ee82426fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbf5b50e965dd786906a30b3a5dd7526" id="r_afbf5b50e965dd786906a30b3a5dd7526"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afbf5b50e965dd786906a30b3a5dd7526">str_failed</a></td></tr>
+<tr class="separator:afbf5b50e965dd786906a30b3a5dd7526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbe413a47db098e3d374b1377f305120" id="r_acbe413a47db098e3d374b1377f305120"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbe413a47db098e3d374b1377f305120">buffer</a></td></tr>
+<tr class="separator:acbe413a47db098e3d374b1377f305120"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64d5b747729e7c80bdc8616c83e33dfc" id="r_a64d5b747729e7c80bdc8616c83e33dfc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64d5b747729e7c80bdc8616c83e33dfc">select_button</a></td></tr>
+<tr class="separator:a64d5b747729e7c80bdc8616c83e33dfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f3bdafe697c14ce7f9345f910a70f58" id="r_a6f3bdafe697c14ce7f9345f910a70f58"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f3bdafe697c14ce7f9345f910a70f58">failed_connection</a></td></tr>
+<tr class="separator:a6f3bdafe697c14ce7f9345f910a70f58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5e4e01476dc8e755ff3e00d5beae2c7" id="r_ab5e4e01476dc8e755ff3e00d5beae2c7"><td class="memItemLeft" align="right" valign="top">sf::Font&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5e4e01476dc8e755ff3e00d5beae2c7">font</a></td></tr>
+<tr class="separator:ab5e4e01476dc8e755ff3e00d5beae2c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a530571acc72c040e65e5d07091ea536d" id="r_a530571acc72c040e65e5d07091ea536d"><td class="memItemLeft" align="right" valign="top">sf::Text&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a530571acc72c040e65e5d07091ea536d">text_name</a></td></tr>
+<tr class="separator:a530571acc72c040e65e5d07091ea536d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7288c3f0ea0d679d2ab5f4c0f84a18df" id="r_a7288c3f0ea0d679d2ab5f4c0f84a18df"><td class="memItemLeft" align="right" valign="top">sf::Text&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7288c3f0ea0d679d2ab5f4c0f84a18df">text_ip</a></td></tr>
+<tr class="separator:a7288c3f0ea0d679d2ab5f4c0f84a18df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a389a7b87bb58cd216f81c6cec14b6831" id="r_a389a7b87bb58cd216f81c6cec14b6831"><td class="memItemLeft" align="right" valign="top">sf::Text&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a389a7b87bb58cd216f81c6cec14b6831">text_port</a></td></tr>
+<tr class="separator:a389a7b87bb58cd216f81c6cec14b6831"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2311065eaa81c75812cf8cc57f14942e" id="r_a2311065eaa81c75812cf8cc57f14942e"><td class="memItemLeft" align="right" valign="top">sf::Text&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2311065eaa81c75812cf8cc57f14942e">text_failed</a></td></tr>
+<tr class="separator:a2311065eaa81c75812cf8cc57f14942e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a521c96a835c08a2b14868a86f596d075" id="r_a521c96a835c08a2b14868a86f596d075"><td class="memItemLeft" align="right" valign="top">sf::Text&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a521c96a835c08a2b14868a86f596d075">fpsText</a></td></tr>
+<tr class="separator:a521c96a835c08a2b14868a86f596d075"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05d33f2c4e84a9bae8a98a610c478063" id="r_a05d33f2c4e84a9bae8a98a610c478063"><td class="memItemLeft" align="right" valign="top">sf::Text&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05d33f2c4e84a9bae8a98a610c478063">latencyText</a></td></tr>
+<tr class="separator:a05d33f2c4e84a9bae8a98a610c478063"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5ce939975da4815b05c2c57a38424ea" id="r_aa5ce939975da4815b05c2c57a38424ea"><td class="memItemLeft" align="right" valign="top">sf::Text&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa5ce939975da4815b05c2c57a38424ea">hp</a></td></tr>
+<tr class="separator:aa5ce939975da4815b05c2c57a38424ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a733058048580badd1e746445176250f0" id="r_a733058048580badd1e746445176250f0"><td class="memItemLeft" align="right" valign="top">sf::Clock&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a733058048580badd1e746445176250f0">fpsClock</a></td></tr>
+<tr class="separator:a733058048580badd1e746445176250f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b9e59a77276c38aae99a7c1dd79e994" id="r_a1b9e59a77276c38aae99a7c1dd79e994"><td class="memItemLeft" align="right" valign="top">sf::Clock&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b9e59a77276c38aae99a7c1dd79e994">latencyClock</a></td></tr>
+<tr class="separator:a1b9e59a77276c38aae99a7c1dd79e994"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59919e6729f6cc9ba315e416db1f7c58" id="r_a59919e6729f6cc9ba315e416db1f7c58"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59919e6729f6cc9ba315e416db1f7c58">baseSpeed</a></td></tr>
+<tr class="separator:a59919e6729f6cc9ba315e416db1f7c58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a753dbe4d54f75807bfa593e64132289b" id="r_a753dbe4d54f75807bfa593e64132289b"><td class="memItemLeft" align="right" valign="top">sf::Clock&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a753dbe4d54f75807bfa593e64132289b">deltaClock</a></td></tr>
+<tr class="separator:a753dbe4d54f75807bfa593e64132289b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c81f81c56f23111d77f72163642d3b5" id="r_a7c81f81c56f23111d77f72163642d3b5"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; sf::Keyboard::Key, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c81f81c56f23111d77f72163642d3b5">keysPressed</a></td></tr>
+<tr class="separator:a7c81f81c56f23111d77f72163642d3b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fe385ce7646a1253c4cf309a27d4ac3" id="r_a0fe385ce7646a1253c4cf309a27d4ac3"><td class="memItemLeft" align="right" valign="top">sf::Sprite&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0fe385ce7646a1253c4cf309a27d4ac3">vaisseau</a></td></tr>
+<tr class="separator:a0fe385ce7646a1253c4cf309a27d4ac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3936f819554a8722d94837956588e06" id="r_ab3936f819554a8722d94837956588e06"><td class="memItemLeft" align="right" valign="top">sf::RectangleShape&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3936f819554a8722d94837956588e06">shootBar</a></td></tr>
+<tr class="separator:ab3936f819554a8722d94837956588e06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b945234c93741cbf18aebd8aa97dad5" id="r_a6b945234c93741cbf18aebd8aa97dad5"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, <a class="el" href="class_sprite.html">Sprite</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b945234c93741cbf18aebd8aa97dad5">sprites_menu</a></td></tr>
+<tr class="separator:a6b945234c93741cbf18aebd8aa97dad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25f5947e6c4ce9a81b9ce2fbda738710" id="r_a25f5947e6c4ce9a81b9ce2fbda738710"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25f5947e6c4ce9a81b9ce2fbda738710">drawOrder_menu</a></td></tr>
+<tr class="separator:a25f5947e6c4ce9a81b9ce2fbda738710"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a321dc0b93922d5b00128d60ec917d061" id="r_a321dc0b93922d5b00128d60ec917d061"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, <a class="el" href="class_sprite.html">Sprite</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a321dc0b93922d5b00128d60ec917d061">sprites_option</a></td></tr>
+<tr class="separator:a321dc0b93922d5b00128d60ec917d061"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8284e6da9ea483b5e7c8868173d82c8" id="r_ac8284e6da9ea483b5e7c8868173d82c8"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8284e6da9ea483b5e7c8868173d82c8">drawOrder_option</a></td></tr>
+<tr class="separator:ac8284e6da9ea483b5e7c8868173d82c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b6f031bb7d602d7af31d04794bd007c" id="r_a2b6f031bb7d602d7af31d04794bd007c"><td class="memItemLeft" align="right" valign="top">sf::RectangleShape&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b6f031bb7d602d7af31d04794bd007c">soundBar</a></td></tr>
+<tr class="separator:a2b6f031bb7d602d7af31d04794bd007c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb496fdbefc7836b740e2bbc668c8f5a" id="r_acb496fdbefc7836b740e2bbc668c8f5a"><td class="memItemLeft" align="right" valign="top">sf::RectangleShape&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb496fdbefc7836b740e2bbc668c8f5a">soundBarHitBox</a></td></tr>
+<tr class="separator:acb496fdbefc7836b740e2bbc668c8f5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafed3fd1ca6fa06b5804fbbd4b4dfe29" id="r_aafed3fd1ca6fa06b5804fbbd4b4dfe29"><td class="memItemLeft" align="right" valign="top">sf::Text&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafed3fd1ca6fa06b5804fbbd4b4dfe29">text_option</a></td></tr>
+<tr class="separator:aafed3fd1ca6fa06b5804fbbd4b4dfe29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4eec2b78e88f5b47f7cad0101c6d5ac3" id="r_a4eec2b78e88f5b47f7cad0101c6d5ac3"><td class="memItemLeft" align="right" valign="top">sf::Text&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4eec2b78e88f5b47f7cad0101c6d5ac3">text_graphics</a></td></tr>
+<tr class="separator:a4eec2b78e88f5b47f7cad0101c6d5ac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d498197b7acd4f2afdfccc4b87e3573" id="r_a3d498197b7acd4f2afdfccc4b87e3573"><td class="memItemLeft" align="right" valign="top">sf::Text&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d498197b7acd4f2afdfccc4b87e3573">text_sound</a></td></tr>
+<tr class="separator:a3d498197b7acd4f2afdfccc4b87e3573"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab10608d6ca7aa3755af049d0cd0d9dbc" id="r_ab10608d6ca7aa3755af049d0cd0d9dbc"><td class="memItemLeft" align="right" valign="top">sf::Text&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab10608d6ca7aa3755af049d0cd0d9dbc">text_sound_general</a></td></tr>
+<tr class="separator:ab10608d6ca7aa3755af049d0cd0d9dbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1217e7eef61ce6a093ceb7622fdea67" id="r_af1217e7eef61ce6a093ceb7622fdea67"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1217e7eef61ce6a093ceb7622fdea67">soundVolume</a></td></tr>
+<tr class="separator:af1217e7eef61ce6a093ceb7622fdea67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add29eb9803d59248f25807e165a15758" id="r_add29eb9803d59248f25807e165a15758"><td class="memItemLeft" align="right" valign="top">sf::Vector2i&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add29eb9803d59248f25807e165a15758">mousePosition</a></td></tr>
+<tr class="separator:add29eb9803d59248f25807e165a15758"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed5fcda2c780ba42b62f983f42b99536" id="r_aed5fcda2c780ba42b62f983f42b99536"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed5fcda2c780ba42b62f983f42b99536">worldMousePosition</a></td></tr>
+<tr class="separator:aed5fcda2c780ba42b62f983f42b99536"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8e63f5c0c9fcb1e560bb4974c58d790" id="r_ad8e63f5c0c9fcb1e560bb4974c58d790"><td class="memItemLeft" align="right" valign="top">sf::Sprite&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad8e63f5c0c9fcb1e560bb4974c58d790">background_lobby</a></td></tr>
+<tr class="separator:ad8e63f5c0c9fcb1e560bb4974c58d790"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1935d240be3a4ff03926be084766c3b" id="r_ac1935d240be3a4ff03926be084766c3b"><td class="memItemLeft" align="right" valign="top">sf::Sprite&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1935d240be3a4ff03926be084766c3b">background_lobby2</a></td></tr>
+<tr class="separator:ac1935d240be3a4ff03926be084766c3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f835de26e7ce4015d1f0a8d0295ef4c" id="r_a6f835de26e7ce4015d1f0a8d0295ef4c"><td class="memItemLeft" align="right" valign="top">sf::Sprite&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f835de26e7ce4015d1f0a8d0295ef4c">ready</a></td></tr>
+<tr class="separator:a6f835de26e7ce4015d1f0a8d0295ef4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2e6b6c9380b98eb9712471c0e4321c0" id="r_af2e6b6c9380b98eb9712471c0e4321c0"><td class="memItemLeft" align="right" valign="top">sf::Sprite&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af2e6b6c9380b98eb9712471c0e4321c0">start</a></td></tr>
+<tr class="separator:af2e6b6c9380b98eb9712471c0e4321c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0322e8825a89495281791371318b019" id="r_ad0322e8825a89495281791371318b019"><td class="memItemLeft" align="right" valign="top">sf::RenderTexture&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0322e8825a89495281791371318b019">renderTexture</a></td></tr>
+<tr class="separator:ad0322e8825a89495281791371318b019"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed3e04be14d0e442290f499fe249e16e" id="r_aed3e04be14d0e442290f499fe249e16e"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, <a class="el" href="class_sprite.html">Sprite</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed3e04be14d0e442290f499fe249e16e">sprites_login</a></td></tr>
+<tr class="separator:aed3e04be14d0e442290f499fe249e16e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab923bba4758a4ee83d4f9b724e219bb5" id="r_ab923bba4758a4ee83d4f9b724e219bb5"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab923bba4758a4ee83d4f9b724e219bb5">drawOrder_login</a></td></tr>
+<tr class="separator:ab923bba4758a4ee83d4f9b724e219bb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a977f5441c28cbbad897bf9daff7eadbc" id="r_a977f5441c28cbbad897bf9daff7eadbc"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, <a class="el" href="class_sprite.html">Sprite</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a977f5441c28cbbad897bf9daff7eadbc">sprites_game</a></td></tr>
+<tr class="separator:a977f5441c28cbbad897bf9daff7eadbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ab280e46504437214bf0d43163f0a48" id="r_a1ab280e46504437214bf0d43163f0a48"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ab280e46504437214bf0d43163f0a48">drawOrder_game</a></td></tr>
+<tr class="separator:a1ab280e46504437214bf0d43163f0a48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4f074a10ac34221cb4e38f4304d319e" id="r_ad4f074a10ac34221cb4e38f4304d319e"><td class="memItemLeft" align="right" valign="top">std::map&lt; int, sf::Sprite &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4f074a10ac34221cb4e38f4304d319e">other_players</a></td></tr>
+<tr class="separator:ad4f074a10ac34221cb4e38f4304d319e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6211156d281407b304548726a7b55da8" id="r_a6211156d281407b304548726a7b55da8"><td class="memItemLeft" align="right" valign="top">sf::Texture&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6211156d281407b304548726a7b55da8">texture_vaisseau0</a></td></tr>
+<tr class="separator:a6211156d281407b304548726a7b55da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84bf6d579d3857782193fbe1b881ca45" id="r_a84bf6d579d3857782193fbe1b881ca45"><td class="memItemLeft" align="right" valign="top">sf::Texture&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84bf6d579d3857782193fbe1b881ca45">texture_vaisseau1</a></td></tr>
+<tr class="separator:a84bf6d579d3857782193fbe1b881ca45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a393e5fbd7964f1698c057865826368dc" id="r_a393e5fbd7964f1698c057865826368dc"><td class="memItemLeft" align="right" valign="top">sf::Texture&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a393e5fbd7964f1698c057865826368dc">texture_vaisseau2</a></td></tr>
+<tr class="separator:a393e5fbd7964f1698c057865826368dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c9ac502f5db307d0d4cc8484b3ee2a9" id="r_a8c9ac502f5db307d0d4cc8484b3ee2a9"><td class="memItemLeft" align="right" valign="top">sf::Texture&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c9ac502f5db307d0d4cc8484b3ee2a9">texture_vaisseau3</a></td></tr>
+<tr class="separator:a8c9ac502f5db307d0d4cc8484b3ee2a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac05dc6dce7419ffb2e3a8483478f4579" id="r_ac05dc6dce7419ffb2e3a8483478f4579"><td class="memItemLeft" align="right" valign="top">sf::Clock&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac05dc6dce7419ffb2e3a8483478f4579">clock_mess</a></td></tr>
+<tr class="separator:ac05dc6dce7419ffb2e3a8483478f4579"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00cc9e8c5b489243d9c89c9232aa69d3" id="r_a00cc9e8c5b489243d9c89c9232aa69d3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00cc9e8c5b489243d9c89c9232aa69d3">shootCooldown</a></td></tr>
+<tr class="separator:a00cc9e8c5b489243d9c89c9232aa69d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa337cd6ed9c52cf931f3bd54b82c3ea8" id="r_aa337cd6ed9c52cf931f3bd54b82c3ea8"><td class="memItemLeft" align="right" valign="top">sf::Text&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa337cd6ed9c52cf931f3bd54b82c3ea8">registryInfo</a></td></tr>
+<tr class="separator:aa337cd6ed9c52cf931f3bd54b82c3ea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae981f24e7222ec21fecd1443af4128b5" id="r_ae981f24e7222ec21fecd1443af4128b5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_core_1_1_animation_state.html">AnimationState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae981f24e7222ec21fecd1443af4128b5">animState</a></td></tr>
+<tr class="separator:ae981f24e7222ec21fecd1443af4128b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a067952d8ce09ed7c5d198edeb538903b" id="r_a067952d8ce09ed7c5d198edeb538903b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_core_1_1_input_state.html">InputState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a067952d8ce09ed7c5d198edeb538903b">inputState</a></td></tr>
+<tr class="separator:a067952d8ce09ed7c5d198edeb538903b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5afd3db99611e31331154ce752a16676" id="r_a5afd3db99611e31331154ce752a16676"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_entity.html">Entity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5afd3db99611e31331154ce752a16676">player</a></td></tr>
+<tr class="separator:a5afd3db99611e31331154ce752a16676"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a0eadb977b0a73a2379c83d24de7773" id="r_a4a0eadb977b0a73a2379c83d24de7773"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int, <a class="el" href="class_entity.html">Entity</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a0eadb977b0a73a2379c83d24de7773">player_id_map</a></td></tr>
+<tr class="separator:a4a0eadb977b0a73a2379c83d24de7773"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6db42ed8b2576fe01a272e4a3b54966" id="r_aa6db42ed8b2576fe01a272e4a3b54966"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="struct_core_1_1_player_info.html">PlayerInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6db42ed8b2576fe01a272e4a3b54966">otherPlayers</a></td></tr>
+<tr class="separator:aa6db42ed8b2576fe01a272e4a3b54966"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac89655df0789a21f0586f9699b875a26" id="r_ac89655df0789a21f0586f9699b875a26"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac89655df0789a21f0586f9699b875a26">nb_player</a></td></tr>
+<tr class="separator:ac89655df0789a21f0586f9699b875a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaa48f4cd72fdd41c095e6df73957516" id="r_adaa48f4cd72fdd41c095e6df73957516"><td class="memItemLeft" align="right" valign="top">sf::Music&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adaa48f4cd72fdd41c095e6df73957516">menuMusic</a></td></tr>
+<tr class="separator:adaa48f4cd72fdd41c095e6df73957516"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24af3bc1d44cd66fb83926be83071b75" id="r_a24af3bc1d44cd66fb83926be83071b75"><td class="memItemLeft" align="right" valign="top">sf::Music&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24af3bc1d44cd66fb83926be83071b75">Game1Music</a></td></tr>
+<tr class="separator:a24af3bc1d44cd66fb83926be83071b75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abca2fbbfd4d552832cd559c4cfaf6b39" id="r_abca2fbbfd4d552832cd559c4cfaf6b39"><td class="memItemLeft" align="right" valign="top">sf::Music&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abca2fbbfd4d552832cd559c4cfaf6b39">gameoverMusic</a></td></tr>
+<tr class="separator:abca2fbbfd4d552832cd559c4cfaf6b39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a953228c27867eacf986b36edd2bc894c" id="r_a953228c27867eacf986b36edd2bc894c"><td class="memItemLeft" align="right" valign="top">sf::Music&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a953228c27867eacf986b36edd2bc894c">winMusic</a></td></tr>
+<tr class="separator:a953228c27867eacf986b36edd2bc894c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acda99b306e716fe0b4b0e85fab240195" id="r_acda99b306e716fe0b4b0e85fab240195"><td class="memItemLeft" align="right" valign="top">sf::SoundBuffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acda99b306e716fe0b4b0e85fab240195">buttonBuffer_click</a></td></tr>
+<tr class="separator:acda99b306e716fe0b4b0e85fab240195"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cbbc447c0d600061fba9ddc41db0e5c" id="r_a8cbbc447c0d600061fba9ddc41db0e5c"><td class="memItemLeft" align="right" valign="top">sf::Sound&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8cbbc447c0d600061fba9ddc41db0e5c">buttonSound_click</a></td></tr>
+<tr class="separator:a8cbbc447c0d600061fba9ddc41db0e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1600979ae2383e60641009a0582227b9" id="r_a1600979ae2383e60641009a0582227b9"><td class="memItemLeft" align="right" valign="top">sf::SoundBuffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1600979ae2383e60641009a0582227b9">powerupBuffer</a></td></tr>
+<tr class="separator:a1600979ae2383e60641009a0582227b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03f8a2c250c372b786fecbb2786edf08" id="r_a03f8a2c250c372b786fecbb2786edf08"><td class="memItemLeft" align="right" valign="top">sf::Sound&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03f8a2c250c372b786fecbb2786edf08">powerupSound</a></td></tr>
+<tr class="separator:a03f8a2c250c372b786fecbb2786edf08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f7fb9c654f593b75dad50a991da6a17" id="r_a4f7fb9c654f593b75dad50a991da6a17"><td class="memItemLeft" align="right" valign="top">sf::SoundBuffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4f7fb9c654f593b75dad50a991da6a17">shotBuffer</a></td></tr>
+<tr class="separator:a4f7fb9c654f593b75dad50a991da6a17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff1187c7a19e410ed9d8b6dd997cba54" id="r_aff1187c7a19e410ed9d8b6dd997cba54"><td class="memItemLeft" align="right" valign="top">sf::Sound&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff1187c7a19e410ed9d8b6dd997cba54">shotSound</a></td></tr>
+<tr class="separator:aff1187c7a19e410ed9d8b6dd997cba54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef95ef5afd338c670e4149362e4a7215" id="r_aef95ef5afd338c670e4149362e4a7215"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; boost::asio::steady_timer &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aef95ef5afd338c670e4149362e4a7215">invulnerability_timer_</a></td></tr>
+<tr class="separator:aef95ef5afd338c670e4149362e4a7215"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a220d42801cf22fc2bf5905aa78e3919d" id="r_a220d42801cf22fc2bf5905aa78e3919d"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; boost::asio::steady_timer &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a220d42801cf22fc2bf5905aa78e3919d">position_timer_</a></td></tr>
+<tr class="separator:a220d42801cf22fc2bf5905aa78e3919d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70201f1cfe54541ad689a0b589981b82" id="r_a70201f1cfe54541ad689a0b589981b82"><td class="memItemLeft" align="right" valign="top">boost::asio::io_context&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70201f1cfe54541ad689a0b589981b82">io_context_</a></td></tr>
+<tr class="separator:a70201f1cfe54541ad689a0b589981b82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a497f6422a011ce626aa84c8306988a4c" id="r_a497f6422a011ce626aa84c8306988a4c"><td class="memItemLeft" align="right" valign="top">std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a497f6422a011ce626aa84c8306988a4c">io_thread_</a></td></tr>
+<tr class="separator:a497f6422a011ce626aa84c8306988a4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88d190f787ab3c61325579df4d16f00a" id="r_a88d190f787ab3c61325579df4d16f00a"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a88d190f787ab3c61325579df4d16f00a">NEUTRAL_FRAME</a> = 2</td></tr>
+<tr class="separator:a88d190f787ab3c61325579df4d16f00a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16b7346d63c3438a109f3693c81d6958" id="r_a16b7346d63c3438a109f3693c81d6958"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16b7346d63c3438a109f3693c81d6958">MAX_UP_FRAME</a> = 4</td></tr>
+<tr class="separator:a16b7346d63c3438a109f3693c81d6958"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa80ee028c32e95cd884858ddd31617aa" id="r_aa80ee028c32e95cd884858ddd31617aa"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa80ee028c32e95cd884858ddd31617aa">MIN_DOWN_FRAME</a> = 0</td></tr>
+<tr class="separator:aa80ee028c32e95cd884858ddd31617aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefd195e0be903efd48b77083a664881b" id="r_aefd195e0be903efd48b77083a664881b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_core_8hpp.html#a08c629beb375f7cacb3f8c70bf7447b1">DaltonismType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aefd195e0be903efd48b77083a664881b">daltonismType</a></td></tr>
+<tr class="separator:aefd195e0be903efd48b77083a664881b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0967fc38aeccfb0fcf6aa44a23bd48d4" id="r_a0967fc38aeccfb0fcf6aa44a23bd48d4"><td class="memItemLeft" align="right" valign="top">sf::Shader&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0967fc38aeccfb0fcf6aa44a23bd48d4">daltonismShader</a></td></tr>
+<tr class="separator:a0967fc38aeccfb0fcf6aa44a23bd48d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6396956f8e57ee585a698cd817b00ff" id="r_aa6396956f8e57ee585a698cd817b00ff"><td class="memItemLeft" align="right" valign="top">sf::Shader&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6396956f8e57ee585a698cd817b00ff">blackAndWhiteShader</a></td></tr>
+<tr class="separator:aa6396956f8e57ee585a698cd817b00ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a639bcf7390dca0c2fd0220e3750fd057" id="r_a639bcf7390dca0c2fd0220e3750fd057"><td class="memItemLeft" align="right" valign="top">sf::RenderStates&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a639bcf7390dca0c2fd0220e3750fd057">states</a></td></tr>
+<tr class="separator:a639bcf7390dca0c2fd0220e3750fd057"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c190e55f2571aea2cbefad0c31f21da" id="r_a7c190e55f2571aea2cbefad0c31f21da"><td class="memItemLeft" align="right" valign="top">sf::Sprite&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c190e55f2571aea2cbefad0c31f21da">gameOverSprite</a></td></tr>
+<tr class="separator:a7c190e55f2571aea2cbefad0c31f21da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4f92ac782f526230479bb88f01687d0" id="r_ae4f92ac782f526230479bb88f01687d0"><td class="memItemLeft" align="right" valign="top">sf::Texture&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4f92ac782f526230479bb88f01687d0">gameOverTexture</a></td></tr>
+<tr class="separator:ae4f92ac782f526230479bb88f01687d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adec9a3b7d3bfcc1c42fb69b311f48214" id="r_adec9a3b7d3bfcc1c42fb69b311f48214"><td class="memItemLeft" align="right" valign="top">sf::Sprite&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adec9a3b7d3bfcc1c42fb69b311f48214">gameWinSprite</a></td></tr>
+<tr class="separator:adec9a3b7d3bfcc1c42fb69b311f48214"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9e3d80e40b3b441a863a63848341bfc" id="r_ae9e3d80e40b3b441a863a63848341bfc"><td class="memItemLeft" align="right" valign="top">sf::Texture&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae9e3d80e40b3b441a863a63848341bfc">gameWinTexture</a></td></tr>
+<tr class="separator:ae9e3d80e40b3b441a863a63848341bfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d3e4cd75845a4f1dd525caefb2ba6c8" id="r_a0d3e4cd75845a4f1dd525caefb2ba6c8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d3e4cd75845a4f1dd525caefb2ba6c8">isDead</a></td></tr>
+<tr class="separator:a0d3e4cd75845a4f1dd525caefb2ba6c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
+Attributs privés statiques</h2></td></tr>
+<tr class="memitem:ac833f20d0c19b02223b4748e4751b899" id="r_ac833f20d0c19b02223b4748e4751b899"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac833f20d0c19b02223b4748e4751b899">FRAME_DURATION</a> = 0.05f</td></tr>
+<tr class="separator:ac833f20d0c19b02223b4748e4751b899"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>Classe principale du client de jeu. </p>
+<p>Cette classe gère l'ensemble du client de jeu, incluant l'interface graphique, le réseau, le son, et l'état du jeu. Elle coordonne tous les aspects du jeu côté client.</p>
+<dl class="section see"><dt>Voir également</dt><dd><a class="el" href="classregistry.html" title="Registre central du système ECS.">registry</a> </dd>
+<dd>
+<a class="el" href="class_systems.html" title="Système principal de gestion des composants.">Systems</a> </dd>
+<dd>
+<a class="el" href="class_u_d_p_network_client.html" title="Client réseau UDP pour la communication avec le serveur.">UDPNetworkClient</a> </dd>
+<dd>
+<a class="el" href="class_sprite.html" title="Classe de gestion des sprites avec fonctionnalités avancées.">Sprite</a> </dd></dl>
+</div><h2 class="groupheader">Documentation des constructeurs et destructeur</h2>
+<a id="a14e63188e0aa7c4a6f72d5501384d1f9" name="a14e63188e0aa7c4a6f72d5501384d1f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14e63188e0aa7c4a6f72d5501384d1f9">&#9670;&#160;</a></span>Core()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Core::Core </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a776f8c46504b14183883c6273f93eaed" name="a776f8c46504b14183883c6273f93eaed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a776f8c46504b14183883c6273f93eaed">&#9670;&#160;</a></span>~Core()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Core::~Core </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des fonctions membres</h2>
+<a id="a1ae796fe1ad262de4484a8838fa53c48" name="a1ae796fe1ad262de4484a8838fa53c48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ae796fe1ad262de4484a8838fa53c48">&#9670;&#160;</a></span>animate_down()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::animate_down </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaSeconds</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>drawable</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5c24c3d1aa2061ee09283ffe7943e256" name="a5c24c3d1aa2061ee09283ffe7943e256"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c24c3d1aa2061ee09283ffe7943e256">&#9670;&#160;</a></span>animate_to_neutral()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::animate_to_neutral </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaSeconds</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>drawable</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a32360bca0d21983d2d9b920229144fab" name="a32360bca0d21983d2d9b920229144fab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32360bca0d21983d2d9b920229144fab">&#9670;&#160;</a></span>animate_up()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::animate_up </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaSeconds</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>drawable</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a554a2d7af7f9aefe0a66e89773e681b2" name="a554a2d7af7f9aefe0a66e89773e681b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a554a2d7af7f9aefe0a66e89773e681b2">&#9670;&#160;</a></span>checkInvincibility()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::checkInvincibility </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9493dc851e77126a1bc9c005ec499159" name="a9493dc851e77126a1bc9c005ec499159"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9493dc851e77126a1bc9c005ec499159">&#9670;&#160;</a></span>control_system()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::control_system </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa6b37e20d4a33fc29c07a9cd61f8a993" name="aa6b37e20d4a33fc29c07a9cd61f8a993"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6b37e20d4a33fc29c07a9cd61f8a993">&#9670;&#160;</a></span>display_all()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::display_all </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae4b485ff1d26a87dbfb1f94051e1f902" name="ae4b485ff1d26a87dbfb1f94051e1f902"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4b485ff1d26a87dbfb1f94051e1f902">&#9670;&#160;</a></span>displayRegistryInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::displayRegistryInfo </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aad563284176b829fa64177092388ef31" name="aad563284176b829fa64177092388ef31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad563284176b829fa64177092388ef31">&#9670;&#160;</a></span>encode_action()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Core::encode_action </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_server_network_8hpp.html#a5827805c542ab9cccf700dc3697cbafc">GameAction</a></td>          <td class="paramname"><span class="paramname"><em>action</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa6045a2323610bfa0ee712b028eb43e4" name="aa6045a2323610bfa0ee712b028eb43e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6045a2323610bfa0ee712b028eb43e4">&#9670;&#160;</a></span>gui()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::gui </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>argc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **</td>          <td class="paramname"><span class="paramname"><em>argv</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a42623cce6be1bf30af3a1bca1ed73ed6" name="a42623cce6be1bf30af3a1bca1ed73ed6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42623cce6be1bf30af3a1bca1ed73ed6">&#9670;&#160;</a></span>gui_game()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::gui_game </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aab6ce4588ad3f88438d30f12b7e9f8e7" name="aab6ce4588ad3f88438d30f12b7e9f8e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab6ce4588ad3f88438d30f12b7e9f8e7">&#9670;&#160;</a></span>gui_gameover()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::gui_gameover </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a39ca9509fdb72319509d1ec5a35e648b" name="a39ca9509fdb72319509d1ec5a35e648b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39ca9509fdb72319509d1ec5a35e648b">&#9670;&#160;</a></span>gui_gamewin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::gui_gamewin </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab5c7da5be504f0f34380b1ca5b97924b" name="ab5c7da5be504f0f34380b1ca5b97924b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5c7da5be504f0f34380b1ca5b97924b">&#9670;&#160;</a></span>gui_lobby()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::gui_lobby </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1460b7116a24aa8c866c33c4f16bd5a4" name="a1460b7116a24aa8c866c33c4f16bd5a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1460b7116a24aa8c866c33c4f16bd5a4">&#9670;&#160;</a></span>gui_login()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::gui_login </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78dfa9b9ed54a7ba8cfe1be701b79feb" name="a78dfa9b9ed54a7ba8cfe1be701b79feb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78dfa9b9ed54a7ba8cfe1be701b79feb">&#9670;&#160;</a></span>gui_menu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::gui_menu </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a740b86b14dc5a3d314b1ef4122c18977" name="a740b86b14dc5a3d314b1ef4122c18977"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a740b86b14dc5a3d314b1ef4122c18977">&#9670;&#160;</a></span>gui_option()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::gui_option </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a63200a1cc9505da6942f9bd7642df237" name="a63200a1cc9505da6942f9bd7642df237"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63200a1cc9505da6942f9bd7642df237">&#9670;&#160;</a></span>handle_horizontal_movement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handle_horizontal_movement </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaSeconds</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1velocity.html">component::velocity</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>vel</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>drawable</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1position.html">component::position</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5bf4669d69fe8e52f0c41dff71c2c592" name="a5bf4669d69fe8e52f0c41dff71c2c592"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bf4669d69fe8e52f0c41dff71c2c592">&#9670;&#160;</a></span>handle_horizontal_stop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handle_horizontal_stop </td>
+          <td>(</td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1velocity.html">component::velocity</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>vel</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3ec1087b7f01d8deedbc292eddb69476" name="a3ec1087b7f01d8deedbc292eddb69476"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ec1087b7f01d8deedbc292eddb69476">&#9670;&#160;</a></span>handle_idle_animation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handle_idle_animation </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaSeconds</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>drawable</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac8463d54a65aacc36654e1dcd96166b9" name="ac8463d54a65aacc36654e1dcd96166b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8463d54a65aacc36654e1dcd96166b9">&#9670;&#160;</a></span>handle_shoot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handle_shoot </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaSeconds</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1position.html">component::position</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3735bea8b545e7ff9e5ae56299818352" name="a3735bea8b545e7ff9e5ae56299818352"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3735bea8b545e7ff9e5ae56299818352">&#9670;&#160;</a></span>handle_start()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handle_start </td>
+          <td>(</td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1position.html">component::position</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>pos</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a1438f7b147b90acbe4130458a3048c" name="a7a1438f7b147b90acbe4130458a3048c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a1438f7b147b90acbe4130458a3048c">&#9670;&#160;</a></span>handle_vertical_movement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handle_vertical_movement </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaSeconds</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1velocity.html">component::velocity</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>vel</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>drawable</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1position.html">component::position</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a358f46d664d8eaa3680ec8de58a0fa1e" name="a358f46d664d8eaa3680ec8de58a0fa1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a358f46d664d8eaa3680ec8de58a0fa1e">&#9670;&#160;</a></span>handle_vertical_stop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handle_vertical_stop </td>
+          <td>(</td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1velocity.html">component::velocity</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>vel</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a402d54bcd5820fda94013f08a54fe394" name="a402d54bcd5820fda94013f08a54fe394"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a402d54bcd5820fda94013f08a54fe394">&#9670;&#160;</a></span>handleCollisionCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleCollisionCommand </td>
+          <td>(</td>
+          <td class="paramtype">std::istringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>iss</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a38f36a0900fda03c200f0b900d25af9f" name="a38f36a0900fda03c200f0b900d25af9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38f36a0900fda03c200f0b900d25af9f">&#9670;&#160;</a></span>handleConnectCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleConnectCommand </td>
+          <td>(</td>
+          <td class="paramtype">std::istringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>iss</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6336489bf72426dc2c618a61832238ce" name="a6336489bf72426dc2c618a61832238ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6336489bf72426dc2c618a61832238ce">&#9670;&#160;</a></span>handleDeathCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleDeathCommand </td>
+          <td>(</td>
+          <td class="paramtype">std::istringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>iss</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7c67115737d781142c2e45bee998daac" name="a7c67115737d781142c2e45bee998daac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c67115737d781142c2e45bee998daac">&#9670;&#160;</a></span>handleDisconnectCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleDisconnectCommand </td>
+          <td>(</td>
+          <td class="paramtype">std::istringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>iss</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2541081efed787d436e3a3e3f4d496f9" name="a2541081efed787d436e3a3e3f4d496f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2541081efed787d436e3a3e3f4d496f9">&#9670;&#160;</a></span>handleKeyboard()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleKeyboard </td>
+          <td>(</td>
+          <td class="paramtype">sf::Event::KeyEvent</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a18d897088678ca2d82d41413bd62c824" name="a18d897088678ca2d82d41413bd62c824"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18d897088678ca2d82d41413bd62c824">&#9670;&#160;</a></span>handleMobCollision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleMobCollision </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsparse__array.html">sparse_array</a>&lt; <a class="el" href="structcomponent_1_1health.html">component::health</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>healths</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsparse__array.html">sparse_array</a>&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>drawables</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsparse__array.html">sparse_array</a>&lt; <a class="el" href="structcomponent_1_1invincible.html">component::invincible</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>invincibles</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a517f4f0a345db4205dd553669bd72852" name="a517f4f0a345db4205dd553669bd72852"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a517f4f0a345db4205dd553669bd72852">&#9670;&#160;</a></span>handleMobMissileCollision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleMobMissileCollision </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsparse__array.html">sparse_array</a>&lt; <a class="el" href="structcomponent_1_1health.html">component::health</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>healths</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsparse__array.html">sparse_array</a>&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>drawables</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsparse__array.html">sparse_array</a>&lt; <a class="el" href="structcomponent_1_1invincible.html">component::invincible</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>invincibles</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5db2bb533195df4af29c23d833e5a061" name="a5db2bb533195df4af29c23d833e5a061"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5db2bb533195df4af29c23d833e5a061">&#9670;&#160;</a></span>handleMobShootCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleMobShootCommand </td>
+          <td>(</td>
+          <td class="paramtype">std::istringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>iss</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a886c451a25e2e20ec3b5917250601f3d" name="a886c451a25e2e20ec3b5917250601f3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a886c451a25e2e20ec3b5917250601f3d">&#9670;&#160;</a></span>handleMobSpawnCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleMobSpawnCommand </td>
+          <td>(</td>
+          <td class="paramtype">std::istringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>iss</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a245f461d8f0f1feaa8b126f329c7db22" name="a245f461d8f0f1feaa8b126f329c7db22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a245f461d8f0f1feaa8b126f329c7db22">&#9670;&#160;</a></span>handleMouseClick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleMouseClick </td>
+          <td>(</td>
+          <td class="paramtype">sf::Vector2i</td>          <td class="paramname"><span class="paramname"><em>mousePosition</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a18c325c19760f36a20ba7372ab9c69cd" name="a18c325c19760f36a20ba7372ab9c69cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18c325c19760f36a20ba7372ab9c69cd">&#9670;&#160;</a></span>handleMoveCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleMoveCommand </td>
+          <td>(</td>
+          <td class="paramtype">std::istringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>iss</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a54f1d074e15b44725e628aa9367ef985" name="a54f1d074e15b44725e628aa9367ef985"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54f1d074e15b44725e628aa9367ef985">&#9670;&#160;</a></span>handleMovementCommands()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleMovementCommands </td>
+          <td>(</td>
+          <td class="paramtype">std::istringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>iss</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_server_network_8hpp.html#a5827805c542ab9cccf700dc3697cbafc">GameAction</a></td>          <td class="paramname"><span class="paramname"><em>action</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a22e0fed60eb09cc09408650d66c38617" name="a22e0fed60eb09cc09408650d66c38617"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22e0fed60eb09cc09408650d66c38617">&#9670;&#160;</a></span>handlePowerUpCollision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handlePowerUpCollision </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsparse__array.html">sparse_array</a>&lt; <a class="el" href="structcomponent_1_1health.html">component::health</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>healths</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab225cc2ef8539bcf400e02e46d16f7a1" name="ab225cc2ef8539bcf400e02e46d16f7a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab225cc2ef8539bcf400e02e46d16f7a1">&#9670;&#160;</a></span>handlePowerUpCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handlePowerUpCommand </td>
+          <td>(</td>
+          <td class="paramtype">std::istringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>iss</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aae2b137a9885ae1ac3d740786cfdcb34" name="aae2b137a9885ae1ac3d740786cfdcb34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae2b137a9885ae1ac3d740786cfdcb34">&#9670;&#160;</a></span>handleServerCommands()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleServerCommands </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa792853f5ed5d5c6248e20fad821f6ca" name="aa792853f5ed5d5c6248e20fad821f6ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa792853f5ed5d5c6248e20fad821f6ca">&#9670;&#160;</a></span>handleShootCommands()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleShootCommands </td>
+          <td>(</td>
+          <td class="paramtype">std::istringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>iss</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3b2840725a18b5e49614dd429f449289" name="a3b2840725a18b5e49614dd429f449289"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b2840725a18b5e49614dd429f449289">&#9670;&#160;</a></span>handleStartCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleStartCommand </td>
+          <td>(</td>
+          <td class="paramtype">std::istringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>iss</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a99550195181899dc74f311dec7d3df4e" name="a99550195181899dc74f311dec7d3df4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99550195181899dc74f311dec7d3df4e">&#9670;&#160;</a></span>handleWinCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::handleWinCommand </td>
+          <td>(</td>
+          <td class="paramtype">std::istringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>iss</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac2963ce92440f711e50162e324d8b942" name="ac2963ce92440f711e50162e324d8b942"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2963ce92440f711e50162e324d8b942">&#9670;&#160;</a></span>initialize_network()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::initialize_network </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>server_ip</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>port</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af3c5d8f82146c2112fe37135b574120a" name="af3c5d8f82146c2112fe37135b574120a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3c5d8f82146c2112fe37135b574120a">&#9670;&#160;</a></span>load_spaceship()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::load_spaceship </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a781a67dd973c49c3b1a6e8ec8bd8bac4" name="a781a67dd973c49c3b1a6e8ec8bd8bac4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a781a67dd973c49c3b1a6e8ec8bd8bac4">&#9670;&#160;</a></span>loadAssets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::loadAssets </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7598cae8d7f080449adeb642bec57f82" name="a7598cae8d7f080449adeb642bec57f82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7598cae8d7f080449adeb642bec57f82">&#9670;&#160;</a></span>loadAssetsGame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::loadAssetsGame </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a60c2e3c959b9936a76fc4ece0c15c824" name="a60c2e3c959b9936a76fc4ece0c15c824"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60c2e3c959b9936a76fc4ece0c15c824">&#9670;&#160;</a></span>loadBlackAndWhiteShader()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Core::loadBlackAndWhiteShader </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a87bcabef342dd958994c72d7a6f90893" name="a87bcabef342dd958994c72d7a6f90893"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87bcabef342dd958994c72d7a6f90893">&#9670;&#160;</a></span>loadDaltonismShader()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Core::loadDaltonismShader </td>
+          <td>(</td>
+          <td class="paramtype">sf::Shader &amp;</td>          <td class="paramname"><span class="paramname"><em>shader</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_core_8hpp.html#a08c629beb375f7cacb3f8c70bf7447b1">DaltonismType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae373e5e53d26163bfc20d236fd116f89" name="ae373e5e53d26163bfc20d236fd116f89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae373e5e53d26163bfc20d236fd116f89">&#9670;&#160;</a></span>login()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::login </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe1c190b0d03ded99b7408538b16998c" name="afe1c190b0d03ded99b7408538b16998c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe1c190b0d03ded99b7408538b16998c">&#9670;&#160;</a></span>login_auto()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::login_auto </td>
+          <td>(</td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>ip</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>port</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76ad333a648e0e20b1b12fb5a416774c" name="a76ad333a648e0e20b1b12fb5a416774c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76ad333a648e0e20b1b12fb5a416774c">&#9670;&#160;</a></span>send_input_if_needed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::send_input_if_needed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_server_network_8hpp.html#a5827805c542ab9cccf700dc3697cbafc">GameAction</a></td>          <td class="paramname"><span class="paramname"><em>action</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool &amp;</td>          <td class="paramname"><span class="paramname"><em>sentFlag</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a29ffabe78710e79a74cdcb1bebe48c72" name="a29ffabe78710e79a74cdcb1bebe48c72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29ffabe78710e79a74cdcb1bebe48c72">&#9670;&#160;</a></span>setup_position_timer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::setup_position_timer </td>
+          <td>(</td>
+          <td class="paramtype">boost::asio::steady_timer &amp;</td>          <td class="paramname"><span class="paramname"><em>position_timer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a57a868d6a65fed6d7790682a12c45c09" name="a57a868d6a65fed6d7790682a12c45c09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57a868d6a65fed6d7790682a12c45c09">&#9670;&#160;</a></span>update_animation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::update_animation </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaSeconds</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcomponent_1_1drawable.html">component::drawable</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>drawable</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="add546b58affbab300bbc14b34b7f091e" name="add546b58affbab300bbc14b34b7f091e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add546b58affbab300bbc14b34b7f091e">&#9670;&#160;</a></span>update_hud()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::update_hud </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae37ec3409102a80e9958b8c2910f16ef" name="ae37ec3409102a80e9958b8c2910f16ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae37ec3409102a80e9958b8c2910f16ef">&#9670;&#160;</a></span>update_sprite_frame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::update_sprite_frame </td>
+          <td>(</td>
+          <td class="paramtype">sf::Sprite &amp;</td>          <td class="paramname"><span class="paramname"><em>sprite</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a398cf70a8dafff61d11f9d0928ed6111" name="a398cf70a8dafff61d11f9d0928ed6111"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a398cf70a8dafff61d11f9d0928ed6111">&#9670;&#160;</a></span>updatePlayerHealth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::updatePlayerHealth </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>newHealth</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad9e2c3752fe957de05a7aa7a6675d502" name="ad9e2c3752fe957de05a7aa7a6675d502"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9e2c3752fe957de05a7aa7a6675d502">&#9670;&#160;</a></span>updatePlayerId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::updatePlayerId </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des données membres</h2>
+<a id="ae981f24e7222ec21fecd1443af4128b5" name="ae981f24e7222ec21fecd1443af4128b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae981f24e7222ec21fecd1443af4128b5">&#9670;&#160;</a></span>animState</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_core_1_1_animation_state.html">AnimationState</a> Core::animState</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad8e63f5c0c9fcb1e560bb4974c58d790" name="ad8e63f5c0c9fcb1e560bb4974c58d790"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8e63f5c0c9fcb1e560bb4974c58d790">&#9670;&#160;</a></span>background_lobby</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Sprite Core::background_lobby</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac1935d240be3a4ff03926be084766c3b" name="ac1935d240be3a4ff03926be084766c3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1935d240be3a4ff03926be084766c3b">&#9670;&#160;</a></span>background_lobby2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Sprite Core::background_lobby2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a59919e6729f6cc9ba315e416db1f7c58" name="a59919e6729f6cc9ba315e416db1f7c58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59919e6729f6cc9ba315e416db1f7c58">&#9670;&#160;</a></span>baseSpeed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Core::baseSpeed</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa6396956f8e57ee585a698cd817b00ff" name="aa6396956f8e57ee585a698cd817b00ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6396956f8e57ee585a698cd817b00ff">&#9670;&#160;</a></span>blackAndWhiteShader</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Shader Core::blackAndWhiteShader</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acbe413a47db098e3d374b1377f305120" name="acbe413a47db098e3d374b1377f305120"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbe413a47db098e3d374b1377f305120">&#9670;&#160;</a></span>buffer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Core::buffer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acda99b306e716fe0b4b0e85fab240195" name="acda99b306e716fe0b4b0e85fab240195"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acda99b306e716fe0b4b0e85fab240195">&#9670;&#160;</a></span>buttonBuffer_click</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::SoundBuffer Core::buttonBuffer_click</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8cbbc447c0d600061fba9ddc41db0e5c" name="a8cbbc447c0d600061fba9ddc41db0e5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cbbc447c0d600061fba9ddc41db0e5c">&#9670;&#160;</a></span>buttonSound_click</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Sound Core::buttonSound_click</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac05dc6dce7419ffb2e3a8483478f4579" name="ac05dc6dce7419ffb2e3a8483478f4579"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac05dc6dce7419ffb2e3a8483478f4579">&#9670;&#160;</a></span>clock_mess</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Clock Core::clock_mess</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0967fc38aeccfb0fcf6aa44a23bd48d4" name="a0967fc38aeccfb0fcf6aa44a23bd48d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0967fc38aeccfb0fcf6aa44a23bd48d4">&#9670;&#160;</a></span>daltonismShader</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Shader Core::daltonismShader</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aefd195e0be903efd48b77083a664881b" name="aefd195e0be903efd48b77083a664881b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefd195e0be903efd48b77083a664881b">&#9670;&#160;</a></span>daltonismType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_core_8hpp.html#a08c629beb375f7cacb3f8c70bf7447b1">DaltonismType</a> Core::daltonismType</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a753dbe4d54f75807bfa593e64132289b" name="a753dbe4d54f75807bfa593e64132289b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a753dbe4d54f75807bfa593e64132289b">&#9670;&#160;</a></span>deltaClock</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Clock Core::deltaClock</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1ab280e46504437214bf0d43163f0a48" name="a1ab280e46504437214bf0d43163f0a48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ab280e46504437214bf0d43163f0a48">&#9670;&#160;</a></span>drawOrder_game</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; Core::drawOrder_game</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab923bba4758a4ee83d4f9b724e219bb5" name="ab923bba4758a4ee83d4f9b724e219bb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab923bba4758a4ee83d4f9b724e219bb5">&#9670;&#160;</a></span>drawOrder_login</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; Core::drawOrder_login</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a25f5947e6c4ce9a81b9ce2fbda738710" name="a25f5947e6c4ce9a81b9ce2fbda738710"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25f5947e6c4ce9a81b9ce2fbda738710">&#9670;&#160;</a></span>drawOrder_menu</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; Core::drawOrder_menu</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac8284e6da9ea483b5e7c8868173d82c8" name="ac8284e6da9ea483b5e7c8868173d82c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8284e6da9ea483b5e7c8868173d82c8">&#9670;&#160;</a></span>drawOrder_option</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; Core::drawOrder_option</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6f3bdafe697c14ce7f9345f910a70f58" name="a6f3bdafe697c14ce7f9345f910a70f58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f3bdafe697c14ce7f9345f910a70f58">&#9670;&#160;</a></span>failed_connection</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Core::failed_connection</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab5e4e01476dc8e755ff3e00d5beae2c7" name="ab5e4e01476dc8e755ff3e00d5beae2c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5e4e01476dc8e755ff3e00d5beae2c7">&#9670;&#160;</a></span>font</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Font Core::font</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6894f9f516b8c9a11ab8f874859e24d5" name="a6894f9f516b8c9a11ab8f874859e24d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6894f9f516b8c9a11ab8f874859e24d5">&#9670;&#160;</a></span>fps</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Core::fps</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a733058048580badd1e746445176250f0" name="a733058048580badd1e746445176250f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a733058048580badd1e746445176250f0">&#9670;&#160;</a></span>fpsClock</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Clock Core::fpsClock</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a521c96a835c08a2b14868a86f596d075" name="a521c96a835c08a2b14868a86f596d075"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a521c96a835c08a2b14868a86f596d075">&#9670;&#160;</a></span>fpsText</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Text Core::fpsText</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac833f20d0c19b02223b4748e4751b899" name="ac833f20d0c19b02223b4748e4751b899"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac833f20d0c19b02223b4748e4751b899">&#9670;&#160;</a></span>FRAME_DURATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Core::FRAME_DURATION = 0.05f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a24af3bc1d44cd66fb83926be83071b75" name="a24af3bc1d44cd66fb83926be83071b75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24af3bc1d44cd66fb83926be83071b75">&#9670;&#160;</a></span>Game1Music</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Music Core::Game1Music</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abca2fbbfd4d552832cd559c4cfaf6b39" name="abca2fbbfd4d552832cd559c4cfaf6b39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abca2fbbfd4d552832cd559c4cfaf6b39">&#9670;&#160;</a></span>gameoverMusic</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Music Core::gameoverMusic</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7c190e55f2571aea2cbefad0c31f21da" name="a7c190e55f2571aea2cbefad0c31f21da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c190e55f2571aea2cbefad0c31f21da">&#9670;&#160;</a></span>gameOverSprite</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Sprite Core::gameOverSprite</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae4f92ac782f526230479bb88f01687d0" name="ae4f92ac782f526230479bb88f01687d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4f92ac782f526230479bb88f01687d0">&#9670;&#160;</a></span>gameOverTexture</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Texture Core::gameOverTexture</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adec9a3b7d3bfcc1c42fb69b311f48214" name="adec9a3b7d3bfcc1c42fb69b311f48214"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adec9a3b7d3bfcc1c42fb69b311f48214">&#9670;&#160;</a></span>gameWinSprite</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Sprite Core::gameWinSprite</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae9e3d80e40b3b441a863a63848341bfc" name="ae9e3d80e40b3b441a863a63848341bfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9e3d80e40b3b441a863a63848341bfc">&#9670;&#160;</a></span>gameWinTexture</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Texture Core::gameWinTexture</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa5ce939975da4815b05c2c57a38424ea" name="aa5ce939975da4815b05c2c57a38424ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5ce939975da4815b05c2c57a38424ea">&#9670;&#160;</a></span>hp</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Text Core::hp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a067952d8ce09ed7c5d198edeb538903b" name="a067952d8ce09ed7c5d198edeb538903b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a067952d8ce09ed7c5d198edeb538903b">&#9670;&#160;</a></span>inputState</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_core_1_1_input_state.html">InputState</a> Core::inputState</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aef95ef5afd338c670e4149362e4a7215" name="aef95ef5afd338c670e4149362e4a7215"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef95ef5afd338c670e4149362e4a7215">&#9670;&#160;</a></span>invulnerability_timer_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;boost::asio::steady_timer&gt; Core::invulnerability_timer_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a70201f1cfe54541ad689a0b589981b82" name="a70201f1cfe54541ad689a0b589981b82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70201f1cfe54541ad689a0b589981b82">&#9670;&#160;</a></span>io_context_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">boost::asio::io_context Core::io_context_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a497f6422a011ce626aa84c8306988a4c" name="a497f6422a011ce626aa84c8306988a4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a497f6422a011ce626aa84c8306988a4c">&#9670;&#160;</a></span>io_thread_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::thread Core::io_thread_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0d3e4cd75845a4f1dd525caefb2ba6c8" name="a0d3e4cd75845a4f1dd525caefb2ba6c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d3e4cd75845a4f1dd525caefb2ba6c8">&#9670;&#160;</a></span>isDead</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Core::isDead</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7c81f81c56f23111d77f72163642d3b5" name="a7c81f81c56f23111d77f72163642d3b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c81f81c56f23111d77f72163642d3b5">&#9670;&#160;</a></span>keysPressed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;sf::Keyboard::Key, bool&gt; Core::keysPressed</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1b9e59a77276c38aae99a7c1dd79e994" name="a1b9e59a77276c38aae99a7c1dd79e994"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b9e59a77276c38aae99a7c1dd79e994">&#9670;&#160;</a></span>latencyClock</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Clock Core::latencyClock</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a05d33f2c4e84a9bae8a98a610c478063" name="a05d33f2c4e84a9bae8a98a610c478063"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05d33f2c4e84a9bae8a98a610c478063">&#9670;&#160;</a></span>latencyText</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Text Core::latencyText</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a16b7346d63c3438a109f3693c81d6958" name="a16b7346d63c3438a109f3693c81d6958"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16b7346d63c3438a109f3693c81d6958">&#9670;&#160;</a></span>MAX_UP_FRAME</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Core::MAX_UP_FRAME = 4</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adaa48f4cd72fdd41c095e6df73957516" name="adaa48f4cd72fdd41c095e6df73957516"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adaa48f4cd72fdd41c095e6df73957516">&#9670;&#160;</a></span>menuMusic</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Music Core::menuMusic</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa80ee028c32e95cd884858ddd31617aa" name="aa80ee028c32e95cd884858ddd31617aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa80ee028c32e95cd884858ddd31617aa">&#9670;&#160;</a></span>MIN_DOWN_FRAME</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Core::MIN_DOWN_FRAME = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="add29eb9803d59248f25807e165a15758" name="add29eb9803d59248f25807e165a15758"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add29eb9803d59248f25807e165a15758">&#9670;&#160;</a></span>mousePosition</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Vector2i Core::mousePosition</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac89655df0789a21f0586f9699b875a26" name="ac89655df0789a21f0586f9699b875a26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac89655df0789a21f0586f9699b875a26">&#9670;&#160;</a></span>nb_player</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Core::nb_player</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a69b37e1b10afa6ee23774bf6c7dc25a7" name="a69b37e1b10afa6ee23774bf6c7dc25a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69b37e1b10afa6ee23774bf6c7dc25a7">&#9670;&#160;</a></span>network</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="class_u_d_p_network_client.html">UDPNetworkClient</a>&gt; Core::network</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a88d190f787ab3c61325579df4d16f00a" name="a88d190f787ab3c61325579df4d16f00a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88d190f787ab3c61325579df4d16f00a">&#9670;&#160;</a></span>NEUTRAL_FRAME</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Core::NEUTRAL_FRAME = 2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad4f074a10ac34221cb4e38f4304d319e" name="ad4f074a10ac34221cb4e38f4304d319e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4f074a10ac34221cb4e38f4304d319e">&#9670;&#160;</a></span>other_players</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;int, sf::Sprite&gt; Core::other_players</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa6db42ed8b2576fe01a272e4a3b54966" name="aa6db42ed8b2576fe01a272e4a3b54966"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6db42ed8b2576fe01a272e4a3b54966">&#9670;&#160;</a></span>otherPlayers</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="struct_core_1_1_player_info.html">PlayerInfo</a>&gt; Core::otherPlayers</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5afd3db99611e31331154ce752a16676" name="a5afd3db99611e31331154ce752a16676"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5afd3db99611e31331154ce752a16676">&#9670;&#160;</a></span>player</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_entity.html">Entity</a> Core::player</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4a0eadb977b0a73a2379c83d24de7773" name="a4a0eadb977b0a73a2379c83d24de7773"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a0eadb977b0a73a2379c83d24de7773">&#9670;&#160;</a></span>player_id_map</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;int, <a class="el" href="class_entity.html">Entity</a>&gt; Core::player_id_map</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a220d42801cf22fc2bf5905aa78e3919d" name="a220d42801cf22fc2bf5905aa78e3919d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a220d42801cf22fc2bf5905aa78e3919d">&#9670;&#160;</a></span>position_timer_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;boost::asio::steady_timer&gt; Core::position_timer_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1600979ae2383e60641009a0582227b9" name="a1600979ae2383e60641009a0582227b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1600979ae2383e60641009a0582227b9">&#9670;&#160;</a></span>powerupBuffer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::SoundBuffer Core::powerupBuffer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a03f8a2c250c372b786fecbb2786edf08" name="a03f8a2c250c372b786fecbb2786edf08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03f8a2c250c372b786fecbb2786edf08">&#9670;&#160;</a></span>powerupSound</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Sound Core::powerupSound</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6f835de26e7ce4015d1f0a8d0295ef4c" name="a6f835de26e7ce4015d1f0a8d0295ef4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f835de26e7ce4015d1f0a8d0295ef4c">&#9670;&#160;</a></span>ready</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Sprite Core::ready</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac4b068bca68663c09b9c79c7482ac548" name="ac4b068bca68663c09b9c79c7482ac548"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4b068bca68663c09b9c79c7482ac548">&#9670;&#160;</a></span>reg</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classregistry.html">registry</a> Core::reg</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa337cd6ed9c52cf931f3bd54b82c3ea8" name="aa337cd6ed9c52cf931f3bd54b82c3ea8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa337cd6ed9c52cf931f3bd54b82c3ea8">&#9670;&#160;</a></span>registryInfo</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Text Core::registryInfo</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a15a16492c2e979244b711ae39223223d" name="a15a16492c2e979244b711ae39223223d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15a16492c2e979244b711ae39223223d">&#9670;&#160;</a></span>registryWindow</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::RenderWindow Core::registryWindow</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad0322e8825a89495281791371318b019" name="ad0322e8825a89495281791371318b019"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0322e8825a89495281791371318b019">&#9670;&#160;</a></span>renderTexture</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::RenderTexture Core::renderTexture</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a64d5b747729e7c80bdc8616c83e33dfc" name="a64d5b747729e7c80bdc8616c83e33dfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64d5b747729e7c80bdc8616c83e33dfc">&#9670;&#160;</a></span>select_button</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Core::select_button</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab3936f819554a8722d94837956588e06" name="ab3936f819554a8722d94837956588e06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3936f819554a8722d94837956588e06">&#9670;&#160;</a></span>shootBar</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::RectangleShape Core::shootBar</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a00cc9e8c5b489243d9c89c9232aa69d3" name="a00cc9e8c5b489243d9c89c9232aa69d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00cc9e8c5b489243d9c89c9232aa69d3">&#9670;&#160;</a></span>shootCooldown</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Core::shootCooldown</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4f7fb9c654f593b75dad50a991da6a17" name="a4f7fb9c654f593b75dad50a991da6a17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f7fb9c654f593b75dad50a991da6a17">&#9670;&#160;</a></span>shotBuffer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::SoundBuffer Core::shotBuffer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aff1187c7a19e410ed9d8b6dd997cba54" name="aff1187c7a19e410ed9d8b6dd997cba54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff1187c7a19e410ed9d8b6dd997cba54">&#9670;&#160;</a></span>shotSound</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Sound Core::shotSound</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2b6f031bb7d602d7af31d04794bd007c" name="a2b6f031bb7d602d7af31d04794bd007c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b6f031bb7d602d7af31d04794bd007c">&#9670;&#160;</a></span>soundBar</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::RectangleShape Core::soundBar</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acb496fdbefc7836b740e2bbc668c8f5a" name="acb496fdbefc7836b740e2bbc668c8f5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb496fdbefc7836b740e2bbc668c8f5a">&#9670;&#160;</a></span>soundBarHitBox</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::RectangleShape Core::soundBarHitBox</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af1217e7eef61ce6a093ceb7622fdea67" name="af1217e7eef61ce6a093ceb7622fdea67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1217e7eef61ce6a093ceb7622fdea67">&#9670;&#160;</a></span>soundVolume</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Core::soundVolume</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a977f5441c28cbbad897bf9daff7eadbc" name="a977f5441c28cbbad897bf9daff7eadbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a977f5441c28cbbad897bf9daff7eadbc">&#9670;&#160;</a></span>sprites_game</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::string, <a class="el" href="class_sprite.html">Sprite</a>&gt; Core::sprites_game</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed3e04be14d0e442290f499fe249e16e" name="aed3e04be14d0e442290f499fe249e16e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed3e04be14d0e442290f499fe249e16e">&#9670;&#160;</a></span>sprites_login</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::string, <a class="el" href="class_sprite.html">Sprite</a>&gt; Core::sprites_login</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6b945234c93741cbf18aebd8aa97dad5" name="a6b945234c93741cbf18aebd8aa97dad5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b945234c93741cbf18aebd8aa97dad5">&#9670;&#160;</a></span>sprites_menu</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::string, <a class="el" href="class_sprite.html">Sprite</a>&gt; Core::sprites_menu</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a321dc0b93922d5b00128d60ec917d061" name="a321dc0b93922d5b00128d60ec917d061"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a321dc0b93922d5b00128d60ec917d061">&#9670;&#160;</a></span>sprites_option</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::string, <a class="el" href="class_sprite.html">Sprite</a>&gt; Core::sprites_option</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af2e6b6c9380b98eb9712471c0e4321c0" name="af2e6b6c9380b98eb9712471c0e4321c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2e6b6c9380b98eb9712471c0e4321c0">&#9670;&#160;</a></span>start</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Sprite Core::start</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a639bcf7390dca0c2fd0220e3750fd057" name="a639bcf7390dca0c2fd0220e3750fd057"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a639bcf7390dca0c2fd0220e3750fd057">&#9670;&#160;</a></span>states</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::RenderStates Core::states</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afbf5b50e965dd786906a30b3a5dd7526" name="afbf5b50e965dd786906a30b3a5dd7526"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbf5b50e965dd786906a30b3a5dd7526">&#9670;&#160;</a></span>str_failed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Core::str_failed</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a93fac4ed99e3e555ec0e1da7d600389a" name="a93fac4ed99e3e555ec0e1da7d600389a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93fac4ed99e3e555ec0e1da7d600389a">&#9670;&#160;</a></span>str_ip</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Core::str_ip</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0f6dba6f71f77c9396ddc2ac87aae78e" name="a0f6dba6f71f77c9396ddc2ac87aae78e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f6dba6f71f77c9396ddc2ac87aae78e">&#9670;&#160;</a></span>str_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Core::str_name</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7404447e0811cacab3abd55ee82426fe" name="a7404447e0811cacab3abd55ee82426fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7404447e0811cacab3abd55ee82426fe">&#9670;&#160;</a></span>str_port</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Core::str_port</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa0fac1d5524d05900a2a3506935dcced" name="aa0fac1d5524d05900a2a3506935dcced"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0fac1d5524d05900a2a3506935dcced">&#9670;&#160;</a></span>sys</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_systems.html">Systems</a> Core::sys</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2311065eaa81c75812cf8cc57f14942e" name="a2311065eaa81c75812cf8cc57f14942e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2311065eaa81c75812cf8cc57f14942e">&#9670;&#160;</a></span>text_failed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Text Core::text_failed</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4eec2b78e88f5b47f7cad0101c6d5ac3" name="a4eec2b78e88f5b47f7cad0101c6d5ac3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4eec2b78e88f5b47f7cad0101c6d5ac3">&#9670;&#160;</a></span>text_graphics</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Text Core::text_graphics</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7288c3f0ea0d679d2ab5f4c0f84a18df" name="a7288c3f0ea0d679d2ab5f4c0f84a18df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7288c3f0ea0d679d2ab5f4c0f84a18df">&#9670;&#160;</a></span>text_ip</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Text Core::text_ip</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a530571acc72c040e65e5d07091ea536d" name="a530571acc72c040e65e5d07091ea536d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a530571acc72c040e65e5d07091ea536d">&#9670;&#160;</a></span>text_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Text Core::text_name</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aafed3fd1ca6fa06b5804fbbd4b4dfe29" name="aafed3fd1ca6fa06b5804fbbd4b4dfe29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafed3fd1ca6fa06b5804fbbd4b4dfe29">&#9670;&#160;</a></span>text_option</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Text Core::text_option</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a389a7b87bb58cd216f81c6cec14b6831" name="a389a7b87bb58cd216f81c6cec14b6831"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a389a7b87bb58cd216f81c6cec14b6831">&#9670;&#160;</a></span>text_port</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Text Core::text_port</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3d498197b7acd4f2afdfccc4b87e3573" name="a3d498197b7acd4f2afdfccc4b87e3573"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d498197b7acd4f2afdfccc4b87e3573">&#9670;&#160;</a></span>text_sound</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Text Core::text_sound</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab10608d6ca7aa3755af049d0cd0d9dbc" name="ab10608d6ca7aa3755af049d0cd0d9dbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab10608d6ca7aa3755af049d0cd0d9dbc">&#9670;&#160;</a></span>text_sound_general</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Text Core::text_sound_general</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6211156d281407b304548726a7b55da8" name="a6211156d281407b304548726a7b55da8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6211156d281407b304548726a7b55da8">&#9670;&#160;</a></span>texture_vaisseau0</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Texture Core::texture_vaisseau0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a84bf6d579d3857782193fbe1b881ca45" name="a84bf6d579d3857782193fbe1b881ca45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84bf6d579d3857782193fbe1b881ca45">&#9670;&#160;</a></span>texture_vaisseau1</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Texture Core::texture_vaisseau1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a393e5fbd7964f1698c057865826368dc" name="a393e5fbd7964f1698c057865826368dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a393e5fbd7964f1698c057865826368dc">&#9670;&#160;</a></span>texture_vaisseau2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Texture Core::texture_vaisseau2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8c9ac502f5db307d0d4cc8484b3ee2a9" name="a8c9ac502f5db307d0d4cc8484b3ee2a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c9ac502f5db307d0d4cc8484b3ee2a9">&#9670;&#160;</a></span>texture_vaisseau3</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Texture Core::texture_vaisseau3</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac56f7f61ee7ba5c4ebba8cf3b73c64a1" name="ac56f7f61ee7ba5c4ebba8cf3b73c64a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac56f7f61ee7ba5c4ebba8cf3b73c64a1">&#9670;&#160;</a></span>utils</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_utils.html">Utils</a> Core::utils</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0fe385ce7646a1253c4cf309a27d4ac3" name="a0fe385ce7646a1253c4cf309a27d4ac3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fe385ce7646a1253c4cf309a27d4ac3">&#9670;&#160;</a></span>vaisseau</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Sprite Core::vaisseau</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ace35b3e740f52a0e9beefc12fc111f98" name="ace35b3e740f52a0e9beefc12fc111f98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace35b3e740f52a0e9beefc12fc111f98">&#9670;&#160;</a></span>window</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::RenderWindow Core::window</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a953228c27867eacf986b36edd2bc894c" name="a953228c27867eacf986b36edd2bc894c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a953228c27867eacf986b36edd2bc894c">&#9670;&#160;</a></span>winMusic</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Music Core::winMusic</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed5fcda2c780ba42b62f983f42b99536" name="aed5fcda2c780ba42b62f983f42b99536"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed5fcda2c780ba42b62f983f42b99536">&#9670;&#160;</a></span>worldMousePosition</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sf::Vector2f Core::worldMousePosition</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>La documentation de cette classe a été générée à partir des fichiers suivants :<ul>
+<li>src/client/<a class="el" href="_core_8hpp_source.html">Core.hpp</a></li>
+<li>src/client/<a class="el" href="_core_8cpp.html">Core.cpp</a></li>
+<li>src/client/<a class="el" href="_gui_game_8cpp.html">GuiGame.cpp</a></li>
+<li>src/client/<a class="el" href="_gui_lobby_8cpp.html">GuiLobby.cpp</a></li>
+<li>src/client/<a class="el" href="_gui_login_8cpp.html">GuiLogin.cpp</a></li>
+<li>src/client/<a class="el" href="_gui_menu_8cpp.html">GuiMenu.cpp</a></li>
+<li>src/client/<a class="el" href="_gui_option_8cpp.html">GuiOption.cpp</a></li>
+<li>src/client/<a class="el" href="_handle_animation_8cpp.html">HandleAnimation.cpp</a></li>
+<li>src/client/<a class="el" href="_handle_commands_8cpp.html">HandleCommands.cpp</a></li>
+<li>src/client/<a class="el" href="_handle_input_8cpp.html">HandleInput.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_core.html">Core</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.1 </li>
+  </ul>
+</div>
+</body>
+</html>

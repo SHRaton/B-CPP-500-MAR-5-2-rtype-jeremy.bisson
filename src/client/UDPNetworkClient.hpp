@@ -9,8 +9,44 @@
 #include <optional>
 #include "Utils.hpp"
 
+/**
+ * @brief Client réseau UDP pour la communication avec le serveur
+ * @class UDPNetworkClient
+ * 
+ * @details Cette classe gère la communication réseau en UDP avec le serveur de jeu,
+ * incluant l'envoi et la réception de messages, la gestion de la connexion et
+ * la synchronisation des données.
+ * 
+ * @startuml{UDPNetworkClient_class.png}
+ * class UDPNetworkClient {
+ * - m_io_context: shared_ptr<io_context>
+ * - m_socket: udp::socket
+ * - m_server_endpoint: udp::endpoint
+ * - m_received_messages: deque<string>
+ * + UDPNetworkClient(server_ip: string, server_port: uint16_t)
+ * + send(message: string)
+ * + receive(): optional<string>
+ * + receive_all(): vector<string>
+ * + stop()
+ * }
+ * 
+ * class boost::asio::io_context
+ * class boost::asio::ip::udp::socket
+ * class boost::asio::ip::udp::endpoint
+ * 
+ * UDPNetworkClient *-- "1" boost::asio::io_context
+ * UDPNetworkClient *-- "1" boost::asio::ip::udp::socket
+ * UDPNetworkClient *-- "2" boost::asio::ip::udp::endpoint
+ * @enduml
+ */
+
 class UDPNetworkClient {
 public:
+    /**
+     * @brief Constructeur initialisant la connexion au serveur
+     * @param server_ip Adresse IP du serveur
+     * @param server_port Port du serveur
+     */
     UDPNetworkClient(const std::string& server_ip, uint16_t server_port);
     ~UDPNetworkClient();
 

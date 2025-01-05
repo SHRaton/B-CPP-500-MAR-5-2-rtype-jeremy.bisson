@@ -14,8 +14,63 @@
 #include <sstream>
 #include "../server/ServerNetwork.hpp"
 
+/**
+ * @brief Classe principale du client de jeu
+ * @class Core
+ * 
+ * @details Cette classe gère l'ensemble du client de jeu, incluant l'interface graphique,
+ * le réseau, le son, et l'état du jeu. Elle coordonne tous les aspects du jeu côté client.
+ * 
+ * @startuml{Core_class.png}
+ * class Core {
+ * + reg: registry
+ * + sys: Systems
+ * - window: sf::RenderWindow
+ * - network: unique_ptr<UDPNetworkClient>
+ * - sprites: map<string, Sprite>
+ * + Core()
+ * + loadAssets()
+ * + gui(argc: int, argv: char**)
+ * + gui_menu()
+ * + gui_game()
+ * }
+ * 
+ * enum DaltonismType {
+ * PROTANOPIA
+ * DEUTERANOPIA
+ * TRITANOPIA
+ * NONE
+ * }
+ * 
+ * struct AnimationState {
+ * + currentFrame: int
+ * + animationTimer: float
+ * }
+ * 
+ * struct InputState {
+ * + upSent: bool
+ * + downSent: bool
+ * + leftSent: bool
+ * + rightSent: bool
+ * }
+ * 
+ * Core *-- DaltonismType
+ * Core *-- AnimationState
+ * Core *-- InputState
+ * Core *-- "1" registry
+ * Core *-- "1" Systems
+ * Core *-- "*" Sprite
+ * Core *-- "1" UDPNetworkClient
+ * @enduml
+ * 
+ * @see registry
+ * @see Systems
+ * @see UDPNetworkClient
+ * @see Sprite
+ */
+
 enum DaltonismType {
-    PROTANOPIA,    // Rouge-vert (faiblesse des cônes rouges)
+    PROTANOPIA,    // Rouge-vert (faiblesse des cônes rouges) 
     DEUTERANOPIA,  // Rouge-vert (faiblesse des cônes verts)
     TRITANOPIA,    // Bleu-jaune (rare)
     NONE

@@ -1,0 +1,13 @@
+<map id="ServerGame::handleColision" name="ServerGame::handleColision">
+<area shape="rect" id="Node000001" title=" " alt="" coords="923,37,1110,62"/>
+<area shape="rect" id="Node000002" href="$class_server_game.html#aa99390eeaadd29af06da639d8a9ef353" title=" " alt="" coords="665,37,875,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="907,52,875,52,875,47,907,47"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="813,25,799,18,770,15,744,18,730,22,727,28,733,35,729,38,721,28,726,18,743,12,770,10,801,13,816,20"/>
+<area shape="rect" id="Node000003" href="$class_server_game.html#acd85147947f8c366cccf07b8d6674026" title=" " alt="" coords="429,29,617,70"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="650,52,618,52,618,47,650,47"/>
+<area shape="poly" id="edge6_Node000003_Node000003" title=" " alt="" coords="559,16,546,10,523,8,502,10,489,15,484,21,486,28,481,29,479,19,486,10,501,5,523,3,547,5,561,11"/>
+<area shape="rect" id="Node000004" href="$class_server_game.html#a0157100c7f7204cb8d870947d0b81e6f" title=" " alt="" coords="222,37,381,62"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="414,52,382,52,382,47,414,47"/>
+<area shape="rect" id="Node000005" href="$class_server_game.html#a0dcb65cf6ca824c15b425d6e731ac7cb" title=" " alt="" coords="5,37,174,62"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="207,52,174,52,174,47,207,47"/>
+</map>

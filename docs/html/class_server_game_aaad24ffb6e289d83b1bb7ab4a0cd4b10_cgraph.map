@@ -1,0 +1,6 @@
+<map id="ServerGame::setup_triple_shot_expiration_timer" name="ServerGame::setup_triple_shot_expiration_timer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,175,70"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="47,29,44,19,52,10,67,5,90,3,115,5,130,11,128,16,114,10,90,8,68,10,55,15,50,21,52,28"/>
+<area shape="rect" id="Node000002" href="$class_server_game.html#ac4bd21cf219e6eca5d8a63e0e5d799d9" title=" " alt="" coords="223,29,419,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,47,207,47,207,52,175,52"/>
+</map>

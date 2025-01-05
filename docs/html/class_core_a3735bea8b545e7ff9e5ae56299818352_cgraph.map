@@ -1,0 +1,7 @@
+<map id="Core::handle_start" name="Core::handle_start">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,134,38"/>
+<area shape="rect" id="Node000002" href="$class_core.html#a76ad333a648e0e20b1b12fb5a416774c" title=" " alt="" coords="182,5,316,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,23,166,23,166,28,134,28"/>
+<area shape="rect" id="Node000003" href="$class_core.html#aad563284176b829fa64177092388ef31" title=" " alt="" coords="364,13,505,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="316,23,348,23,348,28,316,28"/>
+</map>

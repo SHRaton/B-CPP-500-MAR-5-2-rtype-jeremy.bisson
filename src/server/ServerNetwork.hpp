@@ -8,6 +8,45 @@
 #include <vector>
 #include "Mediator.hpp"
 
+/**
+ * @brief Gère la communication réseau du serveur
+ * @class ServerNetwork
+ * 
+ * @details Cette classe implémente l'interface ISender et gère toutes les communications
+ * réseau du serveur, incluant la connexion des clients, l'envoi et la réception des messages.
+ * 
+ * @startuml{ServerNetwork_class.png}
+ * class ServerNetwork {
+ * - io_context_: boost::asio::io_context
+ * - socket_: boost::asio::ip::udp::socket
+ * - clients_: map<endpoint, ClientInfo>
+ * - running_: bool
+ * - receive_thread_: thread
+ * + ServerNetwork(port: uint16_t, med: Mediator&)
+ * + start()
+ * - receive_messages()
+ * - decode_message(message: string): GameMessage
+ * - broadcast_message(message: string)
+ * }
+ * 
+ * enum GameAction {
+ * NONE
+ * SHOOT
+ * MOVE
+ * {and other actions...}
+ * }
+ * 
+ * struct GameMessage {
+ * + action: GameAction
+ * + arguments: vector<string>
+ * }
+ * 
+ * ServerNetwork --|> ISender
+ * ServerNetwork *-- GameMessage
+ * GameMessage *-- GameAction
+ * @enduml
+ */
+
 namespace Colors {
     const std::string RESET   = "\033[0m";
     const std::string RED     = "\033[31m";

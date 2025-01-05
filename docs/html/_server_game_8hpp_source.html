@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>R-Type:  Fichier source de src/server/ServerGame.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">R-Type
+   </div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_server_game_8hpp_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ServerGame.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_server_game_8hpp.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;boost/asio.hpp&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;sol/sol.hpp&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;map&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;bitset&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;random&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="_registry_8hpp.html">../Registry.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="_server_network_8hpp.html">ServerNetwork.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="_mediator_8hpp.html">Mediator.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="foldopen" id="foldopen00051" data-start="{" data-end="};">
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="_server_game_8hpp.html#a7899b65f1ea0f655e4bbf8d2a5714285">   51</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="_server_game_8hpp.html#a7899b65f1ea0f655e4bbf8d2a5714285">GameState</a>{</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="_server_game_8hpp.html#a7899b65f1ea0f655e4bbf8d2a5714285a531109fbee70c7b3d1196aff910e52a2">   52</a></span>    <a class="code hl_enumvalue" href="_server_game_8hpp.html#a7899b65f1ea0f655e4bbf8d2a5714285a531109fbee70c7b3d1196aff910e52a2">LOBBY</a>,</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="_server_game_8hpp.html#a7899b65f1ea0f655e4bbf8d2a5714285aa2e8a4a15de815a5b9e3830fa3b986d6">   53</a></span>    <a class="code hl_enumvalue" href="_server_game_8hpp.html#a7899b65f1ea0f655e4bbf8d2a5714285aa2e8a4a15de815a5b9e3830fa3b986d6">INGAME</a></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>};</div>
+</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="foldopen" id="foldopen00056" data-start="{" data-end="};">
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="class_server_game.html">   56</a></span><span class="keyword">class </span><a class="code hl_function" href="class_server_game.html#aa778dd0e95fcbf7eeed3660bd2e65a1c">ServerGame</a> : <span class="keyword">public</span> <a class="code hl_class" href="class_i_sender.html">ISender</a> {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <a class="code hl_function" href="class_server_game.html#aa778dd0e95fcbf7eeed3660bd2e65a1c">ServerGame</a>(<a class="code hl_class" href="class_mediator.html">Mediator</a> &amp;<a class="code hl_variable" href="class_server_game.html#a27d2fd45bc8c67c1a7c7b921f2f519ac">med</a>);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#a0157100c7f7204cb8d870947d0b81e6f">initTimers</a>(<span class="keywordtype">bool</span> isAi);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#a429c582fc2fce1fdd802208b51f77c68">StopAllTimers</a>();</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#ae364e3e373cb38cf5bfcbc5b5697c61a">positionConciliation</a>();</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#ae04b9882336139be7cc8649e27dba330">setup_conciliation_timer</a>(boost::asio::steady_timer&amp; <a class="code hl_variable" href="class_server_game.html#ad912cf9f0032320a83deaf66f3f792b5">conciliation_timer_</a>);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#a89e6dc23de2213b7cfa7d8a894f509a3">setup_position_timer</a>(boost::asio::steady_timer&amp; position_timer);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#aa301bdf3d57c0e3652d1e5fd1a338e17">setup_spawn_timer</a>(boost::asio::steady_timer&amp; spawn_timer);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#a52fe9325dc4644b455f6dfe03fa0a7e2">setup_powerup_timer</a>(boost::asio::steady_timer&amp; powerup_timer);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#acd85147947f8c366cccf07b8d6674026">setup_collision_timer</a>(boost::asio::steady_timer&amp; collision_timer);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#a6da0ae753b4a7e2d6f5231949d22331d">setup_invincible_timer</a>(boost::asio::steady_timer&amp; invincible_timer);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#aa1aaafb4f5bd2691231d0bdedb079588">setup_iaMobs</a>(boost::asio::steady_timer&amp; ia_timer);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#a7932470ed83cb42d82debb8829a0956a">setup_ia_player</a>(boost::asio::steady_timer&amp; player_ia_timer);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#aaad24ffb6e289d83b1bb7ab4a0cd4b10">setup_triple_shot_expiration_timer</a>(boost::asio::steady_timer&amp; triple_shot_timer);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#ac11805bef3774422a1b0235d47a7efed">setup_game_over_timer</a>(boost::asio::steady_timer&amp; game_over_timer);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#aee4c62e6f6d9427eb126ce1c372b0446">spawnMob</a>(<span class="keywordtype">int</span> mob_type);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#a690321c8aa58ea064479f8205d28df73">spawnPowerUp</a>(<span class="keywordtype">int</span> powerup_type);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#aa99390eeaadd29af06da639d8a9ef353">checkAllCollisions</a>();</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="class_server_game.html#a0d2136187aa368d02f5bc66c2b1f85cf">isColliding</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structcomponent_1_1position.html">component::position</a>&amp; pos1, <span class="keyword">const</span> <a class="code hl_struct" href="structcomponent_1_1position.html">component::position</a>&amp; pos2, <span class="keyword">const</span> <a class="code hl_struct" href="structcomponent_1_1size.html">component::size</a>&amp; size1, <span class="keyword">const</span> <a class="code hl_struct" href="structcomponent_1_1size.html">component::size</a>&amp; size2);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#ac4bd21cf219e6eca5d8a63e0e5d799d9">checkTripleShotExpiration</a>();</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="class_server_game.html#ae618b046011fbfa5373127e48496b885">areAllPlayersDead</a>();</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#aca51614bfef206efa6799e569ea0ddc1">showAllEnityAlive</a>();</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#a7c9354c0ff3baa76239cd837eeeb33d7">loadLuaScript</a>(<span class="keyword">const</span> std::string&amp; scriptPath);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="comment">//Chaque fonction doit se terminer par un appel à la classe Mediator</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#af88752f99cb9c667a53595012ce39a01">handleConnect</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#aa71793ab63c408879071530b5b84b95a">handleDisconnect</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#a3ad8af6b58cbd6b471e7911738093b61">handleMoves</a>(<span class="keyword">const</span> std::string&amp; action, <span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#a53061845c1d2f6c61c314bc951eddadf">handleShoot</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="class_server_game.html#acae16d7810f9d074d675923f12a3f252">   90</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#acae16d7810f9d074d675923f12a3f252">handleMobSpawn</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params){};</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="class_server_game.html#a4ae099b024b86fce2ac65ef7298e48f5">   91</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#a4ae099b024b86fce2ac65ef7298e48f5">handleConciliation</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params){};</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="class_server_game.html#ae514eed4a2f6db05b029be6ad8a9dede">   92</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#ae514eed4a2f6db05b029be6ad8a9dede">handlePowerUpSpawn</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params){};</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#a9a2b4bb7a61cf272fae0d6ed1f13e59f">handleColision</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#adf9d28b0bb99cd31ec005e81fa4128f4">handleDeath</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="class_server_game.html#aa765b93fcfaaa34a2e0240d2c21cbc41">   95</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#aa765b93fcfaaa34a2e0240d2c21cbc41">handleMobShoot</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params){};</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="class_server_game.html#a8259d4631809e4ed436d8d340b841b1c">   96</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#a8259d4631809e4ed436d8d340b841b1c">handleWin</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params){};</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="class_server_game.html#af5b58d8ec51e6a8d9c1666754c403a21">   97</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#af5b58d8ec51e6a8d9c1666754c403a21">handleLoose</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params){};</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#a0dcb65cf6ca824c15b425d6e731ac7cb">handleStart</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params);</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="class_server_game.html#af85a02b47d49444622e030da3175febe">   99</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_server_game.html#af85a02b47d49444622e030da3175febe">handleScoreUpdate</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params){};</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="class_server_game.html#adee9a2ff6c912279f5fdd114843b33ba">  102</a></span>        <a class="code hl_class" href="classregistry.html">registry</a> <a class="code hl_variable" href="class_server_game.html#adee9a2ff6c912279f5fdd114843b33ba">reg</a>;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="class_server_game.html#a002e48608ff0a8cd0573269b8409ca65">  103</a></span>        std::thread <a class="code hl_variable" href="class_server_game.html#a002e48608ff0a8cd0573269b8409ca65">io_thread_</a>;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="class_server_game.html#a0d77a69ffbfb8610b6f184f34e6cf3dc">  104</a></span>        boost::asio::io_context <a class="code hl_variable" href="class_server_game.html#a0d77a69ffbfb8610b6f184f34e6cf3dc">io_context_</a>;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="class_server_game.html#aa92ffce3705405b0387229748dd9ead6">  105</a></span>        std::unique_ptr&lt;boost::asio::steady_timer&gt; <a class="code hl_variable" href="class_server_game.html#aa92ffce3705405b0387229748dd9ead6">spawn_timer_</a>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="class_server_game.html#a808bd12bbd60a0e7eb6456ef2557309e">  106</a></span>        std::unique_ptr&lt;boost::asio::steady_timer&gt; <a class="code hl_variable" href="class_server_game.html#a808bd12bbd60a0e7eb6456ef2557309e">position_timer_</a>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="class_server_game.html#ad912cf9f0032320a83deaf66f3f792b5">  107</a></span>        std::unique_ptr&lt;boost::asio::steady_timer&gt; <a class="code hl_variable" href="class_server_game.html#ad912cf9f0032320a83deaf66f3f792b5">conciliation_timer_</a>;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="class_server_game.html#adb1f2dd63462bdb3ff5847826f58a209">  108</a></span>        std::unique_ptr&lt;boost::asio::steady_timer&gt; <a class="code hl_variable" href="class_server_game.html#adb1f2dd63462bdb3ff5847826f58a209">powerup_timer_</a>;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="class_server_game.html#a1a7ee30e7d98b35f9a1d64f571592f08">  109</a></span>        std::unique_ptr&lt;boost::asio::steady_timer&gt; <a class="code hl_variable" href="class_server_game.html#a1a7ee30e7d98b35f9a1d64f571592f08">collision_timer_</a>;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="class_server_game.html#acd79a3f60be47cf497d56a814e7ad395">  110</a></span>        std::unique_ptr&lt;boost::asio::steady_timer&gt; <a class="code hl_variable" href="class_server_game.html#acd79a3f60be47cf497d56a814e7ad395">invincible_timer_</a>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="class_server_game.html#a23d0eafb482d79b47a01424667889c1c">  111</a></span>        std::unique_ptr&lt;boost::asio::steady_timer&gt; <a class="code hl_variable" href="class_server_game.html#a23d0eafb482d79b47a01424667889c1c">ia_timer_</a>;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="class_server_game.html#a445a8e55c08f2a3d5089e6250dcc252b">  112</a></span>        std::unique_ptr&lt;boost::asio::steady_timer&gt; <a class="code hl_variable" href="class_server_game.html#a445a8e55c08f2a3d5089e6250dcc252b">player_ia_timer_</a>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="class_server_game.html#a88a8835c768204c6d8a415914572e136">  113</a></span>        std::unique_ptr&lt;boost::asio::steady_timer&gt; <a class="code hl_variable" href="class_server_game.html#a88a8835c768204c6d8a415914572e136">triple_shot_expiration_timer_</a>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="class_server_game.html#a1a423e235953f6d20475467eca19f082">  114</a></span>        std::unique_ptr&lt;boost::asio::steady_timer&gt; <a class="code hl_variable" href="class_server_game.html#a1a423e235953f6d20475467eca19f082">win_timer_</a>;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="class_server_game.html#a2af577b648a7296cd06e70debdd1813b">  115</a></span>        std::unique_ptr&lt;boost::asio::steady_timer&gt; <a class="code hl_variable" href="class_server_game.html#a2af577b648a7296cd06e70debdd1813b">game_over_timer_</a>;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="class_server_game.html#a27d2fd45bc8c67c1a7c7b921f2f519ac">  116</a></span>        <a class="code hl_class" href="class_mediator.html">Mediator</a> &amp;<a class="code hl_variable" href="class_server_game.html#a27d2fd45bc8c67c1a7c7b921f2f519ac">med</a>;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="class_server_game.html#aa711e9c4aa8c978c69edb6c650552ee7">  117</a></span>        <a class="code hl_enumeration" href="_server_game_8hpp.html#a7899b65f1ea0f655e4bbf8d2a5714285">GameState</a> <a class="code hl_variable" href="class_server_game.html#aa711e9c4aa8c978c69edb6c650552ee7">state</a>;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="class_server_game.html#ac0e504674b44308456795be7ebdbb92b">  118</a></span>        sol::state <a class="code hl_variable" href="class_server_game.html#ac0e504674b44308456795be7ebdbb92b">lua</a>; <span class="comment">// Machine virtuelle Lua avec sol2</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>};</div>
+</div>
+<div class="ttc" id="a_i_sender_8hpp_html_a7b5d12ac65832405aa23caddc57e8596"><div class="ttname"><a href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a></div><div class="ttdeci">struct MediatorContext_s MediatorContext</div></div>
+<div class="ttc" id="a_mediator_8hpp_html"><div class="ttname"><a href="_mediator_8hpp.html">Mediator.hpp</a></div></div>
+<div class="ttc" id="a_registry_8hpp_html"><div class="ttname"><a href="_registry_8hpp.html">Registry.hpp</a></div></div>
+<div class="ttc" id="a_server_game_8hpp_html_a7899b65f1ea0f655e4bbf8d2a5714285"><div class="ttname"><a href="_server_game_8hpp.html#a7899b65f1ea0f655e4bbf8d2a5714285">GameState</a></div><div class="ttdeci">GameState</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:51</div></div>
+<div class="ttc" id="a_server_game_8hpp_html_a7899b65f1ea0f655e4bbf8d2a5714285a531109fbee70c7b3d1196aff910e52a2"><div class="ttname"><a href="_server_game_8hpp.html#a7899b65f1ea0f655e4bbf8d2a5714285a531109fbee70c7b3d1196aff910e52a2">GameState::LOBBY</a></div><div class="ttdeci">@ LOBBY</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:52</div></div>
+<div class="ttc" id="a_server_game_8hpp_html_a7899b65f1ea0f655e4bbf8d2a5714285aa2e8a4a15de815a5b9e3830fa3b986d6"><div class="ttname"><a href="_server_game_8hpp.html#a7899b65f1ea0f655e4bbf8d2a5714285aa2e8a4a15de815a5b9e3830fa3b986d6">GameState::INGAME</a></div><div class="ttdeci">@ INGAME</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:53</div></div>
+<div class="ttc" id="a_server_network_8hpp_html"><div class="ttname"><a href="_server_network_8hpp.html">ServerNetwork.hpp</a></div></div>
+<div class="ttc" id="aclass_i_sender_html"><div class="ttname"><a href="class_i_sender.html">ISender</a></div><div class="ttdoc">Interface pour la gestion des communications réseau.</div><div class="ttdef"><b>Definition</b> ISender.hpp:36</div></div>
+<div class="ttc" id="aclass_mediator_html"><div class="ttname"><a href="class_mediator.html">Mediator</a></div><div class="ttdoc">Médiateur pour la communication entre le réseau et la logique de jeu.</div><div class="ttdef"><b>Definition</b> Mediator.hpp:51</div></div>
+<div class="ttc" id="aclass_server_game_html_a002e48608ff0a8cd0573269b8409ca65"><div class="ttname"><a href="class_server_game.html#a002e48608ff0a8cd0573269b8409ca65">ServerGame::io_thread_</a></div><div class="ttdeci">std::thread io_thread_</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:103</div></div>
+<div class="ttc" id="aclass_server_game_html_a0157100c7f7204cb8d870947d0b81e6f"><div class="ttname"><a href="class_server_game.html#a0157100c7f7204cb8d870947d0b81e6f">ServerGame::initTimers</a></div><div class="ttdeci">void initTimers(bool isAi)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:84</div></div>
+<div class="ttc" id="aclass_server_game_html_a0d2136187aa368d02f5bc66c2b1f85cf"><div class="ttname"><a href="class_server_game.html#a0d2136187aa368d02f5bc66c2b1f85cf">ServerGame::isColliding</a></div><div class="ttdeci">bool isColliding(const component::position &amp;pos1, const component::position &amp;pos2, const component::size &amp;size1, const component::size &amp;size2)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:614</div></div>
+<div class="ttc" id="aclass_server_game_html_a0d77a69ffbfb8610b6f184f34e6cf3dc"><div class="ttname"><a href="class_server_game.html#a0d77a69ffbfb8610b6f184f34e6cf3dc">ServerGame::io_context_</a></div><div class="ttdeci">boost::asio::io_context io_context_</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:104</div></div>
+<div class="ttc" id="aclass_server_game_html_a0dcb65cf6ca824c15b425d6e731ac7cb"><div class="ttname"><a href="class_server_game.html#a0dcb65cf6ca824c15b425d6e731ac7cb">ServerGame::handleStart</a></div><div class="ttdeci">void handleStart(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:730</div></div>
+<div class="ttc" id="aclass_server_game_html_a1a423e235953f6d20475467eca19f082"><div class="ttname"><a href="class_server_game.html#a1a423e235953f6d20475467eca19f082">ServerGame::win_timer_</a></div><div class="ttdeci">std::unique_ptr&lt; boost::asio::steady_timer &gt; win_timer_</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:114</div></div>
+<div class="ttc" id="aclass_server_game_html_a1a7ee30e7d98b35f9a1d64f571592f08"><div class="ttname"><a href="class_server_game.html#a1a7ee30e7d98b35f9a1d64f571592f08">ServerGame::collision_timer_</a></div><div class="ttdeci">std::unique_ptr&lt; boost::asio::steady_timer &gt; collision_timer_</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:109</div></div>
+<div class="ttc" id="aclass_server_game_html_a23d0eafb482d79b47a01424667889c1c"><div class="ttname"><a href="class_server_game.html#a23d0eafb482d79b47a01424667889c1c">ServerGame::ia_timer_</a></div><div class="ttdeci">std::unique_ptr&lt; boost::asio::steady_timer &gt; ia_timer_</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:111</div></div>
+<div class="ttc" id="aclass_server_game_html_a27d2fd45bc8c67c1a7c7b921f2f519ac"><div class="ttname"><a href="class_server_game.html#a27d2fd45bc8c67c1a7c7b921f2f519ac">ServerGame::med</a></div><div class="ttdeci">Mediator &amp; med</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:116</div></div>
+<div class="ttc" id="aclass_server_game_html_a2af577b648a7296cd06e70debdd1813b"><div class="ttname"><a href="class_server_game.html#a2af577b648a7296cd06e70debdd1813b">ServerGame::game_over_timer_</a></div><div class="ttdeci">std::unique_ptr&lt; boost::asio::steady_timer &gt; game_over_timer_</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:115</div></div>
+<div class="ttc" id="aclass_server_game_html_a3ad8af6b58cbd6b471e7911738093b61"><div class="ttname"><a href="class_server_game.html#a3ad8af6b58cbd6b471e7911738093b61">ServerGame::handleMoves</a></div><div class="ttdeci">void handleMoves(const std::string &amp;action, const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:693</div></div>
+<div class="ttc" id="aclass_server_game_html_a429c582fc2fce1fdd802208b51f77c68"><div class="ttname"><a href="class_server_game.html#a429c582fc2fce1fdd802208b51f77c68">ServerGame::StopAllTimers</a></div><div class="ttdeci">void StopAllTimers()</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:133</div></div>
+<div class="ttc" id="aclass_server_game_html_a445a8e55c08f2a3d5089e6250dcc252b"><div class="ttname"><a href="class_server_game.html#a445a8e55c08f2a3d5089e6250dcc252b">ServerGame::player_ia_timer_</a></div><div class="ttdeci">std::unique_ptr&lt; boost::asio::steady_timer &gt; player_ia_timer_</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:112</div></div>
+<div class="ttc" id="aclass_server_game_html_a4ae099b024b86fce2ac65ef7298e48f5"><div class="ttname"><a href="class_server_game.html#a4ae099b024b86fce2ac65ef7298e48f5">ServerGame::handleConciliation</a></div><div class="ttdeci">void handleConciliation(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:91</div></div>
+<div class="ttc" id="aclass_server_game_html_a52fe9325dc4644b455f6dfe03fa0a7e2"><div class="ttname"><a href="class_server_game.html#a52fe9325dc4644b455f6dfe03fa0a7e2">ServerGame::setup_powerup_timer</a></div><div class="ttdeci">void setup_powerup_timer(boost::asio::steady_timer &amp;powerup_timer)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:368</div></div>
+<div class="ttc" id="aclass_server_game_html_a53061845c1d2f6c61c314bc951eddadf"><div class="ttname"><a href="class_server_game.html#a53061845c1d2f6c61c314bc951eddadf">ServerGame::handleShoot</a></div><div class="ttdeci">void handleShoot(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:749</div></div>
+<div class="ttc" id="aclass_server_game_html_a690321c8aa58ea064479f8205d28df73"><div class="ttname"><a href="class_server_game.html#a690321c8aa58ea064479f8205d28df73">ServerGame::spawnPowerUp</a></div><div class="ttdeci">void spawnPowerUp(int powerup_type)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:380</div></div>
+<div class="ttc" id="aclass_server_game_html_a6da0ae753b4a7e2d6f5231949d22331d"><div class="ttname"><a href="class_server_game.html#a6da0ae753b4a7e2d6f5231949d22331d">ServerGame::setup_invincible_timer</a></div><div class="ttdeci">void setup_invincible_timer(boost::asio::steady_timer &amp;invincible_timer)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:222</div></div>
+<div class="ttc" id="aclass_server_game_html_a7932470ed83cb42d82debb8829a0956a"><div class="ttname"><a href="class_server_game.html#a7932470ed83cb42d82debb8829a0956a">ServerGame::setup_ia_player</a></div><div class="ttdeci">void setup_ia_player(boost::asio::steady_timer &amp;player_ia_timer)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:285</div></div>
+<div class="ttc" id="aclass_server_game_html_a7c9354c0ff3baa76239cd837eeeb33d7"><div class="ttname"><a href="class_server_game.html#a7c9354c0ff3baa76239cd837eeeb33d7">ServerGame::loadLuaScript</a></div><div class="ttdeci">void loadLuaScript(const std::string &amp;scriptPath)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:72</div></div>
+<div class="ttc" id="aclass_server_game_html_a808bd12bbd60a0e7eb6456ef2557309e"><div class="ttname"><a href="class_server_game.html#a808bd12bbd60a0e7eb6456ef2557309e">ServerGame::position_timer_</a></div><div class="ttdeci">std::unique_ptr&lt; boost::asio::steady_timer &gt; position_timer_</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:106</div></div>
+<div class="ttc" id="aclass_server_game_html_a8259d4631809e4ed436d8d340b841b1c"><div class="ttname"><a href="class_server_game.html#a8259d4631809e4ed436d8d340b841b1c">ServerGame::handleWin</a></div><div class="ttdeci">void handleWin(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:96</div></div>
+<div class="ttc" id="aclass_server_game_html_a88a8835c768204c6d8a415914572e136"><div class="ttname"><a href="class_server_game.html#a88a8835c768204c6d8a415914572e136">ServerGame::triple_shot_expiration_timer_</a></div><div class="ttdeci">std::unique_ptr&lt; boost::asio::steady_timer &gt; triple_shot_expiration_timer_</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:113</div></div>
+<div class="ttc" id="aclass_server_game_html_a89e6dc23de2213b7cfa7d8a894f509a3"><div class="ttname"><a href="class_server_game.html#a89e6dc23de2213b7cfa7d8a894f509a3">ServerGame::setup_position_timer</a></div><div class="ttdeci">void setup_position_timer(boost::asio::steady_timer &amp;position_timer)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:188</div></div>
+<div class="ttc" id="aclass_server_game_html_a9a2b4bb7a61cf272fae0d6ed1f13e59f"><div class="ttname"><a href="class_server_game.html#a9a2b4bb7a61cf272fae0d6ed1f13e59f">ServerGame::handleColision</a></div><div class="ttdeci">void handleColision(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:803</div></div>
+<div class="ttc" id="aclass_server_game_html_aa1aaafb4f5bd2691231d0bdedb079588"><div class="ttname"><a href="class_server_game.html#aa1aaafb4f5bd2691231d0bdedb079588">ServerGame::setup_iaMobs</a></div><div class="ttdeci">void setup_iaMobs(boost::asio::steady_timer &amp;ia_timer)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:242</div></div>
+<div class="ttc" id="aclass_server_game_html_aa301bdf3d57c0e3652d1e5fd1a338e17"><div class="ttname"><a href="class_server_game.html#aa301bdf3d57c0e3652d1e5fd1a338e17">ServerGame::setup_spawn_timer</a></div><div class="ttdeci">void setup_spawn_timer(boost::asio::steady_timer &amp;spawn_timer)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:356</div></div>
+<div class="ttc" id="aclass_server_game_html_aa711e9c4aa8c978c69edb6c650552ee7"><div class="ttname"><a href="class_server_game.html#aa711e9c4aa8c978c69edb6c650552ee7">ServerGame::state</a></div><div class="ttdeci">GameState state</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:117</div></div>
+<div class="ttc" id="aclass_server_game_html_aa71793ab63c408879071530b5b84b95a"><div class="ttname"><a href="class_server_game.html#aa71793ab63c408879071530b5b84b95a">ServerGame::handleDisconnect</a></div><div class="ttdeci">void handleDisconnect(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:677</div></div>
+<div class="ttc" id="aclass_server_game_html_aa765b93fcfaaa34a2e0240d2c21cbc41"><div class="ttname"><a href="class_server_game.html#aa765b93fcfaaa34a2e0240d2c21cbc41">ServerGame::handleMobShoot</a></div><div class="ttdeci">void handleMobShoot(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:95</div></div>
+<div class="ttc" id="aclass_server_game_html_aa778dd0e95fcbf7eeed3660bd2e65a1c"><div class="ttname"><a href="class_server_game.html#aa778dd0e95fcbf7eeed3660bd2e65a1c">ServerGame::ServerGame</a></div><div class="ttdeci">ServerGame(Mediator &amp;med)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:3</div></div>
+<div class="ttc" id="aclass_server_game_html_aa92ffce3705405b0387229748dd9ead6"><div class="ttname"><a href="class_server_game.html#aa92ffce3705405b0387229748dd9ead6">ServerGame::spawn_timer_</a></div><div class="ttdeci">std::unique_ptr&lt; boost::asio::steady_timer &gt; spawn_timer_</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:105</div></div>
+<div class="ttc" id="aclass_server_game_html_aa99390eeaadd29af06da639d8a9ef353"><div class="ttname"><a href="class_server_game.html#aa99390eeaadd29af06da639d8a9ef353">ServerGame::checkAllCollisions</a></div><div class="ttdeci">void checkAllCollisions()</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:436</div></div>
+<div class="ttc" id="aclass_server_game_html_aaad24ffb6e289d83b1bb7ab4a0cd4b10"><div class="ttname"><a href="class_server_game.html#aaad24ffb6e289d83b1bb7ab4a0cd4b10">ServerGame::setup_triple_shot_expiration_timer</a></div><div class="ttdeci">void setup_triple_shot_expiration_timer(boost::asio::steady_timer &amp;triple_shot_timer)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:307</div></div>
+<div class="ttc" id="aclass_server_game_html_ac0e504674b44308456795be7ebdbb92b"><div class="ttname"><a href="class_server_game.html#ac0e504674b44308456795be7ebdbb92b">ServerGame::lua</a></div><div class="ttdeci">sol::state lua</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:118</div></div>
+<div class="ttc" id="aclass_server_game_html_ac11805bef3774422a1b0235d47a7efed"><div class="ttname"><a href="class_server_game.html#ac11805bef3774422a1b0235d47a7efed">ServerGame::setup_game_over_timer</a></div><div class="ttdeci">void setup_game_over_timer(boost::asio::steady_timer &amp;game_over_timer)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:147</div></div>
+<div class="ttc" id="aclass_server_game_html_ac4bd21cf219e6eca5d8a63e0e5d799d9"><div class="ttname"><a href="class_server_game.html#ac4bd21cf219e6eca5d8a63e0e5d799d9">ServerGame::checkTripleShotExpiration</a></div><div class="ttdeci">void checkTripleShotExpiration()</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:622</div></div>
+<div class="ttc" id="aclass_server_game_html_aca51614bfef206efa6799e569ea0ddc1"><div class="ttname"><a href="class_server_game.html#aca51614bfef206efa6799e569ea0ddc1">ServerGame::showAllEnityAlive</a></div><div class="ttdeci">void showAllEnityAlive()</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:343</div></div>
+<div class="ttc" id="aclass_server_game_html_acae16d7810f9d074d675923f12a3f252"><div class="ttname"><a href="class_server_game.html#acae16d7810f9d074d675923f12a3f252">ServerGame::handleMobSpawn</a></div><div class="ttdeci">void handleMobSpawn(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:90</div></div>
+<div class="ttc" id="aclass_server_game_html_acd79a3f60be47cf497d56a814e7ad395"><div class="ttname"><a href="class_server_game.html#acd79a3f60be47cf497d56a814e7ad395">ServerGame::invincible_timer_</a></div><div class="ttdeci">std::unique_ptr&lt; boost::asio::steady_timer &gt; invincible_timer_</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:110</div></div>
+<div class="ttc" id="aclass_server_game_html_acd85147947f8c366cccf07b8d6674026"><div class="ttname"><a href="class_server_game.html#acd85147947f8c366cccf07b8d6674026">ServerGame::setup_collision_timer</a></div><div class="ttdeci">void setup_collision_timer(boost::asio::steady_timer &amp;collision_timer)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:210</div></div>
+<div class="ttc" id="aclass_server_game_html_ad912cf9f0032320a83deaf66f3f792b5"><div class="ttname"><a href="class_server_game.html#ad912cf9f0032320a83deaf66f3f792b5">ServerGame::conciliation_timer_</a></div><div class="ttdeci">std::unique_ptr&lt; boost::asio::steady_timer &gt; conciliation_timer_</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:107</div></div>
+<div class="ttc" id="aclass_server_game_html_adb1f2dd63462bdb3ff5847826f58a209"><div class="ttname"><a href="class_server_game.html#adb1f2dd63462bdb3ff5847826f58a209">ServerGame::powerup_timer_</a></div><div class="ttdeci">std::unique_ptr&lt; boost::asio::steady_timer &gt; powerup_timer_</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:108</div></div>
+<div class="ttc" id="aclass_server_game_html_adee9a2ff6c912279f5fdd114843b33ba"><div class="ttname"><a href="class_server_game.html#adee9a2ff6c912279f5fdd114843b33ba">ServerGame::reg</a></div><div class="ttdeci">registry reg</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:102</div></div>
+<div class="ttc" id="aclass_server_game_html_adf9d28b0bb99cd31ec005e81fa4128f4"><div class="ttname"><a href="class_server_game.html#adf9d28b0bb99cd31ec005e81fa4128f4">ServerGame::handleDeath</a></div><div class="ttdeci">void handleDeath(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:817</div></div>
+<div class="ttc" id="aclass_server_game_html_ae04b9882336139be7cc8649e27dba330"><div class="ttname"><a href="class_server_game.html#ae04b9882336139be7cc8649e27dba330">ServerGame::setup_conciliation_timer</a></div><div class="ttdeci">void setup_conciliation_timer(boost::asio::steady_timer &amp;conciliation_timer_)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:199</div></div>
+<div class="ttc" id="aclass_server_game_html_ae364e3e373cb38cf5bfcbc5b5697c61a"><div class="ttname"><a href="class_server_game.html#ae364e3e373cb38cf5bfcbc5b5697c61a">ServerGame::positionConciliation</a></div><div class="ttdeci">void positionConciliation()</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:319</div></div>
+<div class="ttc" id="aclass_server_game_html_ae514eed4a2f6db05b029be6ad8a9dede"><div class="ttname"><a href="class_server_game.html#ae514eed4a2f6db05b029be6ad8a9dede">ServerGame::handlePowerUpSpawn</a></div><div class="ttdeci">void handlePowerUpSpawn(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:92</div></div>
+<div class="ttc" id="aclass_server_game_html_ae618b046011fbfa5373127e48496b885"><div class="ttname"><a href="class_server_game.html#ae618b046011fbfa5373127e48496b885">ServerGame::areAllPlayersDead</a></div><div class="ttdeci">bool areAllPlayersDead()</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:166</div></div>
+<div class="ttc" id="aclass_server_game_html_aee4c62e6f6d9427eb126ce1c372b0446"><div class="ttname"><a href="class_server_game.html#aee4c62e6f6d9427eb126ce1c372b0446">ServerGame::spawnMob</a></div><div class="ttdeci">void spawnMob(int mob_type)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:408</div></div>
+<div class="ttc" id="aclass_server_game_html_af5b58d8ec51e6a8d9c1666754c403a21"><div class="ttname"><a href="class_server_game.html#af5b58d8ec51e6a8d9c1666754c403a21">ServerGame::handleLoose</a></div><div class="ttdeci">void handleLoose(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:97</div></div>
+<div class="ttc" id="aclass_server_game_html_af85a02b47d49444622e030da3175febe"><div class="ttname"><a href="class_server_game.html#af85a02b47d49444622e030da3175febe">ServerGame::handleScoreUpdate</a></div><div class="ttdeci">void handleScoreUpdate(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)</div><div class="ttdef"><b>Definition</b> ServerGame.hpp:99</div></div>
+<div class="ttc" id="aclass_server_game_html_af88752f99cb9c667a53595012ce39a01"><div class="ttname"><a href="class_server_game.html#af88752f99cb9c667a53595012ce39a01">ServerGame::handleConnect</a></div><div class="ttdeci">void handleConnect(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)</div><div class="ttdef"><b>Definition</b> ServerGame.cpp:644</div></div>
+<div class="ttc" id="aclassregistry_html"><div class="ttname"><a href="classregistry.html">registry</a></div><div class="ttdoc">Registre central du système ECS.</div><div class="ttdef"><b>Definition</b> Registry.hpp:61</div></div>
+<div class="ttc" id="astructcomponent_1_1position_html"><div class="ttname"><a href="structcomponent_1_1position.html">component::position</a></div><div class="ttdef"><b>Definition</b> Components.hpp:80</div></div>
+<div class="ttc" id="astructcomponent_1_1size_html"><div class="ttname"><a href="structcomponent_1_1size.html">component::size</a></div><div class="ttdef"><b>Definition</b> Components.hpp:103</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_075bb3ff235063c77951cd176d15a741.html">server</a></li><li class="navelem"><a class="el" href="_server_game_8hpp.html">ServerGame.hpp</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.1 </li>
+  </ul>
+</div>
+</body>
+</html>

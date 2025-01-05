@@ -1,0 +1,7 @@
+<map id="ServerNetwork::handleConciliation" name="ServerNetwork::handleConciliation">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,46,228,72"/>
+<area shape="rect" id="Node000002" href="$class_server_network.html#a9fd1b21ff45df9e1576a0a50a79bacd7" title=" " alt="" coords="276,5,449,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,43,260,37,261,42,216,48"/>
+<area shape="rect" id="Node000003" href="$class_server_network.html#a3cdc99eb8ed134a23329bf2d8f9c74d2" title=" " alt="" coords="283,71,442,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,70,268,76,267,81,220,75"/>
+</map>

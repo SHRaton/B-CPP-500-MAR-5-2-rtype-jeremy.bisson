@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>R-Type: Référence du fichier src/client/Utils.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">R-Type
+   </div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_utils_8hpp.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Espaces de nommage</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">Référence du fichier Utils.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;SFML/Graphics.hpp&gt;</code><br />
+<code>#include &lt;SFML/Window.hpp&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Graphe des dépendances par inclusion de Utils.hpp:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="_utils_8hpp__incl.svg" width="622" height="111"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+Ce graphe montre quels fichiers incluent directement ou indirectement ce fichier :</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="_utils_8hpp__dep__incl.svg" width="100%" height="493"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+</div>
+<p><a href="_utils_8hpp_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utils.html">Utils</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Classe utilitaire fournissant des fonctions communes.  <a href="class_utils.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Espaces de nommage</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_color.html">Color</a></td></tr>
+<tr class="memdesc:namespace_color"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace contenant les codes couleur pour l'affichage terminal. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a5f17e30618539f55680290c9be31967d" id="r_a5f17e30618539f55680290c9be31967d"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_color.html#a5f17e30618539f55680290c9be31967d">Color::RESET</a> = &quot;\033[0m&quot;</td></tr>
+<tr class="memdesc:a5f17e30618539f55680290c9be31967d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Réinitialise la couleur.  <br /></td></tr>
+<tr class="separator:a5f17e30618539f55680290c9be31967d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29bfda93a0cf8b1ec0fb44cf989d7eb0" id="r_a29bfda93a0cf8b1ec0fb44cf989d7eb0"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_color.html#a29bfda93a0cf8b1ec0fb44cf989d7eb0">Color::RED</a> = &quot;\033[31m&quot;</td></tr>
+<tr class="memdesc:a29bfda93a0cf8b1ec0fb44cf989d7eb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Couleur rouge.  <br /></td></tr>
+<tr class="separator:a29bfda93a0cf8b1ec0fb44cf989d7eb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad78a2985947b6bba7de20b94cd987808" id="r_ad78a2985947b6bba7de20b94cd987808"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_color.html#ad78a2985947b6bba7de20b94cd987808">Color::GREEN</a> = &quot;\033[32m&quot;</td></tr>
+<tr class="memdesc:ad78a2985947b6bba7de20b94cd987808"><td class="mdescLeft">&#160;</td><td class="mdescRight">Couleur verte.  <br /></td></tr>
+<tr class="separator:ad78a2985947b6bba7de20b94cd987808"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5acf2b5464b7be1be1bdb3635a69861f" id="r_a5acf2b5464b7be1be1bdb3635a69861f"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_color.html#a5acf2b5464b7be1be1bdb3635a69861f">Color::YELLOW</a> = &quot;\033[33m&quot;</td></tr>
+<tr class="memdesc:a5acf2b5464b7be1be1bdb3635a69861f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Couleur jaune.  <br /></td></tr>
+<tr class="separator:a5acf2b5464b7be1be1bdb3635a69861f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0e9bb7492ab063e23ff4ca400371fef" id="r_ae0e9bb7492ab063e23ff4ca400371fef"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_color.html#ae0e9bb7492ab063e23ff4ca400371fef">Color::BLUE</a> = &quot;\033[34m&quot;</td></tr>
+<tr class="memdesc:ae0e9bb7492ab063e23ff4ca400371fef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Couleur bleue.  <br /></td></tr>
+<tr class="separator:ae0e9bb7492ab063e23ff4ca400371fef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_6908ff505388a07996d238c763adbdab.html">client</a></li><li class="navelem"><a class="el" href="_utils_8hpp.html">Utils.hpp</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.1 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+<map id="ServerGame::setup_powerup_timer" name="ServerGame::setup_powerup_timer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,196,70"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="55,29,53,19,61,10,76,5,101,3,126,5,142,11,140,16,125,10,100,8,78,10,64,15,58,21,60,28"/>
+<area shape="rect" id="Node000002" href="$class_server_game.html#a690321c8aa58ea064479f8205d28df73" title=" " alt="" coords="244,37,438,62"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="196,47,228,47,228,52,196,52"/>
+</map>

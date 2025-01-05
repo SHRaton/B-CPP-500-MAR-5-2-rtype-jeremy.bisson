@@ -1,0 +1,8 @@
+<map id="ServerGame::setup_game_over_timer" name="ServerGame::setup_game_over_timer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,179,70"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="47,29,45,19,52,10,68,5,92,3,118,5,133,11,131,16,117,10,92,8,69,10,55,15,50,21,52,28"/>
+<area shape="rect" id="Node000002" href="$class_server_game.html#ae618b046011fbfa5373127e48496b885" title=" " alt="" coords="227,12,437,37"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,38,211,34,211,40,180,43"/>
+<area shape="rect" id="Node000003" href="$class_server_game.html#a429c582fc2fce1fdd802208b51f77c68" title=" " alt="" coords="240,61,424,86"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="180,56,225,60,224,66,179,61"/>
+</map>

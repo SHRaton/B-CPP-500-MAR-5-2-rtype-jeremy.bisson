@@ -1,0 +1,10 @@
+<map id="ServerGame::spawnMob" name="ServerGame::spawnMob">
+<area shape="rect" id="Node000001" title=" " alt="" coords="656,37,822,62"/>
+<area shape="rect" id="Node000002" href="$class_server_game.html#aa301bdf3d57c0e3652d1e5fd1a338e17" title=" " alt="" coords="429,29,608,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="641,52,609,52,609,47,641,47"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="554,16,541,10,519,8,498,10,485,15,481,21,483,28,478,29,476,19,482,10,497,5,519,3,542,5,556,11"/>
+<area shape="rect" id="Node000003" href="$class_server_game.html#a0157100c7f7204cb8d870947d0b81e6f" title=" " alt="" coords="222,37,381,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="414,52,381,52,381,47,414,47"/>
+<area shape="rect" id="Node000004" href="$class_server_game.html#a0dcb65cf6ca824c15b425d6e731ac7cb" title=" " alt="" coords="5,37,174,62"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="207,52,174,52,174,47,207,47"/>
+</map>

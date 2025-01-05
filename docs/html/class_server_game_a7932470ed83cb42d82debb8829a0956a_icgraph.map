@@ -1,0 +1,8 @@
+<map id="ServerGame::setup_ia_player" name="ServerGame::setup_ia_player">
+<area shape="rect" id="Node000001" title=" " alt="" coords="429,29,580,70"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="538,16,525,10,505,8,485,10,474,15,469,20,471,28,466,29,464,19,470,10,484,5,505,3,527,5,540,11"/>
+<area shape="rect" id="Node000002" href="$class_server_game.html#a0157100c7f7204cb8d870947d0b81e6f" title=" " alt="" coords="222,37,381,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="414,52,381,52,381,47,414,47"/>
+<area shape="rect" id="Node000003" href="$class_server_game.html#a0dcb65cf6ca824c15b425d6e731ac7cb" title=" " alt="" coords="5,37,174,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="207,52,174,52,174,47,207,47"/>
+</map>
