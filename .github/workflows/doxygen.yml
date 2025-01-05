@@ -2,14 +2,14 @@ name: Doxygen Documentation
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "doxygen" ]
     paths:
       - 'src/**'
       - 'includes/**'
       - 'docs/**'
       - 'Doxyfile'
   pull_request:
-    branches: [ "main" ]
+    branches: [ "doxygen" ]
     paths:
       - 'src/**'
       - 'includes/**'
