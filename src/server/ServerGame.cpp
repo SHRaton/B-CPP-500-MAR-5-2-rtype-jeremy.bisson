@@ -451,7 +451,7 @@ void ServerGame::checkAllCollisions()
                     } else if (types[i].value().type == 1) {
                         healths[j].value().hp += 10;
 
-                    } else if (types[i].value().type == 3) {
+                    } else if (types[i].value().type == 2) {
                         laser_shots[j].value().is_active = true;
                         laser_shots[j].value().activation_time = std::chrono::steady_clock::now();
                     }
@@ -470,7 +470,7 @@ void ServerGame::checkAllCollisions()
                         triple_shots[i].value().activation_time = std::chrono::steady_clock::now();
                     } else if (types[j].value().type == 1) {
                         healths[i].value().hp += 10;
-                    } else if (types[j].value().type == 3) {
+                    } else if (types[j].value().type == 2) {
                         laser_shots[i].value().is_active = true;
                         laser_shots[i].value().activation_time = std::chrono::steady_clock::now();
                     }
