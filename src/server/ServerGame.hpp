@@ -15,6 +15,42 @@
 #include "ServerNetwork.hpp"
 #include "Mediator.hpp"
 
+/**
+ * @brief Gère la logique de jeu côté serveur
+ * @class ServerGame
+ * 
+ * @details Cette classe gère toute la logique de jeu côté serveur, incluant
+ * la gestion des timers, des collisions, du spawn des monstres et des power-ups.
+ * Elle utilise Lua pour la configuration et la personnalisation du gameplay.
+ * 
+ * @startuml{ServerGame_class.png}
+ * class ServerGame {
+ * + reg: Registry
+ * - io_context_: boost::asio::io_context
+ * - timers: vector<unique_ptr<steady_timer>>
+ * - state: GameState
+ * - lua: sol::state
+ * + initTimers(isAi: bool)
+ * + spawnMob(mob_type: int)
+ * + spawnPowerUp(powerup_type: int)
+ * + checkAllCollisions()
+ * }
+ * 
+ * enum GameState {
+ * LOBBY
+ * INGAME
+ * }
+ * 
+ * ServerGame --|> ISender
+ * ServerGame *-- GameState
+ * ServerGame o-- Registry
+ * @enduml
+ * 
+ * @see ISender
+ * @see Registry
+ * @see Mediator
+ */
+
 enum class GameState{
     LOBBY,
     INGAME

@@ -5,6 +5,36 @@
 #include <algorithm>
 #include <memory>
 
+/**
+ * @brief Tableau clairsemé générique pour stocker des composants
+ * @class sparse_array
+ * @tparam Component Type du composant à stocker
+ * 
+ * @details Cette classe implémente un tableau clairsemé utilisé pour stocker
+ * efficacement les composants dans le système ECS.
+ * 
+ * @startuml
+ * class sparse_array<Component> {
+ * + using value_type = std::optional<Component>
+ * + using reference_type = value_type&
+ * + using container_t = std::vector<value_type>
+ * 
+ * + sparse_array()
+ * + operator[](size_t): reference_type
+ * + begin(): iterator
+ * + end(): iterator
+ * + size(): size_type
+ * + insert_at(size_type, Component): reference_type
+ * + emplace_at(size_type, Args...): reference_type
+ * + erase(size_type): void
+ * + get_index(value_type): size_type
+ * 
+ * - container_t _data
+ * }
+ * 
+ * sparse_array o-- "0..*" Component : contains
+ * @enduml
+ */
 
 template <typename Component>
 class sparse_array {

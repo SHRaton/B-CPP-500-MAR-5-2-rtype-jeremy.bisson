@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>R-Type:  Fichier source de src/server/ISender.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">R-Type
+   </div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_i_sender_8hpp_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ISender.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_i_sender_8hpp.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;boost/asio.hpp&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="};">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="struct_mediator_context__s.html">   32</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="struct_mediator_context__s.html">MediatorContext_s</a> {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="struct_mediator_context__s.html#ae3bf358946efae8af8a122dd665ad72d">   33</a></span>    boost::asio::ip::udp::endpoint <a class="code hl_variable" href="struct_mediator_context__s.html#ae3bf358946efae8af8a122dd665ad72d">client</a>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">   34</a></span>} <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>;</div>
+</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="};">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="class_i_sender.html">   36</a></span><span class="keyword">class </span><a class="code hl_class" href="class_i_sender.html">ISender</a> {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="class_i_sender.html#a909fa31c5795b57a0b30653f70ed4424">   38</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_sender.html#a909fa31c5795b57a0b30653f70ed4424">handleConnect</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params) = 0;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="class_i_sender.html#a1d116b374ecf92e7a4f7676a9c76632b">   39</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_sender.html#a1d116b374ecf92e7a4f7676a9c76632b">handleDisconnect</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params) = 0;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="class_i_sender.html#abd520f03d12b4f640f34c842a90d722c">   40</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_sender.html#abd520f03d12b4f640f34c842a90d722c">handleMoves</a>(<span class="keyword">const</span> std::string&amp; action, <span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params) = 0;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="class_i_sender.html#a9985f5758727fbd5ab64a54966d2f2b8">   41</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_sender.html#a9985f5758727fbd5ab64a54966d2f2b8">handleShoot</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params) = 0;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="class_i_sender.html#ad6d589580424de623954c0e33381e4db">   42</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_sender.html#ad6d589580424de623954c0e33381e4db">handleMobSpawn</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params) = 0;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="class_i_sender.html#a8eebd2037e49f6406f34f2c88f9c9a0f">   43</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_sender.html#a8eebd2037e49f6406f34f2c88f9c9a0f">handleConciliation</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params) = 0;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="class_i_sender.html#a9b2df77070352c4f2daeffec7c70e64a">   44</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_sender.html#a9b2df77070352c4f2daeffec7c70e64a">handlePowerUpSpawn</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params) = 0;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="class_i_sender.html#ab2109f6d4d357dcbea0cae00d5cb730f">   45</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_sender.html#ab2109f6d4d357dcbea0cae00d5cb730f">handleColision</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params) = 0;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="class_i_sender.html#afea88c6866845fe6f646e8916675a13f">   46</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_sender.html#afea88c6866845fe6f646e8916675a13f">handleDeath</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params) = 0;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="class_i_sender.html#af0017e5329a36e09124f253cee258e58">   47</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_sender.html#af0017e5329a36e09124f253cee258e58">handleMobShoot</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params) = 0;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="class_i_sender.html#a1f7681bfe9a68a91016cd9881a593b37">   48</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_sender.html#a1f7681bfe9a68a91016cd9881a593b37">handleWin</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params) = 0;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="class_i_sender.html#a5729fd6d3274986515edc95270e72e56">   49</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_sender.html#a5729fd6d3274986515edc95270e72e56">handleLoose</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params) = 0;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="class_i_sender.html#a341a1715187e76a14f6a2b8d2613024c">   50</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_sender.html#a341a1715187e76a14f6a2b8d2613024c">handleStart</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params) = 0;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="class_i_sender.html#a655968419d649a9fbed24ef52f797cc0">   51</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_sender.html#a655968419d649a9fbed24ef52f797cc0">handleScoreUpdate</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params) = 0;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="class_i_sender.html#a62e5c0a9d446677a018906d17c49eae9">   52</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="class_i_sender.html#a62e5c0a9d446677a018906d17c49eae9">~ISender</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>};</div>
+</div>
+<div class="ttc" id="a_i_sender_8hpp_html_a7b5d12ac65832405aa23caddc57e8596"><div class="ttname"><a href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a></div><div class="ttdeci">struct MediatorContext_s MediatorContext</div></div>
+<div class="ttc" id="aclass_i_sender_html"><div class="ttname"><a href="class_i_sender.html">ISender</a></div><div class="ttdoc">Interface pour la gestion des communications réseau.</div><div class="ttdef"><b>Definition</b> ISender.hpp:36</div></div>
+<div class="ttc" id="aclass_i_sender_html_a1d116b374ecf92e7a4f7676a9c76632b"><div class="ttname"><a href="class_i_sender.html#a1d116b374ecf92e7a4f7676a9c76632b">ISender::handleDisconnect</a></div><div class="ttdeci">virtual void handleDisconnect(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)=0</div></div>
+<div class="ttc" id="aclass_i_sender_html_a1f7681bfe9a68a91016cd9881a593b37"><div class="ttname"><a href="class_i_sender.html#a1f7681bfe9a68a91016cd9881a593b37">ISender::handleWin</a></div><div class="ttdeci">virtual void handleWin(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)=0</div></div>
+<div class="ttc" id="aclass_i_sender_html_a341a1715187e76a14f6a2b8d2613024c"><div class="ttname"><a href="class_i_sender.html#a341a1715187e76a14f6a2b8d2613024c">ISender::handleStart</a></div><div class="ttdeci">virtual void handleStart(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)=0</div></div>
+<div class="ttc" id="aclass_i_sender_html_a5729fd6d3274986515edc95270e72e56"><div class="ttname"><a href="class_i_sender.html#a5729fd6d3274986515edc95270e72e56">ISender::handleLoose</a></div><div class="ttdeci">virtual void handleLoose(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)=0</div></div>
+<div class="ttc" id="aclass_i_sender_html_a62e5c0a9d446677a018906d17c49eae9"><div class="ttname"><a href="class_i_sender.html#a62e5c0a9d446677a018906d17c49eae9">ISender::~ISender</a></div><div class="ttdeci">virtual ~ISender()=default</div></div>
+<div class="ttc" id="aclass_i_sender_html_a655968419d649a9fbed24ef52f797cc0"><div class="ttname"><a href="class_i_sender.html#a655968419d649a9fbed24ef52f797cc0">ISender::handleScoreUpdate</a></div><div class="ttdeci">virtual void handleScoreUpdate(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)=0</div></div>
+<div class="ttc" id="aclass_i_sender_html_a8eebd2037e49f6406f34f2c88f9c9a0f"><div class="ttname"><a href="class_i_sender.html#a8eebd2037e49f6406f34f2c88f9c9a0f">ISender::handleConciliation</a></div><div class="ttdeci">virtual void handleConciliation(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)=0</div></div>
+<div class="ttc" id="aclass_i_sender_html_a909fa31c5795b57a0b30653f70ed4424"><div class="ttname"><a href="class_i_sender.html#a909fa31c5795b57a0b30653f70ed4424">ISender::handleConnect</a></div><div class="ttdeci">virtual void handleConnect(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)=0</div></div>
+<div class="ttc" id="aclass_i_sender_html_a9985f5758727fbd5ab64a54966d2f2b8"><div class="ttname"><a href="class_i_sender.html#a9985f5758727fbd5ab64a54966d2f2b8">ISender::handleShoot</a></div><div class="ttdeci">virtual void handleShoot(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)=0</div></div>
+<div class="ttc" id="aclass_i_sender_html_a9b2df77070352c4f2daeffec7c70e64a"><div class="ttname"><a href="class_i_sender.html#a9b2df77070352c4f2daeffec7c70e64a">ISender::handlePowerUpSpawn</a></div><div class="ttdeci">virtual void handlePowerUpSpawn(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)=0</div></div>
+<div class="ttc" id="aclass_i_sender_html_ab2109f6d4d357dcbea0cae00d5cb730f"><div class="ttname"><a href="class_i_sender.html#ab2109f6d4d357dcbea0cae00d5cb730f">ISender::handleColision</a></div><div class="ttdeci">virtual void handleColision(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)=0</div></div>
+<div class="ttc" id="aclass_i_sender_html_abd520f03d12b4f640f34c842a90d722c"><div class="ttname"><a href="class_i_sender.html#abd520f03d12b4f640f34c842a90d722c">ISender::handleMoves</a></div><div class="ttdeci">virtual void handleMoves(const std::string &amp;action, const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)=0</div></div>
+<div class="ttc" id="aclass_i_sender_html_ad6d589580424de623954c0e33381e4db"><div class="ttname"><a href="class_i_sender.html#ad6d589580424de623954c0e33381e4db">ISender::handleMobSpawn</a></div><div class="ttdeci">virtual void handleMobSpawn(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)=0</div></div>
+<div class="ttc" id="aclass_i_sender_html_af0017e5329a36e09124f253cee258e58"><div class="ttname"><a href="class_i_sender.html#af0017e5329a36e09124f253cee258e58">ISender::handleMobShoot</a></div><div class="ttdeci">virtual void handleMobShoot(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)=0</div></div>
+<div class="ttc" id="aclass_i_sender_html_afea88c6866845fe6f646e8916675a13f"><div class="ttname"><a href="class_i_sender.html#afea88c6866845fe6f646e8916675a13f">ISender::handleDeath</a></div><div class="ttdeci">virtual void handleDeath(const MediatorContext &amp;context, const std::vector&lt; std::string &gt; &amp;params)=0</div></div>
+<div class="ttc" id="astruct_mediator_context__s_html"><div class="ttname"><a href="struct_mediator_context__s.html">MediatorContext_s</a></div><div class="ttdef"><b>Definition</b> ISender.hpp:32</div></div>
+<div class="ttc" id="astruct_mediator_context__s_html_ae3bf358946efae8af8a122dd665ad72d"><div class="ttname"><a href="struct_mediator_context__s.html#ae3bf358946efae8af8a122dd665ad72d">MediatorContext_s::client</a></div><div class="ttdeci">boost::asio::ip::udp::endpoint client</div><div class="ttdef"><b>Definition</b> ISender.hpp:33</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_075bb3ff235063c77951cd176d15a741.html">server</a></li><li class="navelem"><a class="el" href="_i_sender_8hpp.html">ISender.hpp</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.1 </li>
+  </ul>
+</div>
+</body>
+</html>

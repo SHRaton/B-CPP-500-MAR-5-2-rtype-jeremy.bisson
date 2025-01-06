@@ -1,0 +1,6 @@
+<map id="UDPNetworkClient::start_receive" name="UDPNetworkClient::start_receive">
+<area shape="rect" id="Node000001" title=" " alt="" coords="273,29,440,70"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="396,16,381,10,356,8,333,10,319,15,314,21,316,28,311,29,309,19,316,10,332,5,356,3,382,5,398,11"/>
+<area shape="rect" id="Node000002" href="$class_u_d_p_network_client.html#a728b74834b618daa97c7c4d5ad7baa88" title=" " alt="" coords="5,29,225,70"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="257,52,225,52,225,47,257,47"/>
+</map>

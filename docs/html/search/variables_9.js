@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['ia_5ftimer_5f_0',['ia_timer_',['../class_server_game.html#a23d0eafb482d79b47a01424667889c1c',1,'ServerGame']]],
+  ['id_1',['id',['../struct_core_1_1_player_info.html#a937a9c3a14a49994cf6437988a81d070',1,'Core::PlayerInfo::id'],['../class_entity.html#acb52e3e254e5a92aebb3c3ac35b14608',1,'Entity::id']]],
+  ['inputstate_2',['inputState',['../class_core.html#a067952d8ce09ed7c5d198edeb538903b',1,'Core']]],
+  ['invincible_5ftimer_5f_3',['invincible_timer_',['../class_server_game.html#acd79a3f60be47cf497d56a814e7ad395',1,'ServerGame']]],
+  ['invulnerability_5ftimer_5f_4',['invulnerability_timer_',['../class_core.html#aef95ef5afd338c670e4149362e4a7215',1,'Core']]],
+  ['io_5fcontext_5f_5',['io_context_',['../class_core.html#a70201f1cfe54541ad689a0b589981b82',1,'Core::io_context_'],['../class_server_game.html#a0d77a69ffbfb8610b6f184f34e6cf3dc',1,'ServerGame::io_context_'],['../class_server_network.html#a40894bb02c0409d16b18c19d9f9713b6',1,'ServerNetwork::io_context_']]],
+  ['io_5fthread_5f_6',['io_thread_',['../class_core.html#a497f6422a011ce626aa84c8306988a4c',1,'Core::io_thread_'],['../class_server_game.html#a002e48608ff0a8cd0573269b8409ca65',1,'ServerGame::io_thread_']]],
+  ['is_5factive_7',['is_active',['../structcomponent_1_1triple__shot.html#acad329aaf1480f30fa38e67e30a918e9',1,'component::triple_shot']]],
+  ['is_5fcontrollable_8',['is_controllable',['../structcomponent_1_1controllable.html#aa8a5b4a5dd959a80c0749ea4a9caf61e',1,'component::controllable']]],
+  ['is_5finvincible_9',['is_invincible',['../structcomponent_1_1invincible.html#a1459a0c06a511ef568706fc1dcdb0a9b',1,'component::invincible']]],
+  ['isdead_10',['isDead',['../class_core.html#a0d3e4cd75845a4f1dd525caefb2ba6c8',1,'Core']]],
+  ['isgamebackground_11',['isGameBackground',['../class_sprite.html#a519c7105ba917b6bd44690d7f31f5f12',1,'Sprite']]],
+  ['ishoverable_12',['isHoverable',['../class_sprite.html#a8cbcbafad59653f07aacda6bf1d108ff',1,'Sprite']]],
+  ['ishovered_13',['isHovered',['../class_sprite.html#aa146f0b8d1ea70354cfa740b100f91b5',1,'Sprite']]],
+  ['isready_14',['isReady',['../struct_core_1_1_player_info.html#ad2963a682c9dfe992a8c320f4e2b6d9a',1,'Core::PlayerInfo']]],
+  ['isscrolling_15',['isScrolling',['../class_sprite.html#afeeb16056d3c12343bc8eb127afeeb39',1,'Sprite']]]
+];

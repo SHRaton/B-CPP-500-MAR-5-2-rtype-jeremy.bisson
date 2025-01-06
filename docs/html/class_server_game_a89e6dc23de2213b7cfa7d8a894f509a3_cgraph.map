@@ -1,0 +1,8 @@
+<map id="ServerGame::setup_position_timer" name="ServerGame::setup_position_timer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,192,70"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="55,29,53,19,60,10,75,5,99,3,123,5,138,11,136,16,122,10,98,8,77,10,63,15,58,21,60,28"/>
+<area shape="rect" id="Node000002" href="$class_systems.html#a310d4de4ff4f8212b2ded614e411d102" title=" " alt="" coords="240,37,416,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,47,224,47,224,52,192,52"/>
+<area shape="rect" id="Node000003" href="$classregistry.html#a3866ee276a5a1d78d00cd403e8e8c7d9" title=" " alt="" coords="464,37,632,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="416,47,448,47,448,52,416,52"/>
+</map>

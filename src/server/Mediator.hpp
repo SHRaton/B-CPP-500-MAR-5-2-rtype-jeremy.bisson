@@ -7,6 +7,41 @@
 #include <vector>
 #include <boost/asio.hpp>
 
+/**
+ * @brief Médiateur pour la communication entre le réseau et la logique de jeu
+ * @class Mediator
+ * 
+ * @details Cette classe implémente le pattern Mediator pour faciliter la communication
+ * entre les composants réseau et la logique de jeu. Elle permet de découpler ces
+ * composants tout en assurant leur synchronisation.
+ * 
+ * @startuml{Mediator_pattern.png}
+ * class Mediator {
+ * + network: ISender*
+ * + game: ISender*
+ * + notify(sender: Sender, action: string, params: vector<string>, context: MediatorContext)
+ * + register_network(network: ISender*)
+ * + register_game(game: ISender*)
+ * }
+ * 
+ * enum Sender {
+ * NETWORK
+ * GAME
+ * }
+ * 
+ * interface ISender {
+ * }
+ * 
+ * ServerNetwork --|> ISender
+ * ServerGame --|> ISender
+ * Mediator o-- ISender
+ * Mediator o-- Sender
+ * @enduml
+ * 
+ * @see ISender
+ * @see ServerNetwork
+ * @see ServerGame
+ */
 
 enum class Sender {
     NETWORK,

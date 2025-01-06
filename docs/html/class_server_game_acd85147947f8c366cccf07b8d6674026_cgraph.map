@@ -1,0 +1,13 @@
+<map id="ServerGame::setup_collision_timer" name="ServerGame::setup_collision_timer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,47,194,88"/>
+<area shape="poly" id="edge6_Node000001_Node000001" title=" " alt="" coords="53,47,51,37,59,28,75,23,100,21,126,23,142,29,140,34,125,28,99,26,76,28,61,33,56,38,58,46"/>
+<area shape="rect" id="Node000002" href="$class_server_game.html#aa99390eeaadd29af06da639d8a9ef353" title=" " alt="" coords="242,55,451,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,65,226,65,226,70,194,70"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="306,56,298,46,302,36,319,30,346,28,377,31,392,38,390,43,376,36,346,33,320,35,306,40,303,45,310,53"/>
+<area shape="rect" id="Node000003" href="$class_server_game.html#a9a2b4bb7a61cf272fae0d6ed1f13e59f" title=" " alt="" coords="499,5,686,31"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="414,51,509,32,510,37,415,57"/>
+<area shape="rect" id="Node000004" href="$class_server_game.html#adf9d28b0bb99cd31ec005e81fa4128f4" title=" " alt="" coords="505,55,680,80"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="451,65,489,65,489,70,451,70"/>
+<area shape="rect" id="Node000005" href="$class_server_game.html#a0d2136187aa368d02f5bc66c2b1f85cf" title=" " alt="" coords="512,104,674,130"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="415,78,510,98,509,103,414,84"/>
+</map>

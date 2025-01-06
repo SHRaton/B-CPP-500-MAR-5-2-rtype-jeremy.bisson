@@ -1,0 +1,7 @@
+<map id="Graphe hiérarchique des classes" name="Graphe hiérarchique des classes">
+<area shape="rect" id="Node000000" href="$class_i_sender.html" title="Interface pour la gestion des communications réseau." alt="" coords="5,31,72,56"/>
+<area shape="rect" id="Node000001" href="$class_server_game.html" title="Gère la logique de jeu côté serveur." alt="" coords="127,5,221,31"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="87,32,126,24,127,30,88,37"/>
+<area shape="rect" id="Node000002" href="$class_server_network.html" title="Gère la communication réseau du serveur." alt="" coords="120,55,228,80"/>
+<area shape="poly" id="edge2_Node000000_Node000002" title=" " alt="" coords="88,49,120,55,119,60,87,55"/>
+</map>

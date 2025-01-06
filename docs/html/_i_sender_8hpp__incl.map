@@ -1,0 +1,9 @@
+<map id="src/server/ISender.hpp" name="src/server/ISender.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="38,5,190,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,63,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,34,60,71,57,67,99,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="87,79,141,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="117,31,117,63,111,63,111,31"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="165,79,271,105"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="133,29,189,68,186,72,130,34"/>
+</map>
