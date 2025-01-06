@@ -4,4 +4,5 @@ target_link_libraries(r-type_server
     sfml-graphics 
     boost::boost 
     lua::lua 
-    sol2::sol2)
+    sol2::sol2
+    nlohmann_json::nlohmann_json)

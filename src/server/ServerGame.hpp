@@ -1,6 +1,9 @@
 #pragma once
 #include <boost/asio.hpp>
 #include <sol/sol.hpp>
+#include <nlohmann/json.hpp>
+#include <iostream>
+#include <fstream>
 #include <string>
 #include <thread>
 #include <map>
@@ -53,6 +56,15 @@ enum class GameState{
     INGAME
 };
 
+class JsonEntity {
+    public:
+        std::string type;
+        std::string subtype;
+        float x;
+        float y;
+        std::string behavior;
+};
+
 class ServerGame : public ISender {
     public:
         ServerGame(Mediator &med);
@@ -62,8 +74,6 @@ class ServerGame : public ISender {
         void positionConciliation();
         void setup_conciliation_timer(boost::asio::steady_timer& conciliation_timer_);
         void setup_position_timer(boost::asio::steady_timer& position_timer);
-        void setup_spawn_timer(boost::asio::steady_timer& spawn_timer);
-        void setup_powerup_timer(boost::asio::steady_timer& powerup_timer);
         void setup_collision_timer(boost::asio::steady_timer& collision_timer);
         void setup_invincible_timer(boost::asio::steady_timer& invincible_timer);
         void setup_iaMobs(boost::asio::steady_timer& ia_timer);
@@ -74,8 +84,8 @@ class ServerGame : public ISender {
         void setup_force_shot_timer(boost::asio::steady_timer& force_shot_timer);
 
 
-        void spawnMob(int mob_type);
-        void spawnPowerUp(int powerup_type);
+        void spawnMob(JsonEntity entity);
+        void spawnPowerUp(JsonEntity entity);
         void checkAllCollisions();
         bool isColliding(const component::position& pos1, const component::position& pos2, const component::size& size1, const component::size& size2);
         void checkTripleShotExpiration();
@@ -83,6 +93,7 @@ class ServerGame : public ISender {
         bool areAllPlayersDead();
         void showAllEnityAlive();
         void loadLuaScript(const std::string& scriptPath);
+        void loadJson(const std::string& jsonPath);
 
 
         //Chaque fonction doit se terminer par un appel à la classe Mediator
@@ -105,10 +116,8 @@ class ServerGame : public ISender {
         registry reg;
         std::thread io_thread_;
         boost::asio::io_context io_context_;
-        std::unique_ptr<boost::asio::steady_timer> spawn_timer_;
         std::unique_ptr<boost::asio::steady_timer> position_timer_;
         std::unique_ptr<boost::asio::steady_timer> conciliation_timer_;
-        std::unique_ptr<boost::asio::steady_timer> powerup_timer_;
         std::unique_ptr<boost::asio::steady_timer> collision_timer_;
         std::unique_ptr<boost::asio::steady_timer> invincible_timer_;
         std::unique_ptr<boost::asio::steady_timer> ia_timer_;
@@ -118,6 +127,7 @@ class ServerGame : public ISender {
         std::unique_ptr<boost::asio::steady_timer> force_shot_timer_;
         std::unique_ptr<boost::asio::steady_timer> win_timer_;
         std::unique_ptr<boost::asio::steady_timer> game_over_timer_;
+        std::vector<JsonEntity> allEntities;
         Mediator &med;
         GameState state;
         sol::state lua; // Machine virtuelle Lua avec sol2
