@@ -1,0 +1,7 @@
+<map id="ISender" name="ISender">
+<area shape="rect" id="Node000001" title="Interface pour la gestion des communications réseau." alt="" coords="116,5,280,356"/>
+<area shape="rect" id="Node000002" href="$class_server_game.html" title="Gère la logique de jeu côté serveur." alt="" coords="5,404,191,1553"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,372,173,405,168,404,172,371"/>
+<area shape="rect" id="Node000003" href="$class_server_network.html" title="Gère la communication réseau du serveur." alt="" coords="215,671,384,1286"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,371,263,671,258,671,220,371"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="UDPNetworkClient::process_send_queue" name="UDPNetworkClient::process_send_queue">
+<area shape="rect" id="Node000001" title=" " alt="" coords="223,29,410,70"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="353,16,339,10,316,8,295,10,282,15,277,21,279,28,274,29,272,19,279,10,294,5,316,3,341,5,355,11"/>
+<area shape="rect" id="Node000002" href="$class_u_d_p_network_client.html#a2a630cb0943dc55aeddb3147bfcad15a" title=" " alt="" coords="5,37,175,62"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="207,52,175,52,175,47,207,47"/>
+</map>

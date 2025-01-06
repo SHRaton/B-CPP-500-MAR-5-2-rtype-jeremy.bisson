@@ -1,0 +1,12 @@
+<map id="ServerGame::showAllEnityAlive" name="ServerGame::showAllEnityAlive">
+<area shape="rect" id="Node000001" title=" " alt="" coords="947,29,1125,70"/>
+<area shape="rect" id="Node000002" href="$class_server_game.html#ae364e3e373cb38cf5bfcbc5b5697c61a" title=" " alt="" coords="683,37,899,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="931,52,899,52,899,47,931,47"/>
+<area shape="rect" id="Node000003" href="$class_server_game.html#ae04b9882336139be7cc8649e27dba330" title=" " alt="" coords="429,29,635,70"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="668,52,636,52,636,47,668,47"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="570,16,556,10,532,8,510,10,497,15,492,21,494,28,489,29,487,19,494,10,509,5,532,3,557,5,572,11"/>
+<area shape="rect" id="Node000004" href="$class_server_game.html#a0157100c7f7204cb8d870947d0b81e6f" title=" " alt="" coords="222,37,381,62"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="413,52,381,52,381,47,413,47"/>
+<area shape="rect" id="Node000005" href="$class_server_game.html#a0dcb65cf6ca824c15b425d6e731ac7cb" title=" " alt="" coords="5,37,174,62"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="207,52,174,52,174,47,207,47"/>
+</map>

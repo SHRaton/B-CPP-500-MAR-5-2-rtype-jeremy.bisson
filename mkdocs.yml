@@ -6,13 +6,25 @@ site_author: "Epitech Marseille"
 # Theme
 theme: readthedocs
 
-
 # Markdown extensions
 markdown_extensions:
   - admonition
-  - footnotes
+  - footnotes 
   - attr_list
   - def_list
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+# Plugins
+plugins:
+  - search
+
+# Additional JavaScript
+extra_javascript:
+  - https://unpkg.com/mermaid@8.8.0/dist/mermaid.min.js  # Version spécifique plus stable
 
 # Repository
 repo_url: https://github.com/EpitechPromo2027/B-CPP-500-MAR-5-2-rtype-jeremy.bisson

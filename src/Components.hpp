@@ -6,6 +6,63 @@
 #include <vector>
 #include <chrono>
 
+/**
+ * @brief Namespace contenant tous les composants du jeu
+ * @namespace component
+ * 
+ * @startuml{Components_diagram.png}
+ * namespace component {
+ *   struct health {
+ *     + int hp
+ *   }
+ *   
+ *   struct type {
+ *     + int type
+ *   }
+ *   
+ *   struct damage {
+ *     + int dmg
+ *   }
+ *   
+ *   struct position {
+ *     + int x
+ *     + int y
+ *   }
+ *   
+ *   struct velocity {
+ *     + int vx
+ *     + int vy
+ *   }
+ *   
+ *   struct drawable {
+ *     + sf::Sprite sprite
+ *   }
+ *   
+ *   struct controllable {
+ *     + bool is_controllable
+ *   }
+ *   
+ *   struct invincible {
+ *     + bool is_invincible
+ *     + time_point expiration_time
+ *   }
+ *   
+ *   struct size {
+ *     + int width
+ *     + int height
+ *   }
+ *   
+ *   struct triple_shot {
+ *     + bool is_active
+ *     + time_point activation_time
+ *   }
+ *   
+ *   struct score {
+ *     + int value
+ *   }
+ * }
+ * @enduml
+ */
 
 namespace component{
     typedef struct health {

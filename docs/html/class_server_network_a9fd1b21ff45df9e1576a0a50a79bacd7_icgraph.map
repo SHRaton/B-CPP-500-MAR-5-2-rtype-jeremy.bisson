@@ -1,0 +1,31 @@
+<map id="ServerNetwork::broadcast_message" name="ServerNetwork::broadcast_message">
+<area shape="rect" id="Node000001" title=" " alt="" coords="276,335,449,376"/>
+<area shape="rect" id="Node000002" href="$class_server_network.html#a1c91e08801ba76aa20efc6888abb7a48" title=" " alt="" coords="16,5,217,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="354,320,342,260,318,184,302,146,281,108,256,74,226,44,209,34,212,29,229,40,260,70,285,105,306,143,323,183,347,258,359,319"/>
+<area shape="rect" id="Node000003" href="$class_server_network.html#ad5e6277766251d35ad164eaa67bcb1a1" title=" " alt="" coords="5,55,228,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="351,321,336,269,311,207,275,145,252,118,226,94,209,83,211,79,229,89,256,114,279,142,316,205,341,268,356,319"/>
+<area shape="rect" id="Node000004" href="$class_server_network.html#ae4666ab9a21539961cd8e785870a3ede" title=" " alt="" coords="15,104,218,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="347,322,329,280,303,231,269,183,226,143,207,133,210,128,229,139,273,180,308,228,334,278,352,320"/>
+<area shape="rect" id="Node000005" href="$class_server_network.html#aa42240c25e134fd7e2565e14e798b905" title=" " alt="" coords="22,153,211,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="341,323,295,255,263,221,226,192,205,182,207,177,229,188,267,217,299,252,345,320"/>
+<area shape="rect" id="Node000006" href="$class_server_network.html#a0b8c7bfca891518237407c9920452311" title=" " alt="" coords="6,203,227,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="331,326,285,282,257,260,226,242,200,231,202,226,229,237,260,256,288,277,335,322"/>
+<area shape="rect" id="Node000007" href="$class_server_network.html#a12678206eaf4316b7b68ce668508ed3c" title=" " alt="" coords="22,252,211,278"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="310,330,227,293,186,281,188,276,229,288,312,325"/>
+<area shape="rect" id="Node000008" href="$class_server_network.html#a5ab5a9bed79b65874f76aa6c5ed40743" title=" " alt="" coords="27,302,206,342"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="260,344,206,337,207,332,261,339"/>
+<area shape="rect" id="Node000009" href="$class_server_network.html#aa1ed44b7d06675729cb35f9a74ae740d" title=" " alt="" coords="27,367,206,408"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="261,371,207,378,206,373,260,366"/>
+<area shape="rect" id="Node000010" href="$class_server_network.html#a654fad8fc2f8e89626e85962190310ca" title=" " alt="" coords="20,432,213,458"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="311,386,229,422,187,434,186,429,227,417,309,381"/>
+<area shape="rect" id="Node000011" href="$class_server_network.html#aaaff2bc828499bcded8401145ee061de" title=" " alt="" coords="21,482,212,522"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="333,389,287,432,229,472,204,484,202,479,226,468,284,428,330,385"/>
+<area shape="rect" id="Node000012" href="$class_server_network.html#ae97dff6741dbd38aaa2c4121d735851b" title=" " alt="" coords="22,547,211,588"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="346,391,300,464,267,503,229,536,207,549,204,544,226,532,264,499,296,461,342,388"/>
+<area shape="rect" id="Node000013" href="$class_server_network.html#ad4961c3bdde91a071204fe6322423495" title=" " alt="" coords="22,612,211,638"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="354,392,338,440,312,497,277,554,254,579,229,602,208,614,205,609,226,597,251,576,272,550,308,494,333,438,349,390"/>
+<area shape="rect" id="Node000014" href="$class_server_network.html#ae13fd484142e74f41f74f76464269393" title=" " alt="" coords="25,661,208,687"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="358,392,345,449,321,520,304,557,283,592,258,624,229,652,209,664,207,660,226,648,254,621,279,589,299,554,316,518,340,448,353,391"/>
+<area shape="rect" id="Node000015" href="$class_server_network.html#a2b8be4f6e157f07e21e6f16a7a08b23a" title=" " alt="" coords="28,711,205,736"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="361,392,350,459,328,542,311,586,289,629,262,668,229,702,207,715,204,711,226,697,258,664,285,626,306,584,323,541,345,458,355,391"/>
+</map>

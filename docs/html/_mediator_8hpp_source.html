@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>R-Type:  Fichier source de src/server/Mediator.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">R-Type
+   </div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_mediator_8hpp_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Mediator.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_mediator_8hpp.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="_systems_8hpp.html">../Systems.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="_registry_8hpp.html">../Registry.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="_i_sender_8hpp.html">ISender.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;boost/asio.hpp&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="foldopen" id="foldopen00046" data-start="{" data-end="};">
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="_mediator_8hpp.html#a0443219317c3b4775ced0b0d9b77ec4a">   46</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="_mediator_8hpp.html#a0443219317c3b4775ced0b0d9b77ec4a">Sender</a> {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="_mediator_8hpp.html#a0443219317c3b4775ced0b0d9b77ec4aa25835188a2355e9530d3a10fcbe4c65b">   47</a></span>    <a class="code hl_enumvalue" href="_mediator_8hpp.html#a0443219317c3b4775ced0b0d9b77ec4aa25835188a2355e9530d3a10fcbe4c65b">NETWORK</a>,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="_mediator_8hpp.html#a0443219317c3b4775ced0b0d9b77ec4aa4504e1ed59cd9732b8a844e5424e6f13">   48</a></span>    <a class="code hl_enumvalue" href="_mediator_8hpp.html#a0443219317c3b4775ced0b0d9b77ec4aa4504e1ed59cd9732b8a844e5424e6f13">GAME</a></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>};</div>
+</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="foldopen" id="foldopen00051" data-start="{" data-end="};">
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="class_mediator.html">   51</a></span><span class="keyword">class </span><a class="code hl_function" href="class_mediator.html#a1c69f3ddef5d60e6bfeee4c749be15ba">Mediator</a> {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="class_mediator.html#a1c69f3ddef5d60e6bfeee4c749be15ba">   53</a></span>    <a class="code hl_function" href="class_mediator.html#a1c69f3ddef5d60e6bfeee4c749be15ba">Mediator</a>() = <span class="keywordflow">default</span>;</div>
+<div class="foldopen" id="foldopen00054" data-start="{" data-end="}">
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="class_mediator.html#af8c9ad9dfdc3b09100601f6f9a7b3d9c">   54</a></span>    <a class="code hl_function" href="class_mediator.html#af8c9ad9dfdc3b09100601f6f9a7b3d9c">Mediator</a>(<a class="code hl_class" href="class_i_sender.html">ISender</a>* <a class="code hl_variable" href="class_mediator.html#a6f7159eb446fd4bdbadd7c09ea6720be">network</a>, <a class="code hl_class" href="class_i_sender.html">ISender</a>* <a class="code hl_variable" href="class_mediator.html#acefe16b18c84845f10b86d95344f77c0">game</a>)</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        : <a class="code hl_variable" href="class_mediator.html#a6f7159eb446fd4bdbadd7c09ea6720be">network</a>(<a class="code hl_variable" href="class_mediator.html#a6f7159eb446fd4bdbadd7c09ea6720be">network</a>), <a class="code hl_variable" href="class_mediator.html#acefe16b18c84845f10b86d95344f77c0">game</a>(<a class="code hl_variable" href="class_mediator.html#acefe16b18c84845f10b86d95344f77c0">game</a>) {}</div>
+</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_mediator.html#a8a348c8e62379a61c127198e82d613e4">notify</a>(<a class="code hl_enumeration" href="_mediator_8hpp.html#a0443219317c3b4775ced0b0d9b77ec4a">Sender</a> sender, <span class="keyword">const</span> std::string&amp; action, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; params,</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                       <span class="keyword">const</span> <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>&amp; context = <a class="code hl_typedef" href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a>());</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="class_mediator.html#ad7dd40fddc5879237a15e63ca872504f">   59</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_mediator.html#ad7dd40fddc5879237a15e63ca872504f">register_network</a>(<a class="code hl_class" href="class_i_sender.html">ISender</a>* <a class="code hl_variable" href="class_mediator.html#a6f7159eb446fd4bdbadd7c09ea6720be">network</a>) { this-&gt;network = <a class="code hl_variable" href="class_mediator.html#a6f7159eb446fd4bdbadd7c09ea6720be">network</a>;}</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="class_mediator.html#a4d1bcabc0d77a7a0d33e70ca4d8581f1">   60</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_mediator.html#a4d1bcabc0d77a7a0d33e70ca4d8581f1">register_game</a>(<a class="code hl_class" href="class_i_sender.html">ISender</a>* <a class="code hl_variable" href="class_mediator.html#acefe16b18c84845f10b86d95344f77c0">game</a>) { this-&gt;game = <a class="code hl_variable" href="class_mediator.html#acefe16b18c84845f10b86d95344f77c0">game</a>;}</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="class_mediator.html#a6f7159eb446fd4bdbadd7c09ea6720be">   62</a></span>    <a class="code hl_class" href="class_i_sender.html">ISender</a> *<a class="code hl_variable" href="class_mediator.html#a6f7159eb446fd4bdbadd7c09ea6720be">network</a>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="class_mediator.html#acefe16b18c84845f10b86d95344f77c0">   63</a></span>    <a class="code hl_class" href="class_i_sender.html">ISender</a> *<a class="code hl_variable" href="class_mediator.html#acefe16b18c84845f10b86d95344f77c0">game</a>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>};</div>
+</div>
+<div class="ttc" id="a_i_sender_8hpp_html"><div class="ttname"><a href="_i_sender_8hpp.html">ISender.hpp</a></div></div>
+<div class="ttc" id="a_i_sender_8hpp_html_a7b5d12ac65832405aa23caddc57e8596"><div class="ttname"><a href="_i_sender_8hpp.html#a7b5d12ac65832405aa23caddc57e8596">MediatorContext</a></div><div class="ttdeci">struct MediatorContext_s MediatorContext</div></div>
+<div class="ttc" id="a_mediator_8hpp_html_a0443219317c3b4775ced0b0d9b77ec4a"><div class="ttname"><a href="_mediator_8hpp.html#a0443219317c3b4775ced0b0d9b77ec4a">Sender</a></div><div class="ttdeci">Sender</div><div class="ttdef"><b>Definition</b> Mediator.hpp:46</div></div>
+<div class="ttc" id="a_mediator_8hpp_html_a0443219317c3b4775ced0b0d9b77ec4aa25835188a2355e9530d3a10fcbe4c65b"><div class="ttname"><a href="_mediator_8hpp.html#a0443219317c3b4775ced0b0d9b77ec4aa25835188a2355e9530d3a10fcbe4c65b">Sender::NETWORK</a></div><div class="ttdeci">@ NETWORK</div><div class="ttdef"><b>Definition</b> Mediator.hpp:47</div></div>
+<div class="ttc" id="a_mediator_8hpp_html_a0443219317c3b4775ced0b0d9b77ec4aa4504e1ed59cd9732b8a844e5424e6f13"><div class="ttname"><a href="_mediator_8hpp.html#a0443219317c3b4775ced0b0d9b77ec4aa4504e1ed59cd9732b8a844e5424e6f13">Sender::GAME</a></div><div class="ttdeci">@ GAME</div><div class="ttdef"><b>Definition</b> Mediator.hpp:48</div></div>
+<div class="ttc" id="a_registry_8hpp_html"><div class="ttname"><a href="_registry_8hpp.html">Registry.hpp</a></div></div>
+<div class="ttc" id="a_systems_8hpp_html"><div class="ttname"><a href="_systems_8hpp.html">Systems.hpp</a></div></div>
+<div class="ttc" id="aclass_i_sender_html"><div class="ttname"><a href="class_i_sender.html">ISender</a></div><div class="ttdoc">Interface pour la gestion des communications réseau.</div><div class="ttdef"><b>Definition</b> ISender.hpp:36</div></div>
+<div class="ttc" id="aclass_mediator_html_a1c69f3ddef5d60e6bfeee4c749be15ba"><div class="ttname"><a href="class_mediator.html#a1c69f3ddef5d60e6bfeee4c749be15ba">Mediator::Mediator</a></div><div class="ttdeci">Mediator()=default</div></div>
+<div class="ttc" id="aclass_mediator_html_a4d1bcabc0d77a7a0d33e70ca4d8581f1"><div class="ttname"><a href="class_mediator.html#a4d1bcabc0d77a7a0d33e70ca4d8581f1">Mediator::register_game</a></div><div class="ttdeci">void register_game(ISender *game)</div><div class="ttdef"><b>Definition</b> Mediator.hpp:60</div></div>
+<div class="ttc" id="aclass_mediator_html_a6f7159eb446fd4bdbadd7c09ea6720be"><div class="ttname"><a href="class_mediator.html#a6f7159eb446fd4bdbadd7c09ea6720be">Mediator::network</a></div><div class="ttdeci">ISender * network</div><div class="ttdef"><b>Definition</b> Mediator.hpp:62</div></div>
+<div class="ttc" id="aclass_mediator_html_a8a348c8e62379a61c127198e82d613e4"><div class="ttname"><a href="class_mediator.html#a8a348c8e62379a61c127198e82d613e4">Mediator::notify</a></div><div class="ttdeci">void notify(Sender sender, const std::string &amp;action, const std::vector&lt; std::string &gt; &amp;params, const MediatorContext &amp;context=MediatorContext())</div><div class="ttdef"><b>Definition</b> Mediator.cpp:3</div></div>
+<div class="ttc" id="aclass_mediator_html_acefe16b18c84845f10b86d95344f77c0"><div class="ttname"><a href="class_mediator.html#acefe16b18c84845f10b86d95344f77c0">Mediator::game</a></div><div class="ttdeci">ISender * game</div><div class="ttdef"><b>Definition</b> Mediator.hpp:63</div></div>
+<div class="ttc" id="aclass_mediator_html_ad7dd40fddc5879237a15e63ca872504f"><div class="ttname"><a href="class_mediator.html#ad7dd40fddc5879237a15e63ca872504f">Mediator::register_network</a></div><div class="ttdeci">void register_network(ISender *network)</div><div class="ttdef"><b>Definition</b> Mediator.hpp:59</div></div>
+<div class="ttc" id="aclass_mediator_html_af8c9ad9dfdc3b09100601f6f9a7b3d9c"><div class="ttname"><a href="class_mediator.html#af8c9ad9dfdc3b09100601f6f9a7b3d9c">Mediator::Mediator</a></div><div class="ttdeci">Mediator(ISender *network, ISender *game)</div><div class="ttdef"><b>Definition</b> Mediator.hpp:54</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_075bb3ff235063c77951cd176d15a741.html">server</a></li><li class="navelem"><a class="el" href="_mediator_8hpp.html">Mediator.hpp</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.1 </li>
+  </ul>
+</div>
+</body>
+</html>

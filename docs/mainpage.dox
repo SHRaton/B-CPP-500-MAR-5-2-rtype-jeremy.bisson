@@ -1,0 +1,86 @@
+/**
+ * @mainpage R-Type Documentation 🚀
+ * 
+ * @section intro Introduction
+ * @image html /api/placeholder/800/100
+ * Modern multiplayer recreation of the legendary shoot'em up arcade game.
+ * 
+ * @section badges Badges
+ * - ![C++17](https://img.shields.io/badge/C++-17-00599C?logo=c%2B%2B&logoColor=white)
+ * - ![SFML](https://img.shields.io/badge/SFML-2.5.1-8CC445?logo=SFML&logoColor=white)
+ * - ![CMake](https://img.shields.io/badge/CMake-064F8C?logo=cmake&logoColor=white)
+ * - ![Conan](https://img.shields.io/badge/Conan-6699CB?logo=conan&logoColor=white)
+ * 
+ * @section features Key Features 🎮
+ * - Cross-platform: Windows, Linux, and MacOS support
+ * - Multiplayer: Up to 4 players simultaneously
+ * - Modern Architecture: Entity Component System pattern
+ * - Network: UDP-based client-server architecture
+ * - Graphics: SFML-powered visuals and effects
+ * 
+ * @section install Installation 📥
+ * 
+ * @subsection prereq Prerequisites
+ * - Conan2
+ * - CMake
+ * - Compiler (MSVC 2022, GCC, or Clang)
+ * 
+ * @subsection build Building
+ * @code{.bash}
+ * # Clone the repository
+ * git clone https://github.com/EpitechPromo2027/B-CPP-500-MAR-5-2-rtype-jeremy.bisson.git
+ * cd B-CPP-500-MAR-5-2-rtype-jeremy.bisson
+ * 
+ * # Install dependencies
+ * conan profile detect --force
+ * conan install . --output-folder=build --build=missing
+ * cd build
+ * 
+ * # Windows
+ * cmake .. -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake"
+ * cmake --build . --config Release
+ * 
+ * # Linux/MacOS
+ * cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake" -DCMAKE_BUILD_TYPE=Release
+ * make
+ * @endcode
+ * 
+ * @section team Team 👥
+ * - Jérémy Bisson (Project Lead)
+ * - Meddi Gueran (Core Developer)
+ * - Jérémy Delfino (Network Developer)
+ * - Luca Giglio (Graphics Developer)
+ * - Alexandre Vittenet (Engine Developer)
+ * 
+ * @section tech Tech Stack 🛠️
+ * - C++17 Solutions
+ * - SFML Gaming Engine
+ * - Boost Network
+ * - CMake Build System
+ * 
+ * @section arch Architecture
+ * The project is split into several key components:
+ * 
+ * @subsection client Client
+ * - Game Display (Core and GUI)
+ * - Connection Management (UDPNetworkClient)
+ * - Entity Component System (Registry)
+ * 
+ * @subsection server Server
+ * - UDP Server (Boost.Asio)
+ * - Component System (ECS)
+ * - Mediator Pattern
+ * - Spawn System
+ * 
+ * @section controls Controls 🕹️
+ * - ↑↓←→: Movement
+ * - A: Shoot
+ * 
+ * @note For more detailed documentation, please refer to:
+ * - [Full Documentation](docs/index.md)
+ * - [Server Documentation](docs/server.md)
+ * - [Client Documentation](docs/client.md)
+ * - [Installation Guide](docs/installation.md)
+ * 
+ * @see https://github.com/EpitechPromo2027/B-CPP-500-MAR-5-2-rtype-jeremy.bisson
+ */

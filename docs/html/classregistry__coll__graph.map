@@ -1,0 +1,9 @@
+<map id="registry" name="registry">
+<area shape="rect" id="Node000001" title="Registre central du système ECS." alt="" coords="182,180,334,409"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,20,154,102"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,100,126,154,172,210,168,213,122,157,93,103"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="178,5,339,117"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="261,116,261,163,256,163,256,116"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="363,28,468,94"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="405,95,373,157,347,194,342,191,368,154,400,93"/>
+</map>

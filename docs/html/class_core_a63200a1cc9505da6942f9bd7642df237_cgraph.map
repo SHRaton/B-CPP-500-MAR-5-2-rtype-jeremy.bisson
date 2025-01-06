@@ -1,0 +1,10 @@
+<map id="Core::handle_horizontal_movement" name="Core::handle_horizontal_movement">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,27,164,68"/>
+<area shape="rect" id="Node000002" href="$class_core.html#a5bf4669d69fe8e52f0c41dff71c2c592" title=" " alt="" coords="212,5,402,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,34,196,30,197,35,164,40"/>
+<area shape="rect" id="Node000004" href="$class_core.html#a76ad333a648e0e20b1b12fb5a416774c" title=" " alt="" coords="240,55,374,96"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="164,55,225,63,224,68,164,60"/>
+<area shape="rect" id="Node000003" href="$class_core.html#aad563284176b829fa64177092388ef31" title=" " alt="" coords="450,35,591,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="403,29,435,33,434,38,402,34"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="374,64,434,56,435,61,375,69"/>
+</map>

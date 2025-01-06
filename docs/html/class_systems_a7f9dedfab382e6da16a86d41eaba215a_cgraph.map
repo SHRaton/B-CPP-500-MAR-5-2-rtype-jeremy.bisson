@@ -1,0 +1,5 @@
+<map id="Systems::player_control_system" name="Systems::player_control_system">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,168,46"/>
+<area shape="rect" id="Node000002" href="$classregistry.html#a3866ee276a5a1d78d00cd403e8e8c7d9" title=" " alt="" coords="216,13,384,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,23,200,23,200,28,168,28"/>
+</map>

@@ -1,0 +1,925 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>R-Type: Référence du modèle de la classe sparse_array&lt; Component &gt;</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">R-Type
+   </div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('classsparse__array.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Types publics</a> &#124;
+<a href="#pub-methods">Fonctions membres publiques</a> &#124;
+<a href="#pri-attribs">Attributs privés</a> &#124;
+<a href="classsparse__array-members.html">Liste de tous les membres</a>  </div>
+  <div class="headertitle"><div class="title">Référence du modèle de la classe sparse_array&lt; Component &gt;</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Tableau clairsemé générique pour stocker des composants.  
+ <a href="#details">Plus de détails...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_sparse_array_8hpp_source.html">SparseArray.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Graphe de collaboration de sparse_array&lt; Component &gt;:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classsparse__array__coll__graph.svg" width="188" height="594"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Types publics</h2></td></tr>
+<tr class="memitem:ab7403a6f935fa66034cce5bdcf49a9fc" id="r_ab7403a6f935fa66034cce5bdcf49a9fc"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7403a6f935fa66034cce5bdcf49a9fc">value_type</a> = std::optional&lt;Component&gt;</td></tr>
+<tr class="separator:ab7403a6f935fa66034cce5bdcf49a9fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a639d023286962a7b28f77fc4741e3f89" id="r_a639d023286962a7b28f77fc4741e3f89"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a639d023286962a7b28f77fc4741e3f89">reference_type</a> = <a class="el" href="#ab7403a6f935fa66034cce5bdcf49a9fc">value_type</a>&amp;</td></tr>
+<tr class="separator:a639d023286962a7b28f77fc4741e3f89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f86eff1abd76aa4cd5387a6f4e2e7cb" id="r_a5f86eff1abd76aa4cd5387a6f4e2e7cb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f86eff1abd76aa4cd5387a6f4e2e7cb">const_reference_type</a> = const <a class="el" href="#ab7403a6f935fa66034cce5bdcf49a9fc">value_type</a>&amp;</td></tr>
+<tr class="separator:a5f86eff1abd76aa4cd5387a6f4e2e7cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f747e93a9406474b106bde9c66f01b7" id="r_a5f747e93a9406474b106bde9c66f01b7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f747e93a9406474b106bde9c66f01b7">container_t</a> = std::vector&lt;<a class="el" href="#ab7403a6f935fa66034cce5bdcf49a9fc">value_type</a>&gt;</td></tr>
+<tr class="separator:a5f747e93a9406474b106bde9c66f01b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1468a11a30a58090580d1fb399e3cc0" id="r_af1468a11a30a58090580d1fb399e3cc0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1468a11a30a58090580d1fb399e3cc0">size_type</a> = typename container_t::size_type</td></tr>
+<tr class="separator:af1468a11a30a58090580d1fb399e3cc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1293c5b64d77bb97ed87e57c6276925e" id="r_a1293c5b64d77bb97ed87e57c6276925e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1293c5b64d77bb97ed87e57c6276925e">iterator</a> = typename container_t::iterator</td></tr>
+<tr class="separator:a1293c5b64d77bb97ed87e57c6276925e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9beecc69673481f79844336194dfc1a2" id="r_a9beecc69673481f79844336194dfc1a2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9beecc69673481f79844336194dfc1a2">const_iterator</a> = typename container_t::const_iterator</td></tr>
+<tr class="separator:a9beecc69673481f79844336194dfc1a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a2deb5584ce41d298a3184d7a87d9ec" id="r_a2a2deb5584ce41d298a3184d7a87d9ec"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a2deb5584ce41d298a3184d7a87d9ec">allocator_type</a> = typename container_t::allocator_type</td></tr>
+<tr class="separator:a2a2deb5584ce41d298a3184d7a87d9ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Fonctions membres publiques</h2></td></tr>
+<tr class="memitem:a9437af3619227d4ab973cad2f6bfa818" id="r_a9437af3619227d4ab973cad2f6bfa818"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9437af3619227d4ab973cad2f6bfa818">sparse_array</a> ()=default</td></tr>
+<tr class="separator:a9437af3619227d4ab973cad2f6bfa818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3d7b6071f4910c92d3e83dd61c2c60c" id="r_ae3d7b6071f4910c92d3e83dd61c2c60c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3d7b6071f4910c92d3e83dd61c2c60c">sparse_array</a> (const <a class="el" href="classsparse__array.html">sparse_array</a> &amp;)=default</td></tr>
+<tr class="separator:ae3d7b6071f4910c92d3e83dd61c2c60c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad93b07fae9a6a1e0029768fd8aa22703" id="r_ad93b07fae9a6a1e0029768fd8aa22703"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad93b07fae9a6a1e0029768fd8aa22703">sparse_array</a> (<a class="el" href="classsparse__array.html">sparse_array</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="separator:ad93b07fae9a6a1e0029768fd8aa22703"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a462f64cc46c81b54e7c7d1181f7b889f" id="r_a462f64cc46c81b54e7c7d1181f7b889f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a462f64cc46c81b54e7c7d1181f7b889f">~sparse_array</a> ()=default</td></tr>
+<tr class="separator:a462f64cc46c81b54e7c7d1181f7b889f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d08dd3b7bf4dd2247ab7596936ba5be" id="r_a7d08dd3b7bf4dd2247ab7596936ba5be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsparse__array.html">sparse_array</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d08dd3b7bf4dd2247ab7596936ba5be">operator=</a> (const <a class="el" href="classsparse__array.html">sparse_array</a> &amp;)=default</td></tr>
+<tr class="separator:a7d08dd3b7bf4dd2247ab7596936ba5be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f8c213f7e998b54425fda09f2453077" id="r_a1f8c213f7e998b54425fda09f2453077"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsparse__array.html">sparse_array</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f8c213f7e998b54425fda09f2453077">operator=</a> (<a class="el" href="classsparse__array.html">sparse_array</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="separator:a1f8c213f7e998b54425fda09f2453077"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4aa1f2fae14ff1cecdc6e42ded260cad" id="r_a4aa1f2fae14ff1cecdc6e42ded260cad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a639d023286962a7b28f77fc4741e3f89">reference_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4aa1f2fae14ff1cecdc6e42ded260cad">operator[]</a> (size_t idx)</td></tr>
+<tr class="separator:a4aa1f2fae14ff1cecdc6e42ded260cad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d66e1a1e11a9bcef70425c3c09eb6b4" id="r_a1d66e1a1e11a9bcef70425c3c09eb6b4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a5f86eff1abd76aa4cd5387a6f4e2e7cb">const_reference_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d66e1a1e11a9bcef70425c3c09eb6b4">operator[]</a> (size_t idx) const</td></tr>
+<tr class="separator:a1d66e1a1e11a9bcef70425c3c09eb6b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cdf824b5897fb3ffc857843b37453b2" id="r_a1cdf824b5897fb3ffc857843b37453b2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a1293c5b64d77bb97ed87e57c6276925e">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1cdf824b5897fb3ffc857843b37453b2">begin</a> ()</td></tr>
+<tr class="separator:a1cdf824b5897fb3ffc857843b37453b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25c3a93f84f860ee55bb25f8da67e358" id="r_a25c3a93f84f860ee55bb25f8da67e358"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a9beecc69673481f79844336194dfc1a2">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25c3a93f84f860ee55bb25f8da67e358">begin</a> () const</td></tr>
+<tr class="separator:a25c3a93f84f860ee55bb25f8da67e358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f6e23b67ea783baf53129f8907e297a" id="r_a8f6e23b67ea783baf53129f8907e297a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a9beecc69673481f79844336194dfc1a2">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f6e23b67ea783baf53129f8907e297a">cbegin</a> () const</td></tr>
+<tr class="separator:a8f6e23b67ea783baf53129f8907e297a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6749bdfbdc5200a77549f52594107eb" id="r_af6749bdfbdc5200a77549f52594107eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a1293c5b64d77bb97ed87e57c6276925e">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6749bdfbdc5200a77549f52594107eb">end</a> ()</td></tr>
+<tr class="separator:af6749bdfbdc5200a77549f52594107eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a094425cbf56a592e130b67ecda68cd3d" id="r_a094425cbf56a592e130b67ecda68cd3d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a9beecc69673481f79844336194dfc1a2">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a094425cbf56a592e130b67ecda68cd3d">end</a> () const</td></tr>
+<tr class="separator:a094425cbf56a592e130b67ecda68cd3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb95eba3fb7e88207a4374c04950d167" id="r_adb95eba3fb7e88207a4374c04950d167"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a9beecc69673481f79844336194dfc1a2">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb95eba3fb7e88207a4374c04950d167">cend</a> () const</td></tr>
+<tr class="separator:adb95eba3fb7e88207a4374c04950d167"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6679a2315be266da4c01ad97f00e51fd" id="r_a6679a2315be266da4c01ad97f00e51fd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#af1468a11a30a58090580d1fb399e3cc0">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6679a2315be266da4c01ad97f00e51fd">size</a> () const</td></tr>
+<tr class="separator:a6679a2315be266da4c01ad97f00e51fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc88943309b7dbd4390c5ee17a4b7563" id="r_afc88943309b7dbd4390c5ee17a4b7563"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a639d023286962a7b28f77fc4741e3f89">reference_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc88943309b7dbd4390c5ee17a4b7563">insert_at</a> (<a class="el" href="#af1468a11a30a58090580d1fb399e3cc0">size_type</a> pos, const Component &amp;value)</td></tr>
+<tr class="separator:afc88943309b7dbd4390c5ee17a4b7563"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c86f47ddc88a7acae08515a92f3b86c" id="r_a8c86f47ddc88a7acae08515a92f3b86c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a639d023286962a7b28f77fc4741e3f89">reference_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c86f47ddc88a7acae08515a92f3b86c">insert_at</a> (<a class="el" href="#af1468a11a30a58090580d1fb399e3cc0">size_type</a> pos, Component &amp;&amp;value)</td></tr>
+<tr class="separator:a8c86f47ddc88a7acae08515a92f3b86c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af347acbd9d2ada0cc6730d29226ec90b" id="r_af347acbd9d2ada0cc6730d29226ec90b"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:af347acbd9d2ada0cc6730d29226ec90b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="#a639d023286962a7b28f77fc4741e3f89">reference_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af347acbd9d2ada0cc6730d29226ec90b">emplace_at</a> (<a class="el" href="#af1468a11a30a58090580d1fb399e3cc0">size_type</a> pos, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:af347acbd9d2ada0cc6730d29226ec90b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0bea77704ce39c1a731dc69de8d9d2d" id="r_ac0bea77704ce39c1a731dc69de8d9d2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac0bea77704ce39c1a731dc69de8d9d2d">erase</a> (<a class="el" href="#af1468a11a30a58090580d1fb399e3cc0">size_type</a> pos)</td></tr>
+<tr class="separator:ac0bea77704ce39c1a731dc69de8d9d2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73e0271723a2a2b580fe5d76f94581d8" id="r_a73e0271723a2a2b580fe5d76f94581d8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#af1468a11a30a58090580d1fb399e3cc0">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73e0271723a2a2b580fe5d76f94581d8">get_index</a> (const <a class="el" href="#ab7403a6f935fa66034cce5bdcf49a9fc">value_type</a> &amp;value) const</td></tr>
+<tr class="separator:a73e0271723a2a2b580fe5d76f94581d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Attributs privés</h2></td></tr>
+<tr class="memitem:af112878e0e1b449f263d4bb8f6ef758b" id="r_af112878e0e1b449f263d4bb8f6ef758b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a5f747e93a9406474b106bde9c66f01b7">container_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af112878e0e1b449f263d4bb8f6ef758b">_data</a></td></tr>
+<tr class="separator:af112878e0e1b449f263d4bb8f6ef758b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Component&gt;<br />
+class sparse_array&lt; Component &gt;</div><p>Tableau clairsemé générique pour stocker des composants. </p>
+<dl class="tparams"><dt>Paramètres du template</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Component</td><td>Type du composant à stocker</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Cette classe implémente un tableau clairsemé utilisé pour stocker efficacement les composants dans le système ECS.</p>
+</div><h2 class="groupheader">Documentation des définitions de type membres</h2>
+<a id="a2a2deb5584ce41d298a3184d7a87d9ec" name="a2a2deb5584ce41d298a3184d7a87d9ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a2deb5584ce41d298a3184d7a87d9ec">&#9670;&#160;</a></span>allocator_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::allocator_type = typename container_t::allocator_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9beecc69673481f79844336194dfc1a2" name="a9beecc69673481f79844336194dfc1a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9beecc69673481f79844336194dfc1a2">&#9670;&#160;</a></span>const_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::const_iterator = typename container_t::const_iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5f86eff1abd76aa4cd5387a6f4e2e7cb" name="a5f86eff1abd76aa4cd5387a6f4e2e7cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f86eff1abd76aa4cd5387a6f4e2e7cb">&#9670;&#160;</a></span>const_reference_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::const_reference_type = const <a class="el" href="#ab7403a6f935fa66034cce5bdcf49a9fc">value_type</a>&amp;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5f747e93a9406474b106bde9c66f01b7" name="a5f747e93a9406474b106bde9c66f01b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f747e93a9406474b106bde9c66f01b7">&#9670;&#160;</a></span>container_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::container_t = std::vector&lt;<a class="el" href="#ab7403a6f935fa66034cce5bdcf49a9fc">value_type</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1293c5b64d77bb97ed87e57c6276925e" name="a1293c5b64d77bb97ed87e57c6276925e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1293c5b64d77bb97ed87e57c6276925e">&#9670;&#160;</a></span>iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::iterator = typename container_t::iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a639d023286962a7b28f77fc4741e3f89" name="a639d023286962a7b28f77fc4741e3f89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a639d023286962a7b28f77fc4741e3f89">&#9670;&#160;</a></span>reference_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::reference_type = <a class="el" href="#ab7403a6f935fa66034cce5bdcf49a9fc">value_type</a>&amp;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af1468a11a30a58090580d1fb399e3cc0" name="af1468a11a30a58090580d1fb399e3cc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1468a11a30a58090580d1fb399e3cc0">&#9670;&#160;</a></span>size_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::size_type = typename container_t::size_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab7403a6f935fa66034cce5bdcf49a9fc" name="ab7403a6f935fa66034cce5bdcf49a9fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7403a6f935fa66034cce5bdcf49a9fc">&#9670;&#160;</a></span>value_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::value_type = std::optional&lt;Component&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des constructeurs et destructeur</h2>
+<a id="a9437af3619227d4ab973cad2f6bfa818" name="a9437af3619227d4ab973cad2f6bfa818"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9437af3619227d4ab973cad2f6bfa818">&#9670;&#160;</a></span>sparse_array() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;<a class="el" href="classsparse__array.html">::sparse_array</a> </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae3d7b6071f4910c92d3e83dd61c2c60c" name="ae3d7b6071f4910c92d3e83dd61c2c60c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3d7b6071f4910c92d3e83dd61c2c60c">&#9670;&#160;</a></span>sparse_array() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;<a class="el" href="classsparse__array.html">::sparse_array</a> </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad93b07fae9a6a1e0029768fd8aa22703" name="ad93b07fae9a6a1e0029768fd8aa22703"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad93b07fae9a6a1e0029768fd8aa22703">&#9670;&#160;</a></span>sparse_array() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;<a class="el" href="classsparse__array.html">::sparse_array</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a462f64cc46c81b54e7c7d1181f7b889f" name="a462f64cc46c81b54e7c7d1181f7b889f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a462f64cc46c81b54e7c7d1181f7b889f">&#9670;&#160;</a></span>~sparse_array()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::~<a class="el" href="classsparse__array.html">sparse_array</a> </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des fonctions membres</h2>
+<a id="a1cdf824b5897fb3ffc857843b37453b2" name="a1cdf824b5897fb3ffc857843b37453b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cdf824b5897fb3ffc857843b37453b2">&#9670;&#160;</a></span>begin() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a1293c5b64d77bb97ed87e57c6276925e">iterator</a> <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::begin </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a25c3a93f84f860ee55bb25f8da67e358" name="a25c3a93f84f860ee55bb25f8da67e358"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25c3a93f84f860ee55bb25f8da67e358">&#9670;&#160;</a></span>begin() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a9beecc69673481f79844336194dfc1a2">const_iterator</a> <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::begin </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8f6e23b67ea783baf53129f8907e297a" name="a8f6e23b67ea783baf53129f8907e297a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f6e23b67ea783baf53129f8907e297a">&#9670;&#160;</a></span>cbegin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a9beecc69673481f79844336194dfc1a2">const_iterator</a> <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::cbegin </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adb95eba3fb7e88207a4374c04950d167" name="adb95eba3fb7e88207a4374c04950d167"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb95eba3fb7e88207a4374c04950d167">&#9670;&#160;</a></span>cend()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a9beecc69673481f79844336194dfc1a2">const_iterator</a> <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::cend </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af347acbd9d2ada0cc6730d29226ec90b" name="af347acbd9d2ada0cc6730d29226ec90b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af347acbd9d2ada0cc6730d29226ec90b">&#9670;&#160;</a></span>emplace_at()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a639d023286962a7b28f77fc4741e3f89">reference_type</a> <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::emplace_at </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#af1468a11a30a58090580d1fb399e3cc0">size_type</a></td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af6749bdfbdc5200a77549f52594107eb" name="af6749bdfbdc5200a77549f52594107eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6749bdfbdc5200a77549f52594107eb">&#9670;&#160;</a></span>end() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a1293c5b64d77bb97ed87e57c6276925e">iterator</a> <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::end </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a094425cbf56a592e130b67ecda68cd3d" name="a094425cbf56a592e130b67ecda68cd3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a094425cbf56a592e130b67ecda68cd3d">&#9670;&#160;</a></span>end() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a9beecc69673481f79844336194dfc1a2">const_iterator</a> <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::end </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac0bea77704ce39c1a731dc69de8d9d2d" name="ac0bea77704ce39c1a731dc69de8d9d2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0bea77704ce39c1a731dc69de8d9d2d">&#9670;&#160;</a></span>erase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::erase </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#af1468a11a30a58090580d1fb399e3cc0">size_type</a></td>          <td class="paramname"><span class="paramname"><em>pos</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a73e0271723a2a2b580fe5d76f94581d8" name="a73e0271723a2a2b580fe5d76f94581d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73e0271723a2a2b580fe5d76f94581d8">&#9670;&#160;</a></span>get_index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#af1468a11a30a58090580d1fb399e3cc0">size_type</a> <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::get_index </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="#ab7403a6f935fa66034cce5bdcf49a9fc">value_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8c86f47ddc88a7acae08515a92f3b86c" name="a8c86f47ddc88a7acae08515a92f3b86c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c86f47ddc88a7acae08515a92f3b86c">&#9670;&#160;</a></span>insert_at() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a639d023286962a7b28f77fc4741e3f89">reference_type</a> <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::insert_at </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#af1468a11a30a58090580d1fb399e3cc0">size_type</a></td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Component &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afc88943309b7dbd4390c5ee17a4b7563" name="afc88943309b7dbd4390c5ee17a4b7563"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc88943309b7dbd4390c5ee17a4b7563">&#9670;&#160;</a></span>insert_at() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a639d023286962a7b28f77fc4741e3f89">reference_type</a> <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::insert_at </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#af1468a11a30a58090580d1fb399e3cc0">size_type</a></td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Component &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7d08dd3b7bf4dd2247ab7596936ba5be" name="a7d08dd3b7bf4dd2247ab7596936ba5be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d08dd3b7bf4dd2247ab7596936ba5be">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsparse__array.html">sparse_array</a> &amp; <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1f8c213f7e998b54425fda09f2453077" name="a1f8c213f7e998b54425fda09f2453077"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f8c213f7e998b54425fda09f2453077">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsparse__array.html">sparse_array</a> &amp; <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4aa1f2fae14ff1cecdc6e42ded260cad" name="a4aa1f2fae14ff1cecdc6e42ded260cad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4aa1f2fae14ff1cecdc6e42ded260cad">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a639d023286962a7b28f77fc4741e3f89">reference_type</a> <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>idx</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1d66e1a1e11a9bcef70425c3c09eb6b4" name="a1d66e1a1e11a9bcef70425c3c09eb6b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d66e1a1e11a9bcef70425c3c09eb6b4">&#9670;&#160;</a></span>operator[]() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a5f86eff1abd76aa4cd5387a6f4e2e7cb">const_reference_type</a> <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>idx</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6679a2315be266da4c01ad97f00e51fd" name="a6679a2315be266da4c01ad97f00e51fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6679a2315be266da4c01ad97f00e51fd">&#9670;&#160;</a></span>size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#af1468a11a30a58090580d1fb399e3cc0">size_type</a> <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::size </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des données membres</h2>
+<a id="af112878e0e1b449f263d4bb8f6ef758b" name="af112878e0e1b449f263d4bb8f6ef758b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af112878e0e1b449f263d4bb8f6ef758b">&#9670;&#160;</a></span>_data</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Component&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a5f747e93a9406474b106bde9c66f01b7">container_t</a> <a class="el" href="classsparse__array.html">sparse_array</a>&lt; Component &gt;::_data</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>La documentation de cette classe a été générée à partir du fichier suivant :<ul>
+<li>src/<a class="el" href="_sparse_array_8hpp_source.html">SparseArray.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classsparse__array.html">sparse_array</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.1 </li>
+  </ul>
+</div>
+</body>
+</html>

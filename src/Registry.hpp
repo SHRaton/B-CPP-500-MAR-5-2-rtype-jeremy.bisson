@@ -7,6 +7,56 @@
 #include "SparseArray.hpp"
 #include "Entity.hpp"
 
+/**
+ * @brief Registre central du système ECS
+ * @class registry
+ * 
+ * @details Le registre gère toutes les entités et leurs composants associés dans
+ * le système ECS. Il permet d'ajouter, supprimer et accéder aux composants.
+ * 
+ * @startuml
+ * class registry {
+ * + register_component<Component>(): sparse_array<Component>&
+ * + get_components<Component>(): sparse_array<Component>&
+ * + spawn_entity(): Entity
+ * + entity_from_index(size_t): Entity
+ * + kill_entity(Entity): void
+ * + add_component<Component>(Entity, Component): reference_type
+ * + emplace_component<Component>(Entity, Params...): reference_type
+ * + remove_component<Component>(Entity): void
+ * 
+ * - _components_arrays: unordered_map<type_index, any>
+ * - _erase_functions: unordered_map<type_index, function>
+ * - _entities: vector<Entity>
+ * }
+ * 
+ * registry o-- "0..*" Entity : manages
+ * registry o-- "0..*" sparse_array : contains
+ * Entity o-- "0..*" Component : has
+ * 
+ * note right of registry
+ *   Système central de l'ECS
+ *   gérant les entités et
+ *   leurs composants
+ * end note
+ * @enduml
+ * 
+ * @startuml
+ * title Interaction entre les classes principales
+ * 
+ * participant "Registry" as reg
+ * participant "SparseArray" as spa
+ * participant "Entity" as ent
+ * participant "Component" as comp
+ * 
+ * reg -> ent : spawn_entity()
+ * reg -> spa : register_component<T>()
+ * reg -> spa : add_component(entity, component)
+ * spa -> comp : store
+ * reg -> spa : get_components<T>()
+ * reg -> ent : kill_entity()
+ * @enduml
+ */
 
 class registry {
 public:
