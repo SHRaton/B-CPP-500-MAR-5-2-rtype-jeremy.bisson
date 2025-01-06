@@ -646,8 +646,11 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
         int player_id = std::stoi(params[0]);
         auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
         auto& triple_shots = reg.get_components<component::triple_shot>();
-
-        if (triple_shots.size() > player_id && triple_shots[player_id].value().is_active) {
+        auto& laser_shots = reg.get_components<component::laser_shot>();
+        if(laser_shots.size() > player_id && laser_shots[player_id].value().is_active){
+            handleLaserShoot(context, params);
+            return;
+        } else if (triple_shots.size() > player_id && triple_shots[player_id].value().is_active) {
             // Tir multiple
             struct MissileConfig {
                 int y_offset;
