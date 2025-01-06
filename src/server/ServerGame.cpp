@@ -50,6 +50,7 @@ ServerGame::ServerGame(Mediator &med) : med(med), lua()
     });
 
     loadLuaScript("../src/lua/enemy_ai.lua");
+    loadJson("../src/json/level1.json");
 
     std::cout << "Lua VM initialized!" << std::endl;
 
@@ -78,21 +79,49 @@ void ServerGame::loadLuaScript(const std::string& scriptPath) {
     }
 }
 
+void ServerGame::loadJson(const std::string& filename) {
+    std::ifstream file(filename);
+    if (!file) {
+        std::cerr << "Impossible de lire le fichier : " << filename << std::endl;
+        return;
+    }
+
+    nlohmann::json levelData;
+    file >> levelData;
+
+    for (const auto& entity : levelData["entities"]) {
+        JsonEntity jsonEntity;
+        jsonEntity.type = entity["type"];
+        jsonEntity.subtype = entity["subtype"];
+        jsonEntity.x = entity["position"]["x"];
+        jsonEntity.y = entity["position"]["y"];
+        std::cout << "Entity: " << jsonEntity.type << " at (" << jsonEntity.x << ", " << jsonEntity.y << ")" << std::endl;
+
+        if (entity.contains("behavior")) {
+            jsonEntity.behavior = entity["behavior"];
+            std::cout << "  Behavior: " << jsonEntity.behavior << std::endl;
+        } else {
+            jsonEntity.behavior = "";
+            std::cout << "  No behavior" << std::endl;
+        }
+        allEntities.push_back(jsonEntity);
+    }
+    std::sort(allEntities.begin(), allEntities.end(), [](const JsonEntity& a, const JsonEntity& b) {
+        return a.x < b.x;
+    });
+}
+
 
 //===================================TIMERS===================================
 
 void ServerGame::initTimers(bool isAi)
 {
-    spawn_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(5));
-    setup_spawn_timer(*spawn_timer_);
     position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(1));
     setup_position_timer(*position_timer_);
     conciliation_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(10));
     setup_conciliation_timer(*conciliation_timer_);
 
     //TODO: initialiser d'autres timers ici
-    powerup_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(25));
-    setup_powerup_timer(*powerup_timer_);
 
     collision_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
     setup_collision_timer(*collision_timer_);
@@ -132,10 +161,8 @@ void ServerGame::initTimers(bool isAi)
 
 void ServerGame::StopAllTimers()
 {
-    spawn_timer_->cancel();
     position_timer_->cancel();
     conciliation_timer_->cancel();
-    powerup_timer_->cancel();
     collision_timer_->cancel();
     invincible_timer_->cancel();
     ia_timer_->cancel();
@@ -190,6 +217,21 @@ void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
     position_timer.async_wait([this, &position_timer](const boost::system::error_code& ec) {
         if (!ec) {
             Systems::position_system(reg);
+            //Utilisation d'un itérateur pour pouvoir supprimer des éléments en itérant
+            for (auto it = allEntities.begin(); it != allEntities.end(); ) {
+                it->x -= 0.5;
+                if (it->x < 1900) {
+                    if (it->type == "mob") {
+                        spawnMob(*it);
+                    } else if (it->type == "powerup") {
+                        spawnPowerUp(*it);
+                    }
+                    it = allEntities.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+
             position_timer.expires_at(position_timer.expiry() + std::chrono::milliseconds(10));
             setup_position_timer(position_timer);
         }
@@ -267,7 +309,6 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
                         reg.emplace_component<component::size>(bullet, component::size{10, 10});
 
                         med.notify(Sender::GAME, "MOB_SHOOT", newParams, dummyContext);
-                        std::cout << "position of " << i << positions.x << " " << positions.y << std::endl;
                         lua["enemy_ai"](i, positions.x, positions.y); // Appel Lua
                     }
                 }
@@ -319,16 +360,15 @@ void ServerGame::setup_triple_shot_expiration_timer(boost::asio::steady_timer& t
 void ServerGame::positionConciliation()
 {
     auto &positions = reg.get_components<component::position>();
-    for (size_t i =  0; i < positions.size(); ++i)
+    for (size_t i =  0; i < positions.size();)
     {
         if (positions[i].value().x < -100 || positions[i].value().x > 2000)
         {
             handleDeath(MediatorContext(), std::vector<std::string>{std::to_string(i)});
             reg.kill_entity(Entity(i));
-            i = 0;
             continue;
         }
-        showAllEnityAlive();
+        //showAllEnityAlive();
         if (positions[i])
         {
                 std::vector<std::string> newParams;
@@ -337,6 +377,7 @@ void ServerGame::positionConciliation()
                 newParams.push_back(std::to_string(positions[i].value().y));
                 med.notify(Sender::GAME, "MOVE", newParams);
         }
+        ++i;
     }
 }
 
@@ -353,85 +394,66 @@ void ServerGame::showAllEnityAlive()
     }
 }
 
-void ServerGame::setup_spawn_timer(boost::asio::steady_timer& spawn_timer)
-{
-    std::cout << "Setting up spawn timer" << std::endl;
-    spawn_timer.async_wait([this, &spawn_timer](const boost::system::error_code& ec) {
-        if (!ec) {
-            spawnMob(rand() % 2); // Choix aléatoire du type de mob
-            spawn_timer.expires_from_now(std::chrono::seconds(5)); //TODO: si on veut changer le temps de spawn
-            setup_spawn_timer(spawn_timer);
-        }
-    });
-}
 
-void ServerGame::setup_powerup_timer(boost::asio::steady_timer& powerup_timer)
-{
-    std::cout << "Setting up powerup timer" << std::endl;
-    powerup_timer.async_wait([this, &powerup_timer](const boost::system::error_code& ec) {
-        if (!ec) {
-            spawnPowerUp(rand() % 2);
-            powerup_timer.expires_from_now(std::chrono::seconds(60));
-            setup_powerup_timer(powerup_timer);
-        }
-    });
-}
-
-void ServerGame::spawnPowerUp(int powerup_type)
+void ServerGame::spawnPowerUp(JsonEntity entity)
 {
     std::cout << "Spawning powerup" << std::endl;
-
-    // Utilisation de random modern de C++11
-    std::random_device rd;  // Source d'entropie matérielle
-    std::mt19937 gen(rd()); // Générateur Mersenne Twister
-
-    // Distributions uniformes pour x et y
-    std::uniform_int_distribution<> distX(0, 1800);
-    std::uniform_int_distribution<> distY(0, 900);
-
-    // Génération des coordonnées aléatoires
-    int x = distX(gen);
-    int y = distY(gen);
+    int x = rand() % 1500 + 300;
+    int y = entity.y;
+    int type = 0;
+    if (entity.subtype == "heal") {
+        type = 0;
+    } else if (entity.subtype == "triple_shoot") {
+        type = 1;
+    } else if (entity.subtype == "laser") {
+        type = 2;
+    } // rajouter d'autres types de powerups ici
 
     Entity powerup = reg.spawn_entity();
     reg.emplace_component<component::position>(powerup, component::position{x, y});
-    reg.emplace_component<component::type>(powerup, component::type{powerup_type});
+    reg.emplace_component<component::type>(powerup, component::type{type});
     reg.emplace_component<component::size>(powerup, component::size{50, 50});
 
     std::vector<std::string> newParams;
-    newParams.push_back(std::to_string(powerup_type));
+    newParams.push_back(std::to_string(type));
     newParams.push_back(std::to_string(x));
     newParams.push_back(std::to_string(y));
     med.notify(Sender::GAME, "POWERUP_SPAWN", newParams);
 }
 
-void ServerGame::spawnMob(int mob_type)
+void ServerGame::spawnMob(JsonEntity entity)
 {
     std::cout << "Spawning mob" << std::endl;
     Entity mob = reg.spawn_entity();
-    int x = 1800;
-    int y = rand() % 900;
+    int x = entity.x;
+    int y = entity.y;
+    int type = 0;
+    if (entity.subtype == "enemy1") {
+        type = 0;
+    } else if (entity.subtype == "enemy2") {
+        type = 1;
+    } // rajouter d'autres types de mobs ici
     reg.emplace_component<component::position>(mob, component::position{x, y});
-    if (mob_type == 0) {
+    if (type == 0) {
         reg.emplace_component<component::health>(mob, component::health{300});
         reg.emplace_component<component::damage>(mob, component::damage{10});
         reg.emplace_component<component::velocity>(mob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(mob, component::type{10});
         reg.emplace_component<component::size>(mob, component::size{100, 50});
-    } else if (mob_type == 1) {
+    } else if (type == 1) {
         reg.emplace_component<component::health>(mob, component::health{100});
         reg.emplace_component<component::damage>(mob, component::damage{40});
         reg.emplace_component<component::velocity>(mob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(mob, component::type{11});
         reg.emplace_component<component::size>(mob, component::size{100, 50});
-
-    } // rajouter d'autres types de mobs ici
+    }
     std::vector<std::string> newParams;
-    newParams.push_back(std::to_string(mob_type));
+    newParams.push_back(std::to_string(type));
     newParams.push_back(std::to_string(x));
     newParams.push_back(std::to_string(y));
     med.notify(Sender::GAME, "MOB_SPAWN", newParams);
 }
+
 
 void ServerGame::checkAllCollisions()
 {
