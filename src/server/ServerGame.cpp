@@ -65,6 +65,7 @@ ServerGame::ServerGame(Mediator &med) : med(med), lua()
     reg.register_component<component::size>();
     reg.register_component<component::triple_shot>();
     reg.register_component<component::score>();
+    reg.register_component<component::force>();
 
     state = GameState::LOBBY;
     med.register_game(this);
@@ -139,6 +140,12 @@ void ServerGame::initTimers(bool isAi)
 
     triple_shot_expiration_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
     setup_triple_shot_expiration_timer(*triple_shot_expiration_timer_);
+
+    force_expiration_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
+    setup_force_expiration_timer(*force_expiration_timer_);
+
+    force_shot_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
+    setup_force_shot_timer(*force_shot_timer_);
 
     // Timer temporaire de win
     win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(123));
@@ -356,6 +363,45 @@ void ServerGame::setup_triple_shot_expiration_timer(boost::asio::steady_timer& t
     });
 }
 
+void ServerGame::setup_force_expiration_timer(boost::asio::steady_timer& force_timer)
+{
+    force_timer.async_wait([this, &force_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            checkForceExpiration();
+            force_timer.expires_at(force_timer.expiry() + std::chrono::seconds(1));
+            setup_force_expiration_timer(force_timer);
+        }
+    });
+}
+
+void ServerGame::setup_force_shot_timer(boost::asio::steady_timer& force_shot_timer)
+{
+    force_shot_timer.async_wait([this, &force_shot_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            auto &force = reg.get_components<component::force>();
+            for (size_t i = 0; i < force.size(); ++i) {
+                if (force[i].has_value() && force[i].value().is_active) {
+                    Entity bullet = reg.spawn_entity();
+                    auto const &positions = reg.get_components<component::position>()[i].value();
+                    std::vector<std::string> newParams;
+                    newParams.push_back(std::to_string(positions.x));
+                    newParams.push_back(std::to_string(positions.y));
+                    reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
+                    if (force[i].value().is_front == 0) {  // Ajout des parenthèses après if
+                        reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
+                    } else {
+                        reg.emplace_component<component::velocity>(bullet, component::velocity{-5, 0});
+                    }
+                    reg.emplace_component<component::type>(bullet, component::type{8});
+                    reg.emplace_component<component::size>(bullet, component::size{10, 10});
+                    med.notify(Sender::GAME, "SHOOT", newParams, MediatorContext());
+                }
+            }
+            force_shot_timer.expires_at(force_shot_timer.expiry() + std::chrono::milliseconds(10));
+            setup_force_shot_timer(force_shot_timer);
+        }
+    });
+}
 
 void ServerGame::positionConciliation()
 {
@@ -463,6 +509,7 @@ void ServerGame::checkAllCollisions()
     auto& healths = reg.get_components<component::health>();
     auto& triple_shots = reg.get_components<component::triple_shot>();
     auto& invincibles = reg.get_components<component::invincible>();
+    auto& force = reg.get_components<component::force>();
 
     for (size_t i = 0; i < positions.size(); ++i) {
 
@@ -594,14 +641,20 @@ void ServerGame::checkAllCollisions()
                         checkAllCollisions();
                         return;
                     }
-                } else if ((types[i].value().type == 0 || types[i].value().type == 1) && types[j].value().type == 5) { // PLAYER vs POWERUP
+                } else if ((types[i].value().type == 0 || types[i].value().type == 1 || types[i].value().type == 2) && types[j].value().type == 5) { // PLAYER vs POWERUP
                     if (types[i].value().type == 0) {
                         triple_shots[j].value().is_active = true;
                         triple_shots[j].value().activation_time = std::chrono::steady_clock::now();
-                    } else if (types[i].value().type == 1) {
+                    } else if (types[i].value().type == 1) { 
                         healths[j].value().hp += 10;
-
-                    }
+                    } else if (types[i].value().type == 2) {
+                        //Caractéristiques principales :
+                        // tirer en avant, en arriere, bloque les balles ennemies
+                        invincibles[j].value().is_invincible = true;
+                        force[j].value().is_active = true;
+                        force[j].value().is_front = 0;
+                        force[j].value().activation_time = std::chrono::steady_clock::now();
+                    } 
                     std::vector<std::string> collisionParams;
                     collisionParams.push_back(std::to_string(j));
                     collisionParams.push_back(std::to_string(types[i].value().type));
@@ -611,12 +664,17 @@ void ServerGame::checkAllCollisions()
                     reg.kill_entity(Entity(i));
                     checkAllCollisions();
                     return;
-                } else if ((types[j].value().type == 0 || types[j].value().type == 1) && types[i].value().type == 5) { // PLAYER vs POWERUP
+                } else if ((types[j].value().type == 0 || types[j].value().type == 1 || types[j].value().type == 2) && types[i].value().type == 5) { // PLAYER vs POWERUP
                     if (types[j].value().type == 0) {
                         triple_shots[i].value().is_active = true;
                         triple_shots[i].value().activation_time = std::chrono::steady_clock::now();
                     } else if (types[j].value().type == 1) {
                         healths[i].value().hp += 10;
+                    } else if (types[j].value().type == 2) {
+                        invincibles[i].value().is_invincible = true;
+                        force[i].value().is_active = true;
+                        force[i].value().is_front = 0;
+                        force[i].value().activation_time = std::chrono::steady_clock::now();
                     }
                     std::vector<std::string> collisionParams;
                     collisionParams.push_back(std::to_string(i));
@@ -660,6 +718,24 @@ void ServerGame::checkTripleShotExpiration()
     }
 }
 
+void ServerGame::checkForceExpiration()
+{
+    auto& forces = reg.get_components<component::force>();
+    auto now = std::chrono::steady_clock::now();
+
+    for (size_t i = 0; i < forces.size(); ++i) {
+        if (forces[i] && forces[i].value().is_active) {
+            auto duration = std::chrono::duration_cast<std::chrono::seconds>(
+                now - forces[i].value().activation_time
+            ).count();
+
+            if (duration >= 4) {
+                // Désactiver le power-up
+                forces[i].value().is_active = false;
+            }
+        }
+    }
+}
 
 //===================================COMMANDS=================================
 
@@ -676,6 +752,7 @@ void ServerGame::handleConnect(const MediatorContext& context, const std::vector
     reg.emplace_component<component::triple_shot>(player, component::triple_shot{false, {}});
     reg.emplace_component<component::invincible>(player, component::invincible{false});
     reg.emplace_component<component::score>(player, component::score{0});
+    reg.emplace_component<component::force>(player, component::force{false, {}});
 
     std::vector<std::string> newParams;
 
