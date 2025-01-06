@@ -239,7 +239,7 @@ void ServerGame::setup_powerup_timer(boost::asio::steady_timer& powerup_timer)
     std::cout << "Setting up powerup timer" << std::endl;
     powerup_timer.async_wait([this, &powerup_timer](const boost::system::error_code& ec) {
         if (!ec) {
-            spawnPowerUp(rand() % 3);
+            spawnPowerUp(2);
             powerup_timer.expires_from_now(std::chrono::seconds(60));
             setup_powerup_timer(powerup_timer);
         }
@@ -444,7 +444,7 @@ void ServerGame::checkAllCollisions()
                         checkAllCollisions();
                         return;
                     }
-                } else if ((types[i].value().type == 0 || types[i].value().type == 1 || types[j].value().type == 3) && types[j].value().type == 5) { // PLAYER vs POWERUP
+                } else if ((types[i].value().type == 0 || types[i].value().type == 1 || types[j].value().type == 2) && types[j].value().type == 5) { // PLAYER vs POWERUP
                     if (types[i].value().type == 0) {
                         triple_shots[j].value().is_active = true;
                         triple_shots[j].value().activation_time = std::chrono::steady_clock::now();
@@ -464,7 +464,7 @@ void ServerGame::checkAllCollisions()
                     reg.kill_entity(Entity(i));
                     checkAllCollisions();
                     return;
-                } else if ((types[j].value().type == 0 || types[j].value().type == 1 || types[j].value().type == 3) && types[i].value().type == 5) { // PLAYER vs POWERUP
+                } else if ((types[j].value().type == 0 || types[j].value().type == 1 || types[j].value().type == 2) && types[i].value().type == 5) { // PLAYER vs POWERUP
                     if (types[j].value().type == 0) {
                         triple_shots[i].value().is_active = true;
                         triple_shots[i].value().activation_time = std::chrono::steady_clock::now();

@@ -241,10 +241,13 @@ void Core::handlePowerUpCommand(std::istringstream& iss)
     reg.emplace_component<component::position>(powerup, component::position{x, y});
     sf::Sprite sprite = utils.cat("../ressources/sprites/pow1.png");
     sf::Sprite sprite2 = utils.cat("../ressources/sprites/pow2.png");
+    sf::Sprite sprite3 = utils.cat("../ressources/sprites/pow3.png");
     if (type == 0) {
         reg.emplace_component<component::drawable>(powerup, component::drawable{sprite});
     } else if (type == 1) {
         reg.emplace_component<component::drawable>(powerup, component::drawable{sprite2});
+    } else if (type == 2) {
+        reg.emplace_component<component::drawable>(powerup, component::drawable{sprite3});
     }
     reg.emplace_component<component::type>(powerup, component::type{type});
 }
