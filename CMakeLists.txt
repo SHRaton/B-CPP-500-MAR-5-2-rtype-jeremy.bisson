@@ -8,6 +8,7 @@ find_package(SFML COMPONENTS graphics audio window system REQUIRED)
 find_package(Boost REQUIRED)
 find_package(Lua REQUIRED)
 find_package(sol2 REQUIRED)
+find_package(nlohmann_json REQUIRED)
 
 add_subdirectory(src/client)
 add_subdirectory(src/server)

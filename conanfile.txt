@@ -3,6 +3,7 @@ sfml/2.6.0
 boost/1.83.0
 lua/5.4.6
 sol2/3.3.0
+nlohmann_json/3.11.2
 
 [generators]
 CMakeDeps
