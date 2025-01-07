@@ -107,13 +107,13 @@ namespace component{
 
     struct triple_shot {
         bool is_active = false;
-        std::chrono::steady_clock::time_point activation_time;
+        std::chrono::steady_clock::time_point expiration_time;
     };
 
     struct force {
         bool is_active = false;
         int is_front = 0;
-        std::chrono::steady_clock::time_point activation_time;
+        std::chrono::steady_clock::time_point expiration_time;
     };
 
     struct score {

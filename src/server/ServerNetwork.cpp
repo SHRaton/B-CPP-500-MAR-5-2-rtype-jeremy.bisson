@@ -6,6 +6,7 @@ ServerNetwork::ServerNetwork(uint16_t port, Mediator& med)
       running_(false) {
     std::cout << Colors::GREEN << "[Console] : Démarrage du serveur sur le port " << port << Colors::RESET << std::endl;
     med.register_network(this);
+    launch_time_ = std::chrono::steady_clock::now();
 }
 
 
@@ -53,6 +54,8 @@ std::string ServerNetwork::get_action_name(GameAction action) {
         case GameAction::DISCONNECT: return "DISCONNECT";
         case GameAction::QUIT: return "QUIT";
         case GameAction::START: return "START";
+        case GameAction::SAVE_REPLAY: return "SAVE_REPLAY";
+        case GameAction::PLAY_REPLAY: return "PLAY_REPLAY";
         default: return "UNKNOWN";
     }
 }
@@ -68,6 +71,51 @@ void ServerNetwork::receive_messages() {
         handle_game_message(sender_endpoint, game_msg);
     }
 }
+
+
+
+
+void ServerNetwork::saveCommands(const std::string& filename)
+{
+    std::ofstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Erreur : impossible d'ouvrir le fichier pour la sauvegarde.\n";
+        return;
+    }
+
+    for (const auto& cmd : commands_) {
+        file << cmd.message << "\n" << cmd.getRelativeTimeMillis() << "\n";
+    }
+    file.close();
+}
+
+// Charger les commandes depuis un fichier
+std::vector<Command> ServerNetwork::loadCommands(const std::string& filename)
+{
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Erreur : impossible d'ouvrir le fichier pour le chargement.\n";
+        return {};
+    }
+
+    std::vector<Command> commands;
+    std::string message;
+    long long relativeMillis;
+
+    while (std::getline(file, message) && file >> relativeMillis) {
+        file.ignore(); // Ignore le saut de ligne après la durée
+        Command cmd;
+        cmd.message = message;
+        cmd.setRelativeTimeFromMillis(relativeMillis);
+        commands.push_back(cmd);
+    }
+    file.close();
+
+    return commands;
+}
+
+
+
 
 
 
@@ -224,6 +272,21 @@ void ServerNetwork::handleScoreUpdate(const MediatorContext& context, const std:
     broadcast_message(message);
 }
 
+void ServerNetwork::handleSaveReplay()
+{
+    saveCommands(commands_, "command.txt");
+}
+
+
+void ServerNetwork::handlePlayReplay()
+{
+    commands_ = loadCommands("command.txt");
+    for (const auto& cmd : commands_) {
+        broadcast_message(cmd.message);
+        std::this_thread::sleep_for(cmd.relative_time);
+    }
+}
+
 
 
 void ServerNetwork::handle_game_message(const boost::asio::ip::udp::endpoint& sender, const GameMessage& msg)
@@ -243,6 +306,12 @@ void ServerNetwork::handle_game_message(const boost::asio::ip::udp::endpoint& se
     std::cout << log_message.str() << std::endl;
     //END DEBUG
 
+    if (action_name == "SAVE_REPLAY") {
+        handleSaveReplay();
+    } else if (action_name == "PLAY_REPLAY") {
+        handlePlayReplay();
+    }
+
     MediatorContext context;
     context.client = sender;
     med.notify(Sender::NETWORK, action_name, msg.arguments, context);
@@ -256,7 +325,11 @@ void ServerNetwork::handle_game_message(const boost::asio::ip::udp::endpoint& se
 
 
 
-void ServerNetwork::broadcast_message(const boost::asio::ip::udp::endpoint& sender, const std::string& message) {
+void ServerNetwork::broadcast_message(const boost::asio::ip::udp::endpoint& sender, const std::string& message)
+{
+    std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+    commands_.push_back(Command{message, now - launch_time_});
+    launch_time_ = now;
     for (const auto& client : clients_) {
         if (client.first != sender) {
             socket_.send_to(boost::asio::buffer(message), client.first);
@@ -268,6 +341,9 @@ void ServerNetwork::broadcast_message(const boost::asio::ip::udp::endpoint& send
 }
 
 void ServerNetwork::broadcast_message(const std::string& message) {
+    std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+    commands_.push_back(Command{message, now - launch_time_});
+    launch_time_ = now;
     for (const auto& client : clients_) {
         socket_.send_to(boost::asio::buffer(message), client.first);
     }
