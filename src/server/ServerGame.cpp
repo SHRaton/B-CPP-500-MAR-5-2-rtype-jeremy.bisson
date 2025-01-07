@@ -47,6 +47,7 @@ void ServerGame::initTimers()
     setup_triple_shot_expiration_timer(*triple_shot_expiration_timer_);
 
     laser_shot_expiration_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
+    setup_laser_shot_expiration_timer(*laser_shot_expiration_timer_);
 
     super_shot_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(100));
     setup_super_shot_timer(*super_shot_timer_);

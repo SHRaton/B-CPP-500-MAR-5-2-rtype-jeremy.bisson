@@ -61,4 +61,10 @@ namespace component{
         std::chrono::steady_clock::time_point last_use_time;
         static constexpr int COOLDOWN_SECONDS = 15;  // Cooldown entre chaque super tir
     };
+    struct animation {
+        int currentFrame;
+        int totalFrames;
+        float frameDuration;
+        sf::Clock clock;
+    };
 }

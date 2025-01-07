@@ -90,6 +90,19 @@ void Core::handle_shoot(float deltaSeconds, std::optional<component::position>& 
     } else {
         inputState.shootSent = false;
     }
+
+    superShootCooldown += deltaSeconds;
+    superShootCooldown = std::min(superShootCooldown, 15.0f);
+    superShootBar.setSize(sf::Vector2f(4 * superShootCooldown, 5));
+    superShootBar.setPosition(pos.value().x, pos.value().y - 25);
+
+    if (keysPressed[sf::Keyboard::E] && superShootCooldown >= 15) {
+        send_input_if_needed(GameAction::SUPER_SHOOT, inputState.superShootSent);
+        superShotSound.play();
+        superShootCooldown = 0.0f;
+    } else {
+        inputState.superShootSent = false;
+    }
 }
 
 void Core::handle_start(std::optional<component::position>& pos)

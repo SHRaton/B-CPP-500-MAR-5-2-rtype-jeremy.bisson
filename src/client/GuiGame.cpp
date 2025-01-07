@@ -259,6 +259,7 @@ void Core::update_hud()
         fpsText.setString("FPS: " + std::to_string(static_cast<int>(fps)));
         latencyClock.restart();
     }
+    updateAnimations();
 }
 
 void Core::gui_gamewin() {
@@ -313,7 +314,8 @@ void Core::gui_gameover() {
     while (window.isOpen()) {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
-                (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+                (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) ||
+                (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)) {
                 std::ostringstream messageStream;
                 messageStream << encode_action(GameAction::DISCONNECT) << " " << network->getId();
                 network->send(messageStream.str());
@@ -345,6 +347,7 @@ void Core::display_all()
     renderTexture.draw(latencyText);
     if (!isDead) {
         renderTexture.draw(shootBar);
+        renderTexture.draw(superShootBar);
     }
     for (const auto& player : otherPlayers) {
         renderTexture.draw(player.hpText);
@@ -398,6 +401,7 @@ void Core::gui_game()
     if (!loadBlackAndWhiteShader()) {
         throw std::runtime_error("Error when loading black and white shader");
     }
+    playIntroAnimation();
     while (window.isOpen() && registryWindow.isOpen()) {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
