@@ -27,6 +27,7 @@ void Core::gui(int argc, char **argv)
 
 void Core::loadAssetsGame()
 {
+    deltaClock.restart();
     sprites_game = {
         {"background_game1", Sprite("../ressources/background/back_game1.png", true, 4.5)},
         {"background_game2", Sprite("../ressources/background/back_game2.png", true, 4.5)},
@@ -139,6 +140,7 @@ void Core::loadAssets()
     baseSpeed = 5;
     shootCooldown = 0.0f;
     superShootCooldown = 0.0f;
+    deltaClock.restart();
     shootBar.setFillColor(sf::Color::Blue);
     shootBar.setPosition(100, 70);
     shootBar.setSize(sf::Vector2f(70, 5));
