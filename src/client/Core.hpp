@@ -246,6 +246,9 @@ class Core {
         sf::SoundBuffer superShotBuffer;
         sf::Sound superShotSound;
 
+        sf::SoundBuffer laserBuffer;
+        sf::Sound laserSound;
+
 
         //TEST
         void setup_position_timer(boost::asio::steady_timer& position_timer);

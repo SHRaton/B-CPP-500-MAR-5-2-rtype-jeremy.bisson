@@ -349,7 +349,7 @@ void Core::display_all()
         renderTexture.draw(shootBar);
         renderTexture.draw(superShootBar);
         if (laserActive) {
-            if (laserClock.getElapsedTime().asSeconds() <= 5) {
+            if (laserClock.getElapsedTime().asSeconds() <= 4.95) {
                 renderTexture.draw(laserPowerUpLogo);
             } else {
                 laserActive = false;

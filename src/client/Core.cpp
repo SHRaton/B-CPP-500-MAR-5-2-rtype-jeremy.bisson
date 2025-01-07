@@ -189,6 +189,12 @@ void Core::loadAssets()
     superShotSound.setBuffer(superShotBuffer);
     superShotSound.setVolume(soundVolume * 100.0);
 
+    if (!laserBuffer.loadFromFile("../ressources/sounds/laser_sound.wav")) {
+        std::cout << "Error loading button sound" << std::endl;
+    }
+    laserSound.setBuffer(laserBuffer);
+    laserSound.setVolume(soundVolume * 100.0);
+
     if (!winMusic.openFromFile("../ressources/sounds/win.wav")) {
         std::cout << "Error loading menu music" << std::endl;
     }

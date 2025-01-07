@@ -83,13 +83,17 @@ void Core::handle_shoot(float deltaSeconds, std::optional<component::position>& 
     shootBar.setSize(sf::Vector2f(200 * shootCooldown, 5));
     shootBar.setPosition(pos.value().x, pos.value().y - 20);
 
-    laserPowerUpLogo.setScale(1, 1);
-    laserPowerUpLogo.setPosition(pos.value().x + 90, pos.value().y - 60);
+    laserPowerUpLogo.setScale(0.1, 0.1);
+    laserPowerUpLogo.setPosition(pos.value().x + 70, pos.value().y - 40);
 
     if (keysPressed[sf::Keyboard::A] && shootCooldown >= 0.3) {
         send_input_if_needed(GameAction::SHOOT, inputState.shootSent);
-        shotSound.play();
-        shootCooldown = 0.0f;
+        if (!laserActive) {
+            shotSound.play();
+            shootCooldown = 0.0f;
+        } else if (laserActive) {
+            laserSound.play();
+        }
     } else {
         inputState.shootSent = false;
     }

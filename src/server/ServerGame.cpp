@@ -794,7 +794,7 @@ void ServerGame::handleSuperShoot(const MediatorContext& context, const std::vec
 
             reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
             reg.emplace_component<component::velocity>(bullet, component::velocity{7, 0});
-            reg.emplace_component<component::type>(bullet, component::type{8}); // Type pour super tir
+            reg.emplace_component<component::type>(bullet, component::type{6}); // Type pour super tir
             reg.emplace_component<component::size>(bullet, component::size{40, 40}); // Plus grand
 
             // Mettre à jour le cooldown

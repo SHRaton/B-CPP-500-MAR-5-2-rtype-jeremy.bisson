@@ -401,8 +401,10 @@ void Core::handlePowerUpCollision(int id, int type, sparse_array<component::heal
             }
             break;
         case 2:
-            laserActive = true;
-            laserClock.restart();
+            if (id == network->getId()) {
+                laserActive = true;
+                laserClock.restart();
+            }
             break;
     }
     powerupSound.play();
