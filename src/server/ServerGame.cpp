@@ -31,7 +31,7 @@ void ServerGame::initTimers()
     setup_conciliation_timer(*conciliation_timer_);
 
     //TODO: initialiser d'autres timers ici
-    powerup_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(25));
+    powerup_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(5));
     setup_powerup_timer(*powerup_timer_);
 
     collision_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
@@ -51,6 +51,9 @@ void ServerGame::initTimers()
 
     super_shot_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(100));
     setup_super_shot_timer(*super_shot_timer_);
+
+    laser_shot_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(1));
+    setup_laser_shot_timer(*laser_shot_timer_);
 
     // Timer temporaire de win
     win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(123));
@@ -74,6 +77,24 @@ void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
             Systems::position_system(reg);
             position_timer.expires_at(position_timer.expiry() + std::chrono::milliseconds(10));
             setup_position_timer(position_timer);
+        }
+    });
+}
+
+void ServerGame::setup_laser_shot_timer(boost::asio::steady_timer& laser_shot_timer)
+{
+    laser_shot_timer.async_wait([this, &laser_shot_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            auto& types = reg.get_components<component::type>();
+            for(size_t i = 0; i < types.size(); ++i) {
+                if (types[i].value().type == 8) {
+                    MediatorContext dummyContext;
+                    handleDeath(dummyContext, std::vector<std::string>{std::to_string(i)});
+                    reg.kill_entity(Entity(i));
+                }
+            }
+            laser_shot_timer.expires_at(laser_shot_timer.expiry() + std::chrono::milliseconds(500));
+            setup_laser_shot_timer(laser_shot_timer);
         }
     });
 }
@@ -425,7 +446,7 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                } else if (types[i].value().type == 6 && types[j].value().type >= 10) { // BULLET vs MOB
+                } else if ((types[i].value().type == 6 || types[i].value().type == 8)  && types[j].value().type >= 10) { // BULLET vs MOB
                     healths[j].value().hp -= 1000;
                     // Mob
                     if(healths[j].value().hp <= 0){
@@ -435,7 +456,7 @@ void ServerGame::checkAllCollisions()
                         checkAllCollisions();
                         return;
                     }
-                } else if (types[i].value().type >= 10 && types[j].value().type == 6) { // BULLET vs MOB
+                } else if (types[i].value().type >= 10 && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
                     healths[i].value().hp -= 1000;
                     // Mob
                     if(healths[i].value().hp <= 0){
@@ -741,9 +762,9 @@ void ServerGame::handleLaserShoot(const MediatorContext& context, const std::vec
             newParams.push_back(std::to_string(positions.y));
 
             reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
-            reg.emplace_component<component::velocity>(bullet, component::velocity{8, 0});
-            reg.emplace_component<component::type>(bullet, component::type{6});
-            reg.emplace_component<component::size>(bullet, component::size{50, 5}); // Fine mais longue
+            reg.emplace_component<component::velocity>(bullet, component::velocity{0, 0});
+            reg.emplace_component<component::type>(bullet, component::type{8});
+            reg.emplace_component<component::size>(bullet, component::size{1900, 10}); // Fine mais longue
 
             med.notify(Sender::GAME, "LASER_SHOOT", newParams, context);
         }
@@ -773,7 +794,7 @@ void ServerGame::handleSuperShoot(const MediatorContext& context, const std::vec
 
             reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
             reg.emplace_component<component::velocity>(bullet, component::velocity{7, 0});
-            reg.emplace_component<component::type>(bullet, component::type{6}); // Type pour super tir
+            reg.emplace_component<component::type>(bullet, component::type{8}); // Type pour super tir
             reg.emplace_component<component::size>(bullet, component::size{40, 40}); // Plus grand
 
             // Mettre à jour le cooldown
