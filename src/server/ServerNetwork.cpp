@@ -53,6 +53,7 @@ std::string ServerNetwork::get_action_name(GameAction action) {
         case GameAction::DISCONNECT: return "DISCONNECT";
         case GameAction::QUIT: return "QUIT";
         case GameAction::START: return "START";
+        case GameAction::SUPER_SHOOT: return "SUPER_SHOOT";
         default: return "UNKNOWN";
     }
 }
