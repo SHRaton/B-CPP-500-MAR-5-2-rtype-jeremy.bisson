@@ -165,6 +165,9 @@ class Core {
 
         float shootCooldown;
         float superShootCooldown;
+        bool laserActive;
+        sf::Clock laserClock;
+        sf::Sprite laserPowerUpLogo;
 
         void handle_vertical_movement(float deltaSeconds, std::optional<component::velocity>& vel,
         std::optional<component::drawable>& drawable, std::optional<component::position>& pos);

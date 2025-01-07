@@ -28,6 +28,8 @@ void Core::gui(int argc, char **argv)
 void Core::loadAssetsGame()
 {
     deltaClock.restart();
+    laserClock.restart();
+    laserPowerUpLogo = utils.cat("../ressources/sprites/laser_logo.png");
     sprites_game = {
         {"background_game1", Sprite("../ressources/background/back_game1.png", true, 4.5)},
         {"background_game2", Sprite("../ressources/background/back_game2.png", true, 4.5)},
@@ -144,6 +146,8 @@ void Core::loadAssets()
     shootBar.setFillColor(sf::Color::Blue);
     shootBar.setPosition(100, 70);
     shootBar.setSize(sf::Vector2f(70, 5));
+
+    laserActive = false;
 
     soundVolume = 0.5f;
     //MUSIC MENU + LOGIN

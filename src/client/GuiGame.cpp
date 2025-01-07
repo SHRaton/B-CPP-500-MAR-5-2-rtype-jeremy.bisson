@@ -348,6 +348,13 @@ void Core::display_all()
     if (!isDead) {
         renderTexture.draw(shootBar);
         renderTexture.draw(superShootBar);
+        if (laserActive) {
+            if (laserClock.getElapsedTime().asSeconds() <= 5) {
+                renderTexture.draw(laserPowerUpLogo);
+            } else {
+                laserActive = false;
+            }
+        }
     }
     for (const auto& player : otherPlayers) {
         renderTexture.draw(player.hpText);
@@ -378,7 +385,6 @@ void Core::display_all()
 
 void Core::gui_game()
 {
-    //load_spaceship();
     loadAssetsGame();
     sf::Event event;
 

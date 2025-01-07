@@ -290,6 +290,15 @@ void Core::handleLaserShootCommands(std::istringstream& iss)
     reg.emplace_component<component::position>(missile, component::position{x, y});
     reg.emplace_component<component::velocity>(missile, component::velocity{0, 0});
     sf::Sprite sprite = utils.cat("../ressources/sprites/laser_shoot.png");
+    sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
+    sprite.setTextureRect(rect);
+    sprite.setScale(1.5, 6);
+    reg.emplace_component<component::animation>(missile, component::animation{
+        0,          // current frame
+        2,          // total frames
+        0.1f,      // frame duration in seconds
+        sf::Clock() // animation clock
+    });
     reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
     reg.emplace_component<component::controllable>(missile, component::controllable{false});
     reg.emplace_component<component::type>(missile, component::type{6});
@@ -353,7 +362,7 @@ void Core::handleCollisionCommand(std::istringstream& iss)
         if (type == 10 && invincibles[id].value().is_invincible == false) {
             handleMobCollision(id, healths, drawables, invincibles);
         }
-        else if (type == 0 || type == 1) {
+        else if (type == 0 || type == 1 || type == 2) {
             handlePowerUpCollision(id, type, healths);
         }
         else if (type == 7 && invincibles[id].value().is_invincible == false) {
@@ -390,6 +399,10 @@ void Core::handlePowerUpCollision(int id, int type, sparse_array<component::heal
             if (healths[id].value().hp > 100) {
                 healths[id].value().hp = 100;
             }
+            break;
+        case 2:
+            laserActive = true;
+            laserClock.restart();
             break;
     }
     powerupSound.play();
