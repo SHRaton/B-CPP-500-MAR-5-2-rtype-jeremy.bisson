@@ -635,7 +635,7 @@ void ServerGame::checkAllCollisions()
                 } else if ((types[i].value().type == 0 || types[i].value().type == 1 || types[i].value().type == 2) && types[j].value().type == 5) { // PLAYER vs POWERUP
                     if (types[i].value().type == 0) {
                         triple_shots[j].value().is_active = true;
-                        triple_shots[j].value().activation_time = std::chrono::steady_clock::now() + std::chrono::seconds(10);
+                        triple_shots[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(10);
                     } else if (types[i].value().type == 1) { 
                         healths[j].value().hp += 10;
                     } else if (types[i].value().type == 2) {
@@ -644,7 +644,7 @@ void ServerGame::checkAllCollisions()
                         invincibles[j].value().is_invincible = true;
                         force[j].value().is_active = true;
                         force[j].value().is_front = 0;
-                        force[j].value().activation_time = std::chrono::steady_clock::now() + std::chrono::seconds(4);
+                        force[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(4);
                     } 
                     std::vector<std::string> collisionParams;
                     collisionParams.push_back(std::to_string(j));
@@ -658,14 +658,14 @@ void ServerGame::checkAllCollisions()
                 } else if ((types[j].value().type == 0 || types[j].value().type == 1 || types[j].value().type == 2) && types[i].value().type == 5) { // PLAYER vs POWERUP
                     if (types[j].value().type == 0) {
                         triple_shots[i].value().is_active = true;
-                        triple_shots[i].value().activation_time = std::chrono::steady_clock::now() + std::chrono::seconds(10);
+                        triple_shots[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(10);
                     } else if (types[j].value().type == 1) {
                         healths[i].value().hp += 10;
                     } else if (types[j].value().type == 2) {
                         invincibles[i].value().is_invincible = true;
                         force[i].value().is_active = true;
                         force[i].value().is_front = 0;
-                        force[i].value().activation_time = std::chrono::steady_clock::now() + std::chrono::seconds(4);
+                        force[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(4);
                     }
                     std::vector<std::string> collisionParams;
                     collisionParams.push_back(std::to_string(i));

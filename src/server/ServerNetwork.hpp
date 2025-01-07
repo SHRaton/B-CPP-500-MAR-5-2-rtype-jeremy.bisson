@@ -6,6 +6,8 @@
 #include <chrono>
 #include <bitset>
 #include <vector>
+#include <iostream>
+#include <fstream>
 #include "Mediator.hpp"
 #include "Command.hpp"
 
@@ -82,7 +84,7 @@ enum class GameAction {
     START     = 0b10111, // 23
     SCORE_UPDATE = 0b11001, // 25
     SAVE_REPLAY = 0b11010, // 26
-    PLAY_REPLAY = 0b11011 // 27
+    PLAY_REPLAY = 0b11100, // 28
 };
 
 struct GameMessage {

@@ -274,7 +274,7 @@ void ServerNetwork::handleScoreUpdate(const MediatorContext& context, const std:
 
 void ServerNetwork::handleSaveReplay()
 {
-    saveCommands(commands_, "command.txt");
+    saveCommands("command.txt");
 }
 
 
