@@ -113,7 +113,7 @@ private:
 
     //For "replay" feature
     void saveCommands(const std::string& filename);
-    std::vector<Command> ServerNetwork::loadCommands(const std::string& filename);
+    std::vector<Command> loadCommands(const std::string& filename);
 
 
     //ISender implementation
