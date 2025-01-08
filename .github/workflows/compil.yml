@@ -1,12 +1,15 @@
 name: Build and Test
-
 on:
   push:
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Install Conan
+      run: |
+        pip install conan==2.0.17
     - name: Build
       run: conan profile detect --force && conan install . --output-folder=build --build=missing && cd build && cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release && cmake --build .
     - name: Build package
