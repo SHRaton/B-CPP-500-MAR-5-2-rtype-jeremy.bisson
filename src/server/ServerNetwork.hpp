@@ -84,7 +84,6 @@ enum class GameAction {
     LOOSE     = 0b10110, // 22
     DISCONNECT  = 0b11011, // 27
     CONNECT     = 0b11111, // 31
-    START     = 0b10111, // 23
     SCORE_UPDATE = 0b11001, // 25
     SAVE_REPLAY = 0b11010, // 26
     PLAY_REPLAY = 0b11100, // 28

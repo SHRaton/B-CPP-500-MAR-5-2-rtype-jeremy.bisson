@@ -125,7 +125,6 @@ class ServerGame : public ISender {
         std::unique_ptr<boost::asio::steady_timer> player_ia_timer_;
         std::unique_ptr<boost::asio::steady_timer> triple_shot_expiration_timer_;
         std::unique_ptr<boost::asio::steady_timer> laser_shot_expiration_timer_;
-        std::unique_ptr<boost::asio::steady_timer> win_timer_;
         std::unique_ptr<boost::asio::steady_timer> super_shot_timer_;
         std::unique_ptr<boost::asio::steady_timer> laser_shot_timer_;
         std::unique_ptr<boost::asio::steady_timer> force_expiration_timer_;
