@@ -16,11 +16,11 @@ jobs:
         python3 -m venv venv
         source venv/bin/activate
         pip install conan==2.0.17
+        conan profile detect --force
     - name: Build
       run: |
         source venv/bin/activate
-        conan profile detect --force
-        sudo conan install . --output-folder=build --build=missing -c tools.system.package_manager:mode=install
+        conan install . --output-folder=build --build=missing -c tools.system.package_manager:mode=install --profile:build=default --profile:host=default
         cd build 
         cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release 
         cmake --build .
