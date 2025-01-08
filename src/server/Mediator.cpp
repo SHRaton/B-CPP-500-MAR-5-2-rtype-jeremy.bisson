@@ -24,6 +24,10 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             game->handleShoot(context, params);
         } else if (action == "START") {
             game->handleStart(context, params);
+        } else if (action == "POWER_UP_SPAWN") {
+            game->handlePowerUpSpawn(context, params);
+        } else if (action == "MOB_SPAWN") {
+            game->handleMobSpawn(context, params);
         }
     } else if (sender == Sender::GAME) { //Communication entre Game et Network
         if (action == "CONNECT") {

@@ -435,9 +435,9 @@ void ServerGame::spawnPowerUp(JsonEntity entity)
     int x = rand() % 1500 + 300;
     int y = entity.y;
     int type = 0;
-    if (entity.subtype == "heal") {
+    if (entity.subtype == "triple_shoot") {
         type = 0;
-    } else if (entity.subtype == "triple_shoot") {
+    } else if (entity.subtype == "heal") {
         type = 1;
     } else if (entity.subtype == "force") {
         type = 2;
@@ -865,6 +865,73 @@ void ServerGame::handleColision(const MediatorContext& context, const std::vecto
         return;
     }
 }
+
+/*void handlePowerUpSpawn(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    try {
+        if (params.size() < 3) {
+            std::cerr << "Erreur : Nombre insuffisant de paramètres." << std::endl;
+            return;
+        }
+
+        int x = std::stoi(params[1]);
+        int y = std::stoi(params[2]);
+        nlohmann::json powerUpData;
+
+        std::ifstream inputFile("../src/json/playerLevel.json");
+        if (!inputFile.is_open()) {
+            std::cerr << "Erreur : Impossible d'ouvrir le fichier level1.json." << std::endl;
+            return;
+        }
+
+        json levelData;
+        inputFile >> levelData;
+        inputFile.close();
+
+        if (params[0] == "0") {
+            powerUpData = {
+                {"type", "powerup"},
+                {"subtype", "heal"},
+                {"position", { {"x", x}, {"y", y} }}
+            };
+        } else if (params[0] == "1") {
+            powerUpData = {
+                {"type", "powerup"},
+                {"subtype", "triple_shoot"},
+                {"position", { {"x", x}, {"y", y} }}
+            };
+        } else if (params[0] == "2") {
+            powerUpData = {
+                {"type", "powerup"},
+                {"subtype", "force"},
+                {"position", { {"x", x}, {"y", y} }}
+            };
+        } else if (params[0] == "3") {
+            powerUpData = {
+                {"type", "powerup"},
+                {"subtype", "laser"},
+                {"position", { {"x", x}, {"y", y} }}
+            };
+        }
+
+        if (levelData.contains("entities") && levelData["entities"].is_array()) {
+            levelData["entities"].push_back(powerUpData);
+        } else {
+            std::cerr << "Erreur : Le fichier JSON ne contient pas une liste d'entités valide." << std::endl;
+            return;
+        }
+        std::ofstream outputFile("../src/json/playerLevel.json");
+        if (!outputFile.is_open()) {
+            std::cerr << "Erreur : Impossible d'ouvrir le fichier level1.json en écriture." << std::endl;
+            return;
+        }
+
+        outputFile << levelData.dump(4); // Écrit le JSON avec une indentation de 4 espaces
+        outputFile.close();
+    } catch (const std::exception& e) {
+        std::cerr << "Erreur : " << e.what() << std::endl;
+    }
+}*/
 
 void ServerGame::handleDeath(const MediatorContext& context, const std::vector<std::string>& params)
 {
