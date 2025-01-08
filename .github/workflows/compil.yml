@@ -7,10 +7,20 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - name: Install Conan
+    - name: Install Python and pip
       run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-pip python3-venv
+    - name: Setup Python venv and install Conan
+      run: |
+        python3 -m venv venv
+        source venv/bin/activate
         pip install conan==2.0.17
     - name: Build
-      run: conan profile detect --force && conan install . --output-folder=build --build=missing && cd build && cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release && cmake --build .
+      run: |
+        source venv/bin/activate
+        conan profile detect --force && conan install . --output-folder=build --build=missing && cd build && cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release && cmake --build .
     - name: Build package
-      run: cd build && cpack
+      run: |
+        source venv/bin/activate
+        cd build && cpack
