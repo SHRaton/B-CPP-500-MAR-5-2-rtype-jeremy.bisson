@@ -30,6 +30,7 @@ void Core::loadAssetsGame()
     deltaClock.restart();
     laserClock.restart();
     laserPowerUpLogo = utils.cat("../ressources/sprites/laser_logo.png");
+    save_replay = utils.cat("../ressources/sprites/save.png");
     sprites_game = {
         {"background_game1", Sprite("../ressources/background/back_game1.png", true, 4.5)},
         {"background_game2", Sprite("../ressources/background/back_game2.png", true, 4.5)},

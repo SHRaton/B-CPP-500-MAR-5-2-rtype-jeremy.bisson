@@ -339,4 +339,5 @@ class Core {
         bool isDead;
         void updateAnimations();
 
+        sf::Sprite save_replay;
 };
