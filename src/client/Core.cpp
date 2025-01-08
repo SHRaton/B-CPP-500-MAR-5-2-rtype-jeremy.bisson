@@ -27,6 +27,9 @@ void Core::gui(int argc, char **argv)
 
 void Core::loadAssetsGame()
 {
+    deltaClock.restart();
+    laserClock.restart();
+    laserPowerUpLogo = utils.cat("../ressources/sprites/laser_logo.png");
     sprites_game = {
         {"background_game1", Sprite("../ressources/background/back_game1.png", true, 4.5)},
         {"background_game2", Sprite("../ressources/background/back_game2.png", true, 4.5)},
@@ -63,6 +66,7 @@ void Core::loadAssets()
     reg.register_component<component::controllable>();
     reg.register_component<component::type>();
     reg.register_component<component::invincible>();
+    reg.register_component<component::animation>();
 
     sprites_menu = {
         {"background", Sprite("../ressources/background/background.png", true)},
@@ -137,9 +141,13 @@ void Core::loadAssets()
     fps = 200;
     baseSpeed = 5;
     shootCooldown = 0.0f;
+    superShootCooldown = 0.0f;
+    deltaClock.restart();
     shootBar.setFillColor(sf::Color::Blue);
     shootBar.setPosition(100, 70);
     shootBar.setSize(sf::Vector2f(70, 5));
+
+    laserActive = false;
 
     soundVolume = 0.5f;
     //MUSIC MENU + LOGIN
@@ -174,6 +182,18 @@ void Core::loadAssets()
     }
     shotSound.setBuffer(shotBuffer);
     shotSound.setVolume(soundVolume * 100.0);
+
+    if (!superShotBuffer.loadFromFile("../ressources/sounds/super_shoot_sound.wav")) {
+        std::cout << "Error loading button sound" << std::endl;
+    }
+    superShotSound.setBuffer(superShotBuffer);
+    superShotSound.setVolume(soundVolume * 100.0);
+
+    if (!laserBuffer.loadFromFile("../ressources/sounds/laser_sound.wav")) {
+        std::cout << "Error loading button sound" << std::endl;
+    }
+    laserSound.setBuffer(laserBuffer);
+    laserSound.setVolume(soundVolume * 100.0);
 
     if (!winMusic.openFromFile("../ressources/sounds/win.wav")) {
         std::cout << "Error loading menu music" << std::endl;
@@ -249,4 +269,131 @@ bool Core::loadDaltonismShader(sf::Shader& shader, DaltonismType type)
             break;
     }
     return shader.loadFromMemory(fragmentShader, sf::Shader::Fragment);
+}
+
+void Core::playIntroAnimation()
+{
+    // Shader setup
+    sf::Shader rippleShader;
+    if (!rippleShader.loadFromMemory(
+        "uniform float time;"
+        "uniform vec2 resolution;"
+        "uniform sampler2D texture;"
+        "void main() {"
+        "    vec2 coord = gl_FragCoord.xy / resolution.xy;"
+        "    float wave = sin(coord.y * 20.0 + time * 2.0) * 0.005;"
+        "    coord.x += wave;"
+        "    gl_FragColor = texture2D(texture, coord);"
+        "}", sf::Shader::Fragment)) {
+        throw std::runtime_error("Failed to load ripple shader");
+    }
+
+    // Particles setup
+    struct Particle {
+        sf::CircleShape shape;
+        sf::Vector2f velocity;
+        float lifetime;
+    };
+    std::vector<Particle> particles;
+    const int maxParticles = 50;
+    const float particleLifetime = 1500.0f;
+    
+    // Fade overlay setup
+    sf::RectangleShape fadeOverlay;
+    fadeOverlay.setSize(sf::Vector2f(window.getSize()));
+    fadeOverlay.setFillColor(sf::Color(0, 0, 0, 255));
+    
+    sf::Clock effectsClock;
+    float introEffectDuration = 2000.0f;
+    sf::RenderStates states;
+    sf::Event event;
+
+    while (effectsClock.getElapsedTime().asMilliseconds() < introEffectDuration) {
+        // Gérer les événements pendant l'animation
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed || 
+                (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+                std::ostringstream messageStream;
+                messageStream << encode_action(GameAction::DISCONNECT) << " " << network->getId();
+                network->send(messageStream.str());
+                window.close();
+                exit(0);
+            }
+            if (event.type == sf::Event::KeyPressed) keysPressed[event.key.code] = true;
+            if (event.type == sf::Event::KeyReleased) keysPressed[event.key.code] = false;
+        }
+
+        float currentTime = effectsClock.getElapsedTime().asMilliseconds();
+        float introProgress = std::min(currentTime / introEffectDuration, 1.0f);
+        
+        // Mettre à jour le jeu pendant l'animation
+        handleServerCommands();
+        update_hud();
+        control_system();
+        checkInvincibility();
+        for (auto& [name, sprite] : sprites_game) {
+            sprite.update();
+        }
+
+        // Gestion des particules
+        if (particles.size() < maxParticles) {
+            Particle p;
+            p.shape.setRadius(2.f);
+            p.shape.setFillColor(sf::Color(255, 255, 255, 200));
+            p.shape.setPosition(rand() % window.getSize().x, window.getSize().y + 10.f);
+            p.velocity = sf::Vector2f((rand() % 100 - 50) / 50.f, -(300 + rand() % 200) / 100.f);
+            p.lifetime = particleLifetime;
+            particles.push_back(p);
+        }
+
+        // Mise à jour des particules
+        for (auto it = particles.begin(); it != particles.end();) {
+            it->lifetime -= 16.7f;
+            if (it->lifetime <= 0) {
+                it = particles.erase(it);
+                continue;
+            }
+            float particleAlpha = it->lifetime / particleLifetime;
+            it->shape.setFillColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(255 * particleAlpha)));
+            it->shape.move(it->velocity.x * 5.f, it->velocity.y * 5.f);
+            ++it;
+        }
+
+        // Rendu
+        window.clear();
+        renderTexture.clear(sf::Color::Black);
+
+        for (const auto& name : drawOrder_game) {
+            renderTexture.draw(sprites_game[name].getSprite());
+        }
+        sys.draw_system(reg, renderTexture);
+        
+        // Dessiner le HUD
+        renderTexture.draw(fpsText);
+        renderTexture.draw(latencyText);
+        if (!isDead) {
+            renderTexture.draw(shootBar);
+        }
+        for (const auto& player : otherPlayers) {
+            renderTexture.draw(player.hpText);
+        }
+        
+        renderTexture.display();
+
+        sf::Sprite screenSprite(renderTexture.getTexture());
+        rippleShader.setUniform("time", currentTime / 1000.f);
+        rippleShader.setUniform("resolution", sf::Vector2f(window.getSize()));
+        rippleShader.setUniform("texture", sf::Shader::CurrentTexture);
+        window.draw(screenSprite, &rippleShader);
+
+        for (const auto& particle : particles) {
+            window.draw(particle.shape);
+        }
+        fadeOverlay.setFillColor(sf::Color(0, 0, 0, static_cast<sf::Uint8>(255 * (1.0f - introProgress))));
+        window.draw(fadeOverlay);
+        window.display();
+        registryWindow.clear();
+        displayRegistryInfo();
+        registryWindow.display();
+    }
 }
