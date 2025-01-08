@@ -344,7 +344,7 @@ void Core::handlePowerUpCommand(std::istringstream& iss)
         reg.emplace_component<component::drawable>(powerup, component::drawable{sprite});
     } else if (type == 1) {
         reg.emplace_component<component::drawable>(powerup, component::drawable{sprite2});
-    } else if (type == 2) {
+    } else if (type == 3) {
         reg.emplace_component<component::drawable>(powerup, component::drawable{sprite3});
     }
     reg.emplace_component<component::type>(powerup, component::type{type});
@@ -400,7 +400,7 @@ void Core::handlePowerUpCollision(int id, int type, sparse_array<component::heal
                 healths[id].value().hp = 100;
             }
             break;
-        case 2:
+        case 3:
             if (id == network->getId()) {
                 laserActive = true;
                 laserClock.restart();
