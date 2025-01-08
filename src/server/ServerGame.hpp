@@ -77,11 +77,14 @@ class ServerGame : public ISender {
         void setup_collision_timer(boost::asio::steady_timer& collision_timer);
         void setup_powerup_expiration_timer(boost::asio::steady_timer& invincible_timer);
         void setup_iaMobs(boost::asio::steady_timer& ia_timer);
+        void setup_triple_shot_expiration_timer(boost::asio::steady_timer& triple_shot_timer);
+        void setup_laser_shot_expiration_timer(boost::asio::steady_timer& laser_shot_timer);
+        void setup_super_shot_timer(boost::asio::steady_timer& super_shot_timer);
+        void setup_laser_shot_timer(boost::asio::steady_timer& laser_shot_timer);
+        void checkLaserExpiration();
         void setup_ia_player(boost::asio::steady_timer& player_ia_timer);
         void setup_game_over_timer(boost::asio::steady_timer& game_over_timer);
         void setup_force_shot_timer(boost::asio::steady_timer& force_shot_timer);
-
-
         void spawnMob(JsonEntity entity);
         void spawnPowerUp(JsonEntity entity);
         void checkAllCollisions();
@@ -106,6 +109,8 @@ class ServerGame : public ISender {
         void handleWin(const MediatorContext& context, const std::vector<std::string>& params){};
         void handleLoose(const MediatorContext& context, const std::vector<std::string>& params){};
         void handleStart(const MediatorContext& context, const std::vector<std::string>& params);
+        void handleLaserShoot(const MediatorContext& context, const std::vector<std::string>& params);
+        void handleSuperShoot(const MediatorContext& context, const std::vector<std::string>& params);
         void handleScoreUpdate(const MediatorContext& context, const std::vector<std::string>& params){};
 
 
@@ -119,6 +124,9 @@ class ServerGame : public ISender {
         std::unique_ptr<boost::asio::steady_timer> ia_timer_;
         std::unique_ptr<boost::asio::steady_timer> player_ia_timer_;
         std::unique_ptr<boost::asio::steady_timer> triple_shot_expiration_timer_;
+        std::unique_ptr<boost::asio::steady_timer> laser_shot_expiration_timer_;
+        std::unique_ptr<boost::asio::steady_timer> super_shot_timer_;
+        std::unique_ptr<boost::asio::steady_timer> laser_shot_timer_;
         std::unique_ptr<boost::asio::steady_timer> force_expiration_timer_;
         std::unique_ptr<boost::asio::steady_timer> powerup_expiration_timer_;
         std::unique_ptr<boost::asio::steady_timer> force_shot_timer_;

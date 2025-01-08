@@ -43,6 +43,12 @@ void Core::handleServerCommands()
     else if (code == encode_action(GameAction::SHOOT)) {
         handleShootCommands(iss);
     }
+    else if (code == encode_action(GameAction::SUPER_SHOOT)) {
+        handleSuperShootCommands(iss);
+    }
+    else if (code == encode_action(GameAction::LASER_SHOOT)) {
+        handleLaserShootCommands(iss);
+    }
     else if (code == encode_action(GameAction::MOB_SHOOT)) {
         handleMobShootCommand(iss);
     }
@@ -211,6 +217,88 @@ void Core::handleShootCommands(std::istringstream& iss)
     reg.emplace_component<component::position>(missile, component::position{x, y});
     reg.emplace_component<component::velocity>(missile, component::velocity{5, 0});
     sf::Sprite sprite = utils.cat("../ressources/sprites/shoot.png");
+
+    // Set up animation
+    sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
+    sprite.setTextureRect(rect);
+    sprite.setScale(2,2);
+    reg.emplace_component<component::animation>(missile, component::animation{
+        0,          // current frame
+        2,          // total frames
+        0.1f,       // frame duration in seconds
+        sf::Clock() // animation clock
+    });
+    reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
+    reg.emplace_component<component::controllable>(missile, component::controllable{false});
+    reg.emplace_component<component::type>(missile, component::type{6});
+}
+
+void Core::handleSuperShootCommands(std::istringstream& iss)
+{
+    int x, y;
+    iss >> x >> y;
+
+    Entity missile = reg.spawn_entity();
+    reg.emplace_component<component::position>(missile, component::position{x, y});
+    reg.emplace_component<component::velocity>(missile, component::velocity{6, 0});
+    sf::Sprite sprite = utils.cat("../ressources/sprites/super_shoot.png");
+
+    // Set up animation
+    sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 4, sprite.getGlobalBounds().height);
+    sprite.setTextureRect(rect);
+    sprite.setScale(4,4);
+    reg.emplace_component<component::animation>(missile, component::animation{
+        0,          // current frame
+        4,          // total frames
+        0.08f,      // frame duration in seconds
+        sf::Clock() // animation clock
+    });
+    reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
+    reg.emplace_component<component::controllable>(missile, component::controllable{false});
+    reg.emplace_component<component::type>(missile, component::type{6});
+}
+
+// Add this to your animation system update
+void Core::updateAnimations()
+{
+    auto& drawables = reg.get_components<component::drawable>();
+    auto& animations = reg.get_components<component::animation>();
+    for (size_t i = 0; i < animations.size(); ++i) {
+        if (!animations[i] || !drawables[i]) continue;
+        auto& anim = animations[i].value();
+        if (anim.clock.getElapsedTime().asSeconds() >= anim.frameDuration) {
+            anim.currentFrame = (anim.currentFrame + 1) % anim.totalFrames;
+            auto& sprite = drawables[i].value().sprite;
+            int frameWidth = sprite.getTextureRect().width;
+            sprite.setTextureRect(sf::IntRect(
+                anim.currentFrame * frameWidth,
+                0,
+                frameWidth,
+                sprite.getTextureRect().height
+            ));
+            anim.clock.restart();
+        }
+    }
+}
+
+void Core::handleLaserShootCommands(std::istringstream& iss)
+{
+    int x, y;
+    iss >> x >> y;
+
+    Entity missile = reg.spawn_entity();
+    reg.emplace_component<component::position>(missile, component::position{x, y});
+    reg.emplace_component<component::velocity>(missile, component::velocity{0, 0});
+    sf::Sprite sprite = utils.cat("../ressources/sprites/laser_shoot.png");
+    sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
+    sprite.setTextureRect(rect);
+    sprite.setScale(1.5, 6);
+    reg.emplace_component<component::animation>(missile, component::animation{
+        0,          // current frame
+        2,          // total frames
+        0.1f,      // frame duration in seconds
+        sf::Clock() // animation clock
+    });
     reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
     reg.emplace_component<component::controllable>(missile, component::controllable{false});
     reg.emplace_component<component::type>(missile, component::type{6});
@@ -225,6 +313,15 @@ void Core::handleMobShootCommand(std::istringstream& iss)
     reg.emplace_component<component::position>(missile, component::position{x, y});
     reg.emplace_component<component::velocity>(missile, component::velocity{-5, 0});
     sf::Sprite sprite = utils.cat("../ressources/sprites/shoot_mob.png");
+    sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
+    sprite.setTextureRect(rect);
+    sprite.setScale(2, 2);
+    reg.emplace_component<component::animation>(missile, component::animation{
+        0,          // current frame
+        2,          // total frames
+        0.5f,      // frame duration in seconds
+        sf::Clock() // animation clock
+    });
     reg.emplace_component<component::drawable>(missile, component::drawable{sprite});
     reg.emplace_component<component::controllable>(missile, component::controllable{false});
     reg.emplace_component<component::type>(missile, component::type{7});
@@ -241,10 +338,14 @@ void Core::handlePowerUpCommand(std::istringstream& iss)
     reg.emplace_component<component::position>(powerup, component::position{x, y});
     sf::Sprite sprite = utils.cat("../ressources/sprites/pow1.png");
     sf::Sprite sprite2 = utils.cat("../ressources/sprites/pow2.png");
+    sf::Sprite sprite3 = utils.cat("../ressources/sprites/pow3.png");
+    sprite3.setScale(2.5, 2.5);
     if (type == 0) {
         reg.emplace_component<component::drawable>(powerup, component::drawable{sprite});
     } else if (type == 1) {
         reg.emplace_component<component::drawable>(powerup, component::drawable{sprite2});
+    } else if (type == 2) {
+        reg.emplace_component<component::drawable>(powerup, component::drawable{sprite3});
     }
     reg.emplace_component<component::type>(powerup, component::type{type});
 }
@@ -261,7 +362,7 @@ void Core::handleCollisionCommand(std::istringstream& iss)
         if (type == 10 && invincibles[id].value().is_invincible == false) {
             handleMobCollision(id, healths, drawables, invincibles);
         }
-        else if (type == 0 || type == 1) {
+        else if (type == 0 || type == 1 || type == 2) {
             handlePowerUpCollision(id, type, healths);
         }
         else if (type == 7 && invincibles[id].value().is_invincible == false) {
@@ -297,6 +398,12 @@ void Core::handlePowerUpCollision(int id, int type, sparse_array<component::heal
             healths[id].value().hp += 10;
             if (healths[id].value().hp > 100) {
                 healths[id].value().hp = 100;
+            }
+            break;
+        case 2:
+            if (id == network->getId()) {
+                laserActive = true;
+                laserClock.restart();
             }
             break;
     }

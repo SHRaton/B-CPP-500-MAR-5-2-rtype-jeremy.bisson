@@ -24,6 +24,10 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             game->handleShoot(context, params);
         } else if (action == "START") {
             game->handleStart(context, params);
+        } else if (action == "LASER_SHOOT") {
+            game->handleLaserShoot(context, params);
+        } else if (action == "SUPER_SHOOT") {
+            game->handleSuperShoot(context, params);
         } else if (action == "POWER_UP_SPAWN") {
             game->handlePowerUpSpawn(context, params);
         } else if (action == "MOB_SPAWN") {
@@ -66,6 +70,10 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleLoose(context, params);
         } else if (action == "START") {
             network->handleStart(context, params);
+        } else if (action == "LASER_SHOOT") {
+            network->handleLaserShoot(context, params);
+        } else if(action == "SUPER_SHOOT") {
+            network->handleSuperShoot(context, params);
         } else if (action == "SCORE_UPDATE") {
             network->handleScoreUpdate(context, params);
         }

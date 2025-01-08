@@ -4,7 +4,7 @@ Request for Comments: 4242                                   Jérémy DELFINO
                                                              Luca GIGLIO
                                                              Alexandre VITTENET
                                                              Epitech Marseille
-                                                            December 2024
+                                                            January 2025
 Category: Standards Track
                             R-TYPE Protocol
 
@@ -20,6 +20,7 @@ Table of contents
     3. R-TYPE Protocol Commands........................................3
     4. R-TYPE Protocol Implementation..................................4
     5. Security and Performance Considerations.........................5
+    6. Advanced Features..............................................6
 
 1. Introduction
 
@@ -65,12 +66,19 @@ Table of contents
     | POWER_UP_SPAWN| 0b1001     | Spawn power-up    |
     | RESPAWN       | 0b1010     | Player respawn    |
     | MOB_SPAWN     | 0b1011     | Spawn enemy       |
+    | MOB_SHOOT     | 0b1100     | Enemy shoots      |
     | QUIT          | 0b1111     | Exit game         |
     | STOP_Y        | 0b10000    | Stop vertical     |
     | STOP_X        | 0b10001    | Stop horizontal   |
     | DEATH         | 0b10010    | Player death      |
     | COLLISION     | 0b10100    | Object collision  |
+    | WIN           | 0b10101    | Game won          |
+    | LOOSE         | 0b10110    | Game lost         |
+    | START         | 0b10111    | Game start        |
+    | SCORE_UPDATE  | 0b11001    | Update score      |
+    | SAVE_REPLAY   | 0b11010    | Save game replay  |
     | DISCONNECT    | 0b11011    | Client disconnect |
+    | PLAY_REPLAY   | 0b11100    | Play saved replay |
     | CONNECT       | 0b11111    | Client connect    |
     +---------------+------------+--------------------+
 
@@ -109,3 +117,38 @@ Table of contents
     essential for real-time gameplay. While it doesn't guarantee delivery,
     the game design accounts for potential packet loss through regular
     state updates and client-side prediction.
+
+6. Advanced Features
+
+    6.1 Replay System
+    The protocol includes support for game replay functionality:
+    - SAVE_REPLAY: Store game actions for later playback
+    - PLAY_REPLAY: Replay stored game sessions
+    
+    Replay data format:
+    - Timestamped sequence of game actions
+    - Player positions and states
+    - Game events and outcomes
+
+    6.2 Game State Management
+    Enhanced state control commands:
+    - START: Initialize new game session
+    - WIN/LOOSE: Game outcome signals
+    - SCORE_UPDATE: Real-time scoring updates
+
+    6.3 Extended Enemy Behavior
+    Additional enemy-related actions:
+    - MOB_SHOOT: Separate action for enemy projectiles
+    - MOB_SPAWN: Controlled enemy spawning
+
+    6.4 Movement Precision
+    Granular movement control:
+    - STOP_X/STOP_Y: Axis-specific movement stops
+    - Separate vertical and horizontal controls
+
+Implementation Recommendations:
+    1. Use thread-safe queues for message processing
+    2. Implement retry mechanism for critical actions
+    3. Include client-side prediction
+    4. Maintain action history for replay support
+    5. Monitor network performance metrics

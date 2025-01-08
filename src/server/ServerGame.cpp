@@ -64,6 +64,8 @@ ServerGame::ServerGame(Mediator &med) : med(med), lua()
     reg.register_component<component::invincible>();
     reg.register_component<component::size>();
     reg.register_component<component::triple_shot>();
+    reg.register_component<component::laser_shot>();
+    reg.register_component<component::super_shot>();
     reg.register_component<component::score>();
     reg.register_component<component::force>();
 
@@ -140,6 +142,15 @@ void ServerGame::initTimers(bool isAi)
 
     force_shot_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
     setup_force_shot_timer(*force_shot_timer_);
+
+    laser_shot_expiration_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
+    setup_laser_shot_expiration_timer(*laser_shot_expiration_timer_);
+
+    super_shot_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(100));
+    setup_super_shot_timer(*super_shot_timer_);
+
+    laser_shot_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(1));
+    setup_laser_shot_timer(*laser_shot_timer_);
 
     // Timer temporaire de win
     win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(123));
@@ -235,6 +246,24 @@ void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
 
             position_timer.expires_at(position_timer.expiry() + std::chrono::milliseconds(10));
             setup_position_timer(position_timer);
+        }
+    });
+}
+
+void ServerGame::setup_laser_shot_timer(boost::asio::steady_timer& laser_shot_timer)
+{
+    laser_shot_timer.async_wait([this, &laser_shot_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            auto& types = reg.get_components<component::type>();
+            for(size_t i = 0; i < types.size(); ++i) {
+                if (types[i].value().type == 8) {
+                    MediatorContext dummyContext;
+                    handleDeath(dummyContext, std::vector<std::string>{std::to_string(i)});
+                    reg.kill_entity(Entity(i));
+                }
+            }
+            laser_shot_timer.expires_at(laser_shot_timer.expiry() + std::chrono::milliseconds(500));
+            setup_laser_shot_timer(laser_shot_timer);
         }
     });
 }
@@ -391,6 +420,17 @@ void ServerGame::setup_force_shot_timer(boost::asio::steady_timer& force_shot_ti
     });
 }
 
+void ServerGame::setup_laser_shot_expiration_timer(boost::asio::steady_timer& laser_shot_timer)
+{
+    laser_shot_timer.async_wait([this, &laser_shot_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            checkLaserExpiration();
+            laser_shot_timer.expires_at(laser_shot_timer.expiry() + std::chrono::seconds(1));
+            setup_laser_shot_expiration_timer(laser_shot_timer);
+        }
+    });
+}
+
 void ServerGame::positionConciliation()
 {
     auto &positions = reg.get_components<component::position>();
@@ -426,6 +466,34 @@ void ServerGame::showAllEnityAlive()
             std::cout << "Entity " << types[i].value().type << " is alive." << std::endl;
         }
     }
+}
+
+
+void ServerGame::setup_super_shot_timer(boost::asio::steady_timer& super_shot_timer)
+{
+    super_shot_timer.async_wait([this, &super_shot_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            auto& super_shots = reg.get_components<component::super_shot>();
+            auto now = std::chrono::steady_clock::now();
+
+            for (size_t i = 0; i < super_shots.size(); ++i) {
+                if (super_shots[i].has_value() && !super_shots[i].value().is_ready) {
+                    auto duration = std::chrono::duration_cast<std::chrono::seconds>(
+                        now - super_shots[i].value().last_use_time
+                    ).count();
+                    
+                    if (duration >= component::super_shot::COOLDOWN_SECONDS) {
+                        super_shots[i].value().is_ready = true;
+                        std::vector<std::string> params = {std::to_string(i)};
+                        med.notify(Sender::GAME, "SUPER_SHOT_READY", params, MediatorContext());
+                    }
+                }
+            }
+            
+            super_shot_timer.expires_at(super_shot_timer.expiry() + std::chrono::milliseconds(100));
+            setup_super_shot_timer(super_shot_timer);
+        }
+    });
 }
 
 
@@ -500,6 +568,7 @@ void ServerGame::checkAllCollisions()
     auto& healths = reg.get_components<component::health>();
     auto& triple_shots = reg.get_components<component::triple_shot>();
     auto& invincibles = reg.get_components<component::invincible>();
+    auto& laser_shots = reg.get_components<component::laser_shot>();
     auto& force = reg.get_components<component::force>();
 
     for (size_t i = 0; i < positions.size(); ++i) {
@@ -586,7 +655,7 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                } else if (types[i].value().type == 6 && types[j].value().type >= 10) { // BULLET vs MOB
+                } else if ((types[i].value().type == 6 || types[i].value().type == 8)  && types[j].value().type >= 10) { // BULLET vs MOB
                     healths[j].value().hp -= 1000;
                     for (size_t k = 0; k < types.size(); ++k) {
                         if (types[k].has_value() && types[k].value().type == 5) {
@@ -609,7 +678,7 @@ void ServerGame::checkAllCollisions()
                         checkAllCollisions();
                         return;
                     }
-                } else if (types[i].value().type >= 10 && types[j].value().type == 6) { // BULLET vs MOB
+                } else if (types[i].value().type >= 10 && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
                     healths[i].value().hp -= 1000;
                     for (size_t k = 0; k < types.size(); ++k) {
                         if (types[k].has_value() && types[k].value().type == 5) {
@@ -632,12 +701,15 @@ void ServerGame::checkAllCollisions()
                         checkAllCollisions();
                         return;
                     }
-                } else if ((types[i].value().type == 0 || types[i].value().type == 1 || types[i].value().type == 2) && types[j].value().type == 5) { // PLAYER vs POWERUP
+                } else if ((types[i].value().type == 0 || types[i].value().type == 1 || types[j].value().type == 2 || types[j].value().type == 3) && types[j].value().type == 5) { // PLAYER vs POWERUP
                     if (types[i].value().type == 0) {
                         triple_shots[j].value().is_active = true;
                         triple_shots[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(10);
                     } else if (types[i].value().type == 1) { 
                         healths[j].value().hp += 10;
+                    } else if (types[i].value().type == 3) {
+                        laser_shots[j].value().is_active = true;
+                        laser_shots[j].value().activation_time = std::chrono::steady_clock::now();
                     } else if (types[i].value().type == 2) {
                         //Caractéristiques principales :
                         // tirer en avant, en arriere, bloque les balles ennemies
@@ -661,6 +733,9 @@ void ServerGame::checkAllCollisions()
                         triple_shots[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(10);
                     } else if (types[j].value().type == 1) {
                         healths[i].value().hp += 10;
+                    } else if (types[j].value().type == 3) {
+                        laser_shots[i].value().is_active = true;
+                        laser_shots[i].value().activation_time = std::chrono::steady_clock::now();
                     } else if (types[j].value().type == 2) {
                         invincibles[i].value().is_invincible = true;
                         force[i].value().is_active = true;
@@ -690,6 +765,25 @@ bool ServerGame::isColliding(const component::position& pos1, const component::p
 }
 
 
+
+void ServerGame::checkLaserExpiration()
+{
+    auto& laser_shots = reg.get_components<component::laser_shot>();
+    auto now = std::chrono::steady_clock::now();
+
+    for (size_t i = 0; i < laser_shots.size(); ++i) {
+        if (laser_shots[i] && laser_shots[i].value().is_active) {
+            auto duration = std::chrono::duration_cast<std::chrono::seconds>(
+                now - laser_shots[i].value().activation_time
+            ).count();
+
+            if (duration >= 5) {
+                // Désactiver le power-up
+                laser_shots[i].value().is_active = false;
+            }
+        }
+    }
+}
 //===================================COMMANDS=================================
 
 void ServerGame::handleConnect(const MediatorContext& context, const std::vector<std::string>& params)
@@ -704,6 +798,8 @@ void ServerGame::handleConnect(const MediatorContext& context, const std::vector
     reg.emplace_component<component::size>(player, component::size{50, 50});
     reg.emplace_component<component::triple_shot>(player, component::triple_shot{false, {}});
     reg.emplace_component<component::invincible>(player, component::invincible{false});
+    reg.emplace_component<component::laser_shot>(player, component::laser_shot{false, {}});
+    reg.emplace_component<component::super_shot>(player, component::super_shot{true, {}});
     reg.emplace_component<component::score>(player, component::score{0});
     reg.emplace_component<component::force>(player, component::force{false, {}});
 
@@ -808,8 +904,11 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
         int player_id = std::stoi(params[0]);
         auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
         auto& triple_shots = reg.get_components<component::triple_shot>();
-
-        if (triple_shots.size() > player_id && triple_shots[player_id].value().is_active) {
+        auto& laser_shots = reg.get_components<component::laser_shot>();
+        if(laser_shots.size() > player_id && laser_shots[player_id].value().is_active){
+            handleLaserShoot(context, params);
+            return;
+        } else if (triple_shots.size() > player_id && triple_shots[player_id].value().is_active) {
             // Tir multiple
             struct MissileConfig {
                 int y_offset;
@@ -832,6 +931,7 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
                 reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
                 reg.emplace_component<component::type>(bullet, component::type{6});
                 reg.emplace_component<component::size>(bullet, component::size{10, 10});
+                // handleMoove()
                 med.notify(Sender::GAME, "SHOOT", newParams, context);
             }
         } else {
@@ -844,6 +944,7 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
             reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
             reg.emplace_component<component::type>(bullet, component::type{6});
             reg.emplace_component<component::size>(bullet, component::size{10, 10});
+            //handleMoove(
             med.notify(Sender::GAME, "SHOOT", newParams, context);
         }
     } catch(const std::exception& e) {
@@ -942,6 +1043,71 @@ void ServerGame::handleDeath(const MediatorContext& context, const std::vector<s
         med.notify(Sender::GAME, "DEATH", newParams, context);
      } catch(const std::exception& e) {
         std::cout << Colors::RED << "[Error] Exception in handleDeath: " << e.what() << Colors::RESET << std::endl;
+        return;
+    }
+}
+
+void ServerGame::handleLaserShoot(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    if (state == GameState::LOBBY) {
+        return;
+    }
+    try {
+        params.size() == 0 ? throw std::runtime_error("No params") : 0;
+        int player_id = std::stoi(params[0]);
+        auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
+        auto& laser_shots = reg.get_components<component::laser_shot>();
+
+        if (laser_shots.size() > player_id && laser_shots[player_id].value().is_active) {
+            Entity bullet = reg.spawn_entity();
+            std::vector<std::string> newParams;
+            newParams.push_back(std::to_string(positions.x));
+            newParams.push_back(std::to_string(positions.y));
+
+            reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
+            reg.emplace_component<component::velocity>(bullet, component::velocity{0, 0});
+            reg.emplace_component<component::type>(bullet, component::type{8});
+            reg.emplace_component<component::size>(bullet, component::size{1900, 10}); // Fine mais longue
+
+            med.notify(Sender::GAME, "LASER_SHOOT", newParams, context);
+        }
+    } catch(const std::exception& e) {
+        std::cout << Colors::RED << "[Error] Exception in handleLaserShoot: " << e.what() << Colors::RESET << std::endl;
+        return;
+    }
+}
+
+void ServerGame::handleSuperShoot(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    if (state == GameState::LOBBY) {
+        return;
+    }
+    try {
+        params.size() == 0 ? throw std::runtime_error("No params") : 0;
+        int player_id = std::stoi(params[0]);
+        auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
+        auto& super_shots = reg.get_components<component::super_shot>();
+
+        if (super_shots.size() > player_id && super_shots[player_id].value().is_ready) {
+            // Super tir (plus grand et plus puissant)
+            Entity bullet = reg.spawn_entity();
+            std::vector<std::string> newParams;
+            newParams.push_back(std::to_string(positions.x));
+            newParams.push_back(std::to_string(positions.y));
+
+            reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
+            reg.emplace_component<component::velocity>(bullet, component::velocity{7, 0});
+            reg.emplace_component<component::type>(bullet, component::type{6}); // Type pour super tir
+            reg.emplace_component<component::size>(bullet, component::size{40, 40}); // Plus grand
+
+            // Mettre à jour le cooldown
+            super_shots[player_id].value().is_ready = false;
+            super_shots[player_id].value().last_use_time = std::chrono::steady_clock::now();
+
+            med.notify(Sender::GAME, "SUPER_SHOOT", newParams, context);
+        }
+    } catch(const std::exception& e) {
+        std::cout << Colors::RED << "[Error] Exception in handleSuperShoot: " << e.what() << Colors::RESET << std::endl;
         return;
     }
 }

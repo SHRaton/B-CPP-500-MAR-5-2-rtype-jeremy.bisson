@@ -158,6 +158,7 @@ class Core {
         std::unordered_map<sf::Keyboard::Key, bool> keysPressed;
         sf::Sprite vaisseau;
         sf::RectangleShape shootBar;
+        sf::RectangleShape superShootBar;
 
         std::map<std::string, Sprite> sprites_menu;
         std::vector<std::string> drawOrder_menu;
@@ -213,10 +214,15 @@ class Core {
             bool leftSent = false;
             bool rightSent = false;
             bool shootSent = false;
+            bool superShootSent = false;
             bool startSent = false;
         };
 
         float shootCooldown;
+        float superShootCooldown;
+        bool laserActive;
+        sf::Clock laserClock;
+        sf::Sprite laserPowerUpLogo;
 
         void handle_vertical_movement(float deltaSeconds, std::optional<component::velocity>& vel,
         std::optional<component::drawable>& drawable, std::optional<component::position>& pos);
@@ -238,6 +244,8 @@ class Core {
         void handleDisconnectCommand(std::istringstream& iss);
         void handleMovementCommands(std::istringstream& iss, GameAction action);
         void handleShootCommands(std::istringstream& iss);
+        void handleSuperShootCommands(std::istringstream& iss);
+        void handleLaserShootCommands(std::istringstream& iss);
         void handleMobShootCommand(std::istringstream& iss);
         void handlePowerUpCommand(std::istringstream& iss);
         void handleCollisionCommand(std::istringstream& iss);
@@ -271,6 +279,7 @@ class Core {
         };
         std::vector<PlayerInfo> otherPlayers;
         int nb_player;
+        
 
         //SOUNDS
 
@@ -288,6 +297,12 @@ class Core {
 
         sf::SoundBuffer shotBuffer;
         sf::Sound shotSound;
+
+        sf::SoundBuffer superShotBuffer;
+        sf::Sound superShotSound;
+
+        sf::SoundBuffer laserBuffer;
+        sf::Sound laserSound;
 
 
         //TEST
@@ -320,7 +335,8 @@ class Core {
         sf::Sprite gameWinSprite;
         sf::Texture gameWinTexture;
 
-
+        void playIntroAnimation();
         bool isDead;
+        void updateAnimations();
 
 };
