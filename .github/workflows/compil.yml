@@ -7,23 +7,16 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - name: Install System Dependencies
+    - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y python3-pip python3-venv libudev-dev libgl1-mesa-dev libsfml-dev
-    - name: Setup Python venv and install Conan
-      run: |
+        sudo apt-get install -y python3-pip python3-venv libudev-dev libgl1-mesa-dev
         python3 -m venv venv
         source venv/bin/activate
         pip install conan==2.0.17
-        conan profile detect --force
     - name: Build
       run: |
         source venv/bin/activate
-        cd build 
-        cmake .. -DCMAKE_BUILD_TYPE=Release 
-        cmake --build .
+        conan profile detect --force && conan install . --output-folder=build --build=missing && cd build && cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release && cmake --build .
     - name: Build package
-      run: |
-        source venv/bin/activate
-        cd build && cpack
+      run: cd build && cpack
