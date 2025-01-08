@@ -7,10 +7,10 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - name: Install Python and pip
+    - name: Install System Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y python3-pip python3-venv libudev-dev
+        sudo apt-get install -y python3-pip python3-venv libudev-dev libgl1-mesa-dev
     - name: Setup Python venv and install Conan
       run: |
         python3 -m venv venv
@@ -19,7 +19,11 @@ jobs:
     - name: Build
       run: |
         source venv/bin/activate
-        conan profile detect --force && conan install . --output-folder=build --build=missing -c tools.system.package_manager:mode=install && cd build && cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release && cmake --build .
+        conan profile detect --force
+        sudo conan install . --output-folder=build --build=missing -c tools.system.package_manager:mode=install
+        cd build 
+        cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release 
+        cmake --build .
     - name: Build package
       run: |
         source venv/bin/activate
