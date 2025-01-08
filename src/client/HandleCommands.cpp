@@ -96,26 +96,39 @@ void Core::handleMobSpawnCommand(std::istringstream& iss)
     mob.setPosition(x, y);
     
     reg.emplace_component<component::position>(newMob, component::position{x, y});
-    
+    //red mob
     if (mob_type == 0) {
-        sf::IntRect rect(0, 0, mob.getGlobalBounds().width / 8, mob.getGlobalBounds().height);
+        int frameWidth = 32;
+        int frameHeight = 36;
+        sf::IntRect rect(0, 0, frameWidth, frameHeight);
         mob.setTextureRect(rect);
+        
         reg.emplace_component<component::health>(newMob, component::health{300});
         reg.emplace_component<component::damage>(newMob, component::damage{10});
         reg.emplace_component<component::velocity>(newMob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(newMob, component::type{10});
+        reg.emplace_component<component::animation>(newMob, component::animation{
+            0, 8, 0.2f,
+            sf::Clock()
+        });
     } else if (mob_type == 1) {
-        sf::IntRect rect(0, 0, mob.getGlobalBounds().width / 8, mob.getGlobalBounds().height);
+        // Grey mob
+        int frameWidth = 40;
+        int frameHeight = 34;
+        sf::IntRect rect(0, 0, frameWidth, frameHeight);
         mob.setTextureRect(rect);
+        
         reg.emplace_component<component::health>(newMob, component::health{100});
         reg.emplace_component<component::damage>(newMob, component::damage{40});
         reg.emplace_component<component::velocity>(newMob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(newMob, component::type{11});
+        reg.emplace_component<component::animation>(newMob, component::animation{
+            0, 3, 0.3f,
+            sf::Clock()
+        });
     }
-
     mob.setScale(3, 3);
     reg.emplace_component<component::drawable>(newMob, component::drawable{mob});
-    std::cout << "MOB" << newMob << "SPAWNED AT " << x << " / " << y << std::endl;
 }
 
 void Core::handleConnectCommand(std::istringstream& iss)

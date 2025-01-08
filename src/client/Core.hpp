@@ -339,4 +339,14 @@ class Core {
         bool isDead;
         void updateAnimations();
 
+
+        struct AnimationLobby {
+    float progress = 0.0f;
+    bool isAnimating = true;
+    float targetX = 0.0f;
+    float targetY = 0.0f;
+    float startX = 0.0f;
+    float startY = 0.0f;
+};
+
 };
