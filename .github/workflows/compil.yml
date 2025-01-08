@@ -17,6 +17,8 @@ jobs:
         source venv/bin/activate
         pip install conan==2.0.17
         conan profile detect --force
+        conan remote remove conancenter
+        conan remote add conancenter https://center.conan.io/artifactory/api/conan/conan-center
     - name: Build
       run: |
         source venv/bin/activate
