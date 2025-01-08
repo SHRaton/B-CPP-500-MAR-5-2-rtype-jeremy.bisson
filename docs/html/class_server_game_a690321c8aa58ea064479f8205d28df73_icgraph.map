@@ -1,0 +1,10 @@
+<map id="ServerGame::spawnPowerUp" name="ServerGame::spawnPowerUp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="667,37,862,62"/>
+<area shape="rect" id="Node000002" href="$class_server_game.html#a52fe9325dc4644b455f6dfe03fa0a7e2" title=" " alt="" coords="429,29,619,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="652,52,620,52,620,47,652,47"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="560,16,547,10,524,8,503,10,490,15,485,21,487,28,482,29,480,19,487,10,502,5,524,3,548,5,563,11"/>
+<area shape="rect" id="Node000003" href="$class_server_game.html#a0157100c7f7204cb8d870947d0b81e6f" title=" " alt="" coords="222,37,381,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="414,52,381,52,381,47,414,47"/>
+<area shape="rect" id="Node000004" href="$class_server_game.html#a0dcb65cf6ca824c15b425d6e731ac7cb" title=" " alt="" coords="5,37,174,62"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="207,52,174,52,174,47,207,47"/>
+</map>

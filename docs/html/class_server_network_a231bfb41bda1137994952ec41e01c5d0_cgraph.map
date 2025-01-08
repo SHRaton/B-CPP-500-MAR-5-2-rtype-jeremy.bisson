@@ -1,0 +1,11 @@
+<map id="ServerNetwork::receive_messages" name="ServerNetwork::receive_messages">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,164,79"/>
+<area shape="rect" id="Node000002" href="$class_server_network.html#ae7ffb8d734525e9bf4f6bac4fa10dbfe" title=" " alt="" coords="212,5,370,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,44,196,38,197,44,164,49"/>
+<area shape="rect" id="Node000003" href="$class_server_network.html#afab7785be9c68eb1c569a36b64b358b6" title=" " alt="" coords="214,71,368,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="164,69,199,74,198,79,164,74"/>
+<area shape="rect" id="Node000004" href="$class_server_network.html#a3cdc99eb8ed134a23329bf2d8f9c74d2" title=" " alt="" coords="418,37,576,78"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="368,76,402,70,403,76,369,81"/>
+<area shape="rect" id="Node000005" href="$class_server_network.html#a0db1c8289d4b7ebb1274dab1d4dc9798" title=" " alt="" coords="430,103,564,143"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="369,100,415,108,414,113,368,106"/>
+</map>

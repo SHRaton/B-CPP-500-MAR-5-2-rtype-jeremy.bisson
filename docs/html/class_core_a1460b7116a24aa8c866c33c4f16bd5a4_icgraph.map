@@ -1,0 +1,9 @@
+<map id="Core::gui_login" name="Core::gui_login">
+<area shape="rect" id="Node000001" title=" " alt="" coords="386,5,495,31"/>
+<area shape="rect" id="Node000002" href="$class_core.html#a78dfa9b9ed54a7ba8cfe1be701b79feb" title=" " alt="" coords="225,5,338,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="371,21,339,21,339,16,371,16"/>
+<area shape="rect" id="Node000003" href="$class_core.html#aa6045a2323610bfa0ee712b028eb43e4" title=" " alt="" coords="103,5,177,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="209,21,177,21,177,16,209,16"/>
+<area shape="rect" id="Node000004" href="$client_2main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,55,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="87,21,55,21,55,16,87,16"/>
+</map>

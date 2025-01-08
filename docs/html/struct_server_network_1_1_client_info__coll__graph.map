@@ -1,0 +1,7 @@
+<map id="ServerNetwork::ClientInfo" name="ServerNetwork::ClientInfo">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,135,167,201"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="28,5,70,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="48,71,53,110,56,119,51,121,48,111,43,72"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="106,5,141,72"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="117,72,103,119,98,118,112,70"/>
+</map>

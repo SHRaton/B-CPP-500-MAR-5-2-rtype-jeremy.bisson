@@ -1,0 +1,5 @@
+<map id="Entity" name="Entity">
+<area shape="rect" id="Node000001" title="Classe représentant une entité dans le système ECS." alt="" coords="5,135,123,221"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="42,5,87,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="67,72,67,117,62,117,62,72"/>
+</map>

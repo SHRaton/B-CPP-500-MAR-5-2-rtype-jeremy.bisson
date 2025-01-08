@@ -47,6 +47,18 @@ make
 - **Network**: Lightning-fast UDP-based client-server architecture
 - **Graphics**: Stunning SFML-powered visuals and effects
 
+## 🎮 What is R-Type?
+
+R-Type is a legendary side-scrolling shoot'em up arcade game originally released by Irem in 1987. Set in the 22nd century, players control a starship called the R-9 "Arrowhead" to defend humanity against the mysterious alien force known as the "Bydo Empire".
+
+[🎮 Watch the original R-Type gameplay](https://www.youtube.com/watch?v=2sPHrBz_jR4)
+
+[📚 Learn more about R-Type on Wikipedia](https://en.wikipedia.org/wiki/R-Type)
+
+![R-Type Gameplay Screenshot](./ressources/background/screen.jpg)
+
+Known for its challenging gameplay, distinctive biomechanical enemy designs, and innovative "Force" power-up system, R-Type revolutionized the shoot'em up genre and inspired countless games that followed. Our project aims to recreate this classic gaming experience with modern multiplayer capabilities while preserving the core elements that made the original so memorable.
+
 ## 🎯 Controls
 
 - **↑↓←→**: Movement

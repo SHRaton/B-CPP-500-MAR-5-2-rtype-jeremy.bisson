@@ -1,0 +1,5 @@
+<map id="Systems::draw_system" name="Systems::draw_system">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,165,31"/>
+<area shape="rect" id="Node000002" href="$classregistry.html#a3866ee276a5a1d78d00cd403e8e8c7d9" title=" " alt="" coords="213,5,381,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,16,197,16,197,21,165,21"/>
+</map>

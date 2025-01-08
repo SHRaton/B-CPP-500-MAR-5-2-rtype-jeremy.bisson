@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>R-Type:  Fichier source de src/client/UDPNetworkClient.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">R-Type
+   </div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_u_d_p_network_client_8hpp_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">UDPNetworkClient.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_u_d_p_network_client_8hpp.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;boost/asio.hpp&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;queue&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;optional&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="_utils_8hpp.html">Utils.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="foldopen" id="foldopen00043" data-start="{" data-end="};">
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html">   43</a></span><span class="keyword">class </span><a class="code hl_function" href="class_u_d_p_network_client.html#a728b74834b618daa97c7c4d5ad7baa88">UDPNetworkClient</a> {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <a class="code hl_function" href="class_u_d_p_network_client.html#a728b74834b618daa97c7c4d5ad7baa88">UDPNetworkClient</a>(<span class="keyword">const</span> std::string&amp; server_ip, uint16_t server_port);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <a class="code hl_function" href="class_u_d_p_network_client.html#af32934df561d4442624398b29cc11875">~UDPNetworkClient</a>();</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#a07755e337bfe527489661c288ed28e77">   53</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_u_d_p_network_client.html#a07755e337bfe527489661c288ed28e77">check_connection</a>();</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_u_d_p_network_client.html#a2a630cb0943dc55aeddb3147bfcad15a">send</a>(<span class="keyword">const</span> std::string&amp; message);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="comment">// Receive and delete from queue the first message of the stack</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    std::optional&lt;std::string&gt; <a class="code hl_function" href="class_u_d_p_network_client.html#a158fb75354b975b96e0655e472bd5ce9">receive</a>();</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// Receive and delete from queue all messages of the stack</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="class_u_d_p_network_client.html#a7cb4509963b7cba8f83452ff70304684">receive_all</a>();</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_u_d_p_network_client.html#ad793527f00eac611414aa1e4b91b84e8">print_message_queue</a>();</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_u_d_p_network_client.html#af74ea9f8676f14959ce56dc7a009a30f">stop</a>();</div>
+<div class="foldopen" id="foldopen00061" data-start="{" data-end="}">
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#ae3f5d5863be30a1c54389b557ed77c2b">   61</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_u_d_p_network_client.html#ae3f5d5863be30a1c54389b557ed77c2b">setId</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <a class="code hl_variable" href="class_u_d_p_network_client.html#a3074ec509ee266d01e971429a9d51275">_id</a> = id;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    };</div>
+</div>
+<div class="foldopen" id="foldopen00064" data-start="{" data-end="}">
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#af3ab70e9edb11f4f76ef205309ed2c6d">   64</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_u_d_p_network_client.html#af3ab70e9edb11f4f76ef205309ed2c6d">getId</a>() {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="keywordflow">return</span>(<a class="code hl_variable" href="class_u_d_p_network_client.html#a3074ec509ee266d01e971429a9d51275">_id</a>);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    };</div>
+</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_u_d_p_network_client.html#a85c348fbe3101822cede65d57e042fdd">start_receive</a>();</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_u_d_p_network_client.html#aa1d5a4bd444e21bfb102f93fbe0025cd">process_send_queue</a>();</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#a8199f04bd72b8b656cdf0c4c7dcba526">   72</a></span>    <a class="code hl_class" href="class_utils.html">Utils</a> <a class="code hl_variable" href="class_u_d_p_network_client.html#a8199f04bd72b8b656cdf0c4c7dcba526">utils</a>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#ac6c161b0a79babd31ed703daa91f0fa2">   74</a></span>    std::shared_ptr&lt;boost::asio::io_context&gt; <a class="code hl_variable" href="class_u_d_p_network_client.html#ac6c161b0a79babd31ed703daa91f0fa2">m_io_context</a>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#a091f7326eb45ec12f4c1baa298183db5">   75</a></span>    std::thread <a class="code hl_variable" href="class_u_d_p_network_client.html#a091f7326eb45ec12f4c1baa298183db5">m_io_thread</a>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#aacff6f30a96ff5a418f10e883d87f250">   76</a></span>    boost::asio::ip::udp::socket <a class="code hl_variable" href="class_u_d_p_network_client.html#aacff6f30a96ff5a418f10e883d87f250">m_socket</a>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#a175e3973163ae55e48788fb69dd5a494">   77</a></span>    boost::asio::ip::udp::endpoint <a class="code hl_variable" href="class_u_d_p_network_client.html#a175e3973163ae55e48788fb69dd5a494">m_server_endpoint</a>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#aa008e4ae0f7a302522e94245fef92c5b">   78</a></span>    boost::asio::ip::udp::endpoint <a class="code hl_variable" href="class_u_d_p_network_client.html#aa008e4ae0f7a302522e94245fef92c5b">m_remote_endpoint</a>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#a2931eefbb0a0dd6120e1d9f59bcf2e90">   80</a></span>    std::function&lt;void()&gt; <a class="code hl_variable" href="class_u_d_p_network_client.html#a2931eefbb0a0dd6120e1d9f59bcf2e90">m_disconnect_handler</a>;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#a47839fc58563cf2f786883f8f9d63142">   82</a></span>    std::queue&lt;std::string&gt; <a class="code hl_variable" href="class_u_d_p_network_client.html#a47839fc58563cf2f786883f8f9d63142">m_send_queue</a>;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#a6d27e1e2a0ea730eb219eb784992e969">   83</a></span>    std::mutex <a class="code hl_variable" href="class_u_d_p_network_client.html#a6d27e1e2a0ea730eb219eb784992e969">m_send_mutex</a>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#aa61c229a7f21f65194399468547d979d">   85</a></span>    std::deque&lt;std::string&gt; <a class="code hl_variable" href="class_u_d_p_network_client.html#aa61c229a7f21f65194399468547d979d">m_received_messages</a>;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#a4842720123952372ffefc6201d32b35b">   86</a></span>    std::mutex <a class="code hl_variable" href="class_u_d_p_network_client.html#a4842720123952372ffefc6201d32b35b">m_receive_mutex</a>;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#acf59d2f576b17b2c678495a81c802a2c">   88</a></span>    std::atomic&lt;bool&gt; <a class="code hl_variable" href="class_u_d_p_network_client.html#acf59d2f576b17b2c678495a81c802a2c">m_is_running</a>;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#a068d76c78c126e590d609aebf6839290">   89</a></span>    std::function&lt;void(<span class="keyword">const</span> std::string&amp;)&gt; <a class="code hl_variable" href="class_u_d_p_network_client.html#a068d76c78c126e590d609aebf6839290">m_message_handler</a>;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#a0dd7e6be175cc35dc5ecdf3ec91c66b3">   90</a></span>    std::array&lt;char, 1024&gt; <a class="code hl_variable" href="class_u_d_p_network_client.html#a0dd7e6be175cc35dc5ecdf3ec91c66b3">m_receive_buffer</a>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="class_u_d_p_network_client.html#a3074ec509ee266d01e971429a9d51275">   92</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="class_u_d_p_network_client.html#a3074ec509ee266d01e971429a9d51275">_id</a>;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>};</div>
+</div>
+<div class="ttc" id="a_utils_8hpp_html"><div class="ttname"><a href="_utils_8hpp.html">Utils.hpp</a></div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a068d76c78c126e590d609aebf6839290"><div class="ttname"><a href="class_u_d_p_network_client.html#a068d76c78c126e590d609aebf6839290">UDPNetworkClient::m_message_handler</a></div><div class="ttdeci">std::function&lt; void(const std::string &amp;)&gt; m_message_handler</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:89</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a07755e337bfe527489661c288ed28e77"><div class="ttname"><a href="class_u_d_p_network_client.html#a07755e337bfe527489661c288ed28e77">UDPNetworkClient::check_connection</a></div><div class="ttdeci">void check_connection()</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a091f7326eb45ec12f4c1baa298183db5"><div class="ttname"><a href="class_u_d_p_network_client.html#a091f7326eb45ec12f4c1baa298183db5">UDPNetworkClient::m_io_thread</a></div><div class="ttdeci">std::thread m_io_thread</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:75</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a0dd7e6be175cc35dc5ecdf3ec91c66b3"><div class="ttname"><a href="class_u_d_p_network_client.html#a0dd7e6be175cc35dc5ecdf3ec91c66b3">UDPNetworkClient::m_receive_buffer</a></div><div class="ttdeci">std::array&lt; char, 1024 &gt; m_receive_buffer</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:90</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a158fb75354b975b96e0655e472bd5ce9"><div class="ttname"><a href="class_u_d_p_network_client.html#a158fb75354b975b96e0655e472bd5ce9">UDPNetworkClient::receive</a></div><div class="ttdeci">std::optional&lt; std::string &gt; receive()</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.cpp:37</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a175e3973163ae55e48788fb69dd5a494"><div class="ttname"><a href="class_u_d_p_network_client.html#a175e3973163ae55e48788fb69dd5a494">UDPNetworkClient::m_server_endpoint</a></div><div class="ttdeci">boost::asio::ip::udp::endpoint m_server_endpoint</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:77</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a2931eefbb0a0dd6120e1d9f59bcf2e90"><div class="ttname"><a href="class_u_d_p_network_client.html#a2931eefbb0a0dd6120e1d9f59bcf2e90">UDPNetworkClient::m_disconnect_handler</a></div><div class="ttdeci">std::function&lt; void()&gt; m_disconnect_handler</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:80</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a2a630cb0943dc55aeddb3147bfcad15a"><div class="ttname"><a href="class_u_d_p_network_client.html#a2a630cb0943dc55aeddb3147bfcad15a">UDPNetworkClient::send</a></div><div class="ttdeci">void send(const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.cpp:28</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a3074ec509ee266d01e971429a9d51275"><div class="ttname"><a href="class_u_d_p_network_client.html#a3074ec509ee266d01e971429a9d51275">UDPNetworkClient::_id</a></div><div class="ttdeci">int _id</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:92</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a47839fc58563cf2f786883f8f9d63142"><div class="ttname"><a href="class_u_d_p_network_client.html#a47839fc58563cf2f786883f8f9d63142">UDPNetworkClient::m_send_queue</a></div><div class="ttdeci">std::queue&lt; std::string &gt; m_send_queue</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:82</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a4842720123952372ffefc6201d32b35b"><div class="ttname"><a href="class_u_d_p_network_client.html#a4842720123952372ffefc6201d32b35b">UDPNetworkClient::m_receive_mutex</a></div><div class="ttdeci">std::mutex m_receive_mutex</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:86</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a6d27e1e2a0ea730eb219eb784992e969"><div class="ttname"><a href="class_u_d_p_network_client.html#a6d27e1e2a0ea730eb219eb784992e969">UDPNetworkClient::m_send_mutex</a></div><div class="ttdeci">std::mutex m_send_mutex</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:83</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a728b74834b618daa97c7c4d5ad7baa88"><div class="ttname"><a href="class_u_d_p_network_client.html#a728b74834b618daa97c7c4d5ad7baa88">UDPNetworkClient::UDPNetworkClient</a></div><div class="ttdeci">UDPNetworkClient(const std::string &amp;server_ip, uint16_t server_port)</div><div class="ttdoc">Constructeur initialisant la connexion au serveur.</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.cpp:11</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a7cb4509963b7cba8f83452ff70304684"><div class="ttname"><a href="class_u_d_p_network_client.html#a7cb4509963b7cba8f83452ff70304684">UDPNetworkClient::receive_all</a></div><div class="ttdeci">std::vector&lt; std::string &gt; receive_all()</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.cpp:49</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a8199f04bd72b8b656cdf0c4c7dcba526"><div class="ttname"><a href="class_u_d_p_network_client.html#a8199f04bd72b8b656cdf0c4c7dcba526">UDPNetworkClient::utils</a></div><div class="ttdeci">Utils utils</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:72</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_a85c348fbe3101822cede65d57e042fdd"><div class="ttname"><a href="class_u_d_p_network_client.html#a85c348fbe3101822cede65d57e042fdd">UDPNetworkClient::start_receive</a></div><div class="ttdeci">void start_receive()</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.cpp:81</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_aa008e4ae0f7a302522e94245fef92c5b"><div class="ttname"><a href="class_u_d_p_network_client.html#aa008e4ae0f7a302522e94245fef92c5b">UDPNetworkClient::m_remote_endpoint</a></div><div class="ttdeci">boost::asio::ip::udp::endpoint m_remote_endpoint</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:78</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_aa1d5a4bd444e21bfb102f93fbe0025cd"><div class="ttname"><a href="class_u_d_p_network_client.html#aa1d5a4bd444e21bfb102f93fbe0025cd">UDPNetworkClient::process_send_queue</a></div><div class="ttdeci">void process_send_queue()</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.cpp:103</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_aa61c229a7f21f65194399468547d979d"><div class="ttname"><a href="class_u_d_p_network_client.html#aa61c229a7f21f65194399468547d979d">UDPNetworkClient::m_received_messages</a></div><div class="ttdeci">std::deque&lt; std::string &gt; m_received_messages</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:85</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_aacff6f30a96ff5a418f10e883d87f250"><div class="ttname"><a href="class_u_d_p_network_client.html#aacff6f30a96ff5a418f10e883d87f250">UDPNetworkClient::m_socket</a></div><div class="ttdeci">boost::asio::ip::udp::socket m_socket</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:76</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_ac6c161b0a79babd31ed703daa91f0fa2"><div class="ttname"><a href="class_u_d_p_network_client.html#ac6c161b0a79babd31ed703daa91f0fa2">UDPNetworkClient::m_io_context</a></div><div class="ttdeci">std::shared_ptr&lt; boost::asio::io_context &gt; m_io_context</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:74</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_acf59d2f576b17b2c678495a81c802a2c"><div class="ttname"><a href="class_u_d_p_network_client.html#acf59d2f576b17b2c678495a81c802a2c">UDPNetworkClient::m_is_running</a></div><div class="ttdeci">std::atomic&lt; bool &gt; m_is_running</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:88</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_ad793527f00eac611414aa1e4b91b84e8"><div class="ttname"><a href="class_u_d_p_network_client.html#ad793527f00eac611414aa1e4b91b84e8">UDPNetworkClient::print_message_queue</a></div><div class="ttdeci">void print_message_queue()</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.cpp:60</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_ae3f5d5863be30a1c54389b557ed77c2b"><div class="ttname"><a href="class_u_d_p_network_client.html#ae3f5d5863be30a1c54389b557ed77c2b">UDPNetworkClient::setId</a></div><div class="ttdeci">void setId(int id)</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:61</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_af32934df561d4442624398b29cc11875"><div class="ttname"><a href="class_u_d_p_network_client.html#af32934df561d4442624398b29cc11875">UDPNetworkClient::~UDPNetworkClient</a></div><div class="ttdeci">~UDPNetworkClient()</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.cpp:23</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_af3ab70e9edb11f4f76ef205309ed2c6d"><div class="ttname"><a href="class_u_d_p_network_client.html#af3ab70e9edb11f4f76ef205309ed2c6d">UDPNetworkClient::getId</a></div><div class="ttdeci">int getId()</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.hpp:64</div></div>
+<div class="ttc" id="aclass_u_d_p_network_client_html_af74ea9f8676f14959ce56dc7a009a30f"><div class="ttname"><a href="class_u_d_p_network_client.html#af74ea9f8676f14959ce56dc7a009a30f">UDPNetworkClient::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdef"><b>Definition</b> UDPNetworkClient.cpp:71</div></div>
+<div class="ttc" id="aclass_utils_html"><div class="ttname"><a href="class_utils.html">Utils</a></div><div class="ttdoc">Classe utilitaire fournissant des fonctions communes.</div><div class="ttdef"><b>Definition</b> Utils.hpp:49</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_6908ff505388a07996d238c763adbdab.html">client</a></li><li class="navelem"><a class="el" href="_u_d_p_network_client_8hpp.html">UDPNetworkClient.hpp</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.1 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{
+    "entities": [
+      {
+        "type": "mob",
+        "subtype": "enemy1",
+        "position": { "x": 1900, "y": 200 },
+        "behavior": "follow_path",
+        "path": [
+          { "x": 100, "y": 200 },
+          { "x": 300, "y": 400 }
+        ]
+      },
+      {
+        "type": "mob",
+        "subtype": "enemy2",
+        "position": { "x": 2150, "y": 250 },
+        "behavior": "static"
+      },
+      {
+        "type": "mob",
+        "subtype": "enemy2",
+        "position": { "x": 2500, "y": 250 },
+        "behavior": "automatic"
+      },
+      {
+        "type": "mob",
+        "subtype": "enemy2",
+        "position": { "x": 3500, "y": 250 },
+        "behavior": "automatic"
+      },
+      {
+        "type": "mob",
+        "subtype": "enemy2",
+        "position": { "x": 4500, "y": 250 },
+        "behavior": "automatic"
+      },
+      {
+        "type": "mob",
+        "subtype": "enemy2",
+        "position": { "x": 5500, "y": 250 },
+        "behavior": "automatic"
+      },
+      {
+        "type": "mob",
+        "subtype": "enemy2",
+        "position": { "x": 6500, "y": 250 },
+        "behavior": "automatic"
+      },
+      {
+        "type": "powerup",
+        "subtype": "triple_shoot",
+        "position": { "x": 2000, "y": 300 }
+      }
+    ]
+}

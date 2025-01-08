@@ -1,0 +1,11 @@
+<map id="ServerGame::StopAllTimers" name="ServerGame::StopAllTimers">
+<area shape="rect" id="Node000001" title=" " alt="" coords="650,12,835,38"/>
+<area shape="rect" id="Node000002" href="$class_server_game.html#a0157100c7f7204cb8d870947d0b81e6f" title=" " alt="" coords="222,12,381,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="635,14,602,12,516,8,429,12,382,16,381,11,429,6,516,3,602,6,635,9"/>
+<area shape="rect" id="Node000004" href="$class_server_game.html#ac11805bef3774422a1b0235d47a7efed" title=" " alt="" coords="429,45,602,85"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="651,44,603,52,602,47,650,38"/>
+<area shape="rect" id="Node000003" href="$class_server_game.html#a0dcb65cf6ca824c15b425d6e731ac7cb" title=" " alt="" coords="5,12,174,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="207,28,174,28,174,22,207,22"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="414,49,373,41,374,36,415,43"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="551,31,538,25,516,23,495,25,483,30,478,36,480,43,475,44,473,35,480,26,494,20,516,18,539,20,553,26"/>
+</map>

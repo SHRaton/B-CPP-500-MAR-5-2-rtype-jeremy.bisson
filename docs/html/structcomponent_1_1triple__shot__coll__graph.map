@@ -1,0 +1,7 @@
+<map id="component::triple_shot" name="component::triple_shot">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,135,148,201"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="13,5,47,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="29,71,30,91,34,110,38,120,33,122,29,112,24,91,24,71"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="89,5,160,72"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="115,72,97,120,92,118,110,70"/>
+</map>

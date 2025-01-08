@@ -1,0 +1,73 @@
+# Nom du projet
+PROJECT_NAME           = "R-Type"
+
+# Directory de sortie pour la documentation
+OUTPUT_DIRECTORY       = ./docs
+
+# Langage de sortie
+OUTPUT_LANGUAGE        = French
+
+# Extraction de tous les éléments
+EXTRACT_ALL           = YES
+EXTRACT_PRIVATE       = YES
+EXTRACT_STATIC        = YES
+
+# Input - Dossiers sources et mainpage
+INPUT                 = src/ \
+                       includes/ \
+                       docs/mainpage.dox \
+                       docs/Architecture.hpp
+
+# Configuration des fichiers
+FILE_PATTERNS         = *.cpp \
+                       *.h \
+                       *.hpp \
+                       *.dox
+RECURSIVE             = YES
+
+# Génération HTML
+GENERATE_HTML         = YES
+HTML_OUTPUT          = html
+HTML_FILE_EXTENSION   = .html
+
+# Désactiver LaTeX
+GENERATE_LATEX        = NO
+
+# Configuration des graphiques
+HAVE_DOT             = YES
+CLASS_DIAGRAMS       = YES
+HIDE_UNDOC_RELATIONS = NO
+
+# Configuration du mainpage
+USE_MDFILE_AS_MAINPAGE = mainpage.dox
+FULL_PATH_NAMES        = YES
+DOCUMENTATION_SECTIONS = YES
+
+# Activation de Markdown
+MARKDOWN_SUPPORT       = YES
+
+# Active la génération de graphiques
+HAVE_DOT               = YES
+DOT_NUM_THREADS       = 0
+CLASS_DIAGRAMS        = YES
+HIDE_UNDOC_RELATIONS  = NO
+
+# Active la génération de diagrammes UML
+UML_LOOK              = YES
+UML_LIMIT_NUM_FIELDS  = 50
+
+# Configure les types de diagrammes
+CLASS_GRAPH           = YES
+COLLABORATION_GRAPH   = YES
+TEMPLATE_RELATIONS    = YES
+INCLUDE_GRAPH        = YES
+INCLUDED_BY_GRAPH    = YES
+CALL_GRAPH           = NO
+CALLER_GRAPH         = NO
+
+# Format de sortie des diagrammes
+DOT_IMAGE_FORMAT      = svg
+INTERACTIVE_SVG       = YES
+
+# Mermaid support
+MERMAID_SUPPORT = YES

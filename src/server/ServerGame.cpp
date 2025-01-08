@@ -1,7 +1,59 @@
 #include "ServerGame.hpp"
 
-ServerGame::ServerGame(Mediator &med) : med(med)
+ServerGame::ServerGame(Mediator &med) : med(med), lua()
 {
+    lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::table, sol::lib::os);
+
+    // Exposer une fonction C++ à Lua
+    lua.set_function("print_from_cpp", [](const std::string& message) {
+        std::cout << "[Lua] " << message << std::endl;
+    });
+
+    // Exemple d'exposition d'une méthode pour manipuler l'IA
+    lua.set_function("update_velocity", [&](size_t entityId, double vx, double vy) {
+        std::cout << "Updating velocity for entity " << entityId << " to (" << vx << ", " << vy << ")" << std::endl;
+        auto& velocities = reg.get_components<component::velocity>();
+        if (entityId < velocities.size() && velocities[entityId]) {
+            velocities[entityId]->vx = vx;
+            velocities[entityId]->vy = vy;
+            if (vx > 0) {
+                handleMoves("RIGHT", MediatorContext(), {std::to_string(entityId)});
+            } else if (vx < 0) {
+                handleMoves("LEFT", MediatorContext(), {std::to_string(entityId)});
+            } else {
+                handleMoves("STOP_X", MediatorContext(), {std::to_string(entityId)});
+            }
+            if (vy > 0) {
+                handleMoves("DOWN", MediatorContext(), {std::to_string(entityId)});
+            } else if (vy < 0) {
+                handleMoves("UP", MediatorContext(), {std::to_string(entityId)});
+            } else {
+                handleMoves("STOP_Y", MediatorContext(), {std::to_string(entityId)});
+            }
+        }
+    });
+
+    lua.set_function("spawn_bullet", [&](size_t entityId) {
+        auto& positions = reg.get_components<component::position>();
+        int x = positions[entityId].value().x + 50;
+        int y = positions[entityId].value().y + 50;
+        std::cout << "Spawning bullet for entity " << entityId << " at (" << x << ", " << y << ")" << std::endl;
+        Entity bullet = reg.spawn_entity();
+        reg.emplace_component<component::position>(bullet, component::position{x, y});
+        reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
+        reg.emplace_component<component::type>(bullet, component::type{6});
+        reg.emplace_component<component::size>(bullet, component::size{10, 10});
+        std::vector<std::string> newParams;
+        newParams.push_back(std::to_string(x));
+        newParams.push_back(std::to_string(y));
+        med.notify(Sender::GAME, "SHOOT", newParams, MediatorContext());
+    });
+
+    loadLuaScript("../src/lua/enemy_ai.lua");
+    loadJson("../src/json/level1.json");
+
+    std::cout << "Lua VM initialized!" << std::endl;
+
     reg.register_component<component::position>();
     reg.register_component<component::velocity>();
     reg.register_component<component::drawable>();
@@ -14,37 +66,82 @@ ServerGame::ServerGame(Mediator &med) : med(med)
     reg.register_component<component::triple_shot>();
     reg.register_component<component::laser_shot>();
     reg.register_component<component::super_shot>();
+    reg.register_component<component::score>();
+    reg.register_component<component::force>();
 
     state = GameState::LOBBY;
     med.register_game(this);
 };
 
+void ServerGame::loadLuaScript(const std::string& scriptPath) {
+    try {
+        lua.script_file(scriptPath);
+        std::cout << "Lua script loaded: " << scriptPath << std::endl;
+    } catch (const sol::error& e) {
+        std::cerr << "Error loading Lua script: " << e.what() << std::endl;
+    }
+}
+
+void ServerGame::loadJson(const std::string& filename) {
+    std::ifstream file(filename);
+    if (!file) {
+        std::cerr << "Impossible de lire le fichier : " << filename << std::endl;
+        return;
+    }
+
+    nlohmann::json levelData;
+    file >> levelData;
+
+    for (const auto& entity : levelData["entities"]) {
+        JsonEntity jsonEntity;
+        jsonEntity.type = entity["type"];
+        jsonEntity.subtype = entity["subtype"];
+        jsonEntity.x = entity["position"]["x"];
+        jsonEntity.y = entity["position"]["y"];
+        std::cout << "Entity: " << jsonEntity.type << " at (" << jsonEntity.x << ", " << jsonEntity.y << ")" << std::endl;
+
+        if (entity.contains("behavior")) {
+            jsonEntity.behavior = entity["behavior"];
+            std::cout << "  Behavior: " << jsonEntity.behavior << std::endl;
+        } else {
+            jsonEntity.behavior = "";
+            std::cout << "  No behavior" << std::endl;
+        }
+        allEntities.push_back(jsonEntity);
+    }
+    std::sort(allEntities.begin(), allEntities.end(), [](const JsonEntity& a, const JsonEntity& b) {
+        return a.x < b.x;
+    });
+}
+
+
 //===================================TIMERS===================================
 
-void ServerGame::initTimers()
+void ServerGame::initTimers(bool isAi)
 {
-    spawn_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(20));
-    setup_spawn_timer(*spawn_timer_);
     position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(1));
     setup_position_timer(*position_timer_);
     conciliation_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(10));
     setup_conciliation_timer(*conciliation_timer_);
 
     //TODO: initialiser d'autres timers ici
-    powerup_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(5));
-    setup_powerup_timer(*powerup_timer_);
 
     collision_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
     setup_collision_timer(*collision_timer_);
 
-    invincible_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(10));
-    setup_invincible_timer(*invincible_timer_);
+    powerup_expiration_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(10));
+    setup_powerup_expiration_timer(*powerup_expiration_timer_);
 
-    ia_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(15));
+    ia_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(5));
     setup_iaMobs(*ia_timer_);
 
-    triple_shot_expiration_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
-    setup_triple_shot_expiration_timer(*triple_shot_expiration_timer_);
+    if (isAi) {
+        player_ia_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
+        setup_ia_player(*player_ia_timer_);
+    }
+
+    force_shot_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
+    setup_force_shot_timer(*force_shot_timer_);
 
     laser_shot_expiration_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
     setup_laser_shot_expiration_timer(*laser_shot_expiration_timer_);
@@ -60,21 +157,93 @@ void ServerGame::initTimers()
     win_timer_->async_wait([this](const boost::system::error_code& ec) {
         if (!ec) {
             med.notify(Sender::GAME, "WIN", {}, MediatorContext());
+            StopAllTimers();
             std::cout << "SHEEEEEESSSSSSHHH CEST LA WIN" << std::endl;
         }
     });
 
+    game_over_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
+    setup_game_over_timer(*game_over_timer_);
+    std::cout << Colors::GREEN << "[Game] Game over timer initialized" << Colors::RESET << std::endl;
 
     io_thread_ = std::thread([this]() {
             io_context_.run();
     });
 }
 
+void ServerGame::StopAllTimers()
+{
+    position_timer_->cancel();
+    conciliation_timer_->cancel();
+    collision_timer_->cancel();
+    invincible_timer_->cancel();
+    ia_timer_->cancel();
+    triple_shot_expiration_timer_->cancel();
+    win_timer_->cancel();
+    game_over_timer_->cancel();
+}
+
+void ServerGame::setup_game_over_timer(boost::asio::steady_timer& game_over_timer)
+{
+    game_over_timer.async_wait([this, &game_over_timer](const boost::system::error_code& ec) {
+        if (!ec) {
+            if (state == GameState::INGAME && !areAllPlayersDead()) {
+                med.notify(Sender::GAME, "LOOSE", {}, MediatorContext());
+                StopAllTimers();
+                state = GameState::LOBBY;
+                std::cout << Colors::RED << "[Game] All players are dead - Game Over!" << Colors::RESET << std::endl;
+                return;
+            }
+            game_over_timer.expires_at(game_over_timer.expiry() + std::chrono::seconds(2));
+            setup_game_over_timer(game_over_timer);
+        } else {
+            std::cout << Colors::RED << "[Error] Game over timer error: " << ec.message() << Colors::RESET << std::endl;
+        }
+    });
+}
+
+bool ServerGame::areAllPlayersDead()
+{
+    auto& types = reg.get_components<component::type>();
+    auto& healths = reg.get_components<component::health>();
+    bool playersExist = false;
+    int playerCount = 0;
+    int deadPlayerCount = 0;
+
+    for (size_t i = 0; i < types.size(); ++i) {
+        if (types[i].has_value() && types[i].value().type == 5) {
+            playerCount++;
+            playersExist = true;
+        }
+    }
+    if (playerCount == 0) {
+        return false;
+    }
+
+    return playersExist ;
+}
+
+
 void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
 {
     position_timer.async_wait([this, &position_timer](const boost::system::error_code& ec) {
         if (!ec) {
             Systems::position_system(reg);
+            //Utilisation d'un itérateur pour pouvoir supprimer des éléments en itérant
+            for (auto it = allEntities.begin(); it != allEntities.end(); ) {
+                it->x -= 0.5;
+                if (it->x < 1900) {
+                    if (it->type == "mob") {
+                        spawnMob(*it);
+                    } else if (it->type == "powerup") {
+                        spawnPowerUp(*it);
+                    }
+                    it = allEntities.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+
             position_timer.expires_at(position_timer.expiry() + std::chrono::milliseconds(10));
             setup_position_timer(position_timer);
         }
@@ -122,11 +291,13 @@ void ServerGame::setup_collision_timer(boost::asio::steady_timer& collision_time
 
 }
 
-void ServerGame::setup_invincible_timer(boost::asio::steady_timer& invincible_timer)
+void ServerGame::setup_powerup_expiration_timer(boost::asio::steady_timer& invincible_timer)
 {
     invincible_timer.async_wait([this, &invincible_timer](const boost::system::error_code& ec) {
         if (!ec) {
             auto& invincibles = reg.get_components<component::invincible>();
+            auto& triple_shots = reg.get_components<component::triple_shot>();
+            auto& force = reg.get_components<component::force>();
             auto now = std::chrono::steady_clock::now();
 
             for (size_t i = 0; i < invincibles.size(); ++i) {
@@ -136,8 +307,22 @@ void ServerGame::setup_invincible_timer(boost::asio::steady_timer& invincible_ti
                     }
                 }
             }
-            invincible_timer.expires_at(invincible_timer.expiry() + std::chrono::milliseconds(10));
-            setup_invincible_timer(invincible_timer);
+            for (size_t i = 0; i < triple_shots.size(); ++i) {
+                if (triple_shots[i].has_value() && triple_shots[i].value().is_active) {
+                    if (now >= triple_shots[i].value().expiration_time) {
+                        triple_shots[i].value().is_active = false;
+                    }
+                }
+            }
+            for (size_t i = 0; i < force.size(); ++i) {
+                if (force[i].has_value() && force[i].value().is_active) {
+                    if (now >= force[i].value().expiration_time) {
+                        force[i].value().is_active = false;
+                    }
+                }
+            }
+            invincible_timer.expires_at(invincible_timer.expiry() + std::chrono::milliseconds(500));
+            setup_powerup_expiration_timer(invincible_timer);
         }
     });
 }
@@ -170,24 +355,10 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
                         reg.emplace_component<component::size>(bullet, component::size{10, 10});
 
                         med.notify(Sender::GAME, "MOB_SHOOT", newParams, dummyContext);
-                        int direction = rand() % 2;
-                        //Make the mob staying in the map
-                        if (positions.y < 100) {
-                            direction = 1;
-                        } else if (positions.y > 900) {
-                            direction = 0;
-                        }
-
-                        if (direction == 0) {
-                            velocities[i].value().vy = -5;
-                        } else {
-                            velocities[i].value().vy = 5;
-                        }
-                        std::vector<std::string> params = {std::to_string(i)};
-                        handleMoves((direction == 0 ? "UP" : "DOWN"), dummyContext, params);
+                        lua["enemy_ai"](i, positions.x, positions.y); // Appel Lua
                     }
                 }
-                ia_timer.expires_from_now(std::chrono::milliseconds(700));
+                ia_timer.expires_from_now(std::chrono::milliseconds(500));
                 setup_iaMobs(ia_timer);
             } else {
                 std::cout << Colors::RED << "[Error] IA timer error: " << ec.message() << Colors::RESET << std::endl;
@@ -198,13 +369,53 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
     }
 }
 
-void ServerGame::setup_triple_shot_expiration_timer(boost::asio::steady_timer& triple_shot_timer)
+void ServerGame::setup_ia_player(boost::asio::steady_timer& player_ia_timer)
 {
-    triple_shot_timer.async_wait([this, &triple_shot_timer](const boost::system::error_code& ec) {
+    std::cout << Colors::GREEN << "[Console] Setting up IA player timer" << Colors::RESET << std::endl;
+
+    try {
+        player_ia_timer.async_wait([this, &player_ia_timer](const boost::system::error_code& ec) {
+            if (!ec) {
+                MediatorContext dummyContext;
+                auto const &positions = reg.get_components<component::position>()[1].value();
+                lua["player_ai"](1, positions.x, positions.y); // Appel Lua
+
+                player_ia_timer.expires_from_now(std::chrono::milliseconds(1000));
+                setup_ia_player(player_ia_timer);
+            } else {
+                std::cout << Colors::RED << "[Error] IA player timer error: " << ec.message() << Colors::RESET << std::endl;
+            }
+        });
+    } catch (const std::exception& e) {
+        std::cout << Colors::RED << "[Error] Exception in setup_ia_player: " << e.what() << Colors::RESET << std::endl;
+    }
+}
+
+void ServerGame::setup_force_shot_timer(boost::asio::steady_timer& force_shot_timer)
+{
+    force_shot_timer.async_wait([this, &force_shot_timer](const boost::system::error_code& ec) {
         if (!ec) {
-            checkTripleShotExpiration();
-            triple_shot_timer.expires_at(triple_shot_timer.expiry() + std::chrono::seconds(1));
-            setup_triple_shot_expiration_timer(triple_shot_timer);
+            auto &force = reg.get_components<component::force>();
+            for (size_t i = 0; i < force.size(); ++i) {
+                if (force[i].has_value() && force[i].value().is_active) {
+                    Entity bullet = reg.spawn_entity();
+                    auto const &positions = reg.get_components<component::position>()[i].value();
+                    std::vector<std::string> newParams;
+                    newParams.push_back(std::to_string(positions.x));
+                    newParams.push_back(std::to_string(positions.y));
+                    reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
+                    if (force[i].value().is_front == 0) {  // Ajout des parenthèses après if
+                        reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
+                    } else {
+                        reg.emplace_component<component::velocity>(bullet, component::velocity{-5, 0});
+                    }
+                    reg.emplace_component<component::type>(bullet, component::type{8});
+                    reg.emplace_component<component::size>(bullet, component::size{10, 10});
+                    med.notify(Sender::GAME, "SHOOT", newParams, MediatorContext());
+                }
+            }
+            force_shot_timer.expires_at(force_shot_timer.expiry() + std::chrono::milliseconds(10));
+            setup_force_shot_timer(force_shot_timer);
         }
     });
 }
@@ -220,19 +431,18 @@ void ServerGame::setup_laser_shot_expiration_timer(boost::asio::steady_timer& la
     });
 }
 
-
 void ServerGame::positionConciliation()
 {
     auto &positions = reg.get_components<component::position>();
-    for (size_t i = 0; i < positions.size(); ++i)
+    for (size_t i =  0; i < positions.size();)
     {
         if (positions[i].value().x < -100 || positions[i].value().x > 2000)
         {
             handleDeath(MediatorContext(), std::vector<std::string>{std::to_string(i)});
             reg.kill_entity(Entity(i));
-            return;
+            continue;
         }
-
+        //showAllEnityAlive();
         if (positions[i])
         {
                 std::vector<std::string> newParams;
@@ -241,32 +451,23 @@ void ServerGame::positionConciliation()
                 newParams.push_back(std::to_string(positions[i].value().y));
                 med.notify(Sender::GAME, "MOVE", newParams);
         }
+        ++i;
     }
 }
 
-void ServerGame::setup_spawn_timer(boost::asio::steady_timer& spawn_timer)
+void ServerGame::showAllEnityAlive()
 {
-    std::cout << "Setting up spawn timer" << std::endl;
-    spawn_timer.async_wait([this, &spawn_timer](const boost::system::error_code& ec) {
-        if (!ec) {
-            spawnMob(rand() % 2); // Choix aléatoire du type de mob
-            spawn_timer.expires_from_now(std::chrono::seconds(10)); //TODO: si on veut changer le temps de spawn
-            setup_spawn_timer(spawn_timer);
+    auto &positions = reg.get_components<component::position>();
+    auto &types = reg.get_components<component::type>();
+    for (size_t i = 0; i < positions.size(); ++i)
+    {
+        if (positions[i])
+        {
+            std::cout << "Entity " << types[i].value().type << " is alive." << std::endl;
         }
-    });
+    }
 }
 
-void ServerGame::setup_powerup_timer(boost::asio::steady_timer& powerup_timer)
-{
-    std::cout << "Setting up powerup timer" << std::endl;
-    powerup_timer.async_wait([this, &powerup_timer](const boost::system::error_code& ec) {
-        if (!ec) {
-            spawnPowerUp(2);
-            powerup_timer.expires_from_now(std::chrono::seconds(60));
-            setup_powerup_timer(powerup_timer);
-        }
-    });
-}
 
 void ServerGame::setup_super_shot_timer(boost::asio::steady_timer& super_shot_timer)
 {
@@ -296,61 +497,68 @@ void ServerGame::setup_super_shot_timer(boost::asio::steady_timer& super_shot_ti
 }
 
 
-void ServerGame::spawnPowerUp(int powerup_type)
+void ServerGame::spawnPowerUp(JsonEntity entity)
 {
     std::cout << "Spawning powerup" << std::endl;
-
-    // Utilisation de random modern de C++11
-    std::random_device rd;  // Source d'entropie matérielle
-    std::mt19937 gen(rd()); // Générateur Mersenne Twister
-
-    // Distributions uniformes pour x et y
-    std::uniform_int_distribution<> distX(0, 1800);
-    std::uniform_int_distribution<> distY(0, 900);
-
-    // Génération des coordonnées aléatoires
-    int x = distX(gen);
-    int y = distY(gen);
+    int x = rand() % 1500 + 300;
+    int y = entity.y;
+    int type = 0;
+    if (entity.subtype == "heal") {
+        type = 0;
+    } else if (entity.subtype == "triple_shoot") {
+        type = 1;
+    } else if (entity.subtype == "force") {
+        type = 2;
+    } else if (entity.subtype == "laser") {
+        type = 3;
+    }
+    // rajouter d'autres types de powerups ici
 
     Entity powerup = reg.spawn_entity();
     reg.emplace_component<component::position>(powerup, component::position{x, y});
-    reg.emplace_component<component::type>(powerup, component::type{powerup_type});
+    reg.emplace_component<component::type>(powerup, component::type{type});
     reg.emplace_component<component::size>(powerup, component::size{50, 50});
 
     std::vector<std::string> newParams;
-    newParams.push_back(std::to_string(powerup_type));
+    newParams.push_back(std::to_string(type));
     newParams.push_back(std::to_string(x));
     newParams.push_back(std::to_string(y));
     med.notify(Sender::GAME, "POWERUP_SPAWN", newParams);
 }
 
-void ServerGame::spawnMob(int mob_type)
+void ServerGame::spawnMob(JsonEntity entity)
 {
     std::cout << "Spawning mob" << std::endl;
     Entity mob = reg.spawn_entity();
-    int x = 1800;
-    int y = rand() % 900;
+    int x = entity.x;
+    int y = entity.y;
+    int type = 0;
+    if (entity.subtype == "enemy1") {
+        type = 0;
+    } else if (entity.subtype == "enemy2") {
+        type = 1;
+    } // rajouter d'autres types de mobs ici
     reg.emplace_component<component::position>(mob, component::position{x, y});
-    if (mob_type == 0) {
+    if (type == 0) {
         reg.emplace_component<component::health>(mob, component::health{300});
         reg.emplace_component<component::damage>(mob, component::damage{10});
         reg.emplace_component<component::velocity>(mob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(mob, component::type{10});
         reg.emplace_component<component::size>(mob, component::size{100, 50});
-    } else if (mob_type == 1) {
+    } else if (type == 1) {
         reg.emplace_component<component::health>(mob, component::health{100});
         reg.emplace_component<component::damage>(mob, component::damage{40});
         reg.emplace_component<component::velocity>(mob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(mob, component::type{11});
         reg.emplace_component<component::size>(mob, component::size{100, 50});
-
-    } // rajouter d'autres types de mobs ici
+    }
     std::vector<std::string> newParams;
-    newParams.push_back(std::to_string(mob_type));
+    newParams.push_back(std::to_string(type));
     newParams.push_back(std::to_string(x));
     newParams.push_back(std::to_string(y));
     med.notify(Sender::GAME, "MOB_SPAWN", newParams);
 }
+
 
 void ServerGame::checkAllCollisions()
 {
@@ -361,6 +569,7 @@ void ServerGame::checkAllCollisions()
     auto& triple_shots = reg.get_components<component::triple_shot>();
     auto& invincibles = reg.get_components<component::invincible>();
     auto& laser_shots = reg.get_components<component::laser_shot>();
+    auto& force = reg.get_components<component::force>();
 
     for (size_t i = 0; i < positions.size(); ++i) {
 
@@ -448,6 +657,19 @@ void ServerGame::checkAllCollisions()
                     }
                 } else if ((types[i].value().type == 6 || types[i].value().type == 8)  && types[j].value().type >= 10) { // BULLET vs MOB
                     healths[j].value().hp -= 1000;
+                    for (size_t k = 0; k < types.size(); ++k) {
+                        if (types[k].has_value() && types[k].value().type == 5) {
+                            auto& scores = reg.get_components<component::score>();
+                            if (scores[k].has_value()) {
+                                scores[k].value().value += 10;
+                                std::vector<std::string> scoreParams = {
+                                    std::to_string(k),
+                                    std::to_string(scores[k].value().value)
+                                };
+                                med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
+                            }
+                        }
+                    }
                     // Mob
                     if(healths[j].value().hp <= 0){
                         MediatorContext dummyContext;
@@ -458,6 +680,19 @@ void ServerGame::checkAllCollisions()
                     }
                 } else if (types[i].value().type >= 10 && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
                     healths[i].value().hp -= 1000;
+                    for (size_t k = 0; k < types.size(); ++k) {
+                        if (types[k].has_value() && types[k].value().type == 5) {
+                            auto& scores = reg.get_components<component::score>();
+                            if (scores[k].has_value()) {
+                                scores[k].value().value += 10;
+                                std::vector<std::string> scoreParams = {
+                                    std::to_string(k),
+                                    std::to_string(scores[k].value().value)
+                                };
+                                med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
+                            }
+                        }
+                    }
                     // Mob
                     if(healths[i].value().hp <= 0){
                         MediatorContext dummyContext;
@@ -466,17 +701,23 @@ void ServerGame::checkAllCollisions()
                         checkAllCollisions();
                         return;
                     }
-                } else if ((types[i].value().type == 0 || types[i].value().type == 1 || types[j].value().type == 2) && types[j].value().type == 5) { // PLAYER vs POWERUP
+                } else if ((types[i].value().type == 0 || types[i].value().type == 1 || types[j].value().type == 2 || types[j].value().type == 3) && types[j].value().type == 5) { // PLAYER vs POWERUP
                     if (types[i].value().type == 0) {
                         triple_shots[j].value().is_active = true;
-                        triple_shots[j].value().activation_time = std::chrono::steady_clock::now();
-                    } else if (types[i].value().type == 1) {
+                        triple_shots[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(10);
+                    } else if (types[i].value().type == 1) { 
                         healths[j].value().hp += 10;
-
-                    } else if (types[i].value().type == 2) {
+                    } else if (types[i].value().type == 3) {
                         laser_shots[j].value().is_active = true;
                         laser_shots[j].value().activation_time = std::chrono::steady_clock::now();
-                    }
+                    } else if (types[i].value().type == 2) {
+                        //Caractéristiques principales :
+                        // tirer en avant, en arriere, bloque les balles ennemies
+                        invincibles[j].value().is_invincible = true;
+                        force[j].value().is_active = true;
+                        force[j].value().is_front = 0;
+                        force[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(4);
+                    } 
                     std::vector<std::string> collisionParams;
                     collisionParams.push_back(std::to_string(j));
                     collisionParams.push_back(std::to_string(types[i].value().type));
@@ -489,12 +730,17 @@ void ServerGame::checkAllCollisions()
                 } else if ((types[j].value().type == 0 || types[j].value().type == 1 || types[j].value().type == 2) && types[i].value().type == 5) { // PLAYER vs POWERUP
                     if (types[j].value().type == 0) {
                         triple_shots[i].value().is_active = true;
-                        triple_shots[i].value().activation_time = std::chrono::steady_clock::now();
+                        triple_shots[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(10);
                     } else if (types[j].value().type == 1) {
                         healths[i].value().hp += 10;
-                    } else if (types[j].value().type == 2) {
+                    } else if (types[j].value().type == 3) {
                         laser_shots[i].value().is_active = true;
                         laser_shots[i].value().activation_time = std::chrono::steady_clock::now();
+                    } else if (types[j].value().type == 2) {
+                        invincibles[i].value().is_invincible = true;
+                        force[i].value().is_active = true;
+                        force[i].value().is_front = 0;
+                        force[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(4);
                     }
                     std::vector<std::string> collisionParams;
                     collisionParams.push_back(std::to_string(i));
@@ -519,25 +765,6 @@ bool ServerGame::isColliding(const component::position& pos1, const component::p
 }
 
 
-void ServerGame::checkTripleShotExpiration()
-{
-    auto& triple_shots = reg.get_components<component::triple_shot>();
-    auto now = std::chrono::steady_clock::now();
-
-    for (size_t i = 0; i < triple_shots.size(); ++i) {
-        if (triple_shots[i] && triple_shots[i].value().is_active) {
-            auto duration = std::chrono::duration_cast<std::chrono::seconds>(
-                now - triple_shots[i].value().activation_time
-            ).count();
-
-            if (duration >= 10) {
-                // Désactiver le power-up
-                triple_shots[i].value().is_active = false;
-            }
-        }
-    }
-}
-
 
 void ServerGame::checkLaserExpiration()
 {
@@ -557,7 +784,6 @@ void ServerGame::checkLaserExpiration()
         }
     }
 }
-
 //===================================COMMANDS=================================
 
 void ServerGame::handleConnect(const MediatorContext& context, const std::vector<std::string>& params)
@@ -574,6 +800,8 @@ void ServerGame::handleConnect(const MediatorContext& context, const std::vector
     reg.emplace_component<component::invincible>(player, component::invincible{false});
     reg.emplace_component<component::laser_shot>(player, component::laser_shot{false, {}});
     reg.emplace_component<component::super_shot>(player, component::super_shot{true, {}});
+    reg.emplace_component<component::score>(player, component::score{0});
+    reg.emplace_component<component::force>(player, component::force{false, {}});
 
     std::vector<std::string> newParams;
 
@@ -652,9 +880,17 @@ void ServerGame::handleStart(const MediatorContext& context, const std::vector<s
     if (state == GameState::INGAME) {
         return;
     }
+    bool isAI = 0;
+    if (reg.get_components<component::controllable>().size() == 1){
+        handleConnect(MediatorContext(), params);
+        std::cout << "AI started" << std::endl;
+        loadLuaScript("../src/lua/player_ai.lua");
+        isAI = 1;
+    }
+
     std::cout << "Game started" << std::endl;
     state = GameState::INGAME;
-    initTimers();
+    initTimers(isAI);
     med.notify(Sender::GAME, "START", params, context);
 }
 

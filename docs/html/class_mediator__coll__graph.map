@@ -1,0 +1,5 @@
+<map id="Mediator" name="Mediator">
+<area shape="rect" id="Node000001" title="Médiateur pour la communication entre le réseau et la logique de jeu." alt="" coords="23,434,151,582"/>
+<area shape="rect" id="Node000002" href="$class_i_sender.html" title="Interface pour la gestion des communications réseau." alt="" coords="5,5,169,356"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,356,90,417,85,417,85,356"/>
+</map>

@@ -1,0 +1,787 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>R-Type: Référence de la classe UDPNetworkClient</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">R-Type
+   </div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('class_u_d_p_network_client.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Fonctions membres publiques</a> &#124;
+<a href="#pri-methods">Fonctions membres privées</a> &#124;
+<a href="#pri-attribs">Attributs privés</a> &#124;
+<a href="class_u_d_p_network_client-members.html">Liste de tous les membres</a>  </div>
+  <div class="headertitle"><div class="title">Référence de la classe UDPNetworkClient</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Client réseau UDP pour la communication avec le serveur.  
+ <a href="#details">Plus de détails...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_u_d_p_network_client_8hpp_source.html">UDPNetworkClient.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Graphe de collaboration de UDPNetworkClient:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_u_d_p_network_client__coll__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Fonctions membres publiques</h2></td></tr>
+<tr class="memitem:a728b74834b618daa97c7c4d5ad7baa88" id="r_a728b74834b618daa97c7c4d5ad7baa88"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a728b74834b618daa97c7c4d5ad7baa88">UDPNetworkClient</a> (const std::string &amp;server_ip, uint16_t server_port)</td></tr>
+<tr class="memdesc:a728b74834b618daa97c7c4d5ad7baa88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructeur initialisant la connexion au serveur.  <br /></td></tr>
+<tr class="separator:a728b74834b618daa97c7c4d5ad7baa88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af32934df561d4442624398b29cc11875" id="r_af32934df561d4442624398b29cc11875"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af32934df561d4442624398b29cc11875">~UDPNetworkClient</a> ()</td></tr>
+<tr class="separator:af32934df561d4442624398b29cc11875"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07755e337bfe527489661c288ed28e77" id="r_a07755e337bfe527489661c288ed28e77"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07755e337bfe527489661c288ed28e77">check_connection</a> ()</td></tr>
+<tr class="separator:a07755e337bfe527489661c288ed28e77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a630cb0943dc55aeddb3147bfcad15a" id="r_a2a630cb0943dc55aeddb3147bfcad15a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a630cb0943dc55aeddb3147bfcad15a">send</a> (const std::string &amp;message)</td></tr>
+<tr class="separator:a2a630cb0943dc55aeddb3147bfcad15a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a158fb75354b975b96e0655e472bd5ce9" id="r_a158fb75354b975b96e0655e472bd5ce9"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a158fb75354b975b96e0655e472bd5ce9">receive</a> ()</td></tr>
+<tr class="separator:a158fb75354b975b96e0655e472bd5ce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cb4509963b7cba8f83452ff70304684" id="r_a7cb4509963b7cba8f83452ff70304684"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7cb4509963b7cba8f83452ff70304684">receive_all</a> ()</td></tr>
+<tr class="separator:a7cb4509963b7cba8f83452ff70304684"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad793527f00eac611414aa1e4b91b84e8" id="r_ad793527f00eac611414aa1e4b91b84e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad793527f00eac611414aa1e4b91b84e8">print_message_queue</a> ()</td></tr>
+<tr class="separator:ad793527f00eac611414aa1e4b91b84e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af74ea9f8676f14959ce56dc7a009a30f" id="r_af74ea9f8676f14959ce56dc7a009a30f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af74ea9f8676f14959ce56dc7a009a30f">stop</a> ()</td></tr>
+<tr class="separator:af74ea9f8676f14959ce56dc7a009a30f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3f5d5863be30a1c54389b557ed77c2b" id="r_ae3f5d5863be30a1c54389b557ed77c2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3f5d5863be30a1c54389b557ed77c2b">setId</a> (int id)</td></tr>
+<tr class="separator:ae3f5d5863be30a1c54389b557ed77c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3ab70e9edb11f4f76ef205309ed2c6d" id="r_af3ab70e9edb11f4f76ef205309ed2c6d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af3ab70e9edb11f4f76ef205309ed2c6d">getId</a> ()</td></tr>
+<tr class="separator:af3ab70e9edb11f4f76ef205309ed2c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Fonctions membres privées</h2></td></tr>
+<tr class="memitem:a85c348fbe3101822cede65d57e042fdd" id="r_a85c348fbe3101822cede65d57e042fdd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a85c348fbe3101822cede65d57e042fdd">start_receive</a> ()</td></tr>
+<tr class="separator:a85c348fbe3101822cede65d57e042fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1d5a4bd444e21bfb102f93fbe0025cd" id="r_aa1d5a4bd444e21bfb102f93fbe0025cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1d5a4bd444e21bfb102f93fbe0025cd">process_send_queue</a> ()</td></tr>
+<tr class="separator:aa1d5a4bd444e21bfb102f93fbe0025cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Attributs privés</h2></td></tr>
+<tr class="memitem:a8199f04bd72b8b656cdf0c4c7dcba526" id="r_a8199f04bd72b8b656cdf0c4c7dcba526"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_utils.html">Utils</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8199f04bd72b8b656cdf0c4c7dcba526">utils</a></td></tr>
+<tr class="separator:a8199f04bd72b8b656cdf0c4c7dcba526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6c161b0a79babd31ed703daa91f0fa2" id="r_ac6c161b0a79babd31ed703daa91f0fa2"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; boost::asio::io_context &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6c161b0a79babd31ed703daa91f0fa2">m_io_context</a></td></tr>
+<tr class="separator:ac6c161b0a79babd31ed703daa91f0fa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a091f7326eb45ec12f4c1baa298183db5" id="r_a091f7326eb45ec12f4c1baa298183db5"><td class="memItemLeft" align="right" valign="top">std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a091f7326eb45ec12f4c1baa298183db5">m_io_thread</a></td></tr>
+<tr class="separator:a091f7326eb45ec12f4c1baa298183db5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacff6f30a96ff5a418f10e883d87f250" id="r_aacff6f30a96ff5a418f10e883d87f250"><td class="memItemLeft" align="right" valign="top">boost::asio::ip::udp::socket&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aacff6f30a96ff5a418f10e883d87f250">m_socket</a></td></tr>
+<tr class="separator:aacff6f30a96ff5a418f10e883d87f250"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a175e3973163ae55e48788fb69dd5a494" id="r_a175e3973163ae55e48788fb69dd5a494"><td class="memItemLeft" align="right" valign="top">boost::asio::ip::udp::endpoint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a175e3973163ae55e48788fb69dd5a494">m_server_endpoint</a></td></tr>
+<tr class="separator:a175e3973163ae55e48788fb69dd5a494"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa008e4ae0f7a302522e94245fef92c5b" id="r_aa008e4ae0f7a302522e94245fef92c5b"><td class="memItemLeft" align="right" valign="top">boost::asio::ip::udp::endpoint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa008e4ae0f7a302522e94245fef92c5b">m_remote_endpoint</a></td></tr>
+<tr class="separator:aa008e4ae0f7a302522e94245fef92c5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2931eefbb0a0dd6120e1d9f59bcf2e90" id="r_a2931eefbb0a0dd6120e1d9f59bcf2e90"><td class="memItemLeft" align="right" valign="top">std::function&lt; void()&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2931eefbb0a0dd6120e1d9f59bcf2e90">m_disconnect_handler</a></td></tr>
+<tr class="separator:a2931eefbb0a0dd6120e1d9f59bcf2e90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47839fc58563cf2f786883f8f9d63142" id="r_a47839fc58563cf2f786883f8f9d63142"><td class="memItemLeft" align="right" valign="top">std::queue&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47839fc58563cf2f786883f8f9d63142">m_send_queue</a></td></tr>
+<tr class="separator:a47839fc58563cf2f786883f8f9d63142"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d27e1e2a0ea730eb219eb784992e969" id="r_a6d27e1e2a0ea730eb219eb784992e969"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d27e1e2a0ea730eb219eb784992e969">m_send_mutex</a></td></tr>
+<tr class="separator:a6d27e1e2a0ea730eb219eb784992e969"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa61c229a7f21f65194399468547d979d" id="r_aa61c229a7f21f65194399468547d979d"><td class="memItemLeft" align="right" valign="top">std::deque&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa61c229a7f21f65194399468547d979d">m_received_messages</a></td></tr>
+<tr class="separator:aa61c229a7f21f65194399468547d979d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4842720123952372ffefc6201d32b35b" id="r_a4842720123952372ffefc6201d32b35b"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4842720123952372ffefc6201d32b35b">m_receive_mutex</a></td></tr>
+<tr class="separator:a4842720123952372ffefc6201d32b35b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf59d2f576b17b2c678495a81c802a2c" id="r_acf59d2f576b17b2c678495a81c802a2c"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf59d2f576b17b2c678495a81c802a2c">m_is_running</a></td></tr>
+<tr class="separator:acf59d2f576b17b2c678495a81c802a2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a068d76c78c126e590d609aebf6839290" id="r_a068d76c78c126e590d609aebf6839290"><td class="memItemLeft" align="right" valign="top">std::function&lt; void(const std::string &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a068d76c78c126e590d609aebf6839290">m_message_handler</a></td></tr>
+<tr class="separator:a068d76c78c126e590d609aebf6839290"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dd7e6be175cc35dc5ecdf3ec91c66b3" id="r_a0dd7e6be175cc35dc5ecdf3ec91c66b3"><td class="memItemLeft" align="right" valign="top">std::array&lt; char, 1024 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0dd7e6be175cc35dc5ecdf3ec91c66b3">m_receive_buffer</a></td></tr>
+<tr class="separator:a0dd7e6be175cc35dc5ecdf3ec91c66b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3074ec509ee266d01e971429a9d51275" id="r_a3074ec509ee266d01e971429a9d51275"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3074ec509ee266d01e971429a9d51275">_id</a></td></tr>
+<tr class="separator:a3074ec509ee266d01e971429a9d51275"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>Client réseau UDP pour la communication avec le serveur. </p>
+<p>Cette classe gère la communication réseau en UDP avec le serveur de jeu, incluant l'envoi et la réception de messages, la gestion de la connexion et la synchronisation des données.</p>
+</div><h2 class="groupheader">Documentation des constructeurs et destructeur</h2>
+<a id="a728b74834b618daa97c7c4d5ad7baa88" name="a728b74834b618daa97c7c4d5ad7baa88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a728b74834b618daa97c7c4d5ad7baa88">&#9670;&#160;</a></span>UDPNetworkClient()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">UDPNetworkClient::UDPNetworkClient </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>server_ip</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>server_port</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructeur initialisant la connexion au serveur. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">server_ip</td><td>Adresse IP du serveur </td></tr>
+    <tr><td class="paramname">server_port</td><td>Port du serveur </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af32934df561d4442624398b29cc11875" name="af32934df561d4442624398b29cc11875"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af32934df561d4442624398b29cc11875">&#9670;&#160;</a></span>~UDPNetworkClient()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">UDPNetworkClient::~UDPNetworkClient </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des fonctions membres</h2>
+<a id="a07755e337bfe527489661c288ed28e77" name="a07755e337bfe527489661c288ed28e77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07755e337bfe527489661c288ed28e77">&#9670;&#160;</a></span>check_connection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UDPNetworkClient::check_connection </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af3ab70e9edb11f4f76ef205309ed2c6d" name="af3ab70e9edb11f4f76ef205309ed2c6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3ab70e9edb11f4f76ef205309ed2c6d">&#9670;&#160;</a></span>getId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int UDPNetworkClient::getId </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad793527f00eac611414aa1e4b91b84e8" name="ad793527f00eac611414aa1e4b91b84e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad793527f00eac611414aa1e4b91b84e8">&#9670;&#160;</a></span>print_message_queue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UDPNetworkClient::print_message_queue </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa1d5a4bd444e21bfb102f93fbe0025cd" name="aa1d5a4bd444e21bfb102f93fbe0025cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1d5a4bd444e21bfb102f93fbe0025cd">&#9670;&#160;</a></span>process_send_queue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UDPNetworkClient::process_send_queue </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a158fb75354b975b96e0655e472bd5ce9" name="a158fb75354b975b96e0655e472bd5ce9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a158fb75354b975b96e0655e472bd5ce9">&#9670;&#160;</a></span>receive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::string &gt; UDPNetworkClient::receive </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7cb4509963b7cba8f83452ff70304684" name="a7cb4509963b7cba8f83452ff70304684"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cb4509963b7cba8f83452ff70304684">&#9670;&#160;</a></span>receive_all()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; UDPNetworkClient::receive_all </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2a630cb0943dc55aeddb3147bfcad15a" name="a2a630cb0943dc55aeddb3147bfcad15a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a630cb0943dc55aeddb3147bfcad15a">&#9670;&#160;</a></span>send()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UDPNetworkClient::send </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae3f5d5863be30a1c54389b557ed77c2b" name="ae3f5d5863be30a1c54389b557ed77c2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3f5d5863be30a1c54389b557ed77c2b">&#9670;&#160;</a></span>setId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UDPNetworkClient::setId </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a85c348fbe3101822cede65d57e042fdd" name="a85c348fbe3101822cede65d57e042fdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85c348fbe3101822cede65d57e042fdd">&#9670;&#160;</a></span>start_receive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UDPNetworkClient::start_receive </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af74ea9f8676f14959ce56dc7a009a30f" name="af74ea9f8676f14959ce56dc7a009a30f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af74ea9f8676f14959ce56dc7a009a30f">&#9670;&#160;</a></span>stop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UDPNetworkClient::stop </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des données membres</h2>
+<a id="a3074ec509ee266d01e971429a9d51275" name="a3074ec509ee266d01e971429a9d51275"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3074ec509ee266d01e971429a9d51275">&#9670;&#160;</a></span>_id</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int UDPNetworkClient::_id</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2931eefbb0a0dd6120e1d9f59bcf2e90" name="a2931eefbb0a0dd6120e1d9f59bcf2e90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2931eefbb0a0dd6120e1d9f59bcf2e90">&#9670;&#160;</a></span>m_disconnect_handler</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt;void()&gt; UDPNetworkClient::m_disconnect_handler</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac6c161b0a79babd31ed703daa91f0fa2" name="ac6c161b0a79babd31ed703daa91f0fa2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6c161b0a79babd31ed703daa91f0fa2">&#9670;&#160;</a></span>m_io_context</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;boost::asio::io_context&gt; UDPNetworkClient::m_io_context</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a091f7326eb45ec12f4c1baa298183db5" name="a091f7326eb45ec12f4c1baa298183db5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a091f7326eb45ec12f4c1baa298183db5">&#9670;&#160;</a></span>m_io_thread</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::thread UDPNetworkClient::m_io_thread</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acf59d2f576b17b2c678495a81c802a2c" name="acf59d2f576b17b2c678495a81c802a2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf59d2f576b17b2c678495a81c802a2c">&#9670;&#160;</a></span>m_is_running</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;bool&gt; UDPNetworkClient::m_is_running</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a068d76c78c126e590d609aebf6839290" name="a068d76c78c126e590d609aebf6839290"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a068d76c78c126e590d609aebf6839290">&#9670;&#160;</a></span>m_message_handler</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt;void(const std::string&amp;)&gt; UDPNetworkClient::m_message_handler</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0dd7e6be175cc35dc5ecdf3ec91c66b3" name="a0dd7e6be175cc35dc5ecdf3ec91c66b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dd7e6be175cc35dc5ecdf3ec91c66b3">&#9670;&#160;</a></span>m_receive_buffer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::array&lt;char, 1024&gt; UDPNetworkClient::m_receive_buffer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4842720123952372ffefc6201d32b35b" name="a4842720123952372ffefc6201d32b35b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4842720123952372ffefc6201d32b35b">&#9670;&#160;</a></span>m_receive_mutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex UDPNetworkClient::m_receive_mutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa61c229a7f21f65194399468547d979d" name="aa61c229a7f21f65194399468547d979d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa61c229a7f21f65194399468547d979d">&#9670;&#160;</a></span>m_received_messages</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::deque&lt;std::string&gt; UDPNetworkClient::m_received_messages</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa008e4ae0f7a302522e94245fef92c5b" name="aa008e4ae0f7a302522e94245fef92c5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa008e4ae0f7a302522e94245fef92c5b">&#9670;&#160;</a></span>m_remote_endpoint</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">boost::asio::ip::udp::endpoint UDPNetworkClient::m_remote_endpoint</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6d27e1e2a0ea730eb219eb784992e969" name="a6d27e1e2a0ea730eb219eb784992e969"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d27e1e2a0ea730eb219eb784992e969">&#9670;&#160;</a></span>m_send_mutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex UDPNetworkClient::m_send_mutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a47839fc58563cf2f786883f8f9d63142" name="a47839fc58563cf2f786883f8f9d63142"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47839fc58563cf2f786883f8f9d63142">&#9670;&#160;</a></span>m_send_queue</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::queue&lt;std::string&gt; UDPNetworkClient::m_send_queue</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a175e3973163ae55e48788fb69dd5a494" name="a175e3973163ae55e48788fb69dd5a494"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a175e3973163ae55e48788fb69dd5a494">&#9670;&#160;</a></span>m_server_endpoint</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">boost::asio::ip::udp::endpoint UDPNetworkClient::m_server_endpoint</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aacff6f30a96ff5a418f10e883d87f250" name="aacff6f30a96ff5a418f10e883d87f250"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacff6f30a96ff5a418f10e883d87f250">&#9670;&#160;</a></span>m_socket</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">boost::asio::ip::udp::socket UDPNetworkClient::m_socket</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8199f04bd72b8b656cdf0c4c7dcba526" name="a8199f04bd72b8b656cdf0c4c7dcba526"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8199f04bd72b8b656cdf0c4c7dcba526">&#9670;&#160;</a></span>utils</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_utils.html">Utils</a> UDPNetworkClient::utils</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>La documentation de cette classe a été générée à partir des fichiers suivants :<ul>
+<li>src/client/<a class="el" href="_u_d_p_network_client_8hpp_source.html">UDPNetworkClient.hpp</a></li>
+<li>src/client/<a class="el" href="_u_d_p_network_client_8cpp.html">UDPNetworkClient.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_u_d_p_network_client.html">UDPNetworkClient</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.1 </li>
+  </ul>
+</div>
+</body>
+</html>

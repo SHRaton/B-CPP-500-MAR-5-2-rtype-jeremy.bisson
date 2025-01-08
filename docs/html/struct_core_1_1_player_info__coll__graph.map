@@ -1,0 +1,9 @@
+<map id="Core::PlayerInfo" name="Core::PlayerInfo">
+<area shape="rect" id="Node000001" title=" " alt="" coords="60,150,166,216"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,40,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="30,71,38,98,50,124,59,136,55,139,46,127,33,100,25,72"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="101,5,126,72"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="116,72,116,133,111,133,111,72"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="153,5,188,72"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="163,73,144,127,140,135,135,133,139,125,158,71"/>
+</map>

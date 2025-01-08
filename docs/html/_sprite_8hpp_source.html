@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>R-Type:  Fichier source de src/client/Sprite.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">R-Type
+   </div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_sprite_8hpp_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Sprite.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_sprite_8hpp.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;cstddef&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;SFML/Graphics.hpp&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;SFML/Window.hpp&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="_utils_8hpp.html">Utils.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="foldopen" id="foldopen00039" data-start="{" data-end="};">
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="class_sprite.html">   39</a></span><span class="keyword">class </span><a class="code hl_function" href="class_sprite.html#a03ea660b2e77213c9ae05830bfdfbc5d">Sprite</a> {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="class_sprite.html#a03ea660b2e77213c9ae05830bfdfbc5d">   42</a></span>        <a class="code hl_function" href="class_sprite.html#a03ea660b2e77213c9ae05830bfdfbc5d">Sprite</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <a class="code hl_function" href="class_sprite.html#a03ea660b2e77213c9ae05830bfdfbc5d">Sprite</a>(<span class="keyword">const</span> std::string&amp; texturePath, <span class="keywordtype">bool</span> scrolling = <span class="keyword">false</span>, <span class="keywordtype">float</span> speed = 1.0f,</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                <span class="keywordtype">int</span> interval = 50, <span class="keyword">const</span> std::string&amp; hoverTexturePath = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="class_sprite.html#a2a4ea59aa9758f8ea27489762ac7106c">   56</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_sprite.html#a2a4ea59aa9758f8ea27489762ac7106c">setAsGameBackground</a>() { <a class="code hl_variable" href="class_sprite.html#a519c7105ba917b6bd44690d7f31f5f12">isGameBackground</a> = <span class="keyword">true</span>; };</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_sprite.html#a6d0f7e628b4ea8540697605fff906759">update</a>();</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_sprite.html#a7e8db474c5deadaf097e62031b3f53b0">update_xy</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_sprite.html#a836571f98520585c49a47dc06712ea1f">setHovered</a>(<span class="keywordtype">bool</span> hover);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="class_sprite.html#abdca57dc9d487772e71d05be6215ed9a">isMouseOver</a>(<span class="keyword">const</span> sf::RenderWindow&amp; window);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_sprite.html#a555480a0cc3682984cb5bfb14887d8a8">setScale</a>(sf::Vector2f scale);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_sprite.html#ac3988110510fef374571c4b788df7da3">setOriginToMiddle</a>();</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_sprite.html#a99bd74baad3e255987441a72e94b0712">setPosition</a>(sf::Vector2f position);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        sf::Sprite <a class="code hl_function" href="class_sprite.html#a9e47332996531c6df8b91fda368ebe60">getSprite</a>();</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="class_sprite.html#a83fa2c5e0c6b6ae27a7a4c6a668934a4">  103</a></span>        sf::Sprite <a class="code hl_variable" href="class_sprite.html#a83fa2c5e0c6b6ae27a7a4c6a668934a4">sprite</a>;           </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="class_sprite.html#a1b809e1d094d9eb752619afa200922b1">  104</a></span>        sf::Sprite <a class="code hl_variable" href="class_sprite.html#a1b809e1d094d9eb752619afa200922b1">hoverSprite</a>;      </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="class_sprite.html#afeeb16056d3c12343bc8eb127afeeb39">  105</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="class_sprite.html#afeeb16056d3c12343bc8eb127afeeb39">isScrolling</a> = <span class="keyword">false</span>;    </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="class_sprite.html#aef3f5fc132fdf803f6796d204bba9007">  106</a></span>        sf::Clock <a class="code hl_variable" href="class_sprite.html#aef3f5fc132fdf803f6796d204bba9007">clock</a>;             </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="class_sprite.html#a91d311357eeca32a53bf3b3d380e9f9e">  107</a></span>        <span class="keywordtype">float</span> <a class="code hl_variable" href="class_sprite.html#a91d311357eeca32a53bf3b3d380e9f9e">scrollSpeed</a> = 0;       </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="class_sprite.html#acbb84eba68dd5a1fb678f6c186096f30">  108</a></span>        <span class="keywordtype">int</span> <a class="code hl_variable" href="class_sprite.html#acbb84eba68dd5a1fb678f6c186096f30">updateInterval</a> = 0;      </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="class_sprite.html#a8cbcbafad59653f07aacda6bf1d108ff">  109</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="class_sprite.html#a8cbcbafad59653f07aacda6bf1d108ff">isHoverable</a> = <span class="keyword">false</span>;    </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="class_sprite.html#aa146f0b8d1ea70354cfa740b100f91b5">  110</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="class_sprite.html#aa146f0b8d1ea70354cfa740b100f91b5">isHovered</a> = <span class="keyword">false</span>;      </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="class_sprite.html#a519c7105ba917b6bd44690d7f31f5f12">  111</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="class_sprite.html#a519c7105ba917b6bd44690d7f31f5f12">isGameBackground</a> = <span class="keyword">false</span>; </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>};</div>
+</div>
+<div class="ttc" id="a_utils_8hpp_html"><div class="ttname"><a href="_utils_8hpp.html">Utils.hpp</a></div></div>
+<div class="ttc" id="aclass_sprite_html_a03ea660b2e77213c9ae05830bfdfbc5d"><div class="ttname"><a href="class_sprite.html#a03ea660b2e77213c9ae05830bfdfbc5d">Sprite::Sprite</a></div><div class="ttdeci">Sprite()=default</div></div>
+<div class="ttc" id="aclass_sprite_html_a1b809e1d094d9eb752619afa200922b1"><div class="ttname"><a href="class_sprite.html#a1b809e1d094d9eb752619afa200922b1">Sprite::hoverSprite</a></div><div class="ttdeci">sf::Sprite hoverSprite</div><div class="ttdoc">Sprite affiché au survol.</div><div class="ttdef"><b>Definition</b> Sprite.hpp:104</div></div>
+<div class="ttc" id="aclass_sprite_html_a2a4ea59aa9758f8ea27489762ac7106c"><div class="ttname"><a href="class_sprite.html#a2a4ea59aa9758f8ea27489762ac7106c">Sprite::setAsGameBackground</a></div><div class="ttdeci">void setAsGameBackground()</div><div class="ttdoc">Définit le sprite comme arrière-plan du jeu.</div><div class="ttdef"><b>Definition</b> Sprite.hpp:56</div></div>
+<div class="ttc" id="aclass_sprite_html_a519c7105ba917b6bd44690d7f31f5f12"><div class="ttname"><a href="class_sprite.html#a519c7105ba917b6bd44690d7f31f5f12">Sprite::isGameBackground</a></div><div class="ttdeci">bool isGameBackground</div><div class="ttdoc">Indique si c&#39;est l&#39;arrière-plan.</div><div class="ttdef"><b>Definition</b> Sprite.hpp:111</div></div>
+<div class="ttc" id="aclass_sprite_html_a555480a0cc3682984cb5bfb14887d8a8"><div class="ttname"><a href="class_sprite.html#a555480a0cc3682984cb5bfb14887d8a8">Sprite::setScale</a></div><div class="ttdeci">void setScale(sf::Vector2f scale)</div><div class="ttdoc">Définit la position du sprite.</div><div class="ttdef"><b>Definition</b> Sprite.cpp:66</div></div>
+<div class="ttc" id="aclass_sprite_html_a6d0f7e628b4ea8540697605fff906759"><div class="ttname"><a href="class_sprite.html#a6d0f7e628b4ea8540697605fff906759">Sprite::update</a></div><div class="ttdeci">void update()</div><div class="ttdoc">Met à jour l&#39;état du sprite (animation, scrolling)</div><div class="ttdef"><b>Definition</b> Sprite.cpp:40</div></div>
+<div class="ttc" id="aclass_sprite_html_a7e8db474c5deadaf097e62031b3f53b0"><div class="ttname"><a href="class_sprite.html#a7e8db474c5deadaf097e62031b3f53b0">Sprite::update_xy</a></div><div class="ttdeci">void update_xy(int x, int y)</div><div class="ttdoc">Met à jour la position du sprite.</div><div class="ttdef"><b>Definition</b> Sprite.cpp:28</div></div>
+<div class="ttc" id="aclass_sprite_html_a836571f98520585c49a47dc06712ea1f"><div class="ttname"><a href="class_sprite.html#a836571f98520585c49a47dc06712ea1f">Sprite::setHovered</a></div><div class="ttdeci">void setHovered(bool hover)</div><div class="ttdoc">Définit l&#39;état de survol du sprite.</div><div class="ttdef"><b>Definition</b> Sprite.cpp:55</div></div>
+<div class="ttc" id="aclass_sprite_html_a83fa2c5e0c6b6ae27a7a4c6a668934a4"><div class="ttname"><a href="class_sprite.html#a83fa2c5e0c6b6ae27a7a4c6a668934a4">Sprite::sprite</a></div><div class="ttdeci">sf::Sprite sprite</div><div class="ttdoc">Retourne le sprite de survol.</div><div class="ttdef"><b>Definition</b> Sprite.hpp:103</div></div>
+<div class="ttc" id="aclass_sprite_html_a8cbcbafad59653f07aacda6bf1d108ff"><div class="ttname"><a href="class_sprite.html#a8cbcbafad59653f07aacda6bf1d108ff">Sprite::isHoverable</a></div><div class="ttdeci">bool isHoverable</div><div class="ttdoc">Indique si le survol est activé</div><div class="ttdef"><b>Definition</b> Sprite.hpp:109</div></div>
+<div class="ttc" id="aclass_sprite_html_a91d311357eeca32a53bf3b3d380e9f9e"><div class="ttname"><a href="class_sprite.html#a91d311357eeca32a53bf3b3d380e9f9e">Sprite::scrollSpeed</a></div><div class="ttdeci">float scrollSpeed</div><div class="ttdoc">Vitesse de défilement.</div><div class="ttdef"><b>Definition</b> Sprite.hpp:107</div></div>
+<div class="ttc" id="aclass_sprite_html_a99bd74baad3e255987441a72e94b0712"><div class="ttname"><a href="class_sprite.html#a99bd74baad3e255987441a72e94b0712">Sprite::setPosition</a></div><div class="ttdeci">void setPosition(sf::Vector2f position)</div><div class="ttdoc">Définit la position du sprite.</div><div class="ttdef"><b>Definition</b> Sprite.cpp:84</div></div>
+<div class="ttc" id="aclass_sprite_html_a9e47332996531c6df8b91fda368ebe60"><div class="ttname"><a href="class_sprite.html#a9e47332996531c6df8b91fda368ebe60">Sprite::getSprite</a></div><div class="ttdeci">sf::Sprite getSprite()</div><div class="ttdoc">Retourne le sprite.</div><div class="ttdef"><b>Definition</b> Sprite.cpp:92</div></div>
+<div class="ttc" id="aclass_sprite_html_aa146f0b8d1ea70354cfa740b100f91b5"><div class="ttname"><a href="class_sprite.html#aa146f0b8d1ea70354cfa740b100f91b5">Sprite::isHovered</a></div><div class="ttdeci">bool isHovered</div><div class="ttdoc">État de survol actuel.</div><div class="ttdef"><b>Definition</b> Sprite.hpp:110</div></div>
+<div class="ttc" id="aclass_sprite_html_abdca57dc9d487772e71d05be6215ed9a"><div class="ttname"><a href="class_sprite.html#abdca57dc9d487772e71d05be6215ed9a">Sprite::isMouseOver</a></div><div class="ttdeci">bool isMouseOver(const sf::RenderWindow &amp;window)</div><div class="ttdoc">Vérifie si la souris survole le sprite.</div><div class="ttdef"><b>Definition</b> Sprite.cpp:60</div></div>
+<div class="ttc" id="aclass_sprite_html_ac3988110510fef374571c4b788df7da3"><div class="ttname"><a href="class_sprite.html#ac3988110510fef374571c4b788df7da3">Sprite::setOriginToMiddle</a></div><div class="ttdeci">void setOriginToMiddle()</div><div class="ttdoc">Définit l&#39;origine du sprite au milieu.</div><div class="ttdef"><b>Definition</b> Sprite.cpp:74</div></div>
+<div class="ttc" id="aclass_sprite_html_acbb84eba68dd5a1fb678f6c186096f30"><div class="ttname"><a href="class_sprite.html#acbb84eba68dd5a1fb678f6c186096f30">Sprite::updateInterval</a></div><div class="ttdeci">int updateInterval</div><div class="ttdoc">Intervalle entre les mises à jour.</div><div class="ttdef"><b>Definition</b> Sprite.hpp:108</div></div>
+<div class="ttc" id="aclass_sprite_html_aef3f5fc132fdf803f6796d204bba9007"><div class="ttname"><a href="class_sprite.html#aef3f5fc132fdf803f6796d204bba9007">Sprite::clock</a></div><div class="ttdeci">sf::Clock clock</div><div class="ttdoc">Horloge pour les animations.</div><div class="ttdef"><b>Definition</b> Sprite.hpp:106</div></div>
+<div class="ttc" id="aclass_sprite_html_afeeb16056d3c12343bc8eb127afeeb39"><div class="ttname"><a href="class_sprite.html#afeeb16056d3c12343bc8eb127afeeb39">Sprite::isScrolling</a></div><div class="ttdeci">bool isScrolling</div><div class="ttdoc">Indique si le sprite défile.</div><div class="ttdef"><b>Definition</b> Sprite.hpp:105</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_6908ff505388a07996d238c763adbdab.html">client</a></li><li class="navelem"><a class="el" href="_sprite_8hpp.html">Sprite.hpp</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.1 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -6,7 +6,49 @@
 #include <chrono>
 #include <bitset>
 #include <vector>
+#include <iostream>
+#include <fstream>
 #include "Mediator.hpp"
+#include "Command.hpp"
+
+/**
+ * @brief Gère la communication réseau du serveur
+ * @class ServerNetwork
+ * 
+ * @details Cette classe implémente l'interface ISender et gère toutes les communications
+ * réseau du serveur, incluant la connexion des clients, l'envoi et la réception des messages.
+ * 
+ * @startuml{ServerNetwork_class.png}
+ * class ServerNetwork {
+ * - io_context_: boost::asio::io_context
+ * - socket_: boost::asio::ip::udp::socket
+ * - clients_: map<endpoint, ClientInfo>
+ * - running_: bool
+ * - receive_thread_: thread
+ * + ServerNetwork(port: uint16_t, med: Mediator&)
+ * + start()
+ * - receive_messages()
+ * - decode_message(message: string): GameMessage
+ * - broadcast_message(message: string)
+ * }
+ * 
+ * enum GameAction {
+ * NONE
+ * SHOOT
+ * MOVE
+ * {and other actions...}
+ * }
+ * 
+ * struct GameMessage {
+ * + action: GameAction
+ * + arguments: vector<string>
+ * }
+ * 
+ * ServerNetwork --|> ISender
+ * ServerNetwork *-- GameMessage
+ * GameMessage *-- GameAction
+ * @enduml
+ */
 
 namespace Colors {
     const std::string RESET   = "\033[0m";
@@ -42,12 +84,17 @@ enum class GameAction {
     LOOSE     = 0b10110, // 22
     DISCONNECT  = 0b11011, // 27
     CONNECT     = 0b11111, // 31
+    START     = 0b10111, // 23
+    SCORE_UPDATE = 0b11001, // 25
+    SAVE_REPLAY = 0b11010, // 26
+    PLAY_REPLAY = 0b11100, // 28
 };
 
 struct GameMessage {
     GameAction action;
     std::vector<std::string> arguments;
 };
+
 
 class ServerNetwork : public ISender {
 public:
@@ -61,13 +108,17 @@ private:
     };
 
     void receive_messages();
-    
+
     GameMessage decode_message(const std::string& message);
     std::string encode_action(GameAction action);
     std::string get_action_name(GameAction action);
     void handle_game_message(const boost::asio::ip::udp::endpoint& sender, const GameMessage& msg);
     void broadcast_message(const boost::asio::ip::udp::endpoint& sender, const std::string& message);
     void broadcast_message(const std::string& message);
+
+    //For "replay" feature
+    void saveCommands(const std::string& filename);
+    std::vector<Command> loadCommands(const std::string& filename);
 
 
     //ISender implementation
@@ -86,12 +137,17 @@ private:
     void handleStart(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleLaserShoot(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleSuperShoot(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleScoreUpdate(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleSaveReplay();
+    void handlePlayReplay();
 
     boost::asio::io_context io_context_;
     boost::asio::ip::udp::socket socket_;
     std::map<boost::asio::ip::udp::endpoint, ClientInfo> clients_;
     bool running_;
     std::thread receive_thread_;
+    std::chrono::steady_clock::time_point launch_time_;
+    std::vector<Command> commands_;
 
     Mediator& med;
 };

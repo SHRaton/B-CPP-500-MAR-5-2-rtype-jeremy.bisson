@@ -70,6 +70,8 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleLaserShoot(context, params);
         } else if(action == "SUPER_SHOOT") {
             network->handleSuperShoot(context, params);
+        } else if (action == "SCORE_UPDATE") {
+            network->handleScoreUpdate(context, params);
         }
     }
 }

@@ -1,0 +1,7 @@
+<map id="ServerNetwork::handleStart" name="ServerNetwork::handleStart">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,46,188,72"/>
+<area shape="rect" id="Node000002" href="$class_server_network.html#a9fd1b21ff45df9e1576a0a50a79bacd7" title=" " alt="" coords="236,5,409,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,43,220,38,221,43,188,48"/>
+<area shape="rect" id="Node000003" href="$class_server_network.html#a3cdc99eb8ed134a23329bf2d8f9c74d2" title=" " alt="" coords="243,71,402,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,69,228,75,227,80,188,75"/>
+</map>

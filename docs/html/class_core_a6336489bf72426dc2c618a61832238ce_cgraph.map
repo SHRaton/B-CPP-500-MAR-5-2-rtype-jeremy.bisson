@@ -1,0 +1,9 @@
+<map id="Core::handleDeathCommand" name="Core::handleDeathCommand">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,196,56"/>
+<area shape="rect" id="Node000002" href="$class_core.html#a398cf70a8dafff61d11f9d0928ed6111" title=" " alt="" coords="244,5,415,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,30,228,27,228,32,196,36"/>
+<area shape="rect" id="Node000004" href="$class_core.html#ad9e2c3752fe957de05a7aa7a6675d502" title=" " alt="" coords="257,55,402,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="196,51,242,56,242,61,196,56"/>
+<area shape="rect" id="Node000003" href="$class_core.html#aad563284176b829fa64177092388ef31" title=" " alt="" coords="463,5,604,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="416,16,448,16,448,21,416,21"/>
+</map>

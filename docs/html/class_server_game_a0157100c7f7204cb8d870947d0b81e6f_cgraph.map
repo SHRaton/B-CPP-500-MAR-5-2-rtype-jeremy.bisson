@@ -1,0 +1,62 @@
+<map id="ServerGame::initTimers" name="ServerGame::initTimers">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,453,165,479"/>
+<area shape="rect" id="Node000002" href="$class_server_game.html#acd85147947f8c366cccf07b8d6674026" title=" " alt="" coords="222,47,410,88"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,452,90,390,109,295,125,243,147,191,175,142,211,99,215,95,219,99,215,103,179,145,151,193,130,245,114,296,96,390,90,453"/>
+<area shape="rect" id="Node000007" href="$class_server_game.html#ae04b9882336139be7cc8649e27dba330" title=" " alt="" coords="213,136,419,177"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="86,452,97,403,119,332,136,294,156,255,181,220,211,188,216,184,220,188,214,192,185,223,161,258,141,296,124,334,102,405,91,454"/>
+<area shape="rect" id="Node000010" href="$class_server_game.html#ac11805bef3774422a1b0235d47a7efed" title=" " alt="" coords="229,226,402,266"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="90,452,106,418,133,373,168,325,211,283,228,271,231,276,214,287,172,328,137,376,111,421,95,454"/>
+<area shape="rect" id="Node000012" href="$class_server_game.html#a429c582fc2fce1fdd802208b51f77c68" title=" " alt="" coords="482,287,667,312"/>
+<area shape="poly" id="edge36_Node000001_Node000012" title=" " alt="" coords="91,452,109,424,136,389,170,354,211,326,275,303,341,290,407,285,467,286,467,291,407,291,342,296,276,308,214,331,174,358,140,393,113,427,96,454"/>
+<area shape="rect" id="Node000013" href="$class_server_game.html#a7932470ed83cb42d82debb8829a0956a" title=" " alt="" coords="240,364,392,405"/>
+<area shape="poly" id="edge17_Node000001_Node000013" title=" " alt="" coords="118,450,212,414,231,408,233,413,214,419,120,455"/>
+<area shape="rect" id="Node000014" href="$class_server_game.html#aa1aaafb4f5bd2691231d0bdedb079588" title=" " alt="" coords="224,453,408,479"/>
+<area shape="poly" id="edge19_Node000001_Node000014" title=" " alt="" coords="165,464,208,464,208,469,165,469"/>
+<area shape="rect" id="Node000015" href="$class_server_game.html#a6da0ae753b4a7e2d6f5231949d22331d" title=" " alt="" coords="218,527,414,568"/>
+<area shape="poly" id="edge21_Node000001_Node000015" title=" " alt="" coords="125,477,243,519,241,524,123,482"/>
+<area shape="rect" id="Node000016" href="$class_server_game.html#a89e6dc23de2213b7cfa7d8a894f509a3" title=" " alt="" coords="223,616,409,657"/>
+<area shape="poly" id="edge23_Node000001_Node000016" title=" " alt="" coords="101,478,149,524,214,577,261,606,258,611,211,582,146,528,97,481"/>
+<area shape="rect" id="Node000019" href="$class_server_game.html#a52fe9325dc4644b455f6dfe03fa0a7e2" title=" " alt="" coords="221,706,411,746"/>
+<area shape="poly" id="edge27_Node000001_Node000019" title=" " alt="" coords="94,478,137,564,172,618,214,667,254,696,251,700,211,671,168,621,132,567,89,481"/>
+<area shape="rect" id="Node000021" href="$class_server_game.html#aa301bdf3d57c0e3652d1e5fd1a338e17" title=" " alt="" coords="226,795,406,836"/>
+<area shape="poly" id="edge30_Node000001_Node000021" title=" " alt="" coords="91,479,104,529,127,601,163,682,187,721,215,756,251,785,248,789,211,760,183,724,159,685,122,603,98,530,86,480"/>
+<area shape="rect" id="Node000023" href="$class_server_game.html#aaad24ffb6e289d83b1bb7ab4a0cd4b10" title=" " alt="" coords="231,884,400,925"/>
+<area shape="poly" id="edge33_Node000001_Node000023" title=" " alt="" coords="90,479,98,542,118,638,134,692,155,746,182,798,215,846,231,861,249,875,246,879,227,866,211,849,177,801,150,749,129,694,113,640,93,543,85,480"/>
+<area shape="poly" id="edge7_Node000002_Node000002" title=" " alt="" coords="272,47,270,37,277,28,293,23,316,21,341,23,356,29,354,34,339,28,316,26,294,28,280,32,275,38,278,46"/>
+<area shape="rect" id="Node000003" href="$class_server_game.html#aa99390eeaadd29af06da639d8a9ef353" title=" " alt="" coords="470,55,679,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="410,65,454,65,454,70,410,70"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="534,56,525,46,530,36,547,30,575,28,606,31,621,38,619,43,604,36,575,33,548,35,534,40,531,45,538,53"/>
+<area shape="rect" id="Node000004" href="$class_server_game.html#a9a2b4bb7a61cf272fae0d6ed1f13e59f" title=" " alt="" coords="730,5,918,31"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="643,51,740,32,741,37,644,57"/>
+<area shape="rect" id="Node000005" href="$class_server_game.html#adf9d28b0bb99cd31ec005e81fa4128f4" title=" " alt="" coords="736,104,912,130"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="644,78,741,98,740,103,643,84"/>
+<area shape="rect" id="Node000006" href="$class_server_game.html#a0d2136187aa368d02f5bc66c2b1f85cf" title=" " alt="" coords="743,55,905,80"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="680,65,727,65,727,70,680,70"/>
+<area shape="poly" id="edge12_Node000007_Node000007" title=" " alt="" coords="272,136,270,127,277,117,293,112,316,110,341,112,356,118,354,123,339,117,316,115,294,117,280,122,275,128,278,135"/>
+<area shape="rect" id="Node000008" href="$class_server_game.html#ae364e3e373cb38cf5bfcbc5b5697c61a" title=" " alt="" coords="467,144,682,170"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="420,154,451,154,451,160,420,160"/>
+<area shape="poly" id="edge10_Node000008_Node000005" title=" " alt="" coords="659,141,724,130,725,135,660,146"/>
+<area shape="rect" id="Node000009" href="$class_server_game.html#aca51614bfef206efa6799e569ea0ddc1" title=" " alt="" coords="735,154,913,194"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="683,162,719,164,719,170,683,167"/>
+<area shape="poly" id="edge15_Node000010_Node000010" title=" " alt="" coords="272,226,270,216,277,207,293,201,316,199,341,202,356,208,354,213,339,207,316,204,294,206,280,211,275,217,278,225"/>
+<area shape="rect" id="Node000011" href="$class_server_game.html#ae618b046011fbfa5373127e48496b885" title=" " alt="" coords="470,233,680,259"/>
+<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="403,244,454,244,454,249,403,249"/>
+<area shape="poly" id="edge16_Node000010_Node000012" title=" " alt="" coords="403,261,495,280,494,286,402,267"/>
+<area shape="poly" id="edge18_Node000013_Node000013" title=" " alt="" coords="272,364,270,355,277,345,293,340,316,338,341,340,356,346,354,351,339,345,316,343,294,345,280,350,275,356,278,363"/>
+<area shape="poly" id="edge20_Node000014_Node000014" title=" " alt="" coords="278,455,270,445,275,435,290,429,316,427,344,429,358,436,356,441,343,434,316,432,291,434,278,439,275,444,282,451"/>
+<area shape="poly" id="edge22_Node000015_Node000015" title=" " alt="" coords="272,527,270,517,277,508,293,503,316,501,341,503,356,509,354,514,339,508,316,506,294,508,280,512,275,518,278,526"/>
+<area shape="poly" id="edge26_Node000016_Node000016" title=" " alt="" coords="272,616,270,607,277,597,293,592,316,590,341,592,356,598,354,603,339,597,316,595,294,597,280,602,275,608,278,615"/>
+<area shape="rect" id="Node000017" href="$class_systems.html#a310d4de4ff4f8212b2ded614e411d102" title=" " alt="" coords="486,624,663,650"/>
+<area shape="poly" id="edge24_Node000016_Node000017" title=" " alt="" coords="410,634,471,634,471,640,410,640"/>
+<area shape="rect" id="Node000018" href="$classregistry.html#a3866ee276a5a1d78d00cd403e8e8c7d9" title=" " alt="" coords="740,624,908,650"/>
+<area shape="poly" id="edge25_Node000017_Node000018" title=" " alt="" coords="663,634,724,634,724,640,663,640"/>
+<area shape="poly" id="edge28_Node000019_Node000019" title=" " alt="" coords="272,706,270,696,277,687,293,681,316,679,341,682,356,688,354,693,339,687,316,684,294,686,280,691,275,697,278,705"/>
+<area shape="rect" id="Node000020" href="$class_server_game.html#a690321c8aa58ea064479f8205d28df73" title=" " alt="" coords="478,713,672,739"/>
+<area shape="poly" id="edge29_Node000019_Node000020" title=" " alt="" coords="411,724,462,724,462,729,411,729"/>
+<area shape="poly" id="edge31_Node000021_Node000021" title=" " alt="" coords="272,795,270,785,277,776,293,771,316,769,341,771,356,777,354,782,339,776,316,774,294,776,280,780,275,786,278,794"/>
+<area shape="rect" id="Node000022" href="$class_server_game.html#aee4c62e6f6d9427eb126ce1c372b0446" title=" " alt="" coords="492,803,657,828"/>
+<area shape="poly" id="edge32_Node000021_Node000022" title=" " alt="" coords="406,813,477,813,477,818,406,818"/>
+<area shape="poly" id="edge35_Node000023_Node000023" title=" " alt="" coords="272,884,270,875,277,865,293,860,316,858,341,860,356,866,354,871,339,865,316,863,294,865,280,870,275,876,278,883"/>
+<area shape="rect" id="Node000024" href="$class_server_game.html#ac4bd21cf219e6eca5d8a63e0e5d799d9" title=" " alt="" coords="476,884,673,925"/>
+<area shape="poly" id="edge34_Node000023_Node000024" title=" " alt="" coords="401,902,461,902,461,908,401,908"/>
+</map>
