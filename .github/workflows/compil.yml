@@ -10,21 +10,18 @@ jobs:
     - name: Install System Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y python3-pip python3-venv libudev-dev libgl1-mesa-dev
+        sudo apt-get install -y python3-pip python3-venv libudev-dev libgl1-mesa-dev libsfml-dev
     - name: Setup Python venv and install Conan
       run: |
         python3 -m venv venv
         source venv/bin/activate
         pip install conan==2.0.17
         conan profile detect --force
-        conan remote remove conancenter
-        conan remote add conancenter https://center.conan.io/artifactory/api/conan/conan-center
     - name: Build
       run: |
         source venv/bin/activate
-        conan install . --output-folder=build --build=missing -c tools.system.package_manager:mode=install --profile:build=default --profile:host=default
         cd build 
-        cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release 
+        cmake .. -DCMAKE_BUILD_TYPE=Release 
         cmake --build .
     - name: Build package
       run: |
