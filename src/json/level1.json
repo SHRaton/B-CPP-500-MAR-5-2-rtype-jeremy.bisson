@@ -50,6 +50,15 @@
         "type": "powerup",
         "subtype": "triple_shoot",
         "position": { "x": 2000, "y": 300 }
+      },
+
+
+
+
+      {
+        "type": "decor",
+        "subtype": "brick",
+        "position": { "x": 2000, "y": 300 }
       }
     ]
 }

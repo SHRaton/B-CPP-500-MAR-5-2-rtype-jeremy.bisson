@@ -52,7 +52,7 @@ void Core::handleServerCommands()
     else if (code == encode_action(GameAction::MOB_SHOOT)) {
         handleMobShootCommand(iss);
     }
-    else if (code == encode_action(GameAction::POWER_UP_SPAWN)) {
+    else if (code == encode_action(GameAction::ENTITY_SPAWN)) {
         handlePowerUpCommand(iss);
     }
     else if (code == encode_action(GameAction::COLLISION)) {

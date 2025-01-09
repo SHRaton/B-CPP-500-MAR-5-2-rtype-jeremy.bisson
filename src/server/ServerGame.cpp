@@ -237,6 +237,8 @@ void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
                         spawnMob(*it);
                     } else if (it->type == "powerup") {
                         spawnPowerUp(*it);
+                    } else if (it->type == "decor") {
+                        spawnDecor(*it);
                     }
                     it = allEntities.erase(it);
                 } else {
@@ -557,6 +559,29 @@ void ServerGame::spawnMob(JsonEntity entity)
     newParams.push_back(std::to_string(x));
     newParams.push_back(std::to_string(y));
     med.notify(Sender::GAME, "MOB_SPAWN", newParams);
+}
+
+void ServerGame::spawnDecor(JsonEntity entity)
+{
+    std::cout << "Spawning decor" << std::endl;
+    int x = entity.x;
+    int y = entity.y;
+    int type = 50;
+    if (entity.subtype == "brick") {
+        type = 50;
+    }
+    // rajouter d'autres types de blocs
+
+    Entity powerup = reg.spawn_entity();
+    reg.emplace_component<component::position>(powerup, component::position{x, y});
+    reg.emplace_component<component::type>(powerup, component::type{type});
+    reg.emplace_component<component::size>(powerup, component::size{50, 50});
+
+    std::vector<std::string> newParams;
+    newParams.push_back(std::to_string(type));
+    newParams.push_back(std::to_string(x));
+    newParams.push_back(std::to_string(y));
+    med.notify(Sender::GAME, "POWERUP_SPAWN", newParams);
 }
 
 

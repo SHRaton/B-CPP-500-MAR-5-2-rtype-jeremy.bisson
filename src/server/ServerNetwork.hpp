@@ -68,7 +68,7 @@ enum class GameAction {
     UP          = 0b0110,  // 6
     STOP        = 0b0111,  // 7
     POWER_UP    = 0b1000,  // 8
-    POWER_UP_SPAWN = 0b1001,  // 9
+    ENTITY_SPAWN = 0b1001,  // 9
     RESPAWN     = 0b1010,  // 10
     MOB_SPAWN   = 0b1011,  // 11
     MOB_SHOOT   = 0b1100,  // 12
