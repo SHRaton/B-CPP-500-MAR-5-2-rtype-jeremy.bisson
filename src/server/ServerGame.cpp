@@ -344,7 +344,7 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
 
                 for (size_t i = 0; i < types.size(); ++i) {
 
-                    if (types[i].has_value() && types[i].value().type >= 10 types[i].value().type <= 20) {
+                    if (types[i].has_value() && types[i].value().type >= 10 && types[i].value().type <= 20) {
                         Entity bullet = reg.spawn_entity();
                         auto const &positions = reg.get_components<component::position>()[i].value();
                         std::vector<std::string> newParams;
