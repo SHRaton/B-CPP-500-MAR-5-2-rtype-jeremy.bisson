@@ -281,13 +281,13 @@ void ServerNetwork::handleScoreUpdate(const MediatorContext& context, const std:
 
 void ServerNetwork::handleSaveReplay()
 {
-    saveCommands("command.txt");
+    saveCommands("../src/client/logs/command.txt");
 }
 
 
 void ServerNetwork::handlePlayReplay()
 {
-    commands_ = loadCommands("command.txt");
+    commands_ = loadCommands("../src/client/logs/command.txt");
     for (const auto& cmd : commands_) {
         broadcast_message(cmd.message);
         std::this_thread::sleep_for(cmd.relative_time);

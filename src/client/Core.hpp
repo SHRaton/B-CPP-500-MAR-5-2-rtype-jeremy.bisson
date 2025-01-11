@@ -179,6 +179,7 @@ class Core {
         sf::Sprite background_lobby2;
         sf::Sprite ready;
         sf::Sprite start;
+        sf::Sprite replay;
 
         // Texture to concat all draw and apply Shader on texture
         sf::RenderTexture renderTexture;
@@ -339,6 +340,8 @@ class Core {
         bool isDead;
         void updateAnimations();
 
+        sf::Sprite save_replay;
+        bool isReplay;
 
         struct AnimationLobby {
     float progress = 0.0f;
