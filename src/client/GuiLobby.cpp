@@ -11,15 +11,15 @@ void Core::gui_lobby()
     // Chargement des textures de base
     background_lobby = utils.cat("../ressources/background/lobby3.png");
     background_lobby2 = utils.cat("../ressources/background/background.png");
-    ready = utils.cat("../ressources/background/ready.png");
-    utils.setOriginToMiddle(ready);
-    ready.setPosition(1420, 675);
+    // ready = utils.cat("../ressources/background/ready.png");
+    // utils.setOriginToMiddle(ready);
+    // ready.setPosition(1420, 675);
     start = utils.cat("../ressources/background/start.png");
     utils.setOriginToMiddle(start);
     start.setPosition(1420, 775);
-    replay = utils.cat("../ressources/background/start.png");
+    replay = utils.cat("../ressources/background/replay.png");
     utils.setOriginToMiddle(replay);
-    replay.setPosition(1420, 875);
+    replay.setPosition(1420, 675);
 
     std::vector<sf::Vector2f> shipPositions = {
         {1500, 400},  // Position vaisseau 1
@@ -100,8 +100,8 @@ void Core::gui_lobby()
             }
         }
 
-        auto scale = ready.getGlobalBounds().contains(worldMousePosition) ? 1.1f : 1.0f;
-        ready.setScale(scale, scale);
+        //auto scale = ready.getGlobalBounds().contains(worldMousePosition) ? 1.1f : 1.0f;
+        //ready.setScale(scale, scale);
         auto scale2 = start.getGlobalBounds().contains(worldMousePosition) ? 1.1f : 1.0f;
         start.setScale(scale2, scale2);
         auto scale3 = replay.getGlobalBounds().contains(worldMousePosition) ? 1.1f : 1.0f;
@@ -116,7 +116,7 @@ void Core::gui_lobby()
         renderTexture.draw(latencyText);
         renderTexture.draw(background_lobby2);
         renderTexture.draw(background_lobby);
-        renderTexture.draw(ready);
+        //renderTexture.draw(ready);
         renderTexture.draw(start);
         renderTexture.draw(replay);
         int i = 0;

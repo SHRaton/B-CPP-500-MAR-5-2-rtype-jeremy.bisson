@@ -4,7 +4,7 @@ function player_ai(entity_id, x, y)
     -- Générer un comportement aléatoire
     local direction = math.random(0, 3) -- 0: monter, 1: descendre, 2: gauche, 3: droite
     local should_shoot = math.random(0, 1) -- 50% de chances de tirer
-    local speed = math.random(2, 5) -- Vitesse aléatoire pour rendre le mouvement fluide
+    local speed = 5
 
     -- Garder le joueur dans les limites de l'écran
     if y < 100 then
