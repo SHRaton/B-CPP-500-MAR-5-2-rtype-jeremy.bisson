@@ -16,6 +16,9 @@ void Core::gui_lobby()
     start = utils.cat("../ressources/background/start.png");
     utils.setOriginToMiddle(start);
     start.setPosition(1420, 775);
+    replay = utils.cat("../ressources/background/start.png");
+    utils.setOriginToMiddle(replay);
+    replay.setPosition(1420, 875);
 
     sf::Texture* backgroundTexture = new sf::Texture();
     if (backgroundTexture->loadFromFile("../ressources/background/background.png")) {
@@ -59,6 +62,12 @@ void Core::gui_lobby()
                     buttonSound_click.play();
                     send_input_if_needed(GameAction::START, inputState.startSent);
                 }
+                if (replay.getGlobalBounds().contains(worldMousePosition)) {
+                    reg.kill_entity(Entity(0));
+                    buttonSound_click.play();
+                    isReplay = true;
+                    send_input_if_needed(GameAction::PLAY_REPLAY, inputState.startSent);
+                }
             } else {
                 inputState.startSent = false;
             }
@@ -77,6 +86,8 @@ void Core::gui_lobby()
         ready.setScale(scale, scale);
         auto scale2 = start.getGlobalBounds().contains(worldMousePosition) ? 1.1f : 1.0f;
         start.setScale(scale2, scale2);
+        auto scale3 = replay.getGlobalBounds().contains(worldMousePosition) ? 1.1f : 1.0f;
+        replay.setScale(scale3, scale3);
         handleServerCommands();
         update_hud();
         window.clear();
@@ -87,6 +98,7 @@ void Core::gui_lobby()
         renderTexture.draw(background_lobby);
         renderTexture.draw(ready);
         renderTexture.draw(start);
+        renderTexture.draw(replay);
         int i = 0;
         for (const auto& player : otherPlayers) {
             sf::Text lobbyText;

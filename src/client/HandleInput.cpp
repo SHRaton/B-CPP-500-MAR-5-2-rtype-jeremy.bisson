@@ -125,6 +125,9 @@ void Core::handle_start(std::optional<component::position>& pos)
 
 void Core::control_system()
 {
+    if (isReplay){
+        return;
+    }
     float deltaSeconds = deltaClock.restart().asSeconds();
     auto const &controllables = reg.get_components<component::controllable>();
     auto &velocities = reg.get_components<component::velocity>();
