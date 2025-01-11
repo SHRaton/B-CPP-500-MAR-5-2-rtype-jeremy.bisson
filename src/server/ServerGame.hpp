@@ -77,7 +77,6 @@ class ServerGame : public ISender {
         void setup_collision_timer(boost::asio::steady_timer& collision_timer);
         void setup_powerup_expiration_timer(boost::asio::steady_timer& invincible_timer);
         void setup_iaMobs(boost::asio::steady_timer& ia_timer);
-        void setup_triple_shot_expiration_timer(boost::asio::steady_timer& triple_shot_timer);
         void setup_laser_shot_expiration_timer(boost::asio::steady_timer& laser_shot_timer);
         void setup_super_shot_timer(boost::asio::steady_timer& super_shot_timer);
         void setup_laser_shot_timer(boost::asio::steady_timer& laser_shot_timer);
@@ -87,6 +86,7 @@ class ServerGame : public ISender {
         void setup_force_shot_timer(boost::asio::steady_timer& force_shot_timer);
         void spawnMob(JsonEntity entity);
         void spawnPowerUp(JsonEntity entity);
+        void spawnDecor(JsonEntity entity);
         void checkAllCollisions();
         bool isColliding(const component::position& pos1, const component::position& pos2, const component::size& size1, const component::size& size2);
         bool areAllPlayersDead();

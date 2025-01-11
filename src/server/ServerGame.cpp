@@ -237,6 +237,8 @@ void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
                         spawnMob(*it);
                     } else if (it->type == "powerup") {
                         spawnPowerUp(*it);
+                    } else if (it->type == "decor") {
+                        spawnDecor(*it);
                     }
                     it = allEntities.erase(it);
                 } else {
@@ -342,7 +344,7 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
 
                 for (size_t i = 0; i < types.size(); ++i) {
 
-                    if (types[i].has_value() && types[i].value().type >= 10) {
+                    if (types[i].has_value() && types[i].value().type >= 10 && types[i].value().type <= 20) {
                         Entity bullet = reg.spawn_entity();
                         auto const &positions = reg.get_components<component::position>()[i].value();
                         std::vector<std::string> newParams;
@@ -503,9 +505,9 @@ void ServerGame::spawnPowerUp(JsonEntity entity)
     int x = rand() % 1500 + 300;
     int y = entity.y;
     int type = 0;
-    if (entity.subtype == "heal") {
+    if (entity.subtype == "triple_shoot") {
         type = 0;
-    } else if (entity.subtype == "triple_shoot") {
+    } else if (entity.subtype == "heal") {
         type = 1;
     } else if (entity.subtype == "force") {
         type = 2;
@@ -557,6 +559,29 @@ void ServerGame::spawnMob(JsonEntity entity)
     newParams.push_back(std::to_string(x));
     newParams.push_back(std::to_string(y));
     med.notify(Sender::GAME, "MOB_SPAWN", newParams);
+}
+
+void ServerGame::spawnDecor(JsonEntity entity)
+{
+    std::cout << "Spawning decor" << std::endl;
+    int x = entity.x;
+    int y = entity.y;
+    int type = 50;
+    if (entity.subtype == "brick") {
+        type = 50;
+    }
+    // rajouter d'autres types de blocs
+
+    Entity powerup = reg.spawn_entity();
+    reg.emplace_component<component::position>(powerup, component::position{x, y});
+    reg.emplace_component<component::type>(powerup, component::type{type});
+    reg.emplace_component<component::size>(powerup, component::size{50, 50});
+
+    std::vector<std::string> newParams;
+    newParams.push_back(std::to_string(type));
+    newParams.push_back(std::to_string(x));
+    newParams.push_back(std::to_string(y));
+    med.notify(Sender::GAME, "POWERUP_SPAWN", newParams);
 }
 
 
@@ -701,7 +726,7 @@ void ServerGame::checkAllCollisions()
                         checkAllCollisions();
                         return;
                     }
-                } else if ((types[i].value().type == 0 || types[i].value().type == 1 || types[j].value().type == 2 || types[j].value().type == 3) && types[j].value().type == 5) { // PLAYER vs POWERUP
+                } else if ((types[i].value().type >= 0 && types[i].value().type <= 4) && types[j].value().type == 5) { // PLAYER vs POWERUP
                     if (types[i].value().type == 0) {
                         triple_shots[j].value().is_active = true;
                         triple_shots[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(10);
@@ -727,7 +752,7 @@ void ServerGame::checkAllCollisions()
                     reg.kill_entity(Entity(i));
                     checkAllCollisions();
                     return;
-                } else if ((types[j].value().type == 0 || types[j].value().type == 1 || types[j].value().type == 2) && types[i].value().type == 5) { // PLAYER vs POWERUP
+                } else if ((types[j].value().type >= 0 && types[j].value().type <= 4) && types[i].value().type == 5) { // PLAYER vs POWERUP
                     if (types[j].value().type == 0) {
                         triple_shots[i].value().is_active = true;
                         triple_shots[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(10);
@@ -966,6 +991,73 @@ void ServerGame::handleColision(const MediatorContext& context, const std::vecto
         return;
     }
 }
+
+/*void handlePowerUpSpawn(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    try {
+        if (params.size() < 3) {
+            std::cerr << "Erreur : Nombre insuffisant de paramètres." << std::endl;
+            return;
+        }
+
+        int x = std::stoi(params[1]);
+        int y = std::stoi(params[2]);
+        nlohmann::json powerUpData;
+
+        std::ifstream inputFile("../src/json/playerLevel.json");
+        if (!inputFile.is_open()) {
+            std::cerr << "Erreur : Impossible d'ouvrir le fichier level1.json." << std::endl;
+            return;
+        }
+
+        json levelData;
+        inputFile >> levelData;
+        inputFile.close();
+
+        if (params[0] == "0") {
+            powerUpData = {
+                {"type", "powerup"},
+                {"subtype", "heal"},
+                {"position", { {"x", x}, {"y", y} }}
+            };
+        } else if (params[0] == "1") {
+            powerUpData = {
+                {"type", "powerup"},
+                {"subtype", "triple_shoot"},
+                {"position", { {"x", x}, {"y", y} }}
+            };
+        } else if (params[0] == "2") {
+            powerUpData = {
+                {"type", "powerup"},
+                {"subtype", "force"},
+                {"position", { {"x", x}, {"y", y} }}
+            };
+        } else if (params[0] == "3") {
+            powerUpData = {
+                {"type", "powerup"},
+                {"subtype", "laser"},
+                {"position", { {"x", x}, {"y", y} }}
+            };
+        }
+
+        if (levelData.contains("entities") && levelData["entities"].is_array()) {
+            levelData["entities"].push_back(powerUpData);
+        } else {
+            std::cerr << "Erreur : Le fichier JSON ne contient pas une liste d'entités valide." << std::endl;
+            return;
+        }
+        std::ofstream outputFile("../src/json/playerLevel.json");
+        if (!outputFile.is_open()) {
+            std::cerr << "Erreur : Impossible d'ouvrir le fichier level1.json en écriture." << std::endl;
+            return;
+        }
+
+        outputFile << levelData.dump(4); // Écrit le JSON avec une indentation de 4 espaces
+        outputFile.close();
+    } catch (const std::exception& e) {
+        std::cerr << "Erreur : " << e.what() << std::endl;
+    }
+}*/
 
 void ServerGame::handleDeath(const MediatorContext& context, const std::vector<std::string>& params)
 {

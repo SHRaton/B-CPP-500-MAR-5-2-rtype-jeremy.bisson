@@ -63,7 +63,7 @@ Table of contents
     | UP            | 0b0110     | Move upward       |
     | STOP          | 0b0111     | Stop movement     |
     | POWER_UP      | 0b1000     | Use power-up      |
-    | POWER_UP_SPAWN| 0b1001     | Spawn power-up    |
+    | ENTITY_SPAWN| 0b1001     | Spawn power-up    |
     | RESPAWN       | 0b1010     | Player respawn    |
     | MOB_SPAWN     | 0b1011     | Spawn enemy       |
     | MOB_SHOOT     | 0b1100     | Enemy shoots      |
