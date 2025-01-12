@@ -4,11 +4,6 @@ ServerGame::ServerGame(Mediator &med) : med(med), lua()
 {
     lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::table, sol::lib::os);
 
-    // Exposer une fonction C++ à Lua
-    lua.set_function("print_from_cpp", [](const std::string& message) {
-        std::cout << "[Lua] " << message << std::endl;
-    });
-
     // Exemple d'exposition d'une méthode pour manipuler l'IA
     lua.set_function("update_velocity", [&](size_t entityId, double vx, double vy) {
         std::cout << "Updating velocity for entity " << entityId << " to (" << vx << ", " << vy << ")" << std::endl;
@@ -617,7 +612,7 @@ void ServerGame::checkAllCollisions()
                 std::cout << "No position for entity !!!!!!!!!!!!!!!!!!!!!!!!! " << j << std::endl;
             }
             if (isColliding(positions[i].value(), positions[j].value(), sizes[i].value(), sizes[j].value())) {
-                if (types[i].value().type == 5 && types[j].value().type >= 10 && types[j].value().type <= 13) { // MOB vs PLAYER
+                if ((types[i].value().type == 5 || types[i].value().type == 30) && types[j].value().type >= 10 && types[j].value().type <= 13) { // MOB vs PLAYER
                     healths[i].value().hp -= 50;
                     invincibles[i].value().is_invincible = true;
                     invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
@@ -634,7 +629,7 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                } else if (types[i].value().type >= 10 && types[i].value().type <= 13 && types[j].value().type == 5 ) { // MOB vs PLAYER
+                } else if (types[i].value().type >= 10 && types[i].value().type <= 13 && (types[j].value().type == 5 || types[j].value().type == 5)) { // MOB vs PLAYER
                     healths[j].value().hp -= 50;
                     invincibles[j].value().is_invincible = true;
                     invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
