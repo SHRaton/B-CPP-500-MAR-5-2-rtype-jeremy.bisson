@@ -94,6 +94,8 @@ class ServerGame : public ISender {
         void loadLuaScript(const std::string& scriptPath);
         void loadJson(const std::string& jsonPath);
 
+        void addEntityToLevel(int entityType, int x, int y, std::string filename = "../src/json/playerLevel.json");
+
 
         //Chaque fonction doit se terminer par un appel à la classe Mediator
         void handleConnect(const MediatorContext& context, const std::vector<std::string>& params);
