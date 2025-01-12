@@ -380,10 +380,13 @@ void ServerGame::setup_ia_player(boost::asio::steady_timer& player_ia_timer)
             if (!ec) {
                 MediatorContext dummyContext;
                 auto const &positions = reg.get_components<component::position>()[1].value();
-                lua["player_ai"](1, positions.x, positions.y); // Appel Lua
+                auto const &type = reg.get_components<component::type>()[1].value();
+                if (type.type == 5){
+                    lua["player_ai"](1, positions.x, positions.y); // Appel Lua
 
-                player_ia_timer.expires_from_now(std::chrono::milliseconds(1000));
-                setup_ia_player(player_ia_timer);
+                    player_ia_timer.expires_from_now(std::chrono::milliseconds(1000));
+                    setup_ia_player(player_ia_timer);
+                }
             } else {
                 std::cout << Colors::RED << "[Error] IA player timer error: " << ec.message() << Colors::RESET << std::endl;
             }
