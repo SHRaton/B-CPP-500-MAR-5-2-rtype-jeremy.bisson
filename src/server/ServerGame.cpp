@@ -206,21 +206,20 @@ bool ServerGame::areAllPlayersDead()
 {
     auto& types = reg.get_components<component::type>();
     auto& healths = reg.get_components<component::health>();
-    bool playersExist = false;
     int playerCount = 0;
     int deadPlayerCount = 0;
 
     for (size_t i = 0; i < types.size(); ++i) {
-        if (types[i].has_value() && types[i].value().type == 5) {
+        if (types[i].has_value() && types[i].value().type == 5 && types[i].value().type == 30) {
             playerCount++;
-            playersExist = true;
         }
     }
+    std::cout << "joueurs en vie" << playerCount << std::endl;
     if (playerCount == 0) {
         return false;
     }
 
-    return playersExist ;
+    return true;
 }
 
 
@@ -379,14 +378,17 @@ void ServerGame::setup_ia_player(boost::asio::steady_timer& player_ia_timer)
         player_ia_timer.async_wait([this, &player_ia_timer](const boost::system::error_code& ec) {
             if (!ec) {
                 MediatorContext dummyContext;
-                auto const &positions = reg.get_components<component::position>()[1].value();
-                auto const &type = reg.get_components<component::type>()[1].value();
-                if (type.type == 5){
-                    lua["player_ai"](1, positions.x, positions.y); // Appel Lua
+                auto& types = reg.get_components<component::type>();
+                for (size_t i = 0; i < types.size(); ++i) {
+                    if (types[i].has_value() && types[i].value().type == 30) {
 
-                    player_ia_timer.expires_from_now(std::chrono::milliseconds(1000));
-                    setup_ia_player(player_ia_timer);
+                        auto const &positions = reg.get_components<component::position>()[i].value();
+                        lua["player_ai"](1, positions.x, positions.y); // Appel Lua
+                    }
                 }
+
+                player_ia_timer.expires_from_now(std::chrono::milliseconds(1000));
+                setup_ia_player(player_ia_timer);
             } else {
                 std::cout << Colors::RED << "[Error] IA player timer error: " << ec.message() << Colors::RESET << std::endl;
             }
@@ -615,7 +617,7 @@ void ServerGame::checkAllCollisions()
                 std::cout << "No position for entity !!!!!!!!!!!!!!!!!!!!!!!!! " << j << std::endl;
             }
             if (isColliding(positions[i].value(), positions[j].value(), sizes[i].value(), sizes[j].value())) {
-                if (types[i].value().type == 5 && types[j].value().type >= 10) { // MOB vs PLAYER
+                if (types[i].value().type == 5 && types[j].value().type >= 10 && types[j].value().type <= 13) { // MOB vs PLAYER
                     healths[i].value().hp -= 50;
                     invincibles[i].value().is_invincible = true;
                     invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
@@ -632,7 +634,7 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                } else if (types[i].value().type >= 10 && types[j].value().type == 5) { // MOB vs PLAYER
+                } else if (types[i].value().type >= 10 && types[i].value().type <= 13 && types[j].value().type == 5 ) { // MOB vs PLAYER
                     healths[j].value().hp -= 50;
                     invincibles[j].value().is_invincible = true;
                     invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
@@ -911,6 +913,7 @@ void ServerGame::handleStart(const MediatorContext& context, const std::vector<s
     bool isAI = 0;
     if (reg.get_components<component::controllable>().size() == 1){
         handleConnect(MediatorContext(), params);
+        reg.emplace_component<component::type>(Entity(1), component::type{30}); //AI type
         std::cout << "AI started" << std::endl;
         loadLuaScript("../src/lua/player_ai.lua");
         isAI = 1;
