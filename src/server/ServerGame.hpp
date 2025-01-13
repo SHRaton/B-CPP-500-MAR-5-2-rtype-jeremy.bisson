@@ -138,4 +138,5 @@ class ServerGame : public ISender {
         Mediator &med;
         GameState state;
         sol::state lua; // Machine virtuelle Lua avec sol2
+        int score;
 };
