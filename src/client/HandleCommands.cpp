@@ -102,8 +102,15 @@ void Core::handleScoreUpdateCommand(std::istringstream& iss)
     int id, score;
     iss >> id >> score;
 
+    if (score > globalScore) { 
+        scoreScale = 1.3f;
+        globalScore_text.setFillColor(sf::Color::Yellow);
+        scoreAnimClock.restart();
+    }
+
     globalScore = score;
     globalScore_text.setString("Score : " + std::to_string(globalScore));
+    globalScore_text.setScale(scoreScale, scoreScale);
 }
 
 void Core::handleMobSpawnCommand(std::istringstream& iss)

@@ -355,6 +355,9 @@ class Core {
     float startY = 0.0f;
 };
 
-void handleLooseCommand(std::istringstream& iss);
+    float scoreScale = 1.0f;
+    sf::Clock scoreAnimClock;
+
+    void handleLooseCommand(std::istringstream& iss);
 
 };

@@ -259,6 +259,18 @@ void Core::update_hud()
         fpsText.setString("FPS: " + std::to_string(static_cast<int>(fps)));
         latencyClock.restart();
     }
+    if (scoreScale > 1.0f) {
+        float deltaTime = scoreAnimClock.restart().asSeconds();
+        scoreScale -= deltaTime * 2.0f;
+        
+        if (scoreScale < 1.0f) {
+            scoreScale = 1.0f;
+            globalScore_text.setFillColor(sf::Color::White);
+        }
+        
+        globalScore_text.setScale(scoreScale, scoreScale);
+    }
+
     updateAnimations();
 }
 
