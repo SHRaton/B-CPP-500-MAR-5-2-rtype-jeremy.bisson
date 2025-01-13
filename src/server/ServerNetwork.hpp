@@ -83,11 +83,12 @@ enum class GameAction {
     WIN        = 0b10101, // 21
     START     = 0b10111, // 23
     LOOSE     = 0b10110, // 22
-    DISCONNECT  = 0b11011, // 27
-    CONNECT     = 0b11111, // 31
     SCORE_UPDATE = 0b11001, // 25
     SAVE_REPLAY = 0b11010, // 26
+    DISCONNECT  = 0b11011, // 27
     PLAY_REPLAY = 0b11100, // 28
+    HIGHSCORE = 0b11101, // 29
+    CONNECT     = 0b11111, // 31
 };
 
 struct GameMessage {
@@ -139,6 +140,7 @@ private:
     void handleSuperShoot(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleScoreUpdate(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleLevelEditor(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleHighScore(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleSaveReplay();
     void handlePlayReplay();
 

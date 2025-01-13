@@ -396,13 +396,26 @@ void Core::handlePowerUpCommand(std::istringstream& iss)
     sf::Sprite sprite = utils.cat("../ressources/sprites/pow1.png");
     sf::Sprite sprite2 = utils.cat("../ressources/sprites/pow2.png");
     sf::Sprite sprite3 = utils.cat("../ressources/sprites/pow3.png");
+    sf::Sprite sprite4 = utils.cat("../ressources/sprites/force.png");
     sprite3.setScale(2.5, 2.5);
+    
     if (type == 0) {
         reg.emplace_component<component::drawable>(powerup, component::drawable{sprite});
     } else if (type == 1) {
         reg.emplace_component<component::drawable>(powerup, component::drawable{sprite2});
     } else if (type == 3) {
         reg.emplace_component<component::drawable>(powerup, component::drawable{sprite3});
+    } else if (type == 2) {
+        sf::IntRect rect(0, 0, sprite4.getGlobalBounds().width / 12, sprite4.getGlobalBounds().height);
+        sprite4.setTextureRect(rect);
+        sprite4.setScale(3, 3);
+        reg.emplace_component<component::drawable>(powerup, component::drawable{sprite4});
+        reg.emplace_component<component::animation>(powerup, component::animation{
+            0,
+            12,
+            0.1f,
+            sf::Clock()
+        });
     }
     reg.emplace_component<component::type>(powerup, component::type{type});
 }
