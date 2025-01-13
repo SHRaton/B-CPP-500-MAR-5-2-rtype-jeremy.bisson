@@ -153,12 +153,14 @@ void ServerGame::initTimers(bool isAi)
     setup_laser_shot_timer(*laser_shot_timer_);
 
     // Timer temporaire de win
-    win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(123));
+    win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(12));
     win_timer_->async_wait([this](const boost::system::error_code& ec) {
         if (!ec) {
             med.notify(Sender::GAME, "WIN", {}, MediatorContext());
+            //StopAllTimers();
             saveHighScore();
-            StopAllTimers();
+            state = GameState::LOBBY;
+            win_timer_->cancel();
             std::cout << "SHEEEEEESSSSSSHHH CEST LA WIN" << std::endl;
         }
     });
@@ -180,7 +182,6 @@ void ServerGame::StopAllTimers()
     invincible_timer_->cancel();
     ia_timer_->cancel();
     triple_shot_expiration_timer_->cancel();
-    win_timer_->cancel();
     game_over_timer_->cancel();
 }
 
@@ -191,7 +192,7 @@ void ServerGame::setup_game_over_timer(boost::asio::steady_timer& game_over_time
             if (state == GameState::INGAME && !areAllPlayersDead()) {
                 med.notify(Sender::GAME, "LOOSE", {}, MediatorContext());
                 saveHighScore();
-                StopAllTimers();
+                //StopAllTimers();
                 state = GameState::LOBBY;
                 std::cout << Colors::RED << "[Game] All players are dead - Game Over!" << Colors::RESET << std::endl;
                 return;
@@ -216,11 +217,10 @@ bool ServerGame::areAllPlayersDead()
             playerCount++;
         }
     }
-    std::cout << "joueurs en vie" << playerCount << std::endl;
     if (playerCount == 0) {
+        std::cout << Colors::RED << "[Game] No players left!" << Colors::RESET << std::endl;
         return false;
     }
-
     return true;
 }
 
