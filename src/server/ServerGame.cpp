@@ -634,7 +634,7 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                } else if (types[i].value().type >= 10 && types[i].value().type <= 13 && (types[j].value().type == 5 || types[j].value().type == 5)) { // MOB vs PLAYER
+                } else if (types[i].value().type >= 10 && types[i].value().type <= 13 && (types[j].value().type == 5 || types[j].value().type == 30)) { // MOB vs PLAYER
                     healths[j].value().hp -= 50;
                     invincibles[j].value().is_invincible = true;
                     invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
@@ -685,7 +685,7 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                } else if ((types[i].value().type == 6 || types[i].value().type == 8)  && types[j].value().type >= 10) { // BULLET vs MOB
+                } else if ((types[i].value().type == 6 || types[i].value().type == 8)  && types[j].value().type >= 10 && types[j].value().type <= 13) { // BULLET vs MOB
                     healths[j].value().hp -= 1000;
                     for (size_t k = 0; k < types.size(); ++k) {
                         if (types[k].has_value() && types[k].value().type == 5) {
@@ -708,7 +708,7 @@ void ServerGame::checkAllCollisions()
                         checkAllCollisions();
                         return;
                     }
-                } else if (types[i].value().type >= 10 && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
+                } else if (types[i].value().type >= 10 && types[i].value().type <= 13 && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
                     healths[i].value().hp -= 1000;
                     for (size_t k = 0; k < types.size(); ++k) {
                         if (types[k].has_value() && types[k].value().type == 5) {
