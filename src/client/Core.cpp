@@ -48,11 +48,15 @@ void Core::loadAssetsGame()
     globalScore_text.setFillColor(sf::Color::White);
     globalScore_text.setPosition(700, 10);
     globalScore_text.setString("Score : " + std::to_string(globalScore));
+
 }
 
 void Core::loadAssets()
 {
     nb_player = 0;
+    levelSelected = 1;
+    wasMousePressed = false;
+    isDropdownOpen = false;
     isDead = false;
     daltonismType = DaltonismType::NONE;
 
@@ -200,6 +204,12 @@ void Core::loadAssets()
     }
     laserSound.setBuffer(laserBuffer);
     laserSound.setVolume(soundVolume * 100.0);
+
+    if (!joiningBuffer.loadFromFile("../ressources/sounds/joining.wav")) {
+        std::cout << "Error loading button sound" << std::endl;
+    }
+    joiningSound.setBuffer(joiningBuffer);
+    joiningSound.setVolume(soundVolume * 100.0);
 
     if (!winMusic.openFromFile("../ressources/sounds/win.wav")) {
         std::cout << "Error loading menu music" << std::endl;

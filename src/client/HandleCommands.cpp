@@ -73,6 +73,9 @@ void Core::handleServerCommands()
     else if (code == encode_action(GameAction::LOOSE)) {
         handleLooseCommand(iss);
     }
+    else if (code == encode_action(GameAction::LEVEL_EDITOR)) {
+        handleLevelEditorCommand(iss);
+    }
     else {
         std::cout << "Commande inconnue : " << buffer << std::endl;
     }
@@ -81,6 +84,19 @@ void Core::handleServerCommands()
 void Core::handleLooseCommand(std::istringstream& iss)
 {
     gui_gameover();
+}
+
+void Core::handleLevelEditorCommand(std::istringstream& iss)
+{
+    std::string fullMessage;
+    std::getline(iss, fullMessage);
+    std::istringstream messageStream(fullMessage);
+
+    levelFiles.clear();
+    std::string file;
+    while (messageStream >> file) {
+        levelFiles.push_back(file);
+    }
 }
 
 void Core::handleMoveCommand(std::istringstream& iss)
@@ -164,6 +180,7 @@ void Core::handleConnectCommand(std::istringstream& iss)
     iss >> id;
 
     nb_player++;
+    joiningSound.play();
     auto newPlayer = reg.spawn_entity();
     sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(id) + ".png");
 

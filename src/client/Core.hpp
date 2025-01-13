@@ -264,6 +264,7 @@ class Core {
         void handleWinCommand(std::istringstream& iss);
         void handleStartCommand(std::istringstream& iss);
         void handleScoreUpdateCommand(std::istringstream& iss);
+        void handleLevelEditorCommand(std::istringstream& iss);
         void updatePlayerId();
         void update_hud();
         void displayRegistryInfo();
@@ -274,7 +275,18 @@ class Core {
 
         Entity player;
         std::unordered_map<int, Entity> player_id_map;
-        
+        std::vector<std::string> levelFiles;
+        bool wasMousePressed;
+        sf::RectangleShape dropdownButton;
+        sf::Text dropdownText;
+        bool isDropdownOpen;
+        std::vector<sf::RectangleShape> levelButtons;
+        std::vector<sf::Text> levelTexts;
+        int levelSelected;
+        void initializeLevelSelector();
+        void updateLevelSelector();
+        sf::Text nb_players_text;
+
         struct PlayerInfo {
             bool isReady;
             int id;
@@ -308,6 +320,8 @@ class Core {
         sf::SoundBuffer laserBuffer;
         sf::Sound laserSound;
 
+        sf::SoundBuffer joiningBuffer;
+        sf::Sound joiningSound;
 
         //TEST
         void setup_position_timer(boost::asio::steady_timer& position_timer);
@@ -347,17 +361,19 @@ class Core {
         bool isReplay = false;
 
         struct AnimationLobby {
-    float progress = 0.0f;
-    bool isAnimating = true;
-    float targetX = 0.0f;
-    float targetY = 0.0f;
-    float startX = 0.0f;
-    float startY = 0.0f;
-};
+            float progress = 0.0f;
+            bool isAnimating = true;
+            float targetX = 0.0f;
+            float targetY = 0.0f;
+            float startX = 0.0f;
+            float startY = 0.0f;
+        };
 
-    float scoreScale = 1.0f;
-    sf::Clock scoreAnimClock;
-
-    void handleLooseCommand(std::istringstream& iss);
+        float scoreScale = 1.0f;
+        sf::Clock scoreAnimClock;
+        void handleLooseCommand(std::istringstream& iss);
+        void display_lobby();
+        std::vector<sf::Sprite> shipSprites;
+        void load_levels();
 
 };

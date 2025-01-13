@@ -262,12 +262,10 @@ void Core::update_hud()
     if (scoreScale > 1.0f) {
         float deltaTime = scoreAnimClock.restart().asSeconds();
         scoreScale -= deltaTime * 2.0f;
-        
         if (scoreScale < 1.0f) {
             scoreScale = 1.0f;
             globalScore_text.setFillColor(sf::Color::White);
         }
-        
         globalScore_text.setScale(scoreScale, scoreScale);
     }
 
@@ -462,7 +460,6 @@ void Core::gui_game()
                 exit (0);
             }
         }
-        
         sf::Vector2f background2Pos = sprites_game["background_game2"].getSprite().getPosition();
         if (background2Pos.x <= -15100) {
             gui_gamewin();
