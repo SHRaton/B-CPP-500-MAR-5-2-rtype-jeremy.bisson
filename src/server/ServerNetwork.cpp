@@ -59,6 +59,7 @@ std::string ServerNetwork::get_action_name(GameAction action) {
         case GameAction::SAVE_REPLAY: return "SAVE_REPLAY";
         case GameAction::PLAY_REPLAY: return "PLAY_REPLAY";
         case GameAction::SCORE_UPDATE: return "SCORE_UPDATE";
+        case GameAction::HIGHSCORE: return "HIGHSCORE";
         default: return "UNKNOWN";
     }
 }
@@ -288,6 +289,13 @@ void ServerNetwork::handleLevelEditor(const MediatorContext& context, const std:
     for (int i = 0; i < params.size(); i++) {
         message += " " + params[i];
     }
+    broadcast_message(message);
+}
+
+void ServerNetwork::handleHighScore(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::HIGHSCORE);
     broadcast_message(message);
 }
 
