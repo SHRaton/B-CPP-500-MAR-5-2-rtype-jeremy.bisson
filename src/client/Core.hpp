@@ -137,6 +137,7 @@ class Core {
         // Int
         int select_button;
         int failed_connection;
+        int globalScore;
 
         // Textes
         sf::Font font;
@@ -147,6 +148,7 @@ class Core {
         sf::Text fpsText; // Texte pour afficher les FPS
         sf::Text latencyText; // Texte pour afficher la latence
         sf::Text hp;
+        sf::Text globalScore_text;
 
         // Clocks
         sf::Clock fpsClock; // Horloge pour mesurer le temps entre les frames
@@ -261,6 +263,7 @@ class Core {
                             sparse_array<component::invincible>& invincibles);
         void handleWinCommand(std::istringstream& iss);
         void handleStartCommand(std::istringstream& iss);
+        void handleScoreUpdateCommand(std::istringstream& iss);
         void updatePlayerId();
         void update_hud();
         void displayRegistryInfo();

@@ -347,6 +347,7 @@ void Core::display_all()
     sys.draw_system(reg, renderTexture);
     renderTexture.draw(fpsText);
     renderTexture.draw(latencyText);
+    renderTexture.draw(globalScore_text);
     if (!isDead) {
         renderTexture.draw(shootBar);
         renderTexture.draw(superShootBar);
@@ -370,7 +371,6 @@ void Core::display_all()
         deadText.setString("You are Dead");
         renderTexture.draw(deadText);
     }
-    renderTexture.draw(save_replay);
     renderTexture.display();
     sf::Sprite screenSprite(renderTexture.getTexture());
     if (daltonismType != DaltonismType::NONE && !isDead) {
