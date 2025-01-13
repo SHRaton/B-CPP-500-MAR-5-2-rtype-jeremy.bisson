@@ -67,6 +67,9 @@ void Core::handleServerCommands()
     else if (code == encode_action(GameAction::START)) {
         handleStartCommand(iss);
     }
+    else if (code == encode_action(GameAction::SCORE_UPDATE)) {
+        handleScoreUpdateCommand(iss);
+    }
     else if (code == encode_action(GameAction::LOOSE)) {
         handleLooseCommand(iss);
     }
@@ -92,6 +95,15 @@ void Core::handleMoveCommand(std::istringstream& iss)
     } else {
         std::cout << "Erreur : ID de l'Entitée invalide." << std::endl;
     }
+}
+
+void Core::handleScoreUpdateCommand(std::istringstream& iss)
+{
+    int id, score;
+    iss >> id >> score;
+
+    globalScore = score;
+    globalScore_text.setString("Score : " + std::to_string(globalScore));
 }
 
 void Core::handleMobSpawnCommand(std::istringstream& iss)
