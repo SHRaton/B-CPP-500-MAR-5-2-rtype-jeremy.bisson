@@ -58,6 +58,7 @@ std::string ServerNetwork::get_action_name(GameAction action) {
         case GameAction::SUPER_SHOOT: return "SUPER_SHOOT";
         case GameAction::SAVE_REPLAY: return "SAVE_REPLAY";
         case GameAction::PLAY_REPLAY: return "PLAY_REPLAY";
+        case GameAction::SCORE_UPDATE: return "SCORE_UPDATE";
         default: return "UNKNOWN";
     }
 }

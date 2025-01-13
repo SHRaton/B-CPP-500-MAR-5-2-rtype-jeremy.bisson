@@ -67,9 +67,20 @@ void Core::handleServerCommands()
     else if (code == encode_action(GameAction::START)) {
         handleStartCommand(iss);
     }
+    else if (code == encode_action(GameAction::SCORE_UPDATE)) {
+        handleScoreUpdateCommand(iss);
+    }
+    else if (code == encode_action(GameAction::LOOSE)) {
+        handleLooseCommand(iss);
+    }
     else {
         std::cout << "Commande inconnue : " << buffer << std::endl;
     }
+}
+
+void Core::handleLooseCommand(std::istringstream& iss)
+{
+    gui_gameover();
 }
 
 void Core::handleMoveCommand(std::istringstream& iss)
@@ -84,6 +95,22 @@ void Core::handleMoveCommand(std::istringstream& iss)
     } else {
         std::cout << "Erreur : ID de l'Entitée invalide." << std::endl;
     }
+}
+
+void Core::handleScoreUpdateCommand(std::istringstream& iss)
+{
+    int id, score;
+    iss >> id >> score;
+
+    if (score > globalScore) { 
+        scoreScale = 1.3f;
+        globalScore_text.setFillColor(sf::Color::Yellow);
+        scoreAnimClock.restart();
+    }
+
+    globalScore = score;
+    globalScore_text.setString("Score : " + std::to_string(globalScore));
+    globalScore_text.setScale(scoreScale, scoreScale);
 }
 
 void Core::handleMobSpawnCommand(std::istringstream& iss)

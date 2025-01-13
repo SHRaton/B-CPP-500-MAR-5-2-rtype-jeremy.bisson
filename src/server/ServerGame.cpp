@@ -689,17 +689,14 @@ void ServerGame::checkAllCollisions()
                     healths[j].value().hp -= 1000;
                     for (size_t k = 0; k < types.size(); ++k) {
                         if (types[k].has_value() && types[k].value().type == 5) {
-                            auto& scores = reg.get_components<component::score>();
-                            if (scores[k].has_value()) {
-                                scores[k].value().value += 10;
+                                score += 10;
                                 std::vector<std::string> scoreParams = {
                                     std::to_string(k),
-                                    std::to_string(scores[k].value().value)
+                                    std::to_string(score)
                                 };
                                 med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
                             }
                         }
-                    }
                     // Mob
                     if(healths[j].value().hp <= 0){
                         MediatorContext dummyContext;
@@ -712,15 +709,12 @@ void ServerGame::checkAllCollisions()
                     healths[i].value().hp -= 1000;
                     for (size_t k = 0; k < types.size(); ++k) {
                         if (types[k].has_value() && types[k].value().type == 5) {
-                            auto& scores = reg.get_components<component::score>();
-                            if (scores[k].has_value()) {
-                                scores[k].value().value += 10;
-                                std::vector<std::string> scoreParams = {
-                                    std::to_string(k),
-                                    std::to_string(scores[k].value().value)
-                                };
-                                med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
-                            }
+                            score += 10;
+                            std::vector<std::string> scoreParams = {
+                                std::to_string(k),
+                                std::to_string(score)
+                            };
+                            med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
                         }
                     }
                     // Mob

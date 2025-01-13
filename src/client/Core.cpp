@@ -43,6 +43,11 @@ void Core::loadAssetsGame()
         "background_game1",
         "background_game2",
     };
+    globalScore_text.setFont(font);
+    globalScore_text.setCharacterSize(50);
+    globalScore_text.setFillColor(sf::Color::White);
+    globalScore_text.setPosition(700, 10);
+    globalScore_text.setString("Score : " + std::to_string(globalScore));
 }
 
 void Core::loadAssets()

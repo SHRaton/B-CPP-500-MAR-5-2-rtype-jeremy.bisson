@@ -259,6 +259,18 @@ void Core::update_hud()
         fpsText.setString("FPS: " + std::to_string(static_cast<int>(fps)));
         latencyClock.restart();
     }
+    if (scoreScale > 1.0f) {
+        float deltaTime = scoreAnimClock.restart().asSeconds();
+        scoreScale -= deltaTime * 2.0f;
+        
+        if (scoreScale < 1.0f) {
+            scoreScale = 1.0f;
+            globalScore_text.setFillColor(sf::Color::White);
+        }
+        
+        globalScore_text.setScale(scoreScale, scoreScale);
+    }
+
     updateAnimations();
 }
 
@@ -347,6 +359,7 @@ void Core::display_all()
     sys.draw_system(reg, renderTexture);
     renderTexture.draw(fpsText);
     renderTexture.draw(latencyText);
+    renderTexture.draw(globalScore_text);
     if (!isDead) {
         renderTexture.draw(shootBar);
         renderTexture.draw(superShootBar);
@@ -370,7 +383,6 @@ void Core::display_all()
         deadText.setString("You are Dead");
         renderTexture.draw(deadText);
     }
-    renderTexture.draw(save_replay);
     renderTexture.display();
     sf::Sprite screenSprite(renderTexture.getTexture());
     if (daltonismType != DaltonismType::NONE && !isDead) {
