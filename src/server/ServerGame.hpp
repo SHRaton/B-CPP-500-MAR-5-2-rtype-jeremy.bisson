@@ -99,6 +99,7 @@ class ServerGame : public ISender {
         void loadJson(const std::string& jsonPath);
 
         void addEntityToLevel(int entityType, int x, int y, std::string filename);
+        void saveHighScore();
 
 
         //Chaque fonction doit se terminer par un appel à la classe Mediator
@@ -119,6 +120,7 @@ class ServerGame : public ISender {
         void handleSuperShoot(const MediatorContext& context, const std::vector<std::string>& params);
         void handleScoreUpdate(const MediatorContext& context, const std::vector<std::string>& params){};
         void handleLevelEditor(const MediatorContext& context, const std::vector<std::string>& params);
+        void handleHighScore(const MediatorContext& context, const std::vector<std::string>& params);
 
 
         registry reg;
@@ -144,4 +146,5 @@ class ServerGame : public ISender {
         GameState state;
         sol::state lua; // Machine virtuelle Lua avec sol2
         int score;
+        int highscore;
 };

@@ -34,6 +34,8 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             game->handleMobSpawn(context, params);
         } else if (action == "LEVEL_EDITOR") {
             game->handleLevelEditor(context, params);
+        } else if (action == "HIGHSCORE") {
+            game->handleHighScore(context, params);
         }
     } else if (sender == Sender::GAME) { //Communication entre Game et Network
         if (action == "CONNECT") {
@@ -80,6 +82,8 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleScoreUpdate(context, params);
         } else if (action == "LEVEL_EDITOR") {
             network->handleLevelEditor(context, params);
+        } else if (action == "HIGHSCORE") {
+            network->handleHighScore(context, params);
         }
     }
 }

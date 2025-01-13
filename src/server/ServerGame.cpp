@@ -153,6 +153,7 @@ void ServerGame::initTimers(bool isAi)
     win_timer_->async_wait([this](const boost::system::error_code& ec) {
         if (!ec) {
             med.notify(Sender::GAME, "WIN", {}, MediatorContext());
+            saveHighScore();
             StopAllTimers();
             std::cout << "SHEEEEEESSSSSSHHH CEST LA WIN" << std::endl;
         }
@@ -185,6 +186,7 @@ void ServerGame::setup_game_over_timer(boost::asio::steady_timer& game_over_time
         if (!ec) {
             if (state == GameState::INGAME && !areAllPlayersDead()) {
                 med.notify(Sender::GAME, "LOOSE", {}, MediatorContext());
+                saveHighScore();
                 StopAllTimers();
                 state = GameState::LOBBY;
                 std::cout << Colors::RED << "[Game] All players are dead - Game Over!" << Colors::RESET << std::endl;
@@ -425,6 +427,34 @@ void ServerGame::setup_force_shot_timer(boost::asio::steady_timer& force_shot_ti
             setup_force_shot_timer(force_shot_timer);
         }
     });
+}
+
+void ServerGame::handleHighScore(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    std::ifstream file("../src/json/highscore.json");
+    if (!file) {
+        std::cerr << "Impossible de lire le fichier : ../src/json/highscore.json" << std::endl;
+        return;
+    }
+
+    nlohmann::json highscoreData;
+    file >> highscoreData;
+    highscore = highscoreData["highscore"];
+    med.notify(Sender::GAME, "HIGHSCORE", {std::to_string(highscore)}, MediatorContext());
+    file.close();
+    std::cout << "Highscore: " << highscore << std::endl;
+}
+
+void ServerGame::saveHighScore()
+{
+    if (score > highscore) {
+        highscore = score;
+    }
+    nlohmann::json highscoreData;
+    highscoreData["highscore"] = highscore;
+    std::ofstream file("../src/json/highscore.json");
+    file << highscoreData.dump(4);
+    file.close();
 }
 
 void ServerGame::setup_laser_shot_expiration_timer(boost::asio::steady_timer& laser_shot_timer)
@@ -937,6 +967,7 @@ void ServerGame::handleLevelEditor(const MediatorContext& context, const std::ve
 
 void ServerGame::handleConnect(const MediatorContext& context, const std::vector<std::string>& params)
 {
+    handleHighScore(context, params);
     Entity player = reg.spawn_entity();
     reg.emplace_component<component::position>(player, component::position{200, 500});
     reg.emplace_component<component::velocity>(player, component::velocity{0, 0});
