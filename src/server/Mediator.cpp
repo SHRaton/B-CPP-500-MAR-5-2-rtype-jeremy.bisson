@@ -32,6 +32,8 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             game->handlePowerUpSpawn(context, params);
         } else if (action == "MOB_SPAWN") {
             game->handleMobSpawn(context, params);
+        } else if (action == "LEVEL_EDITOR") {
+            game->handleLevelEditor(context, params);
         }
     } else if (sender == Sender::GAME) { //Communication entre Game et Network
         if (action == "CONNECT") {
@@ -76,6 +78,8 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleSuperShoot(context, params);
         } else if (action == "SCORE_UPDATE") {
             network->handleScoreUpdate(context, params);
+        } else if (action == "LEVEL_EDITOR") {
+            network->handleLevelEditor(context, params);
         }
     }
 }

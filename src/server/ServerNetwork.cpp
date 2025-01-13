@@ -52,6 +52,7 @@ std::string ServerNetwork::get_action_name(GameAction action) {
         case GameAction::RESPAWN: return "RESPAWN";
         case GameAction::CONNECT: return "CONNECT";
         case GameAction::DISCONNECT: return "DISCONNECT";
+        case GameAction::LEVEL_EDITOR: return "LEVEL_EDITOR";
         case GameAction::QUIT: return "QUIT";
         case GameAction::START: return "START";
         case GameAction::SUPER_SHOOT: return "SUPER_SHOOT";
@@ -276,6 +277,16 @@ void ServerNetwork::handleScoreUpdate(const MediatorContext& context, const std:
 {
     boost::asio::ip::udp::endpoint client = context.client;
     std::string message = encode_action(GameAction::SCORE_UPDATE) + " " + params[0] + " " + params[1];
+    broadcast_message(message);
+}
+
+void ServerNetwork::handleLevelEditor(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::LEVEL_EDITOR);
+    for (int i = 0; i < params.size(); i++) {
+        message += " " + params[i];
+    }
     broadcast_message(message);
 }
 

@@ -816,7 +816,6 @@ void ServerGame::checkLaserExpiration()
 }
 
 
-
 void ServerGame::addEntityToLevel(int entityType, int x, int y, std::string filename)
 {
     nlohmann::json entityData;
@@ -896,6 +895,51 @@ void ServerGame::addEntityToLevel(int entityType, int x, int y, std::string file
 
 
 //===================================COMMANDS=================================
+
+void ServerGame::handleLevelEditor(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    if (params.size() == 0){
+        std::string directoryPath = "../src/json";
+        // Vecteur pour stocker les fichiers valides
+        std::vector<std::string> fileList;
+        int maxLevel = 0;
+
+        try {
+            // Parcours des fichiers dans le dossier
+            for (const auto& entry : fs::directory_iterator(directoryPath)) {
+                if (entry.is_regular_file()) {
+                    std::string fileName = entry.path().filename().string();
+                    std::cout << "Fichier : " << fileName << std::endl;
+
+                    // Vérifier si le fichier suit le format "levelX.json" avec une regex
+                    std::regex levelRegex(R"(level(\d+)\.json)");
+                    std::smatch match;
+
+                    if (std::regex_match(fileName, match, levelRegex)) {
+                        fileList.push_back(fileName);
+
+                        // Extraire le numéro de niveau et mettre à jour maxLevel
+                        int level = std::stoi(match[1].str());
+                        maxLevel = std::max(maxLevel, level);
+                    }
+                }
+            }
+            med.notify(Sender::GAME, "LEVEL_EDITOR", fileList, context);
+        } catch (const std::exception& e) {
+            std::cerr << "Erreur : " << e.what() << std::endl;
+        }
+    }
+    if (params.size() < 4) {
+        std::cerr << "Erreur : Pas assez de paramètres pour la commande CREATE_ENTITY." << std::endl;
+        return;
+    }
+
+    int entityType = std::stoi(params[0]);
+    int x = std::stoi(params[1]);
+    int y = std::stoi(params[2]);
+    std::string filename = params[3];
+    addEntityToLevel(entityType, x, y, filename);
+}
 
 void ServerGame::handleConnect(const MediatorContext& context, const std::vector<std::string>& params)
 {

@@ -11,9 +11,13 @@
 #include <bitset>
 #include <random>
 #include <vector>
+#include <filesystem>
+#include <regex>
 #include "../Registry.hpp"
 #include "ServerNetwork.hpp"
 #include "Mediator.hpp"
+
+namespace fs = std::filesystem;
 
 /**
  * @brief Gère la logique de jeu côté serveur
@@ -94,7 +98,7 @@ class ServerGame : public ISender {
         void loadLuaScript(const std::string& scriptPath);
         void loadJson(const std::string& jsonPath);
 
-        void addEntityToLevel(int entityType, int x, int y, std::string filename = "../src/json/playerLevel.json");
+        void addEntityToLevel(int entityType, int x, int y, std::string filename);
 
 
         //Chaque fonction doit se terminer par un appel à la classe Mediator
@@ -114,6 +118,7 @@ class ServerGame : public ISender {
         void handleLaserShoot(const MediatorContext& context, const std::vector<std::string>& params);
         void handleSuperShoot(const MediatorContext& context, const std::vector<std::string>& params);
         void handleScoreUpdate(const MediatorContext& context, const std::vector<std::string>& params){};
+        void handleLevelEditor(const MediatorContext& context, const std::vector<std::string>& params);
 
 
         registry reg;
