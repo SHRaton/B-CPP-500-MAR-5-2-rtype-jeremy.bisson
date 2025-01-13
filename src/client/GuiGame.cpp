@@ -299,6 +299,16 @@ void Core::gui_gamewin() {
                 window.close();
                 exit(0);
             }
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                sf::Vector2f worldPos = window.mapPixelToCoords(mousePos);
+                if (save_replay.getGlobalBounds().contains(worldPos)) {
+                    buttonSound_click.play();
+                    std::ostringstream messageStream;
+                    messageStream << encode_action(GameAction::SAVE_REPLAY);
+                    network->send(messageStream.str());
+                }
+            }
         }
 
         window.clear(sf::Color::Black);
@@ -334,6 +344,16 @@ void Core::gui_gameover() {
                 network->send(messageStream.str());
                 window.close();
                 exit(0);
+            }
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                sf::Vector2f worldPos = window.mapPixelToCoords(mousePos);
+                if (save_replay.getGlobalBounds().contains(worldPos)) {
+                    buttonSound_click.play();
+                    std::ostringstream messageStream;
+                    messageStream << encode_action(GameAction::SAVE_REPLAY);
+                    network->send(messageStream.str());
+                }
             }
         }
 
@@ -401,8 +421,8 @@ void Core::display_all()
 void Core::gui_game()
 {
     loadAssetsGame();
-    save_replay.setScale(0.1, 0.1);
-    save_replay.setPosition(1800, 50);
+    save_replay.setScale(1, 1);
+    save_replay.setPosition(1600, 25);
     sf::Event event;
 
     menuMusic.stop();
@@ -434,16 +454,6 @@ void Core::gui_game()
                 network->send(messageStream.str());
                 window.close();
                 exit (0);
-            }
-            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-                sf::Vector2f worldPos = window.mapPixelToCoords(mousePos);
-                if (save_replay.getGlobalBounds().contains(worldPos)) {
-                    buttonSound_click.play();
-                    std::ostringstream messageStream;
-                    messageStream << encode_action(GameAction::SAVE_REPLAY);
-                    network->send(messageStream.str());
-                }
             }
             if (event.type == sf::Event::KeyPressed) {
                 keysPressed[event.key.code] = true;
