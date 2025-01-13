@@ -341,7 +341,7 @@ class Core {
         void updateAnimations();
 
         sf::Sprite save_replay;
-        bool isReplay;
+        bool isReplay = false;
 
         struct AnimationLobby {
     float progress = 0.0f;
