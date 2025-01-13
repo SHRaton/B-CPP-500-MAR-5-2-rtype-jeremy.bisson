@@ -352,4 +352,6 @@ class Core {
     float startY = 0.0f;
 };
 
+void handleLooseCommand(std::istringstream& iss);
+
 };
