@@ -80,6 +80,7 @@ class ServerGame : public ISender {
         void setup_position_timer(boost::asio::steady_timer& position_timer);
         void setup_collision_timer(boost::asio::steady_timer& collision_timer);
         void setup_powerup_expiration_timer(boost::asio::steady_timer& invincible_timer);
+        void setup_bits_shot_timer(boost::asio::steady_timer& bits_shot_timer);
         void setup_iaMobs(boost::asio::steady_timer& ia_timer);
         void setup_laser_shot_expiration_timer(boost::asio::steady_timer& laser_shot_timer);
         void setup_super_shot_timer(boost::asio::steady_timer& super_shot_timer);
@@ -137,6 +138,7 @@ class ServerGame : public ISender {
         std::unique_ptr<boost::asio::steady_timer> force_expiration_timer_;
         std::unique_ptr<boost::asio::steady_timer> powerup_expiration_timer_;
         std::unique_ptr<boost::asio::steady_timer> force_shot_timer_;
+        std::unique_ptr<boost::asio::steady_timer> bits_shot_timer_;
         std::unique_ptr<boost::asio::steady_timer> win_timer_;
         std::unique_ptr<boost::asio::steady_timer> game_over_timer_;
         std::vector<JsonEntity> allEntities;

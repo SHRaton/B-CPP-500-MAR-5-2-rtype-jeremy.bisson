@@ -116,6 +116,12 @@ namespace component{
         std::chrono::steady_clock::time_point expiration_time;
     };
 
+    struct bits {
+        bool is_active = false;
+        int is_up = 0;
+        std::chrono::steady_clock::time_point expiration_time;
+    };
+
     struct score {
         int value;
     };
