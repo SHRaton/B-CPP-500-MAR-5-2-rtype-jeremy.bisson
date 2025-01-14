@@ -92,6 +92,7 @@ class ServerGame : public ISender {
         void spawnMob(JsonEntity entity);
         void spawnPowerUp(JsonEntity entity);
         void spawnDecor(JsonEntity entity);
+        void spawnBoss(JsonEntity entity);
         void checkAllCollisions();
         bool isColliding(const component::position& pos1, const component::position& pos2, const component::size& size1, const component::size& size2);
         bool areAllPlayersDead();

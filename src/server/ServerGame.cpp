@@ -240,6 +240,8 @@ void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
                         spawnPowerUp(*it);
                     } else if (it->type == "decor") {
                         spawnDecor(*it);
+                    } else if (it->type == "boss") {
+                        //spawnBoss(*it);
                     }
                     it = allEntities.erase(it);
                 } else {
@@ -633,6 +635,48 @@ void ServerGame::spawnMob(JsonEntity entity)
     newParams.push_back(std::to_string(x));
     newParams.push_back(std::to_string(y));
     med.notify(Sender::GAME, "MOB_SPAWN", newParams);
+}
+
+void ServerGame::spawnBoss(JsonEntity entity)
+{
+    std::cout << "Spawning boss" << std::endl;
+    Entity boss = reg.spawn_entity();
+    int x = entity.x;
+    int y = entity.y;
+    int type = 0;
+    if (entity.subtype == "boss1") {
+        type = 0;
+    } else if (entity.subtype == "boss2") {
+        type = 1;
+    } else if (entity.subtype == "boss3") {
+        type = 2;
+    } // rajouter d'autres types de boss ici
+    reg.emplace_component<component::position>(boss, component::position{x, y});
+    if (type == 0) {
+        reg.emplace_component<component::health>(boss, component::health{1000});
+        reg.emplace_component<component::damage>(boss, component::damage{50});
+        reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
+        reg.emplace_component<component::type>(boss, component::type{17});
+        reg.emplace_component<component::size>(boss, component::size{200, 100});
+    } else if (type == 1) {
+        reg.emplace_component<component::health>(boss, component::health{2000});
+        reg.emplace_component<component::damage>(boss, component::damage{100});
+        reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
+        reg.emplace_component<component::type>(boss, component::type{18});
+        reg.emplace_component<component::size>(boss, component::size{200, 100});
+    } else if (type == 2) {
+        reg.emplace_component<component::health>(boss, component::health{3000});
+        reg.emplace_component<component::damage>(boss, component::damage{150});
+        reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
+        reg.emplace_component<component::type>(boss, component::type{19});
+        reg.emplace_component<component::size>(boss, component::size{200, 100});
+    }
+
+    std::vector<std::string> newParams;
+    newParams.push_back(std::to_string(type));
+    newParams.push_back(std::to_string(x));
+    newParams.push_back(std::to_string(y));
+    med.notify(Sender::GAME, "BOSS_SPAWN", newParams);
 }
 
 void ServerGame::spawnDecor(JsonEntity entity)

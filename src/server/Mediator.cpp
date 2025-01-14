@@ -72,7 +72,7 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleWin(context, params);
         } else if (action == "LOOSE") {
             network->handleLoose(context, params);
-        } else if (action == "START") {
+        } else if (action == "START"spawnMob) {
             network->handleStart(context, params);
         } else if (action == "LASER_SHOOT") {
             network->handleLaserShoot(context, params);
@@ -84,6 +84,8 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleLevelEditor(context, params);
         } else if (action == "HIGHSCORE") {
             network->handleHighScore(context, params);
+        } else if (action == "BOSS_SPAWN") {
+            network->handleBossSpawn(context, params);
         }
     }
 }
