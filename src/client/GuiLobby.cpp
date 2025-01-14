@@ -112,6 +112,7 @@ void Core::display_lobby()
     //renderTexture.draw(ready);
     renderTexture.draw(start);
     renderTexture.draw(replay);
+    renderTexture.draw(nb_players_text);
     int playerCount = 0;
     for (const auto& player : otherPlayers) {
         sf::Text lobbyText;
@@ -172,7 +173,7 @@ void Core::gui_lobby()
     nb_players_text.setFont(font);
     nb_players_text.setCharacterSize(30);
     nb_players_text.setFillColor(sf::Color::White);
-    nb_players_text.setPosition(1500, 350);
+    nb_players_text.setPosition(1490, 340);
     nb_players_text.setString(std::to_string(nb_player) + " / 4");
 
     // Chargement des textures de base
