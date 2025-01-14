@@ -72,7 +72,7 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleWin(context, params);
         } else if (action == "LOOSE") {
             network->handleLoose(context, params);
-        } else if (action == "START"spawnMob) {
+        } else if (action == "START") {
             network->handleStart(context, params);
         } else if (action == "LASER_SHOOT") {
             network->handleLaserShoot(context, params);

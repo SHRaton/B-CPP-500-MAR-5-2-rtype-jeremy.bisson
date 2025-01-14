@@ -76,9 +76,49 @@ void Core::handleServerCommands()
     else if (code == encode_action(GameAction::LEVEL_EDITOR)) {
         handleLevelEditorCommand(iss);
     }
+    else if (code == encode_action(GameAction::BOSS_SPAWN)) {
+        handleBossSpawn(iss);
+    }
     else {
         std::cout << "Commande inconnue : " << buffer << std::endl;
     }
+}
+
+void Core::handleBossSpawn(std::istringstream& iss)
+{
+     int boss_type, x, y;
+    iss >> boss_type >> x >> y;
+
+    auto newBoss = reg.spawn_entity();
+    std::string boss_path;
+    
+    if (boss_type == 0) {
+        boss_path = currentMap.getBoss();
+    }
+    
+    sf::Sprite boss = utils.cat("../ressources/sprites/" + boss_path);
+    boss.setPosition(x, y);
+    
+    reg.emplace_component<component::position>(newBoss, component::position{x, y});
+    
+    if (boss_type == 0) {
+        int frameWidth = currentMap.getBossSprite().getGlobalBounds().width / currentMap.getBossFrames();
+        int frameHeight = currentMap.getBossSprite().getGlobalBounds().height;
+        sf::IntRect rect(0, 0, frameWidth, frameHeight);
+        boss.setTextureRect(rect);
+        
+        reg.emplace_component<component::health>(newBoss, component::health{1000});
+        reg.emplace_component<component::damage>(newBoss, component::damage{50});
+        reg.emplace_component<component::type>(newBoss, component::type{17});
+        reg.emplace_component<component::velocity>(newBoss, component::velocity{-5, 0});
+        reg.emplace_component<component::animation>(newBoss, component::animation{
+            0, currentMap.getBossFrames(), 0.3f,
+            sf::Clock()
+        });
+    }
+    
+    boss.setScale(4, 4);
+    reg.emplace_component<component::drawable>(newBoss, component::drawable{boss});
 }
 
 void Core::handleLooseCommand(std::istringstream& iss)

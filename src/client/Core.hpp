@@ -432,5 +432,6 @@ class Core {
         void display_lobby();
         std::vector<sf::Sprite> shipSprites;
         void load_levels();
+        void handleBossSpawn(std::istringstream& iss);
 
 };

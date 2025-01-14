@@ -123,6 +123,7 @@ class ServerGame : public ISender {
         void handleScoreUpdate(const MediatorContext& context, const std::vector<std::string>& params){};
         void handleLevelEditor(const MediatorContext& context, const std::vector<std::string>& params);
         void handleHighScore(const MediatorContext& context, const std::vector<std::string>& params);
+        void handleBossSpawn(const MediatorContext& context, const std::vector<std::string>& params){};
 
 
         registry reg;

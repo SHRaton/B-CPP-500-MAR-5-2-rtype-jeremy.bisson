@@ -46,6 +46,7 @@ ServerGame::ServerGame(Mediator &med) : med(med), lua()
 
     loadLuaScript("../src/lua/enemy_ai.lua");
     loadLuaScript("../src/lua/enemy_ai2.lua");
+    loadLuaScript("../src/lua/boss_ai.lua");
     loadJson("../src/json/level1.json");
 
     std::cout << "Lua VM initialized!" << std::endl;
@@ -153,7 +154,7 @@ void ServerGame::initTimers(bool isAi)
     setup_laser_shot_timer(*laser_shot_timer_);
 
     // Timer temporaire de win
-    win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(12));
+    win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1500));
     win_timer_->async_wait([this](const boost::system::error_code& ec) {
         if (!ec) {
             med.notify(Sender::GAME, "WIN", {}, MediatorContext());
@@ -241,7 +242,7 @@ void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
                     } else if (it->type == "decor") {
                         spawnDecor(*it);
                     } else if (it->type == "boss") {
-                        //spawnBoss(*it);
+                        spawnBoss(*it);
                     }
                     it = allEntities.erase(it);
                 } else {
@@ -372,6 +373,8 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
                             lua["enemy_ai"](i, positions.x, positions.y);
                         } else if (types[i].value().type == 11){
                             lua["enemy_ai2"](i, positions.x, positions.y);
+                        } else if (types[i].value().type == 17){
+                            lua["boss_ai"](i, positions.x, positions.y);
                         }
                     }
                 }
@@ -650,7 +653,7 @@ void ServerGame::spawnBoss(JsonEntity entity)
         type = 1;
     } else if (entity.subtype == "boss3") {
         type = 2;
-    } // rajouter d'autres types de boss ici
+    }
     reg.emplace_component<component::position>(boss, component::position{x, y});
     if (type == 0) {
         reg.emplace_component<component::health>(boss, component::health{1000});
