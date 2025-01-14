@@ -71,6 +71,7 @@ void Core::updateLevelSelector()
         } else if (isDropdownOpen) {
             for (size_t i = 0; i < levelButtons.size(); i++) {
                 if (levelButtons[i].getGlobalBounds().contains(worldMousePosition)) {
+                    updateCurrentMap();
                     levelSelected = i + 1;
                     isDropdownOpen = false;
                     buttonSound_click.play();

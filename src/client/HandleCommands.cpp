@@ -135,14 +135,20 @@ void Core::handleMobSpawnCommand(std::istringstream& iss)
     iss >> mob_type >> x >> y;
 
     auto newMob = reg.spawn_entity();
-    sf::Sprite mob = utils.cat("../ressources/sprites/mob" + std::to_string(mob_type) + ".png");
+    std::string mob_path;
+    if (mob_type == 0) {
+        mob_path = currentMap.getMob1();
+    } else if (mob_type == 1) {
+        mob_path = currentMap.getMob2();
+    }
+    sf::Sprite mob = utils.cat("../ressources/sprites/" + mob_path);
     mob.setPosition(x, y);
     
     reg.emplace_component<component::position>(newMob, component::position{x, y});
     //red mob
     if (mob_type == 0) {
-        int frameWidth = 32;
-        int frameHeight = 36;
+        int frameWidth = currentMap.getMob1Sprite().getGlobalBounds().width / currentMap.getMob1Frames();
+        int frameHeight = currentMap.getMob1Sprite().getGlobalBounds().height;
         sf::IntRect rect(0, 0, frameWidth, frameHeight);
         mob.setTextureRect(rect);
         
@@ -151,13 +157,13 @@ void Core::handleMobSpawnCommand(std::istringstream& iss)
         reg.emplace_component<component::velocity>(newMob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(newMob, component::type{10});
         reg.emplace_component<component::animation>(newMob, component::animation{
-            0, 8, 0.2f,
+            0, currentMap.getMob1Frames(), 0.2f,
             sf::Clock()
         });
     } else if (mob_type == 1) {
         // Grey mob
-        int frameWidth = 40;
-        int frameHeight = 34;
+        int frameWidth = currentMap.getMob2Sprite().getGlobalBounds().width / currentMap.getMob2Frames();
+        int frameHeight = currentMap.getMob2Sprite().getGlobalBounds().height;
         sf::IntRect rect(0, 0, frameWidth, frameHeight);
         mob.setTextureRect(rect);
         
@@ -166,7 +172,7 @@ void Core::handleMobSpawnCommand(std::istringstream& iss)
         reg.emplace_component<component::velocity>(newMob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(newMob, component::type{11});
         reg.emplace_component<component::animation>(newMob, component::animation{
-            0, 3, 0.3f,
+            0, currentMap.getMob2Frames(), 0.3f,
             sf::Clock()
         });
     }
