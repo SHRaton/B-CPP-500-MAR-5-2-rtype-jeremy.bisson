@@ -269,6 +269,12 @@ void Core::update_hud()
         globalScore_text.setScale(scoreScale, scoreScale);
     }
 
+    if (isScrollingBackground) {
+        sf::Time elapsed = clock_scrolling.restart();
+        float deltaTime = elapsed.asSeconds();
+        currentMap.getBackgroundSprite().move(-4.5 * 60 * deltaTime, 0);
+    }
+
     updateAnimations();
 }
 
@@ -371,9 +377,7 @@ void Core::display_all()
     } else {
         states.shader = nullptr;
     }
-    for (const auto& name : drawOrder_game) {
-        renderTexture.draw(sprites_game[name].getSprite());
-    }
+    renderTexture.draw(currentMap.getBackgroundSprite());
     sys.draw_system(reg, renderTexture);
     renderTexture.draw(fpsText);
     renderTexture.draw(latencyText);
@@ -442,7 +446,7 @@ void Core::gui_game()
     if (!loadBlackAndWhiteShader()) {
         throw std::runtime_error("Error when loading black and white shader");
     }
-    playIntroAnimation();
+    //playIntroAnimation();
     while (window.isOpen() && registryWindow.isOpen()) {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
@@ -470,8 +474,8 @@ void Core::gui_game()
                 exit (0);
             }
         }
-        sf::Vector2f background2Pos = sprites_game["background_game2"].getSprite().getPosition();
-        if (background2Pos.x <= -15100) {
+
+        if (currentMap.getBackgroundSprite().getPosition().x <= -14190) {
             gui_gamewin();
             return;
         }
@@ -480,9 +484,6 @@ void Core::gui_game()
         update_hud();
         control_system();
         checkInvincibility();
-        for (auto& [name, sprite] : sprites_game) {
-            sprite.update();
-        }
         display_all();
     }
 }
