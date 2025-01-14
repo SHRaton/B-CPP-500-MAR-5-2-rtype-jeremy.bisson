@@ -46,7 +46,7 @@ ServerGame::ServerGame(Mediator &med) : med(med), lua()
 
     loadLuaScript("../src/lua/enemy_ai.lua");
     loadLuaScript("../src/lua/enemy_ai2.lua");
-    loadJson("../src/json/level1.json");
+    loadJson("../src/json/Level/level1.json");
 
     std::cout << "Lua VM initialized!" << std::endl;
 
@@ -650,6 +650,7 @@ void ServerGame::spawnDecor(JsonEntity entity)
     reg.emplace_component<component::position>(powerup, component::position{x, y});
     reg.emplace_component<component::type>(powerup, component::type{type});
     reg.emplace_component<component::size>(powerup, component::size{50, 50});
+    reg.emplace_component<component::velocity>(powerup, component::velocity{-5, 0});
 
     std::vector<std::string> newParams;
     newParams.push_back(std::to_string(type));
