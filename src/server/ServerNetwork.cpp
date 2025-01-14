@@ -295,7 +295,7 @@ void ServerNetwork::handleLevelEditor(const MediatorContext& context, const std:
 void ServerNetwork::handleHighScore(const MediatorContext& context, const std::vector<std::string>& params)
 {
     boost::asio::ip::udp::endpoint client = context.client;
-    std::string message = encode_action(GameAction::HIGHSCORE);
+    std::string message = encode_action(GameAction::HIGHSCORE) + " " + params[0];
     broadcast_message(message);
 }
 

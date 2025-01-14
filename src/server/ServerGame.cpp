@@ -455,12 +455,12 @@ void ServerGame::setup_force_shot_timer(boost::asio::steady_timer& force_shot_ti
                     } else {
                         reg.emplace_component<component::velocity>(bullet, component::velocity{-5, 0});
                     }
-                    reg.emplace_component<component::type>(bullet, component::type{8});
+                    reg.emplace_component<component::type>(bullet, component::type{6});
                     reg.emplace_component<component::size>(bullet, component::size{10, 10});
                     med.notify(Sender::GAME, "SHOOT", newParams, MediatorContext());
                 }
             }
-            force_shot_timer.expires_at(force_shot_timer.expiry() + std::chrono::milliseconds(10));
+            force_shot_timer.expires_at(force_shot_timer.expiry() + std::chrono::milliseconds(500));
             setup_force_shot_timer(force_shot_timer);
         }
     });
@@ -808,6 +808,7 @@ void ServerGame::checkAllCollisions()
                         //Caractéristiques principales :
                         // tirer en avant, en arriere, bloque les balles ennemies
                         invincibles[j].value().is_invincible = true;
+                        invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(4);
                         force[j].value().is_active = true;
                         force[j].value().is_front = 0;
                         force[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(4);
@@ -836,6 +837,7 @@ void ServerGame::checkAllCollisions()
                         laser_shots[i].value().activation_time = std::chrono::steady_clock::now();
                     } else if (types[j].value().type == 2) {
                         invincibles[i].value().is_invincible = true;
+                        invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(4);
                         force[i].value().is_active = true;
                         force[i].value().is_front = 0;
                         force[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(4);
