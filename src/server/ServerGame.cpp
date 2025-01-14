@@ -650,6 +650,7 @@ void ServerGame::spawnDecor(JsonEntity entity)
     reg.emplace_component<component::position>(powerup, component::position{x, y});
     reg.emplace_component<component::type>(powerup, component::type{type});
     reg.emplace_component<component::size>(powerup, component::size{50, 50});
+    reg.emplace_component<component::velocity>(powerup, component::velocity{-5, 0});
 
     std::vector<std::string> newParams;
     newParams.push_back(std::to_string(type));
@@ -687,7 +688,7 @@ void ServerGame::checkAllCollisions()
                 std::cout << "No position for entity !!!!!!!!!!!!!!!!!!!!!!!!! " << j << std::endl;
             }
             if (isColliding(positions[i].value(), positions[j].value(), sizes[i].value(), sizes[j].value())) {
-                if ((types[i].value().type == 5 || types[i].value().type == 30) && types[j].value().type >= 10 && types[j].value().type <= 13) { // MOB vs PLAYER
+                if ((types[i].value().type == 5 || types[i].value().type == 30) && (types[j].value().type >= 10 && types[j].value().type <= 13) || types[j].value().type == 50 ) { // MOB vs PLAYER
                     healths[i].value().hp -= 50;
                     invincibles[i].value().is_invincible = true;
                     invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
@@ -704,7 +705,7 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                } else if (types[i].value().type >= 10 && types[i].value().type <= 13 && (types[j].value().type == 5 || types[j].value().type == 30)) { // MOB vs PLAYER
+                } else if ((types[i].value().type >= 10 && types[i].value().type <= 13) || types[i].value().type == 50 && (types[j].value().type == 5 || types[j].value().type == 30)) { // MOB vs PLAYER
                     healths[j].value().hp -= 50;
                     invincibles[j].value().is_invincible = true;
                     invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);

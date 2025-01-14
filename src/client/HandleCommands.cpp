@@ -397,6 +397,7 @@ void Core::handlePowerUpCommand(std::istringstream& iss)
     sf::Sprite sprite2 = utils.cat("../ressources/sprites/pow2.png");
     sf::Sprite sprite3 = utils.cat("../ressources/sprites/pow3.png");
     sf::Sprite sprite4 = utils.cat("../ressources/sprites/force.png");
+    sf::Sprite sprite5 = utils.cat("../ressources/sprites/meteor.png");
     sprite3.setScale(2.5, 2.5);
     
     if (type == 0) {
@@ -416,6 +417,11 @@ void Core::handlePowerUpCommand(std::istringstream& iss)
             0.1f,
             sf::Clock()
         });
+    }
+    else if (type == 50) {
+        reg.emplace_component<component::drawable>(powerup, component::drawable{sprite5});
+        reg.emplace_component<component::velocity>(powerup, component::velocity{-5, 0});
+        sprite5.setScale(4, 4);
     }
     reg.emplace_component<component::type>(powerup, component::type{type});
 }
