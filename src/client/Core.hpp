@@ -451,9 +451,9 @@ class Core {
             bool isActive = false;
             float x = 0.0f;
             float y = 0.0f;
-            static constexpr int FRAME_WIDTH = 33;  // Ajuste selon ta spritesheet
+            static constexpr int FRAME_WIDTH = 40;  // Ajuste selon ta spritesheet
             static constexpr int FRAME_HEIGHT = 33; // Ajuste selon ta spritesheet
-            static constexpr float FRAME_DURATION = 0.2f;
+            static constexpr float FRAME_DURATION = 0.15f;
             static constexpr int MAX_FRAMES = 6;    // Nombre total de frames dans l'animation
         };
         std::vector<ExplosionAnimation> activeExplosions;
