@@ -365,29 +365,6 @@ void Core::handleSuperShootCommands(std::istringstream& iss)
     reg.emplace_component<component::type>(missile, component::type{6});
 }
 
-// Add this to your animation system update
-void Core::updateAnimations()
-{
-    auto& drawables = reg.get_components<component::drawable>();
-    auto& animations = reg.get_components<component::animation>();
-    for (size_t i = 0; i < animations.size(); ++i) {
-        if (!animations[i] || !drawables[i]) continue;
-        auto& anim = animations[i].value();
-        if (anim.clock.getElapsedTime().asSeconds() >= anim.frameDuration) {
-            anim.currentFrame = (anim.currentFrame + 1) % anim.totalFrames;
-            auto& sprite = drawables[i].value().sprite;
-            int frameWidth = sprite.getTextureRect().width;
-            sprite.setTextureRect(sf::IntRect(
-                anim.currentFrame * frameWidth,
-                0,
-                frameWidth,
-                sprite.getTextureRect().height
-            ));
-            anim.clock.restart();
-        }
-    }
-}
-
 void Core::handleLaserShootCommands(std::istringstream& iss)
 {
     int x, y;
@@ -603,12 +580,18 @@ void Core::handleStartCommand(std::istringstream& iss)
     gui_game();
 }
 
-void Core::handleDeathCommand(std::istringstream& iss)
-{
+void Core::handleDeathCommand(std::istringstream& iss) {
     int id;
     iss >> id;
-
     auto& healths = reg.get_components<component::health>();
+    auto& positions = reg.get_components<component::position>();
+    auto& types = reg.get_components<component::type>();
+
+    if (positions[id] && types[id] && (types[id].value().type == 10 || types[id].value().type == 17)) {
+        float posX = positions[id].value().x;
+        float posY = positions[id].value().y;
+        startExplosionAt(posX, posY);
+    }
     if (id == network->getId()) {
         std::cout << "Mort du joueur " << id << std::endl;
         healths[id].value().hp = 0;

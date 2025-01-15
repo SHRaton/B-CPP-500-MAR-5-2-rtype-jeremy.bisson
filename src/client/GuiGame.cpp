@@ -191,6 +191,8 @@ void Core::update_hud()
     }
 
     updateAnimations();
+    float deltaTime = clock_explosion.restart().asSeconds();
+    updateExplosions(deltaTime);
 }
 
 void Core::gui_gamewin() {
@@ -307,6 +309,11 @@ void Core::display_all()
             } else {
                 laserActive = false;
             }
+        }
+    }
+    for (const auto& explosion : activeExplosions) {
+        if (explosion.isActive) {
+            renderTexture.draw(explosion.sprite);
         }
     }
     for (const auto& player : otherPlayers) {

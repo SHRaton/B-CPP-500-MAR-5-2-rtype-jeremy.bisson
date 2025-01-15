@@ -31,6 +31,9 @@ void Core::loadAssetsGame()
     laserClock.restart();
     laserPowerUpLogo = utils.cat("../ressources/sprites/laser_logo.png");
     save_replay = utils.cat("../ressources/background/replay.png");
+    if (!explosionTexture.loadFromFile("../ressources/sprites/kill.png")) {
+        throw std::runtime_error("Failed to load explosion texture");
+    }
 
     globalScore_text.setFont(font);
     globalScore_text.setCharacterSize(50);
@@ -228,6 +231,12 @@ void Core::loadAssets()
     }
     joiningSound.setBuffer(joiningBuffer);
     joiningSound.setVolume(soundVolume * 100.0);
+
+    if (!explosionBuffer.loadFromFile("../ressources/sounds/explosion.wav")) {
+        std::cout << "Error loading button sound" << std::endl;
+    }
+    explosionSound.setBuffer(explosionBuffer);
+    explosionSound.setVolume(soundVolume * 100.0);
 
     if (!winMusic.openFromFile("../ressources/sounds/win.wav")) {
         std::cout << "Error loading menu music" << std::endl;
