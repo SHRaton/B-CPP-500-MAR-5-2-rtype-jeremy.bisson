@@ -178,6 +178,20 @@ void Core::loadAssets()
     Game1Music.setLoop(true);
     Game1Music.setVolume(soundVolume * 80.0);
 
+    // MUSIC + SON BOSS
+
+    if (!BossMusic1.openFromFile("../ressources/sounds/boss1.wav")) {
+        std::cout << "Error loading menu music" << std::endl;
+    }
+    BossMusic1.setLoop(true);
+    BossMusic1.setVolume(soundVolume * 120.0);
+
+    if (!screamboss_buffer1.loadFromFile("../ressources/sounds/ruar1.wav")) {
+        std::cout << "Error loading button sound" << std::endl;
+    }
+    screamboss_sound1.setBuffer(screamboss_buffer1);
+    screamboss_sound1.setVolume(soundVolume * 50.0);
+
     // SONS
     if (!buttonBuffer_click.loadFromFile("../ressources/sounds/click.wav")) {
         std::cout << "Error loading button sound" << std::endl;

@@ -88,6 +88,10 @@ void Core::handleBossSpawn(std::istringstream& iss)
 {
      int boss_type, x, y;
     iss >> boss_type >> x >> y;
+    isScrollingBackground = false;
+    Game1Music.stop();
+    BossMusic1.play();
+    screamboss_sound1.play();
 
     auto newBoss = reg.spawn_entity();
     std::string boss_path;

@@ -1,7 +1,7 @@
 function boss_ai(entity_id, position_x, position_y)
     -- Définir les limites de la zone de mouvement
-    local min_x = 1200  -- Limite gauche
-    local max_x = 1700 -- Limite droite
+    local min_x = 1350  -- Nouvelle limite gauche (augmentée)
+    local max_x = 1550  -- Nouvelle limite droite (diminuée)
     local speed = -5
 
     -- Si le boss est dans la zone acceptable, on le stoppe

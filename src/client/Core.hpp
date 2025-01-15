@@ -358,9 +358,14 @@ class Core {
 
         sf::Music menuMusic;
         sf::Music Game1Music;
+        sf::Music BossMusic1;
 
         sf::Music gameoverMusic;
         sf::Music winMusic;
+
+        
+        sf::SoundBuffer screamboss_buffer1;
+        sf::Sound screamboss_sound1;
 
         sf::SoundBuffer buttonBuffer_click;
         sf::Sound buttonSound_click;
