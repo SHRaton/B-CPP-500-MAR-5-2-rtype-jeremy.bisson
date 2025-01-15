@@ -159,6 +159,93 @@ void Core::load_levels()
     }
 }
 
+void Core::load_spaceship()
+{
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+    std::vector<std::string> messages = network->receive_all();
+    if (messages.empty()) {
+        throw std::runtime_error("Erreur de connexion au serveur!");
+    }
+
+    // Handle multiple player connections
+    int i = 0;
+    for (const auto& buffer : messages) {
+        std::cout << "Mess: " << buffer << "\n";
+        if (messages[i].rfind("HIGHSCORE", 0) == 0) {
+            std::cout << "RECUP ET STOCKER ICI";
+        }
+        if (messages[i].rfind("OK", 0) == 0) {
+            break;
+        }
+        if (buffer.rfind(encode_action(GameAction::CONNECT), 0) == 0) {
+            nb_player++;
+            std::istringstream iss(buffer);
+            std::string code;
+            int id;
+            iss >> code >> id;
+
+            auto newPlayer = reg.spawn_entity();
+            std::cout << "Créer AUTRE sprite " << i << std::endl;
+
+            sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(i) + ".png");
+            vaisseau.setPosition(200, 500);
+            sf::IntRect rect(vaisseau.getGlobalBounds().width / 5 * 2, 0, 
+                     vaisseau.getGlobalBounds().width / 5, 
+                     vaisseau.getGlobalBounds().height);
+            vaisseau.setTextureRect(rect);
+            vaisseau.setScale(3, 3);
+
+            // Add components to the new entity
+            reg.emplace_component<component::position>(newPlayer, component::position{200, 500});
+            reg.emplace_component<component::velocity>(newPlayer, component::velocity{0, 0});
+            reg.emplace_component<component::drawable>(newPlayer, component::drawable{vaisseau});
+            reg.emplace_component<component::controllable>(newPlayer, component::controllable{false});
+            reg.emplace_component<component::health>(newPlayer, component::health{100});
+            reg.emplace_component<component::invincible>(newPlayer, component::invincible{false});
+            reg.emplace_component<component::type>(newPlayer, component::type{667});
+            PlayerInfo playerInfo;
+            playerInfo.isReady = false;
+            playerInfo.id = id;
+            playerInfo.hp = 100;
+            playerInfo.hpText.setFont(font);
+            playerInfo.hpText.setCharacterSize(35);
+            playerInfo.hpText.setFillColor(sf::Color::Blue);
+            playerInfo.hpText.setPosition(1500, 10 + otherPlayers.size() * 50);
+            playerInfo.hpText.setString("Player " + std::to_string(id) + ": " + std::to_string(playerInfo.hp));
+            otherPlayers.push_back(playerInfo);
+        }
+        i++;
+    }
+    if (!messages.empty()) {
+        // Création du joueur
+        player = reg.spawn_entity();
+        nb_player++;
+        network->setId(player);
+        std::cout << "Créer NOTRE sprite " << player << std::endl;
+        reg.emplace_component<component::position>(player, component::position{200, 500});
+        reg.emplace_component<component::velocity>(player, component::velocity{0, 0});
+        reg.emplace_component<component::health>(player, component::health{100});
+        sf::Sprite sprite = utils.cat("../ressources/sprites/vaisseau" + std::to_string(player) + ".png");
+        sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 5, sprite.getGlobalBounds().height);
+        sprite.setTextureRect(rect);
+        sprite.setScale(3, 3);
+        reg.emplace_component<component::drawable>(player, component::drawable{sprite});
+        reg.emplace_component<component::controllable>(player, component::controllable{true});
+        reg.emplace_component<component::invincible>(player, component::invincible{false});
+        reg.emplace_component<component::type>(player, component::type{696});
+        PlayerInfo playerInfo;
+        playerInfo.isReady = false;
+        playerInfo.id = player;
+        playerInfo.hp = 100;
+        playerInfo.hpText.setFont(font);
+        playerInfo.hpText.setCharacterSize(35);
+        playerInfo.hpText.setFillColor(sf::Color::Blue);
+        playerInfo.hpText.setPosition(1500, 10 + otherPlayers.size() * 50);
+        playerInfo.hpText.setString("Player " + std::to_string(player) + ": " + std::to_string(playerInfo.hp));
+        otherPlayers.push_back(playerInfo);
+    }
+}
+
 void Core::gui_lobby()
 {
     // Recup the list of all levels

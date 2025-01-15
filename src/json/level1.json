@@ -42,7 +42,7 @@
       },
       {
         "type": "powerup",
-        "subtype": "triple_shoot",
+        "subtype": "force",
         "position": { "x": 2000, "y": 300 }
       },
 
