@@ -245,6 +245,7 @@ void Core::gui_gameover() {
     gameOverSprite.setTexture(gameOverTexture);
     Game1Music.stop();
     gameoverMusic.play();
+    BossMusic1.stop();
     
     // Centrer l'image
     gameOverSprite.setPosition(
@@ -344,6 +345,7 @@ void Core::gui_game()
 
     menuMusic.stop();
     Game1Music.play();
+    BossMusic1.stop();
 
     registryWindow.create(sf::VideoMode(1400, 1080), "ECS Debuger");
 

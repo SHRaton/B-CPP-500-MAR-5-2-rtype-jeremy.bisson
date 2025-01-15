@@ -46,6 +46,13 @@
         "position": { "x": 2000, "y": 300 }
       },
 
+      {
+        "type": "boss",
+        "subtype": "boss1",
+        "position": { "x": 2000, "y": 200 },
+        "behavior": "automatic"
+      },
+
 
 
 

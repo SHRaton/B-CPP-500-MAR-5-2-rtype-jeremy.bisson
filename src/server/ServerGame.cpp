@@ -46,6 +46,7 @@ ServerGame::ServerGame(Mediator &med) : med(med), lua()
 
     loadLuaScript("../src/lua/enemy_ai.lua");
     loadLuaScript("../src/lua/enemy_ai2.lua");
+    loadLuaScript("../src/lua/boss_ai.lua");
     loadJson("../src/json/level1.json");
 
     std::cout << "Lua VM initialized!" << std::endl;
@@ -153,7 +154,7 @@ void ServerGame::initTimers(bool isAi)
     setup_laser_shot_timer(*laser_shot_timer_);
 
     // Timer temporaire de win
-    win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(12));
+    win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1500));
     win_timer_->async_wait([this](const boost::system::error_code& ec) {
         if (!ec) {
             med.notify(Sender::GAME, "WIN", {}, MediatorContext());
@@ -240,6 +241,8 @@ void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
                         spawnPowerUp(*it);
                     } else if (it->type == "decor") {
                         spawnDecor(*it);
+                    } else if (it->type == "boss") {
+                        spawnBoss(*it);
                     }
                     it = allEntities.erase(it);
                 } else {
@@ -370,6 +373,8 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
                             lua["enemy_ai"](i, positions.x, positions.y);
                         } else if (types[i].value().type == 11){
                             lua["enemy_ai2"](i, positions.x, positions.y);
+                        } else if (types[i].value().type == 17){
+                            lua["boss_ai"](i, positions.x, positions.y);
                         }
                     }
                 }
@@ -633,6 +638,48 @@ void ServerGame::spawnMob(JsonEntity entity)
     newParams.push_back(std::to_string(x));
     newParams.push_back(std::to_string(y));
     med.notify(Sender::GAME, "MOB_SPAWN", newParams);
+}
+
+void ServerGame::spawnBoss(JsonEntity entity)
+{
+    std::cout << "Spawning boss" << std::endl;
+    Entity boss = reg.spawn_entity();
+    int x = entity.x;
+    int y = entity.y;
+    int type = 0;
+    if (entity.subtype == "boss1") {
+        type = 0;
+    } else if (entity.subtype == "boss2") {
+        type = 1;
+    } else if (entity.subtype == "boss3") {
+        type = 2;
+    }
+    reg.emplace_component<component::position>(boss, component::position{x, y});
+    if (type == 0) {
+        reg.emplace_component<component::health>(boss, component::health{1000});
+        reg.emplace_component<component::damage>(boss, component::damage{50});
+        reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
+        reg.emplace_component<component::type>(boss, component::type{17});
+        reg.emplace_component<component::size>(boss, component::size{200, 100});
+    } else if (type == 1) {
+        reg.emplace_component<component::health>(boss, component::health{2000});
+        reg.emplace_component<component::damage>(boss, component::damage{100});
+        reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
+        reg.emplace_component<component::type>(boss, component::type{18});
+        reg.emplace_component<component::size>(boss, component::size{200, 100});
+    } else if (type == 2) {
+        reg.emplace_component<component::health>(boss, component::health{3000});
+        reg.emplace_component<component::damage>(boss, component::damage{150});
+        reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
+        reg.emplace_component<component::type>(boss, component::type{19});
+        reg.emplace_component<component::size>(boss, component::size{200, 100});
+    }
+
+    std::vector<std::string> newParams;
+    newParams.push_back(std::to_string(type));
+    newParams.push_back(std::to_string(x));
+    newParams.push_back(std::to_string(y));
+    med.notify(Sender::GAME, "BOSS_SPAWN", newParams);
 }
 
 void ServerGame::spawnDecor(JsonEntity entity)
