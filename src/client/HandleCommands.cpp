@@ -587,7 +587,7 @@ void Core::handleDeathCommand(std::istringstream& iss) {
     auto& positions = reg.get_components<component::position>();
     auto& types = reg.get_components<component::type>();
 
-    if (positions[id] && types[id] && (types[id].value().type == 10 || types[id].value().type == 17)) {
+    if (positions[id] && types[id] && (types[id].value().type == 10 || types[id].value().type == 11 || types[id].value().type == 17)) {
         float posX = positions[id].value().x;
         float posY = positions[id].value().y;
         startExplosionAt(posX, posY);
