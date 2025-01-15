@@ -161,7 +161,7 @@ void Core::load_levels()
 
 void Core::load_spaceship()
 {
-    std::this_thread::sleep_for(std::chrono::seconds(5));
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
     std::vector<std::string> messages = network->receive_all();
     if (messages.empty()) {
         throw std::runtime_error("Erreur de connexion au serveur!");
