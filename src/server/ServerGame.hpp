@@ -101,6 +101,8 @@ class ServerGame : public ISender {
         void loadJson(const std::string& jsonPath);
 
         void addEntityToLevel(int entityType, int x, int y, std::string filename);
+        void getEntityOnLevel(std::string filename);
+        void deleteEntityOnLevel(int entityId, std::string filename);
         void saveHighScore();
 
 
@@ -121,6 +123,7 @@ class ServerGame : public ISender {
         void handleLaserShoot(const MediatorContext& context, const std::vector<std::string>& params);
         void handleSuperShoot(const MediatorContext& context, const std::vector<std::string>& params);
         void handleScoreUpdate(const MediatorContext& context, const std::vector<std::string>& params){};
+        void handleGetLevels(const MediatorContext& context, const std::vector<std::string>& params);
         void handleLevelEditor(const MediatorContext& context, const std::vector<std::string>& params);
         void handleHighScore(const MediatorContext& context, const std::vector<std::string>& params);
         void handleBossSpawn(const MediatorContext& context, const std::vector<std::string>& params){};

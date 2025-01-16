@@ -4,7 +4,7 @@
 
 std::string Core::encode_action(GameAction action)
 {
-    std::bitset<5> bits(static_cast<unsigned long>(action));
+    std::bitset<6> bits(static_cast<unsigned long>(action));
     return bits.to_string();
 }
 
@@ -161,11 +161,12 @@ void Core::update_hud()
     fpsText.setFont(font);
     fpsText.setCharacterSize(20);
     fpsText.setFillColor(sf::Color::Green);
-    fpsText.setPosition(10, 10);
+    fpsText.setPosition(15, 10);
+    
     latencyText.setFont(font);
     latencyText.setCharacterSize(20);
     latencyText.setFillColor(sf::Color::Green);
-    latencyText.setPosition(10, 40);
+    latencyText.setPosition(15, 35);
 
     float fps = 1.f / fpsClock.restart().asSeconds();
     if (latencyClock.getElapsedTime().asSeconds() > 1.f) {
@@ -296,6 +297,12 @@ void Core::display_all()
         states.shader = nullptr;
     }
     renderTexture.draw(currentMap.getBackgroundSprite());
+    renderTexture.draw(PlayerHUD1);
+    renderTexture.draw(PlayerHUD2);
+    renderTexture.draw(PlayerHUD3);
+    renderTexture.draw(PlayerHUD4);
+    renderTexture.draw(hudBackground);
+    renderTexture.draw(scoreBackground);
     sys.draw_system(reg, renderTexture);
     renderTexture.draw(fpsText);
     renderTexture.draw(latencyText);
@@ -337,6 +344,19 @@ void Core::display_all()
     } else {
         window.draw(screenSprite);
     }
+
+    if (isFlashing) {
+        float elapsedTime = flashClock.getElapsedTime().asSeconds();
+        if (elapsedTime <= 2.0f) {
+            // Réduit l'intensité maximale à 100 au lieu de 255
+            flashAlpha = 100.0f * std::abs(std::sin(elapsedTime * 3.14159f * 1.5f)); // Réduit la vitesse de pulsation
+            flashOverlay.setFillColor(sf::Color(255, 0, 0, static_cast<sf::Uint8>(flashAlpha)));
+            window.draw(flashOverlay);
+        } else {
+            isFlashing = false;
+        }
+    }
+
     window.display();
     registryWindow.clear();
     displayRegistryInfo();

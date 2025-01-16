@@ -626,12 +626,14 @@ void ServerGame::spawnMob(JsonEntity entity)
         reg.emplace_component<component::velocity>(mob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(mob, component::type{10});
         reg.emplace_component<component::size>(mob, component::size{100, 50});
+        reg.emplace_component<component::invincible>(mob, component::invincible{false});
     } else if (type == 1) {
         reg.emplace_component<component::health>(mob, component::health{100});
         reg.emplace_component<component::damage>(mob, component::damage{40});
         reg.emplace_component<component::velocity>(mob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(mob, component::type{11});
         reg.emplace_component<component::size>(mob, component::size{100, 50});
+        reg.emplace_component<component::invincible>(mob, component::invincible{false});
     }
     std::vector<std::string> newParams;
     newParams.push_back(std::to_string(type));
@@ -660,7 +662,7 @@ void ServerGame::spawnBoss(JsonEntity entity)
         reg.emplace_component<component::damage>(boss, component::damage{50});
         reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
         reg.emplace_component<component::type>(boss, component::type{17});
-        reg.emplace_component<component::size>(boss, component::size{200, 100});
+        reg.emplace_component<component::size>(boss, component::size{500, 800});
     } else if (type == 1) {
         reg.emplace_component<component::health>(boss, component::health{2000});
         reg.emplace_component<component::damage>(boss, component::damage{100});
@@ -696,7 +698,7 @@ void ServerGame::spawnDecor(JsonEntity entity)
     Entity powerup = reg.spawn_entity();
     reg.emplace_component<component::position>(powerup, component::position{x, y});
     reg.emplace_component<component::type>(powerup, component::type{type});
-    reg.emplace_component<component::size>(powerup, component::size{50, 50});
+    reg.emplace_component<component::size>(powerup, component::size{100, 270});
     reg.emplace_component<component::velocity>(powerup, component::velocity{-5, 0});
 
     std::vector<std::string> newParams;
@@ -718,6 +720,7 @@ void ServerGame::checkAllCollisions()
     auto& laser_shots = reg.get_components<component::laser_shot>();
     auto& force = reg.get_components<component::force>();
     auto& bits = reg.get_components<component::bits>();
+    auto& damages = reg.get_components<component::damage>();
 
     for (size_t i = 0; i < positions.size(); ++i) {
 
@@ -725,7 +728,9 @@ void ServerGame::checkAllCollisions()
             if (types[i].has_value() && types[j].has_value()) {
                 // Si l'un des deux est un joueur, on vérifie son invincibilité
                 if ((types[i].value().type == 5 && invincibles[i].has_value() && invincibles[i].value().is_invincible) ||
-                    (types[j].value().type == 5 && invincibles[j].has_value() && invincibles[j].value().is_invincible)) {
+                    (types[j].value().type == 5 && invincibles[j].has_value() && invincibles[j].value().is_invincible) ||
+                    (types[i].value().type >= 10 && types[i].value().type <= 19 && invincibles[i].has_value() && invincibles[i].value().is_invincible) ||
+                    (types[j].value().type >= 10 && types[j].value().type <= 19 && invincibles[j].has_value() && invincibles[j].value().is_invincible)) {
                     continue;
                 }
             }
@@ -735,7 +740,7 @@ void ServerGame::checkAllCollisions()
                 std::cout << "No position for entity !!!!!!!!!!!!!!!!!!!!!!!!! " << j << std::endl;
             }
             if (isColliding(positions[i].value(), positions[j].value(), sizes[i].value(), sizes[j].value())) {
-                if ((types[i].value().type == 5 || types[i].value().type == 30) && ((types[j].value().type >= 10 && types[j].value().type <= 13) || types[j].value().type == 50) ) { // MOB vs PLAYER
+                if ((types[i].value().type == 5 || types[i].value().type == 30) && ((types[j].value().type >= 10 && types[j].value().type <= 19) || types[j].value().type == 50) ) { // MOB vs PLAYER
                     healths[i].value().hp -= 50;
                     invincibles[i].value().is_invincible = true;
                     invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
@@ -752,7 +757,7 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                } else if (((types[i].value().type >= 10 && types[i].value().type <= 13) || types[i].value().type == 50) && (types[j].value().type == 5 || types[j].value().type == 30)) { // MOB vs PLAYER
+                } else if (((types[i].value().type >= 10 && types[i].value().type <= 19) || types[i].value().type == 50) && (types[j].value().type == 5 || types[j].value().type == 30)) { // MOB vs PLAYER
                     healths[j].value().hp -= 50;
                     invincibles[j].value().is_invincible = true;
                     invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
@@ -804,9 +809,13 @@ void ServerGame::checkAllCollisions()
                         handleColision(dummyContext, collisionParams);
                     }
                 } else if ((types[i].value().type == 6 || types[i].value().type == 8)  && types[j].value().type >= 10 && types[j].value().type <= 13) { // BULLET vs MOB
-                    healths[j].value().hp -= 1000;
-                    for (size_t k = 0; k < types.size(); ++k) {
-                        if (types[k].has_value() && types[k].value().type == 5) {
+                    healths[j].value().hp -= damages[i].value().dmg;
+                    invincibles[j].value().is_invincible = true;
+                    invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+                    // Mob
+                    if(healths[j].value().hp <= 0){
+                        for (size_t k = 0; k < types.size(); ++k) {
+                            if (types[k].has_value() && types[k].value().type == 5) {
                                 score += 10;
                                 std::vector<std::string> scoreParams = {
                                     std::to_string(k),
@@ -815,8 +824,6 @@ void ServerGame::checkAllCollisions()
                                 med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
                             }
                         }
-                    // Mob
-                    if(healths[j].value().hp <= 0){
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
                         reg.kill_entity(Entity(j));
@@ -824,19 +831,21 @@ void ServerGame::checkAllCollisions()
                         return;
                     }
                 } else if (types[i].value().type >= 10 && types[i].value().type <= 13 && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
-                    healths[i].value().hp -= 1000;
-                    for (size_t k = 0; k < types.size(); ++k) {
-                        if (types[k].has_value() && types[k].value().type == 5) {
-                            score += 10;
-                            std::vector<std::string> scoreParams = {
-                                std::to_string(k),
-                                std::to_string(score)
-                            };
-                            med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
-                        }
-                    }
+                    healths[i].value().hp -= damages[j].value().dmg;
+                    invincibles[i].value().is_invincible = true;
+                    invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
                     // Mob
                     if(healths[i].value().hp <= 0){
+                        for (size_t k = 0; k < types.size(); ++k) {
+                            if (types[k].has_value() && types[k].value().type == 5) {
+                                score += 10;
+                                std::vector<std::string> scoreParams = {
+                                    std::to_string(k),
+                                    std::to_string(score)
+                                };
+                                med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
+                            }
+                        }
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(i)});
                         reg.kill_entity(Entity(i));
@@ -1012,55 +1021,124 @@ void ServerGame::addEntityToLevel(int entityType, int x, int y, std::string file
     outputFile.close();
 }
 
+void ServerGame::getEntityOnLevel(std::string filename)
+{
+    std::string fullPath = "../src/json/" + filename;
+    loadJson(fullPath);
+    for (auto& entity : allEntities) {
+        std::string type = entity.type;
+        std::string subtype = entity.subtype;
+        int intType = 0;
+        if (type == "powerup") {
+            if (subtype == "heal") {
+                intType = 0;
+            } else if (subtype == "triple_shoot") {
+                intType = 1;
+            } else if (subtype == "force") {
+                intType = 2;
+            } else if (subtype == "laser") {
+                intType = 3;
+            } else if (subtype == "bits") {
+                intType = 4;
+            }
+        } else if (type == "mob") {
+            if (subtype == "enemy1") {
+                intType = 10;
+            } else if (subtype == "enemy2") {
+                intType = 11;
+            }
+        } else if (type == "decor") {
+            if (subtype == "brick") {
+                intType = 50;
+            }
+        }
+        med.notify(Sender::GAME, "LEVEL_EDITOR", {std::to_string(intType), std::to_string(entity.x), std::to_string(entity.y)});
+    }
+    med.notify(Sender::GAME, "LEVEL_EDITOR", {});
+    allEntities.clear();
+}
 
+void ServerGame::deleteEntityOnLevel(int entityId, std::string filename)
+{
+    std::string fullPath = "../src/json/" + filename;
+    loadJson(fullPath);
+    allEntities.erase(allEntities.begin() + entityId);
+    std::ofstream outputFile(fullPath);
+    if (!outputFile.is_open()) {
+        std::cerr << "Erreur : Impossible d'ouvrir le fichier level1.json en écriture." << std::endl;
+        return;
+    }
 
+    nlohmann::json levelData;
+    levelData["entities"] = nlohmann::json::array();
+    for (auto& entity : allEntities) {
+        nlohmann::json entityData;
+        entityData["type"] = entity.type;
+        entityData["subtype"] = entity.subtype;
+        entityData["position"] = {
+            {"x", entity.x},
+            {"y", entity.y}
+        };
+        levelData["entities"].push_back(entityData);
+    }
 
+    outputFile << levelData.dump(4); // Écrit le JSON avec une indentation de 4 espaces
+    outputFile.close();
+    allEntities.clear();
+}
 
 //===================================COMMANDS=================================
 
 void ServerGame::handleLevelEditor(const MediatorContext& context, const std::vector<std::string>& params)
 {
-    if (params.size() == 0){
-        std::string directoryPath = "../src/json";
-        // Vecteur pour stocker les fichiers valides
-        std::vector<std::string> fileList;
-        int maxLevel = 0;
+    if (params.size() == 1) {
+        std::string filename = params[0];
+        getEntityOnLevel(filename);
+    } else if (params.size() == 3){
+        int id = std::stoi(params[1]);
+        if (params[0] == "-1"){
+            deleteEntityOnLevel(id, params[2]);
+        }
+    } else if (params.size() == 4) {
+        int entityType = std::stoi(params[0]);
+        int x = std::stoi(params[1]);
+        int y = std::stoi(params[2]);
+        std::string filename = params[3];
+        addEntityToLevel(entityType, x, y, filename);
+    }
+}
 
-        try {
-            // Parcours des fichiers dans le dossier
-            for (const auto& entry : fs::directory_iterator(directoryPath)) {
-                if (entry.is_regular_file()) {
-                    std::string fileName = entry.path().filename().string();
-                    std::cout << "Fichier : " << fileName << std::endl;
+void ServerGame::handleGetLevels(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    std::string directoryPath = "../src/json";
+    // Vecteur pour stocker les fichiers valides
+    std::vector<std::string> fileList;
+    int maxLevel = 0;
 
-                    // Vérifier si le fichier suit le format "levelX.json" avec une regex
-                    std::regex levelRegex(R"(level(\d+)\.json)");
-                    std::smatch match;
+    try {
+        // Parcours des fichiers dans le dossier
+        for (const auto& entry : fs::directory_iterator(directoryPath)) {
+            if (entry.is_regular_file()) {
+                std::string fileName = entry.path().filename().string();
+                std::cout << "Fichier : " << fileName << std::endl;
 
-                    if (std::regex_match(fileName, match, levelRegex)) {
-                        fileList.push_back(fileName);
+                // Vérifier si le fichier suit le format "levelX.json" avec une regex
+                std::regex levelRegex(R"(level(\d+)\.json)");
+                std::smatch match;
 
-                        // Extraire le numéro de niveau et mettre à jour maxLevel
-                        int level = std::stoi(match[1].str());
-                        maxLevel = std::max(maxLevel, level);
-                    }
+                if (std::regex_match(fileName, match, levelRegex)) {
+                    fileList.push_back(fileName);
+
+                    // Extraire le numéro de niveau et mettre à jour maxLevel
+                    int level = std::stoi(match[1].str());
+                    maxLevel = std::max(maxLevel, level);
                 }
             }
-            med.notify(Sender::GAME, "LEVEL_EDITOR", fileList, context);
-        } catch (const std::exception& e) {
-            std::cerr << "Erreur : " << e.what() << std::endl;
         }
+        med.notify(Sender::GAME, "GET_LEVELS", fileList, context);
+    } catch (const std::exception& e) {
+        std::cerr << "Erreur : " << e.what() << std::endl;
     }
-    if (params.size() < 4) {
-        std::cerr << "Erreur : Pas assez de paramètres pour la commande CREATE_ENTITY." << std::endl;
-        return;
-    }
-
-    int entityType = std::stoi(params[0]);
-    int x = std::stoi(params[1]);
-    int y = std::stoi(params[2]);
-    std::string filename = params[3];
-    addEntityToLevel(entityType, x, y, filename);
 }
 
 void ServerGame::handleConnect(const MediatorContext& context, const std::vector<std::string>& params)
@@ -1210,7 +1288,8 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
                 newParams.push_back(std::to_string(positions.x + missile.x_offset));
                 newParams.push_back(std::to_string(positions.y + missile.y_offset));
                 reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y + missile.y_offset});
-                reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
+                reg.emplace_component<component::velocity>(bullet, component::velocity{10, 0});
+                reg.emplace_component<component::damage>(bullet, component::damage{50});
                 reg.emplace_component<component::type>(bullet, component::type{6});
                 reg.emplace_component<component::size>(bullet, component::size{10, 10});
                 // handleMoove()
@@ -1223,7 +1302,8 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
             newParams.push_back(std::to_string(positions.x + x_offset));
             newParams.push_back(std::to_string(positions.y));
             reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y});
-            reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
+            reg.emplace_component<component::velocity>(bullet, component::velocity{10, 0});
+            reg.emplace_component<component::damage>(bullet, component::damage{50});
             reg.emplace_component<component::type>(bullet, component::type{6});
             reg.emplace_component<component::size>(bullet, component::size{10, 10});
             //handleMoove(
@@ -1282,6 +1362,7 @@ void ServerGame::handleLaserShoot(const MediatorContext& context, const std::vec
 
             reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y});
             reg.emplace_component<component::velocity>(bullet, component::velocity{0, 0});
+            reg.emplace_component<component::damage>(bullet, component::damage{600});
             reg.emplace_component<component::type>(bullet, component::type{8});
             reg.emplace_component<component::size>(bullet, component::size{1900, 10}); // Fine mais longue
 
@@ -1314,6 +1395,7 @@ void ServerGame::handleSuperShoot(const MediatorContext& context, const std::vec
 
             reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y});
             reg.emplace_component<component::velocity>(bullet, component::velocity{7, 0});
+            reg.emplace_component<component::damage>(bullet, component::damage{150});
             reg.emplace_component<component::type>(bullet, component::type{6}); // Type pour super tir
             reg.emplace_component<component::size>(bullet, component::size{40, 40}); // Plus grand
 

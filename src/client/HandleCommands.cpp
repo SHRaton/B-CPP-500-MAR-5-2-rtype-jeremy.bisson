@@ -38,7 +38,7 @@ void Core::handleServerCommands()
              code == encode_action(GameAction::RIGHT) ||
              code == encode_action(GameAction::STOP_X) ||
              code == encode_action(GameAction::STOP_Y)) {
-        handleMovementCommands(iss, static_cast<GameAction>(std::bitset<5>(code).to_ulong()));
+        handleMovementCommands(iss, static_cast<GameAction>(std::bitset<6>(code).to_ulong()));
     }
     else if (code == encode_action(GameAction::SHOOT)) {
         handleShootCommands(iss);
@@ -73,8 +73,8 @@ void Core::handleServerCommands()
     else if (code == encode_action(GameAction::LOOSE)) {
         handleLooseCommand(iss);
     }
-    else if (code == encode_action(GameAction::LEVEL_EDITOR)) {
-        handleLevelEditorCommand(iss);
+    else if (code == encode_action(GameAction::GET_LEVELS)) {
+        handleGetLevelsCommand(iss);
     }
     else if (code == encode_action(GameAction::BOSS_SPAWN)) {
         handleBossSpawn(iss);
@@ -92,6 +92,12 @@ void Core::handleBossSpawn(std::istringstream& iss)
     Game1Music.stop();
     BossMusic1.play();
     screamboss_sound1.play();
+
+    isFlashing = true;
+    flashClock.restart();
+    flashAlpha = 100.0f; // Réduit de 255 à 100 pour un effet plus doux
+    flashOverlay.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
+    flashOverlay.setFillColor(sf::Color(255, 0, 0, static_cast<sf::Uint8>(flashAlpha)));
 
     auto newBoss = reg.spawn_entity();
     std::string boss_path;
@@ -130,7 +136,7 @@ void Core::handleLooseCommand(std::istringstream& iss)
     gui_gameover();
 }
 
-void Core::handleLevelEditorCommand(std::istringstream& iss)
+void Core::handleGetLevelsCommand(std::istringstream& iss)
 {
     std::string fullMessage;
     std::getline(iss, fullMessage);
@@ -322,7 +328,7 @@ void Core::handleShootCommands(std::istringstream& iss)
 
     Entity missile = reg.spawn_entity();
     reg.emplace_component<component::position>(missile, component::position{x, y});
-    reg.emplace_component<component::velocity>(missile, component::velocity{5, 0});
+    reg.emplace_component<component::velocity>(missile, component::velocity{10, 0});
     sf::Sprite sprite = utils.cat("../ressources/sprites/shoot.png");
 
     // Set up animation
@@ -587,7 +593,7 @@ void Core::handleDeathCommand(std::istringstream& iss) {
     auto& positions = reg.get_components<component::position>();
     auto& types = reg.get_components<component::type>();
 
-    if (positions[id] && types[id] && (types[id].value().type == 10 || types[id].value().type == 17)) {
+    if (positions[id] && types[id] && (types[id].value().type == 10 || types[id].value().type == 11 || types[id].value().type == 17)) {
         float posX = positions[id].value().x;
         float posY = positions[id].value().y;
         startExplosionAt(posX, posY);

@@ -322,7 +322,7 @@ class Core {
         void handleWinCommand(std::istringstream& iss);
         void handleStartCommand(std::istringstream& iss);
         void handleScoreUpdateCommand(std::istringstream& iss);
-        void handleLevelEditorCommand(std::istringstream& iss);
+        void handleGetLevelsCommand(std::istringstream& iss);
         void updatePlayerId();
         void update_hud();
         void displayRegistryInfo();
@@ -452,14 +452,26 @@ class Core {
             bool isActive = false;
             float x = 0.0f;
             float y = 0.0f;
-            static constexpr int FRAME_WIDTH = 33;  // Ajuste selon ta spritesheet
+            static constexpr int FRAME_WIDTH = 40;  // Ajuste selon ta spritesheet
             static constexpr int FRAME_HEIGHT = 33; // Ajuste selon ta spritesheet
-            static constexpr float FRAME_DURATION = 0.2f;
+            static constexpr float FRAME_DURATION = 0.15f;
             static constexpr int MAX_FRAMES = 6;    // Nombre total de frames dans l'animation
         };
         std::vector<ExplosionAnimation> activeExplosions;
         sf::Texture explosionTexture;
         sf::Clock clock_explosion;
+
+         bool isFlashing = false;
+        sf::Clock flashClock;
+        float flashAlpha = 0.0f;
+        sf::RectangleShape flashOverlay;
+
+        sf::RectangleShape hudBackground;
+        sf::RectangleShape scoreBackground;
+        sf::RectangleShape PlayerHUD1;
+        sf::RectangleShape PlayerHUD2;
+        sf::RectangleShape PlayerHUD3;
+        sf::RectangleShape PlayerHUD4;
 
         std::map<std::string, KeyBinding> keyBindings;
         std::vector<sf::RectangleShape> keyBindingButtons;

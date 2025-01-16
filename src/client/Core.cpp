@@ -38,7 +38,7 @@ void Core::loadAssetsGame()
     globalScore_text.setFont(font);
     globalScore_text.setCharacterSize(50);
     globalScore_text.setFillColor(sf::Color::White);
-    globalScore_text.setPosition(700, 10);
+    globalScore_text.setPosition(775, 10);
     globalScore_text.setString("Score : " + std::to_string(globalScore));
 
     updateCurrentMap();
@@ -249,6 +249,49 @@ void Core::loadAssets()
         std::cout << "Error loading menu music" << std::endl;
     }
     gameoverMusic.setVolume(soundVolume * 150.0);
+
+    flashOverlay.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
+    flashOverlay.setFillColor(sf::Color(255, 0, 0, 0));
+
+    // HUD FPS
+    hudBackground.setSize(sf::Vector2f(200, 70));
+    hudBackground.setFillColor(sf::Color(0, 0, 0, 180)); // Noir semi-transparent
+    hudBackground.setPosition(5, 5);
+    hudBackground.setOutlineThickness(1);
+    hudBackground.setOutlineColor(sf::Color(100, 100, 100, 255));
+
+    // HUD SCORE
+    scoreBackground.setSize(sf::Vector2f(400, 80));
+    scoreBackground.setFillColor(sf::Color(0, 0, 0, 180));
+    scoreBackground.setPosition(750, 5);
+    scoreBackground.setOutlineThickness(1);
+    scoreBackground.setOutlineColor(sf::Color(100, 100, 100, 255));
+
+    // HUD PLAYERS
+    PlayerHUD1.setSize(sf::Vector2f(315, 55));
+    PlayerHUD1.setFillColor(sf::Color(0, 0, 0, 180));
+    PlayerHUD1.setPosition(1490, 8);
+    PlayerHUD1.setOutlineThickness(1);
+    PlayerHUD1.setOutlineColor(sf::Color(100, 100, 100, 255));
+
+    PlayerHUD2.setSize(sf::Vector2f(315, 53));
+    PlayerHUD2.setFillColor(sf::Color(0, 0, 0, 180));
+    PlayerHUD2.setPosition(1490, 63);
+    PlayerHUD2.setOutlineThickness(1);
+    PlayerHUD2.setOutlineColor(sf::Color(100, 100, 100, 255));
+
+    PlayerHUD3.setSize(sf::Vector2f(315, 53));
+    PlayerHUD3.setFillColor(sf::Color(0, 0, 0, 180));
+    PlayerHUD3.setPosition(1490, 118);
+    PlayerHUD3.setOutlineThickness(1);
+    PlayerHUD3.setOutlineColor(sf::Color(100, 100, 100, 255));
+
+    PlayerHUD4.setSize(sf::Vector2f(315, 53));
+    PlayerHUD4.setFillColor(sf::Color(0, 0, 0, 180));
+    PlayerHUD4.setPosition(1490, 173);
+    PlayerHUD4.setOutlineThickness(1);
+    PlayerHUD4.setOutlineColor(sf::Color(100, 100, 100, 255));
+
 }
 
 bool Core::loadBlackAndWhiteShader()
