@@ -38,7 +38,7 @@ void Core::handleServerCommands()
              code == encode_action(GameAction::RIGHT) ||
              code == encode_action(GameAction::STOP_X) ||
              code == encode_action(GameAction::STOP_Y)) {
-        handleMovementCommands(iss, static_cast<GameAction>(std::bitset<5>(code).to_ulong()));
+        handleMovementCommands(iss, static_cast<GameAction>(std::bitset<6>(code).to_ulong()));
     }
     else if (code == encode_action(GameAction::SHOOT)) {
         handleShootCommands(iss);
@@ -73,8 +73,8 @@ void Core::handleServerCommands()
     else if (code == encode_action(GameAction::LOOSE)) {
         handleLooseCommand(iss);
     }
-    else if (code == encode_action(GameAction::LEVEL_EDITOR)) {
-        handleLevelEditorCommand(iss);
+    else if (code == encode_action(GameAction::GET_LEVELS)) {
+        handleGetLevelsCommand(iss);
     }
     else if (code == encode_action(GameAction::BOSS_SPAWN)) {
         handleBossSpawn(iss);
@@ -130,7 +130,7 @@ void Core::handleLooseCommand(std::istringstream& iss)
     gui_gameover();
 }
 
-void Core::handleLevelEditorCommand(std::istringstream& iss)
+void Core::handleGetLevelsCommand(std::istringstream& iss)
 {
     std::string fullMessage;
     std::getline(iss, fullMessage);

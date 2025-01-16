@@ -1021,55 +1021,124 @@ void ServerGame::addEntityToLevel(int entityType, int x, int y, std::string file
     outputFile.close();
 }
 
+void ServerGame::getEntityOnLevel(std::string filename)
+{
+    std::string fullPath = "../src/json/" + filename;
+    loadJson(fullPath);
+    for (auto& entity : allEntities) {
+        std::string type = entity.type;
+        std::string subtype = entity.subtype;
+        int intType = 0;
+        if (type == "powerup") {
+            if (subtype == "heal") {
+                intType = 0;
+            } else if (subtype == "triple_shoot") {
+                intType = 1;
+            } else if (subtype == "force") {
+                intType = 2;
+            } else if (subtype == "laser") {
+                intType = 3;
+            } else if (subtype == "bits") {
+                intType = 4;
+            }
+        } else if (type == "mob") {
+            if (subtype == "enemy1") {
+                intType = 10;
+            } else if (subtype == "enemy2") {
+                intType = 11;
+            }
+        } else if (type == "decor") {
+            if (subtype == "brick") {
+                intType = 50;
+            }
+        }
+        med.notify(Sender::GAME, "LEVEL_EDITOR", {std::to_string(intType), std::to_string(entity.x), std::to_string(entity.y)});
+    }
+    med.notify(Sender::GAME, "LEVEL_EDITOR", {});
+    allEntities.clear();
+}
 
+void ServerGame::deleteEntityOnLevel(int entityId, std::string filename)
+{
+    std::string fullPath = "../src/json/" + filename;
+    loadJson(fullPath);
+    allEntities.erase(allEntities.begin() + entityId);
+    std::ofstream outputFile(fullPath);
+    if (!outputFile.is_open()) {
+        std::cerr << "Erreur : Impossible d'ouvrir le fichier level1.json en écriture." << std::endl;
+        return;
+    }
 
+    nlohmann::json levelData;
+    levelData["entities"] = nlohmann::json::array();
+    for (auto& entity : allEntities) {
+        nlohmann::json entityData;
+        entityData["type"] = entity.type;
+        entityData["subtype"] = entity.subtype;
+        entityData["position"] = {
+            {"x", entity.x},
+            {"y", entity.y}
+        };
+        levelData["entities"].push_back(entityData);
+    }
 
+    outputFile << levelData.dump(4); // Écrit le JSON avec une indentation de 4 espaces
+    outputFile.close();
+    allEntities.clear();
+}
 
 //===================================COMMANDS=================================
 
 void ServerGame::handleLevelEditor(const MediatorContext& context, const std::vector<std::string>& params)
 {
-    if (params.size() == 0){
-        std::string directoryPath = "../src/json";
-        // Vecteur pour stocker les fichiers valides
-        std::vector<std::string> fileList;
-        int maxLevel = 0;
+    if (params.size() == 1) {
+        std::string filename = params[0];
+        getEntityOnLevel(filename);
+    } else if (params.size() == 3){
+        int id = std::stoi(params[1]);
+        if (params[0] == "-1"){
+            deleteEntityOnLevel(id, params[2]);
+        }
+    } else if (params.size() == 4) {
+        int entityType = std::stoi(params[0]);
+        int x = std::stoi(params[1]);
+        int y = std::stoi(params[2]);
+        std::string filename = params[3];
+        addEntityToLevel(entityType, x, y, filename);
+    }
+}
 
-        try {
-            // Parcours des fichiers dans le dossier
-            for (const auto& entry : fs::directory_iterator(directoryPath)) {
-                if (entry.is_regular_file()) {
-                    std::string fileName = entry.path().filename().string();
-                    std::cout << "Fichier : " << fileName << std::endl;
+void ServerGame::handleGetLevels(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    std::string directoryPath = "../src/json";
+    // Vecteur pour stocker les fichiers valides
+    std::vector<std::string> fileList;
+    int maxLevel = 0;
 
-                    // Vérifier si le fichier suit le format "levelX.json" avec une regex
-                    std::regex levelRegex(R"(level(\d+)\.json)");
-                    std::smatch match;
+    try {
+        // Parcours des fichiers dans le dossier
+        for (const auto& entry : fs::directory_iterator(directoryPath)) {
+            if (entry.is_regular_file()) {
+                std::string fileName = entry.path().filename().string();
+                std::cout << "Fichier : " << fileName << std::endl;
 
-                    if (std::regex_match(fileName, match, levelRegex)) {
-                        fileList.push_back(fileName);
+                // Vérifier si le fichier suit le format "levelX.json" avec une regex
+                std::regex levelRegex(R"(level(\d+)\.json)");
+                std::smatch match;
 
-                        // Extraire le numéro de niveau et mettre à jour maxLevel
-                        int level = std::stoi(match[1].str());
-                        maxLevel = std::max(maxLevel, level);
-                    }
+                if (std::regex_match(fileName, match, levelRegex)) {
+                    fileList.push_back(fileName);
+
+                    // Extraire le numéro de niveau et mettre à jour maxLevel
+                    int level = std::stoi(match[1].str());
+                    maxLevel = std::max(maxLevel, level);
                 }
             }
-            med.notify(Sender::GAME, "LEVEL_EDITOR", fileList, context);
-        } catch (const std::exception& e) {
-            std::cerr << "Erreur : " << e.what() << std::endl;
         }
+        med.notify(Sender::GAME, "GET_LEVELS", fileList, context);
+    } catch (const std::exception& e) {
+        std::cerr << "Erreur : " << e.what() << std::endl;
     }
-    if (params.size() < 4) {
-        std::cerr << "Erreur : Pas assez de paramètres pour la commande CREATE_ENTITY." << std::endl;
-        return;
-    }
-
-    int entityType = std::stoi(params[0]);
-    int x = std::stoi(params[1]);
-    int y = std::stoi(params[2]);
-    std::string filename = params[3];
-    addEntityToLevel(entityType, x, y, filename);
 }
 
 void ServerGame::handleConnect(const MediatorContext& context, const std::vector<std::string>& params)

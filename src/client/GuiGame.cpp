@@ -4,7 +4,7 @@
 
 std::string Core::encode_action(GameAction action)
 {
-    std::bitset<5> bits(static_cast<unsigned long>(action));
+    std::bitset<6> bits(static_cast<unsigned long>(action));
     return bits.to_string();
 }
 
