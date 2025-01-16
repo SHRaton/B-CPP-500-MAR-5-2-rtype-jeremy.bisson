@@ -15,7 +15,7 @@ void Core::handle_horizontal_movement(float deltaSeconds, std::optional<componen
     if (!vel) return;
     
     // Handle left movement
-    if (keysPressed[sf::Keyboard::Left]) {
+    if (keysPressed[keyBindings["Left"].getKey()]) {
         if (pos.value().x < 0) {
             handle_horizontal_stop(vel);
         } else {
@@ -27,7 +27,7 @@ void Core::handle_horizontal_movement(float deltaSeconds, std::optional<componen
     }
 
     // Handle right movement 
-    if (keysPressed[sf::Keyboard::Right]) {
+    if (keysPressed[keyBindings["Right"].getKey()]) {
         if (pos.value().x > 1810) {  // Ajustez cette valeur selon la largeur de votre fenêtre
             handle_horizontal_stop(vel);
         } else {
@@ -39,7 +39,7 @@ void Core::handle_horizontal_movement(float deltaSeconds, std::optional<componen
     }
 
     // Handle horizontal stop
-    if (!keysPressed[sf::Keyboard::Left] && !keysPressed[sf::Keyboard::Right]) {
+    if (!keysPressed[keyBindings["Left"].getKey()] && !keysPressed[keyBindings["Right"].getKey()]) {
         handle_horizontal_stop(vel);
     }
 }
@@ -86,7 +86,7 @@ void Core::handle_shoot(float deltaSeconds, std::optional<component::position>& 
     laserPowerUpLogo.setScale(0.1, 0.1);
     laserPowerUpLogo.setPosition(pos.value().x + 70, pos.value().y - 40);
 
-    if (keysPressed[sf::Keyboard::A] && shootCooldown >= 0.3) {
+    if (keysPressed[keyBindings["Shoot"].getKey()] && shootCooldown >= 0.3) {
         send_input_if_needed(GameAction::SHOOT, inputState.shootSent);
         if (!laserActive) {
             shotSound.play();
@@ -103,7 +103,7 @@ void Core::handle_shoot(float deltaSeconds, std::optional<component::position>& 
     superShootBar.setSize(sf::Vector2f(4 * superShootCooldown, 5));
     superShootBar.setPosition(pos.value().x, pos.value().y - 30);
 
-    if (keysPressed[sf::Keyboard::E] && superShootCooldown >= 15) {
+    if (keysPressed[keyBindings["SuperShoot"].getKey()] && superShootCooldown >= 15) {
         send_input_if_needed(GameAction::SUPER_SHOOT, inputState.superShootSent);
         superShotSound.play();
         superShootCooldown = 0.0f;

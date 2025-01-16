@@ -40,7 +40,7 @@ void Core::handle_vertical_movement(float deltaSeconds, std::optional<component:
     if (!vel || !drawable) return;
 
     // Handle upward movement
-    if (keysPressed[sf::Keyboard::Up]) {
+    if (keysPressed[keyBindings["Up"].getKey()]) {
         if (pos.value().y < 0) {
             handle_vertical_stop(vel);
         } else {
@@ -50,7 +50,7 @@ void Core::handle_vertical_movement(float deltaSeconds, std::optional<component:
         }
     }
     // Handle downward movement
-    else if (keysPressed[sf::Keyboard::Down]) {
+    else if (keysPressed[keyBindings["Down"].getKey()]) {
         if (pos.value().y > 970) {
             handle_vertical_stop(vel);
         } else {

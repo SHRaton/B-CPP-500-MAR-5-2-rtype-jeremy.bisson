@@ -130,6 +130,29 @@ void Core::gui_option()
                     buttonSound_click.setVolume(soundVolume * 100.0);
                     powerupSound.setVolume(soundVolume * 100.0);
                 }
+                int i = 0;
+                for (auto& [action, binding] : keyBindings) {
+                    if (keyBindingButtons[i].getGlobalBounds().contains(
+                        event.mouseButton.x, event.mouseButton.y)) {
+                        binding.setWaitingForKey(true);
+                        break;
+                    }
+                    i++;
+                }
+            }
+
+            if (event.type == sf::Event::KeyPressed) {
+                bool anyWaiting = false;
+                for (const auto& [action, binding] : keyBindings) {
+                    if (binding.isWaiting()) {
+                        anyWaiting = true;
+                        break;
+                    }
+                }
+                if (anyWaiting) {
+                    handleKeyBindingChange(event.key.code);
+                    continue;
+                }
             }
         }
 
@@ -145,6 +168,13 @@ void Core::gui_option()
         renderTexture.draw(text_graphics);
         renderTexture.draw(text_sound);
         renderTexture.draw(text_sound_general);
+        renderTexture.draw(keyBindingTitle);
+        int i = 0;
+        for (const auto& [action, binding] : keyBindings) {
+            renderTexture.draw(keyBindingButtons[i]);
+            renderTexture.draw(binding.getDisplayText());
+            i++;
+        }
         renderTexture.display();
 
         sf::Sprite screenSprite(renderTexture.getTexture());

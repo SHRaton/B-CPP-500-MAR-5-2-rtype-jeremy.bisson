@@ -67,6 +67,8 @@ void Core::loadAssets()
     daltonismType = DaltonismType::NONE;
     isScrollingBackground = true;
 
+    initializeKeyBindings();
+
     renderTexture.create(window.getSize().x, window.getSize().y);
 
     texture_vaisseau0.loadFromFile("../ressources/sprites/vaisseau0.png");
@@ -433,5 +435,44 @@ void Core::playIntroAnimation()
         registryWindow.clear();
         displayRegistryInfo();
         registryWindow.display();
+    }
+}
+
+void Core::initializeKeyBindings()
+{
+    keyBindings.emplace("Up", KeyBinding(sf::Keyboard::Up, "Up"));
+    keyBindings.emplace("Down", KeyBinding(sf::Keyboard::Down, "Down"));
+    keyBindings.emplace("Left", KeyBinding(sf::Keyboard::Left, "Left"));
+    keyBindings.emplace("Right", KeyBinding(sf::Keyboard::Right, "Right"));
+    keyBindings.emplace("Shoot", KeyBinding(sf::Keyboard::A, "Shoot"));
+    keyBindings.emplace("SuperShoot", KeyBinding(sf::Keyboard::E, "Super Shoot"));
+
+    keyBindingTitle.setFont(font);
+    keyBindingTitle.setString("Controls");
+    keyBindingTitle.setCharacterSize(80);
+    keyBindingTitle.setFillColor(sf::Color::White);
+    keyBindingTitle.setPosition(1400, 540);
+
+    float startY = 680;
+    float spacing = 60;
+
+    for (auto& [action, binding] : keyBindings) {
+        binding.initializeText(font, 1000, startY);
+        sf::RectangleShape button(sf::Vector2f(200, 40));
+        button.setPosition(1600, startY);
+        button.setFillColor(sf::Color(50, 50, 50));
+        keyBindingButtons.push_back(button);
+        startY += spacing;
+    }
+}
+
+void Core::handleKeyBindingChange(sf::Keyboard::Key newKey)
+{
+    for (auto& [action, binding] : keyBindings) {
+        if (binding.isWaiting()) {
+            binding.setKey(newKey);
+            binding.setWaitingForKey(false);
+            break;
+        }
     }
 }

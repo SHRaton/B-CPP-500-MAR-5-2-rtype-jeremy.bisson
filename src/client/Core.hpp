@@ -13,6 +13,7 @@
 #include "UDPNetworkClient.hpp"
 #include <sstream>
 #include "../server/ServerNetwork.hpp"
+#include "KeyBinding.hpp"
 
 /**
  * @brief Classe principale du client de jeu
@@ -459,5 +460,11 @@ class Core {
         std::vector<ExplosionAnimation> activeExplosions;
         sf::Texture explosionTexture;
         sf::Clock clock_explosion;
+
+        std::map<std::string, KeyBinding> keyBindings;
+        std::vector<sf::RectangleShape> keyBindingButtons;
+        sf::Text keyBindingTitle;
+        void initializeKeyBindings();
+        void handleKeyBindingChange(sf::Keyboard::Key newKey);
 
 };

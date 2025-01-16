@@ -58,6 +58,9 @@ class Utils {
          */
         sf::Sprite cat(const std::string& path);
 
+        char keyToAscii(sf::Keyboard::Key key, bool shift);
+        std::string keyToString(sf::Keyboard::Key key, bool shift);
+
         /**
          * @brief Centre l'origine d'un sprite
          * @param sprite Sprite à modifier
