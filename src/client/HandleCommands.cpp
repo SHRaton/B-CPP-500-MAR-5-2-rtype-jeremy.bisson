@@ -93,6 +93,12 @@ void Core::handleBossSpawn(std::istringstream& iss)
     BossMusic1.play();
     screamboss_sound1.play();
 
+    isFlashing = true;
+    flashClock.restart();
+    flashAlpha = 100.0f; // Réduit de 255 à 100 pour un effet plus doux
+    flashOverlay.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
+    flashOverlay.setFillColor(sf::Color(255, 0, 0, static_cast<sf::Uint8>(flashAlpha)));
+
     auto newBoss = reg.spawn_entity();
     std::string boss_path;
     
@@ -322,7 +328,7 @@ void Core::handleShootCommands(std::istringstream& iss)
 
     Entity missile = reg.spawn_entity();
     reg.emplace_component<component::position>(missile, component::position{x, y});
-    reg.emplace_component<component::velocity>(missile, component::velocity{5, 0});
+    reg.emplace_component<component::velocity>(missile, component::velocity{10, 0});
     sf::Sprite sprite = utils.cat("../ressources/sprites/shoot.png");
 
     // Set up animation
