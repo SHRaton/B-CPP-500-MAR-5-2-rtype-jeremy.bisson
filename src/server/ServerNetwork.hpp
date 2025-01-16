@@ -142,6 +142,8 @@ private:
     void handleSuperShoot(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleScoreUpdate(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleLevelEditor(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleGetLevels(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleBossSpawn(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleHighScore(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleSaveReplay();
     void handlePlayReplay();
