@@ -145,7 +145,7 @@ void Core::display_lobby()
 
 void Core::load_levels()
 {
-    network->send(encode_action(GameAction::LEVEL_EDITOR));
+    network->send(encode_action(GameAction::GET_LEVELS));
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
     std::string message = network->receive().value_or("");
     if (message.empty()) {
@@ -154,8 +154,8 @@ void Core::load_levels()
     std::istringstream iss(message);
     std::string code;
     iss >> code;
-    if (message.rfind(encode_action(GameAction::LEVEL_EDITOR), 0) == 0) {
-        handleLevelEditorCommand(iss);
+    if (message.rfind(encode_action(GameAction::GET_LEVELS), 0) == 0) {
+        handleGetLevelsCommand(iss);
     }
 }
 

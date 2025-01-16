@@ -321,7 +321,7 @@ class Core {
         void handleWinCommand(std::istringstream& iss);
         void handleStartCommand(std::istringstream& iss);
         void handleScoreUpdateCommand(std::istringstream& iss);
-        void handleLevelEditorCommand(std::istringstream& iss);
+        void handleGetLevelsCommand(std::istringstream& iss);
         void updatePlayerId();
         void update_hud();
         void displayRegistryInfo();

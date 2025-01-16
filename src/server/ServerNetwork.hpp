@@ -78,11 +78,12 @@ enum class GameAction {
     STOP_Y      = 0b10000, // 16
     STOP_X      = 0b10001,  // 17
     DEATH      = 0b10010, // 18
-    LEVEL_EDITOR = 0b10011, // 19
+    GET_LEVELS = 0b10011, // 19
     COLLISION   = 0b10100, // 20
     WIN        = 0b10101, // 21
     START     = 0b10111, // 23
     LOOSE     = 0b10110, // 22
+    LEVEL_EDITOR = 0b11000, // 24
     SCORE_UPDATE = 0b11001, // 25
     SAVE_REPLAY = 0b11010, // 26
     DISCONNECT  = 0b11011, // 27
@@ -141,6 +142,7 @@ private:
     void handleScoreUpdate(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleLevelEditor(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleHighScore(const MediatorContext& context, const std::vector<std::string>& params) override;
+    void handleGetLevels(const MediatorContext& context, const std::vector<std::string>& params) override;
     void handleSaveReplay();
     void handlePlayReplay();
 

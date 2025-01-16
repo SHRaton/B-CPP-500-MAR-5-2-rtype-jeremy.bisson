@@ -73,8 +73,8 @@ void Core::handleServerCommands()
     else if (code == encode_action(GameAction::LOOSE)) {
         handleLooseCommand(iss);
     }
-    else if (code == encode_action(GameAction::LEVEL_EDITOR)) {
-        handleLevelEditorCommand(iss);
+    else if (code == encode_action(GameAction::GET_LEVELS)) {
+        handleGetLevelsCommand(iss);
     }
     else {
         std::cout << "Commande inconnue : " << buffer << std::endl;
@@ -86,7 +86,7 @@ void Core::handleLooseCommand(std::istringstream& iss)
     gui_gameover();
 }
 
-void Core::handleLevelEditorCommand(std::istringstream& iss)
+void Core::handleGetLevelsCommand(std::istringstream& iss)
 {
     std::string fullMessage;
     std::getline(iss, fullMessage);
