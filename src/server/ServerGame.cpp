@@ -718,6 +718,7 @@ void ServerGame::checkAllCollisions()
     auto& laser_shots = reg.get_components<component::laser_shot>();
     auto& force = reg.get_components<component::force>();
     auto& bits = reg.get_components<component::bits>();
+    auto& damages = reg.get_components<component::damage>();
 
     for (size_t i = 0; i < positions.size(); ++i) {
 
@@ -804,7 +805,7 @@ void ServerGame::checkAllCollisions()
                         handleColision(dummyContext, collisionParams);
                     }
                 } else if ((types[i].value().type == 6 || types[i].value().type == 8)  && types[j].value().type >= 10 && types[j].value().type <= 13) { // BULLET vs MOB
-                    healths[j].value().hp -= 1000;
+                    healths[j].value().hp -= damages[i].value().dmg;
                     for (size_t k = 0; k < types.size(); ++k) {
                         if (types[k].has_value() && types[k].value().type == 5) {
                                 score += 10;
@@ -824,7 +825,7 @@ void ServerGame::checkAllCollisions()
                         return;
                     }
                 } else if (types[i].value().type >= 10 && types[i].value().type <= 13 && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
-                    healths[i].value().hp -= 1000;
+                    healths[i].value().hp -= damages[j].value().dmg;
                     for (size_t k = 0; k < types.size(); ++k) {
                         if (types[k].has_value() && types[k].value().type == 5) {
                             score += 10;
@@ -1210,7 +1211,8 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
                 newParams.push_back(std::to_string(positions.x + missile.x_offset));
                 newParams.push_back(std::to_string(positions.y + missile.y_offset));
                 reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y + missile.y_offset});
-                reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
+                reg.emplace_component<component::velocity>(bullet, component::velocity{10, 0});
+                reg.emplace_component<component::damage>(bullet, component::damage{50});
                 reg.emplace_component<component::type>(bullet, component::type{6});
                 reg.emplace_component<component::size>(bullet, component::size{10, 10});
                 // handleMoove()
@@ -1223,7 +1225,8 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
             newParams.push_back(std::to_string(positions.x + x_offset));
             newParams.push_back(std::to_string(positions.y));
             reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y});
-            reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
+            reg.emplace_component<component::velocity>(bullet, component::velocity{10, 0});
+            reg.emplace_component<component::damage>(bullet, component::damage{50});
             reg.emplace_component<component::type>(bullet, component::type{6});
             reg.emplace_component<component::size>(bullet, component::size{10, 10});
             //handleMoove(
@@ -1282,6 +1285,7 @@ void ServerGame::handleLaserShoot(const MediatorContext& context, const std::vec
 
             reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y});
             reg.emplace_component<component::velocity>(bullet, component::velocity{0, 0});
+            reg.emplace_component<component::damage>(bullet, component::damage{600});
             reg.emplace_component<component::type>(bullet, component::type{8});
             reg.emplace_component<component::size>(bullet, component::size{1900, 10}); // Fine mais longue
 
@@ -1314,6 +1318,7 @@ void ServerGame::handleSuperShoot(const MediatorContext& context, const std::vec
 
             reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y});
             reg.emplace_component<component::velocity>(bullet, component::velocity{7, 0});
+            reg.emplace_component<component::damage>(bullet, component::damage{150});
             reg.emplace_component<component::type>(bullet, component::type{6}); // Type pour super tir
             reg.emplace_component<component::size>(bullet, component::size{40, 40}); // Plus grand
 
