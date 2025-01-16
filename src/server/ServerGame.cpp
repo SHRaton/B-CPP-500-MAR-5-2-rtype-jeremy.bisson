@@ -626,12 +626,14 @@ void ServerGame::spawnMob(JsonEntity entity)
         reg.emplace_component<component::velocity>(mob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(mob, component::type{10});
         reg.emplace_component<component::size>(mob, component::size{100, 50});
+        reg.emplace_component<component::invincible>(mob, component::invincible{false});
     } else if (type == 1) {
         reg.emplace_component<component::health>(mob, component::health{100});
         reg.emplace_component<component::damage>(mob, component::damage{40});
         reg.emplace_component<component::velocity>(mob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(mob, component::type{11});
         reg.emplace_component<component::size>(mob, component::size{100, 50});
+        reg.emplace_component<component::invincible>(mob, component::invincible{false});
     }
     std::vector<std::string> newParams;
     newParams.push_back(std::to_string(type));
@@ -696,7 +698,7 @@ void ServerGame::spawnDecor(JsonEntity entity)
     Entity powerup = reg.spawn_entity();
     reg.emplace_component<component::position>(powerup, component::position{x, y});
     reg.emplace_component<component::type>(powerup, component::type{type});
-    reg.emplace_component<component::size>(powerup, component::size{100, 300});
+    reg.emplace_component<component::size>(powerup, component::size{100, 270});
     reg.emplace_component<component::velocity>(powerup, component::velocity{-5, 0});
 
     std::vector<std::string> newParams;
@@ -726,7 +728,9 @@ void ServerGame::checkAllCollisions()
             if (types[i].has_value() && types[j].has_value()) {
                 // Si l'un des deux est un joueur, on vérifie son invincibilité
                 if ((types[i].value().type == 5 && invincibles[i].has_value() && invincibles[i].value().is_invincible) ||
-                    (types[j].value().type == 5 && invincibles[j].has_value() && invincibles[j].value().is_invincible)) {
+                    (types[j].value().type == 5 && invincibles[j].has_value() && invincibles[j].value().is_invincible) ||
+                    (types[i].value().type >= 10 && types[i].value().type <= 19 && invincibles[i].has_value() && invincibles[i].value().is_invincible) ||
+                    (types[j].value().type >= 10 && types[j].value().type <= 19 && invincibles[j].has_value() && invincibles[j].value().is_invincible)) {
                     continue;
                 }
             }
@@ -806,8 +810,12 @@ void ServerGame::checkAllCollisions()
                     }
                 } else if ((types[i].value().type == 6 || types[i].value().type == 8)  && types[j].value().type >= 10 && types[j].value().type <= 13) { // BULLET vs MOB
                     healths[j].value().hp -= damages[i].value().dmg;
-                    for (size_t k = 0; k < types.size(); ++k) {
-                        if (types[k].has_value() && types[k].value().type == 5) {
+                    invincibles[j].value().is_invincible = true;
+                    invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+                    // Mob
+                    if(healths[j].value().hp <= 0){
+                        for (size_t k = 0; k < types.size(); ++k) {
+                            if (types[k].has_value() && types[k].value().type == 5) {
                                 score += 10;
                                 std::vector<std::string> scoreParams = {
                                     std::to_string(k),
@@ -816,8 +824,6 @@ void ServerGame::checkAllCollisions()
                                 med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
                             }
                         }
-                    // Mob
-                    if(healths[j].value().hp <= 0){
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
                         reg.kill_entity(Entity(j));
@@ -826,18 +832,20 @@ void ServerGame::checkAllCollisions()
                     }
                 } else if (types[i].value().type >= 10 && types[i].value().type <= 13 && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
                     healths[i].value().hp -= damages[j].value().dmg;
-                    for (size_t k = 0; k < types.size(); ++k) {
-                        if (types[k].has_value() && types[k].value().type == 5) {
-                            score += 10;
-                            std::vector<std::string> scoreParams = {
-                                std::to_string(k),
-                                std::to_string(score)
-                            };
-                            med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
-                        }
-                    }
+                    invincibles[i].value().is_invincible = true;
+                    invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
                     // Mob
                     if(healths[i].value().hp <= 0){
+                        for (size_t k = 0; k < types.size(); ++k) {
+                            if (types[k].has_value() && types[k].value().type == 5) {
+                                score += 10;
+                                std::vector<std::string> scoreParams = {
+                                    std::to_string(k),
+                                    std::to_string(score)
+                                };
+                                med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
+                            }
+                        }
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(i)});
                         reg.kill_entity(Entity(i));
