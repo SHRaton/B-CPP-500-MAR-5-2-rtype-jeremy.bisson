@@ -31,6 +31,9 @@ void Core::loadAssetsGame()
     laserClock.restart();
     laserPowerUpLogo = utils.cat("../ressources/sprites/laser_logo.png");
     save_replay = utils.cat("../ressources/background/replay.png");
+    if (!explosionTexture.loadFromFile("../ressources/sprites/kill.png")) {
+        throw std::runtime_error("Failed to load explosion texture");
+    }
 
     globalScore_text.setFont(font);
     globalScore_text.setCharacterSize(50);
@@ -178,6 +181,20 @@ void Core::loadAssets()
     Game1Music.setLoop(true);
     Game1Music.setVolume(soundVolume * 80.0);
 
+    // MUSIC + SON BOSS
+
+    if (!BossMusic1.openFromFile("../ressources/sounds/boss1.wav")) {
+        std::cout << "Error loading menu music" << std::endl;
+    }
+    BossMusic1.setLoop(true);
+    BossMusic1.setVolume(soundVolume * 120.0);
+
+    if (!screamboss_buffer1.loadFromFile("../ressources/sounds/ruar1.wav")) {
+        std::cout << "Error loading button sound" << std::endl;
+    }
+    screamboss_sound1.setBuffer(screamboss_buffer1);
+    screamboss_sound1.setVolume(soundVolume * 50.0);
+
     // SONS
     if (!buttonBuffer_click.loadFromFile("../ressources/sounds/click.wav")) {
         std::cout << "Error loading button sound" << std::endl;
@@ -214,6 +231,12 @@ void Core::loadAssets()
     }
     joiningSound.setBuffer(joiningBuffer);
     joiningSound.setVolume(soundVolume * 100.0);
+
+    if (!explosionBuffer.loadFromFile("../ressources/sounds/explosion.wav")) {
+        std::cout << "Error loading button sound" << std::endl;
+    }
+    explosionSound.setBuffer(explosionBuffer);
+    explosionSound.setVolume(soundVolume * 100.0);
 
     if (!winMusic.openFromFile("../ressources/sounds/win.wav")) {
         std::cout << "Error loading menu music" << std::endl;

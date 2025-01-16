@@ -358,9 +358,14 @@ class Core {
 
         sf::Music menuMusic;
         sf::Music Game1Music;
+        sf::Music BossMusic1;
 
         sf::Music gameoverMusic;
         sf::Music winMusic;
+
+        
+        sf::SoundBuffer screamboss_buffer1;
+        sf::Sound screamboss_sound1;
 
         sf::SoundBuffer buttonBuffer_click;
         sf::Sound buttonSound_click;
@@ -379,6 +384,9 @@ class Core {
 
         sf::SoundBuffer joiningBuffer;
         sf::Sound joiningSound;
+
+        sf::SoundBuffer explosionBuffer;
+        sf::Sound explosionSound;
 
         //TEST
         void setup_position_timer(boost::asio::steady_timer& position_timer);
@@ -432,5 +440,24 @@ class Core {
         void display_lobby();
         std::vector<sf::Sprite> shipSprites;
         void load_levels();
+        void handleBossSpawn(std::istringstream& iss);
+
+        void startExplosionAt(float x, float y);
+        void updateExplosions(float deltaSeconds);
+        struct ExplosionAnimation {
+            sf::Sprite sprite;
+            float animationTimer = 0.0f;
+            int currentFrame = 0;
+            bool isActive = false;
+            float x = 0.0f;
+            float y = 0.0f;
+            static constexpr int FRAME_WIDTH = 40;  // Ajuste selon ta spritesheet
+            static constexpr int FRAME_HEIGHT = 33; // Ajuste selon ta spritesheet
+            static constexpr float FRAME_DURATION = 0.15f;
+            static constexpr int MAX_FRAMES = 6;    // Nombre total de frames dans l'animation
+        };
+        std::vector<ExplosionAnimation> activeExplosions;
+        sf::Texture explosionTexture;
+        sf::Clock clock_explosion;
 
 };

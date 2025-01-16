@@ -12,7 +12,7 @@ ServerNetwork::ServerNetwork(uint16_t port, Mediator& med)
 
 
 std::string ServerNetwork::encode_action(GameAction action) {
-    std::bitset<5> bits(static_cast<unsigned long>(action));
+    std::bitset<6> bits(static_cast<unsigned long>(action));
     return bits.to_string();
 }
 
@@ -23,7 +23,7 @@ GameMessage ServerNetwork::decode_message(const std::string& message) {
     iss >> binary_code;
 
     try {
-        std::bitset<5> bits(binary_code);
+        std::bitset<6> bits(binary_code);
         msg.action = static_cast<GameAction>(bits.to_ulong());
     } catch (...) {
         msg.action = GameAction::NONE;
@@ -307,6 +307,13 @@ void ServerNetwork::handleHighScore(const MediatorContext& context, const std::v
 {
     boost::asio::ip::udp::endpoint client = context.client;
     std::string message = encode_action(GameAction::HIGHSCORE) + " " + params[0];
+    broadcast_message(message);
+}
+
+void ServerNetwork::handleBossSpawn(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::BOSS_SPAWN) + " " + params[0] + " " + params[1] + " " + params[2];
     broadcast_message(message);
 }
 

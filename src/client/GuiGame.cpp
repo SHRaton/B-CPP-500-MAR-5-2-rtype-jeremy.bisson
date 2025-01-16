@@ -4,94 +4,9 @@
 
 std::string Core::encode_action(GameAction action)
 {
-    std::bitset<5> bits(static_cast<unsigned long>(action));
+    std::bitset<6> bits(static_cast<unsigned long>(action));
     return bits.to_string();
 }
-
-void Core::load_spaceship()
-{
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-    std::vector<std::string> messages = network->receive_all();
-    if (messages.empty()) {
-        throw std::runtime_error("Erreur de connexion au serveur!");
-    }
-
-    // Handle multiple player connections
-    int i = 0;
-    for (const auto& buffer : messages) {
-        if (messages[i].rfind("OK", 0) == 0) {
-            break;
-        }
-        std::cout << "Mess: " << buffer << "\n";
-        if (buffer.rfind(encode_action(GameAction::CONNECT), 0) == 0) {
-            nb_player++;
-            std::istringstream iss(buffer);
-            std::string code;
-            int id;
-            iss >> code >> id;
-
-            auto newPlayer = reg.spawn_entity();
-            std::cout << "Créer AUTRE sprite " << i << std::endl;
-
-            sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(i) + ".png");
-            vaisseau.setPosition(200, 500);
-            sf::IntRect rect(vaisseau.getGlobalBounds().width / 5 * 2, 0, 
-                     vaisseau.getGlobalBounds().width / 5, 
-                     vaisseau.getGlobalBounds().height);
-            vaisseau.setTextureRect(rect);
-            vaisseau.setScale(3, 3);
-
-            // Add components to the new entity
-            reg.emplace_component<component::position>(newPlayer, component::position{200, 500});
-            reg.emplace_component<component::velocity>(newPlayer, component::velocity{0, 0});
-            reg.emplace_component<component::drawable>(newPlayer, component::drawable{vaisseau});
-            reg.emplace_component<component::controllable>(newPlayer, component::controllable{false});
-            reg.emplace_component<component::health>(newPlayer, component::health{100});
-            reg.emplace_component<component::invincible>(newPlayer, component::invincible{false});
-            reg.emplace_component<component::type>(newPlayer, component::type{667});
-            PlayerInfo playerInfo;
-            playerInfo.isReady = false;
-            playerInfo.id = id;
-            playerInfo.hp = 100;
-            playerInfo.hpText.setFont(font);
-            playerInfo.hpText.setCharacterSize(35);
-            playerInfo.hpText.setFillColor(sf::Color::Blue);
-            playerInfo.hpText.setPosition(1500, 10 + otherPlayers.size() * 50);
-            playerInfo.hpText.setString("Player " + std::to_string(id) + ": " + std::to_string(playerInfo.hp));
-            otherPlayers.push_back(playerInfo);
-        }
-        i++;
-    }
-    if (!messages.empty()) {
-        // Création du joueur
-        player = reg.spawn_entity();
-        nb_player++;
-        network->setId(player);
-        std::cout << "Créer NOTRE sprite " << player << std::endl;
-        reg.emplace_component<component::position>(player, component::position{200, 500});
-        reg.emplace_component<component::velocity>(player, component::velocity{0, 0});
-        reg.emplace_component<component::health>(player, component::health{100});
-        sf::Sprite sprite = utils.cat("../ressources/sprites/vaisseau" + std::to_string(player) + ".png");
-        sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 5, sprite.getGlobalBounds().height);
-        sprite.setTextureRect(rect);
-        sprite.setScale(3, 3);
-        reg.emplace_component<component::drawable>(player, component::drawable{sprite});
-        reg.emplace_component<component::controllable>(player, component::controllable{true});
-        reg.emplace_component<component::invincible>(player, component::invincible{false});
-        reg.emplace_component<component::type>(player, component::type{696});
-        PlayerInfo playerInfo;
-        playerInfo.isReady = false;
-        playerInfo.id = player;
-        playerInfo.hp = 100;
-        playerInfo.hpText.setFont(font);
-        playerInfo.hpText.setCharacterSize(35);
-        playerInfo.hpText.setFillColor(sf::Color::Blue);
-        playerInfo.hpText.setPosition(1500, 10 + otherPlayers.size() * 50);
-        playerInfo.hpText.setString("Player " + std::to_string(player) + ": " + std::to_string(playerInfo.hp));
-        otherPlayers.push_back(playerInfo);
-    }
-}
-
 
 void Core::setup_position_timer(boost::asio::steady_timer& position_timer)
 {
@@ -276,6 +191,8 @@ void Core::update_hud()
     }
 
     updateAnimations();
+    float deltaTime = clock_explosion.restart().asSeconds();
+    updateExplosions(deltaTime);
 }
 
 void Core::gui_gamewin() {
@@ -330,6 +247,7 @@ void Core::gui_gameover() {
     gameOverSprite.setTexture(gameOverTexture);
     Game1Music.stop();
     gameoverMusic.play();
+    BossMusic1.stop();
     
     // Centrer l'image
     gameOverSprite.setPosition(
@@ -393,6 +311,11 @@ void Core::display_all()
             }
         }
     }
+    for (const auto& explosion : activeExplosions) {
+        if (explosion.isActive) {
+            renderTexture.draw(explosion.sprite);
+        }
+    }
     for (const auto& player : otherPlayers) {
         renderTexture.draw(player.hpText);
     }
@@ -429,6 +352,7 @@ void Core::gui_game()
 
     menuMusic.stop();
     Game1Music.play();
+    BossMusic1.stop();
 
     registryWindow.create(sf::VideoMode(1400, 1080), "ECS Debuger");
 

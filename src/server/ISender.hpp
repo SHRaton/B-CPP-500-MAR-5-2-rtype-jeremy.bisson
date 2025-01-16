@@ -54,5 +54,6 @@ public:
     virtual void handleLevelEditor(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual void handleHighScore(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual void handleGetLevels(const MediatorContext& context, const std::vector<std::string>& params) = 0;
+    virtual void handleBossSpawn(const MediatorContext& context, const std::vector<std::string>& params) = 0;
     virtual ~ISender() = default;
 };

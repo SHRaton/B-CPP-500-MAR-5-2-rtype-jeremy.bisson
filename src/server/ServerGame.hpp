@@ -92,6 +92,7 @@ class ServerGame : public ISender {
         void spawnMob(JsonEntity entity);
         void spawnPowerUp(JsonEntity entity);
         void spawnDecor(JsonEntity entity);
+        void spawnBoss(JsonEntity entity);
         void checkAllCollisions();
         bool isColliding(const component::position& pos1, const component::position& pos2, const component::size& size1, const component::size& size2);
         bool areAllPlayersDead();
@@ -125,6 +126,7 @@ class ServerGame : public ISender {
         void handleGetLevels(const MediatorContext& context, const std::vector<std::string>& params);
         void handleLevelEditor(const MediatorContext& context, const std::vector<std::string>& params);
         void handleHighScore(const MediatorContext& context, const std::vector<std::string>& params);
+        void handleBossSpawn(const MediatorContext& context, const std::vector<std::string>& params){};
 
 
         registry reg;

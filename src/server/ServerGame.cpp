@@ -46,6 +46,7 @@ ServerGame::ServerGame(Mediator &med) : med(med), lua()
 
     loadLuaScript("../src/lua/enemy_ai.lua");
     loadLuaScript("../src/lua/enemy_ai2.lua");
+    loadLuaScript("../src/lua/boss_ai.lua");
     loadJson("../src/json/level1.json");
 
     std::cout << "Lua VM initialized!" << std::endl;
@@ -153,7 +154,7 @@ void ServerGame::initTimers(bool isAi)
     setup_laser_shot_timer(*laser_shot_timer_);
 
     // Timer temporaire de win
-    win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(12));
+    win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1500));
     win_timer_->async_wait([this](const boost::system::error_code& ec) {
         if (!ec) {
             med.notify(Sender::GAME, "WIN", {}, MediatorContext());
@@ -240,6 +241,8 @@ void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
                         spawnPowerUp(*it);
                     } else if (it->type == "decor") {
                         spawnDecor(*it);
+                    } else if (it->type == "boss") {
+                        spawnBoss(*it);
                     }
                     it = allEntities.erase(it);
                 } else {
@@ -370,6 +373,8 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
                             lua["enemy_ai"](i, positions.x, positions.y);
                         } else if (types[i].value().type == 11){
                             lua["enemy_ai2"](i, positions.x, positions.y);
+                        } else if (types[i].value().type == 17){
+                            lua["boss_ai"](i, positions.x, positions.y);
                         }
                     }
                 }
@@ -635,6 +640,48 @@ void ServerGame::spawnMob(JsonEntity entity)
     med.notify(Sender::GAME, "MOB_SPAWN", newParams);
 }
 
+void ServerGame::spawnBoss(JsonEntity entity)
+{
+    std::cout << "Spawning boss" << std::endl;
+    Entity boss = reg.spawn_entity();
+    int x = entity.x;
+    int y = entity.y;
+    int type = 0;
+    if (entity.subtype == "boss1") {
+        type = 0;
+    } else if (entity.subtype == "boss2") {
+        type = 1;
+    } else if (entity.subtype == "boss3") {
+        type = 2;
+    }
+    reg.emplace_component<component::position>(boss, component::position{x, y});
+    if (type == 0) {
+        reg.emplace_component<component::health>(boss, component::health{1000});
+        reg.emplace_component<component::damage>(boss, component::damage{50});
+        reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
+        reg.emplace_component<component::type>(boss, component::type{17});
+        reg.emplace_component<component::size>(boss, component::size{500, 800});
+    } else if (type == 1) {
+        reg.emplace_component<component::health>(boss, component::health{2000});
+        reg.emplace_component<component::damage>(boss, component::damage{100});
+        reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
+        reg.emplace_component<component::type>(boss, component::type{18});
+        reg.emplace_component<component::size>(boss, component::size{200, 100});
+    } else if (type == 2) {
+        reg.emplace_component<component::health>(boss, component::health{3000});
+        reg.emplace_component<component::damage>(boss, component::damage{150});
+        reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
+        reg.emplace_component<component::type>(boss, component::type{19});
+        reg.emplace_component<component::size>(boss, component::size{200, 100});
+    }
+
+    std::vector<std::string> newParams;
+    newParams.push_back(std::to_string(type));
+    newParams.push_back(std::to_string(x));
+    newParams.push_back(std::to_string(y));
+    med.notify(Sender::GAME, "BOSS_SPAWN", newParams);
+}
+
 void ServerGame::spawnDecor(JsonEntity entity)
 {
     std::cout << "Spawning decor" << std::endl;
@@ -649,7 +696,7 @@ void ServerGame::spawnDecor(JsonEntity entity)
     Entity powerup = reg.spawn_entity();
     reg.emplace_component<component::position>(powerup, component::position{x, y});
     reg.emplace_component<component::type>(powerup, component::type{type});
-    reg.emplace_component<component::size>(powerup, component::size{50, 50});
+    reg.emplace_component<component::size>(powerup, component::size{100, 300});
     reg.emplace_component<component::velocity>(powerup, component::velocity{-5, 0});
 
     std::vector<std::string> newParams;
@@ -671,6 +718,7 @@ void ServerGame::checkAllCollisions()
     auto& laser_shots = reg.get_components<component::laser_shot>();
     auto& force = reg.get_components<component::force>();
     auto& bits = reg.get_components<component::bits>();
+    auto& damages = reg.get_components<component::damage>();
 
     for (size_t i = 0; i < positions.size(); ++i) {
 
@@ -688,7 +736,7 @@ void ServerGame::checkAllCollisions()
                 std::cout << "No position for entity !!!!!!!!!!!!!!!!!!!!!!!!! " << j << std::endl;
             }
             if (isColliding(positions[i].value(), positions[j].value(), sizes[i].value(), sizes[j].value())) {
-                if ((types[i].value().type == 5 || types[i].value().type == 30) && ((types[j].value().type >= 10 && types[j].value().type <= 13) || types[j].value().type == 50) ) { // MOB vs PLAYER
+                if ((types[i].value().type == 5 || types[i].value().type == 30) && ((types[j].value().type >= 10 && types[j].value().type <= 19) || types[j].value().type == 50) ) { // MOB vs PLAYER
                     healths[i].value().hp -= 50;
                     invincibles[i].value().is_invincible = true;
                     invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
@@ -705,7 +753,7 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                } else if (((types[i].value().type >= 10 && types[i].value().type <= 13) || types[i].value().type == 50) && (types[j].value().type == 5 || types[j].value().type == 30)) { // MOB vs PLAYER
+                } else if (((types[i].value().type >= 10 && types[i].value().type <= 19) || types[i].value().type == 50) && (types[j].value().type == 5 || types[j].value().type == 30)) { // MOB vs PLAYER
                     healths[j].value().hp -= 50;
                     invincibles[j].value().is_invincible = true;
                     invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
@@ -757,7 +805,7 @@ void ServerGame::checkAllCollisions()
                         handleColision(dummyContext, collisionParams);
                     }
                 } else if ((types[i].value().type == 6 || types[i].value().type == 8)  && types[j].value().type >= 10 && types[j].value().type <= 13) { // BULLET vs MOB
-                    healths[j].value().hp -= 1000;
+                    healths[j].value().hp -= damages[i].value().dmg;
                     for (size_t k = 0; k < types.size(); ++k) {
                         if (types[k].has_value() && types[k].value().type == 5) {
                                 score += 10;
@@ -777,7 +825,7 @@ void ServerGame::checkAllCollisions()
                         return;
                     }
                 } else if (types[i].value().type >= 10 && types[i].value().type <= 13 && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
-                    healths[i].value().hp -= 1000;
+                    healths[i].value().hp -= damages[j].value().dmg;
                     for (size_t k = 0; k < types.size(); ++k) {
                         if (types[k].has_value() && types[k].value().type == 5) {
                             score += 10;
@@ -1207,30 +1255,33 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
         auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
         auto& triple_shots = reg.get_components<component::triple_shot>();
         auto& laser_shots = reg.get_components<component::laser_shot>();
+        int x_offset = 50;
         if(laser_shots.size() > player_id && laser_shots[player_id].value().is_active){
             handleLaserShoot(context, params);
             return;
         } else if (triple_shots.size() > player_id && triple_shots[player_id].value().is_active) {
             // Tir multiple
             struct MissileConfig {
+                int x_offset;
                 int y_offset;
                 int vx;
                 int vy;
             };
 
             std::vector<MissileConfig> missiles = {
-                {-20, 1, -1},   // Missile vers le haut
-                {0, 1, 0},      // Missile droit
-                {20, 1, 1}      // Missile vers le bas
+                {20, -20, 1, -1},   // Missile vers le haut
+                {20, 0, 1, 0},      // Missile droit
+                {20, 20, 1, 1}      // Missile vers le bas
             };
 
             for (const auto& missile : missiles) {
                 Entity bullet = reg.spawn_entity();
                 std::vector<std::string> newParams;
-                newParams.push_back(std::to_string(positions.x));
+                newParams.push_back(std::to_string(positions.x + missile.x_offset));
                 newParams.push_back(std::to_string(positions.y + missile.y_offset));
-                reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y + missile.y_offset});
-                reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
+                reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y + missile.y_offset});
+                reg.emplace_component<component::velocity>(bullet, component::velocity{10, 0});
+                reg.emplace_component<component::damage>(bullet, component::damage{50});
                 reg.emplace_component<component::type>(bullet, component::type{6});
                 reg.emplace_component<component::size>(bullet, component::size{10, 10});
                 // handleMoove()
@@ -1240,10 +1291,11 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
             // Tir normal
             Entity bullet = reg.spawn_entity();
             std::vector<std::string> newParams;
-            newParams.push_back(std::to_string(positions.x));
+            newParams.push_back(std::to_string(positions.x + x_offset));
             newParams.push_back(std::to_string(positions.y));
-            reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
-            reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
+            reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y});
+            reg.emplace_component<component::velocity>(bullet, component::velocity{10, 0});
+            reg.emplace_component<component::damage>(bullet, component::damage{50});
             reg.emplace_component<component::type>(bullet, component::type{6});
             reg.emplace_component<component::size>(bullet, component::size{10, 10});
             //handleMoove(
@@ -1292,15 +1344,17 @@ void ServerGame::handleLaserShoot(const MediatorContext& context, const std::vec
         int player_id = std::stoi(params[0]);
         auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
         auto& laser_shots = reg.get_components<component::laser_shot>();
+        int x_offset = 50;
 
         if (laser_shots.size() > player_id && laser_shots[player_id].value().is_active) {
             Entity bullet = reg.spawn_entity();
             std::vector<std::string> newParams;
-            newParams.push_back(std::to_string(positions.x));
+            newParams.push_back(std::to_string(positions.x + x_offset));
             newParams.push_back(std::to_string(positions.y));
 
-            reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
+            reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y});
             reg.emplace_component<component::velocity>(bullet, component::velocity{0, 0});
+            reg.emplace_component<component::damage>(bullet, component::damage{600});
             reg.emplace_component<component::type>(bullet, component::type{8});
             reg.emplace_component<component::size>(bullet, component::size{1900, 10}); // Fine mais longue
 
@@ -1322,16 +1376,18 @@ void ServerGame::handleSuperShoot(const MediatorContext& context, const std::vec
         int player_id = std::stoi(params[0]);
         auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
         auto& super_shots = reg.get_components<component::super_shot>();
+        int x_offset = 50;
 
         if (super_shots.size() > player_id && super_shots[player_id].value().is_ready) {
             // Super tir (plus grand et plus puissant)
             Entity bullet = reg.spawn_entity();
             std::vector<std::string> newParams;
-            newParams.push_back(std::to_string(positions.x));
+            newParams.push_back(std::to_string(positions.x + x_offset));
             newParams.push_back(std::to_string(positions.y));
 
-            reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
+            reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y});
             reg.emplace_component<component::velocity>(bullet, component::velocity{7, 0});
+            reg.emplace_component<component::damage>(bullet, component::damage{150});
             reg.emplace_component<component::type>(bullet, component::type{6}); // Type pour super tir
             reg.emplace_component<component::size>(bullet, component::size{40, 40}); // Plus grand
 

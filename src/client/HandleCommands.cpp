@@ -38,7 +38,7 @@ void Core::handleServerCommands()
              code == encode_action(GameAction::RIGHT) ||
              code == encode_action(GameAction::STOP_X) ||
              code == encode_action(GameAction::STOP_Y)) {
-        handleMovementCommands(iss, static_cast<GameAction>(std::bitset<5>(code).to_ulong()));
+        handleMovementCommands(iss, static_cast<GameAction>(std::bitset<6>(code).to_ulong()));
     }
     else if (code == encode_action(GameAction::SHOOT)) {
         handleShootCommands(iss);
@@ -76,9 +76,53 @@ void Core::handleServerCommands()
     else if (code == encode_action(GameAction::GET_LEVELS)) {
         handleGetLevelsCommand(iss);
     }
+    else if (code == encode_action(GameAction::BOSS_SPAWN)) {
+        handleBossSpawn(iss);
+    }
     else {
         std::cout << "Commande inconnue : " << buffer << std::endl;
     }
+}
+
+void Core::handleBossSpawn(std::istringstream& iss)
+{
+     int boss_type, x, y;
+    iss >> boss_type >> x >> y;
+    isScrollingBackground = false;
+    Game1Music.stop();
+    BossMusic1.play();
+    screamboss_sound1.play();
+
+    auto newBoss = reg.spawn_entity();
+    std::string boss_path;
+    
+    if (boss_type == 0) {
+        boss_path = currentMap.getBoss();
+    }
+    
+    sf::Sprite boss = utils.cat("../ressources/sprites/" + boss_path);
+    boss.setPosition(x, y);
+    
+    reg.emplace_component<component::position>(newBoss, component::position{x, y});
+    
+    if (boss_type == 0) {
+        int frameWidth = currentMap.getBossSprite().getGlobalBounds().width / currentMap.getBossFrames();
+        int frameHeight = currentMap.getBossSprite().getGlobalBounds().height;
+        sf::IntRect rect(0, 0, frameWidth, frameHeight);
+        boss.setTextureRect(rect);
+        
+        reg.emplace_component<component::health>(newBoss, component::health{1000});
+        reg.emplace_component<component::damage>(newBoss, component::damage{50});
+        reg.emplace_component<component::type>(newBoss, component::type{17});
+        reg.emplace_component<component::velocity>(newBoss, component::velocity{-5, 0});
+        reg.emplace_component<component::animation>(newBoss, component::animation{
+            0, currentMap.getBossFrames(), 0.3f,
+            sf::Clock()
+        });
+    }
+    
+    boss.setScale(4, 4);
+    reg.emplace_component<component::drawable>(newBoss, component::drawable{boss});
 }
 
 void Core::handleLooseCommand(std::istringstream& iss)
@@ -321,29 +365,6 @@ void Core::handleSuperShootCommands(std::istringstream& iss)
     reg.emplace_component<component::type>(missile, component::type{6});
 }
 
-// Add this to your animation system update
-void Core::updateAnimations()
-{
-    auto& drawables = reg.get_components<component::drawable>();
-    auto& animations = reg.get_components<component::animation>();
-    for (size_t i = 0; i < animations.size(); ++i) {
-        if (!animations[i] || !drawables[i]) continue;
-        auto& anim = animations[i].value();
-        if (anim.clock.getElapsedTime().asSeconds() >= anim.frameDuration) {
-            anim.currentFrame = (anim.currentFrame + 1) % anim.totalFrames;
-            auto& sprite = drawables[i].value().sprite;
-            int frameWidth = sprite.getTextureRect().width;
-            sprite.setTextureRect(sf::IntRect(
-                anim.currentFrame * frameWidth,
-                0,
-                frameWidth,
-                sprite.getTextureRect().height
-            ));
-            anim.clock.restart();
-        }
-    }
-}
-
 void Core::handleLaserShootCommands(std::istringstream& iss)
 {
     int x, y;
@@ -559,12 +580,18 @@ void Core::handleStartCommand(std::istringstream& iss)
     gui_game();
 }
 
-void Core::handleDeathCommand(std::istringstream& iss)
-{
+void Core::handleDeathCommand(std::istringstream& iss) {
     int id;
     iss >> id;
-
     auto& healths = reg.get_components<component::health>();
+    auto& positions = reg.get_components<component::position>();
+    auto& types = reg.get_components<component::type>();
+
+    if (positions[id] && types[id] && (types[id].value().type == 10 || types[id].value().type == 11 || types[id].value().type == 17)) {
+        float posX = positions[id].value().x;
+        float posY = positions[id].value().y;
+        startExplosionAt(posX, posY);
+    }
     if (id == network->getId()) {
         std::cout << "Mort du joueur " << id << std::endl;
         healths[id].value().hp = 0;

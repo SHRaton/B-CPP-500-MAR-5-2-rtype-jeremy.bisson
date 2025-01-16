@@ -88,6 +88,8 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleLevelEditor(context, params);
         } else if (action == "HIGHSCORE") {
             network->handleHighScore(context, params);
+        } else if (action == "BOSS_SPAWN") {
+            network->handleBossSpawn(context, params);
         }
     }
 }
