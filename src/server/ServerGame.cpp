@@ -456,10 +456,11 @@ void ServerGame::setup_force_shot_timer(boost::asio::steady_timer& force_shot_ti
                     newParams.push_back(std::to_string(positions.y));
                     reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
                     if (force[i].value().is_front == 0) {  // Ajout des parenthèses après if
-                        reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
+                        reg.emplace_component<component::velocity>(bullet, component::velocity{10, 0});
                     } else {
-                        reg.emplace_component<component::velocity>(bullet, component::velocity{-5, 0});
+                        reg.emplace_component<component::velocity>(bullet, component::velocity{-10, 0});
                     }
+                    reg.emplace_component<component::damage>(bullet, component::damage{30});
                     reg.emplace_component<component::type>(bullet, component::type{6});
                     reg.emplace_component<component::size>(bullet, component::size{10, 10});
                     med.notify(Sender::GAME, "SHOOT", newParams, MediatorContext());
@@ -663,6 +664,7 @@ void ServerGame::spawnBoss(JsonEntity entity)
         reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
         reg.emplace_component<component::type>(boss, component::type{17});
         reg.emplace_component<component::size>(boss, component::size{500, 800});
+        reg.emplace_component<component::invincible>(boss, component::invincible{false});
     } else if (type == 1) {
         reg.emplace_component<component::health>(boss, component::health{2000});
         reg.emplace_component<component::damage>(boss, component::damage{100});
@@ -812,6 +814,7 @@ void ServerGame::checkAllCollisions()
                     healths[j].value().hp -= damages[i].value().dmg;
                     invincibles[j].value().is_invincible = true;
                     invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+                    std::cout << Colors::RED << "Mob hp: " << healths[i].value().hp << std::endl;
                     // Mob
                     if(healths[j].value().hp <= 0){
                         for (size_t k = 0; k < types.size(); ++k) {
@@ -834,6 +837,7 @@ void ServerGame::checkAllCollisions()
                     healths[i].value().hp -= damages[j].value().dmg;
                     invincibles[i].value().is_invincible = true;
                     invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+                    std::cout << Colors::RED << "Mob hp: " << healths[i].value().hp << std::endl;
                     // Mob
                     if(healths[i].value().hp <= 0){
                         for (size_t k = 0; k < types.size(); ++k) {
