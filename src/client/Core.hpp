@@ -460,4 +460,16 @@ class Core {
         sf::Texture explosionTexture;
         sf::Clock clock_explosion;
 
+         bool isFlashing = false;
+        sf::Clock flashClock;
+        float flashAlpha = 0.0f;
+        sf::RectangleShape flashOverlay;
+
+        sf::RectangleShape hudBackground;
+        sf::RectangleShape scoreBackground;
+        sf::RectangleShape PlayerHUD1;
+        sf::RectangleShape PlayerHUD2;
+        sf::RectangleShape PlayerHUD3;
+        sf::RectangleShape PlayerHUD4;
+
 };
