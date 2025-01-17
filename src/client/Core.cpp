@@ -66,6 +66,7 @@ void Core::loadAssets()
     isDead = false;
     daltonismType = DaltonismType::NONE;
     isScrollingBackground = true;
+    isHitbox = false;
 
     initializeKeyBindings();
 
@@ -489,6 +490,7 @@ void Core::initializeKeyBindings()
     keyBindings.emplace("Right", KeyBinding(sf::Keyboard::Right, "Right"));
     keyBindings.emplace("Shoot", KeyBinding(sf::Keyboard::A, "Shoot"));
     keyBindings.emplace("SuperShoot", KeyBinding(sf::Keyboard::E, "Super Shoot"));
+    keyBindings.emplace("Hitbox", KeyBinding(sf::Keyboard::H, "Hitbox"));
 
     keyBindingTitle.setFont(font);
     keyBindingTitle.setString("Controls");

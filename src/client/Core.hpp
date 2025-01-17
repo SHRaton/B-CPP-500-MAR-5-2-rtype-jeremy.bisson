@@ -156,6 +156,8 @@ class Core {
         // Game
         void gui_game();
         void display_all();
+        void draw_hitbox();
+        bool isHitbox;
         bool loadDaltonismShader(sf::Shader& shader, DaltonismType type);
         bool loadBlackAndWhiteShader();
         // Option
@@ -277,6 +279,7 @@ class Core {
             bool shootSent = false;
             bool superShootSent = false;
             bool startSent = false;
+            bool hitboxSent = false;
         };
 
         float shootCooldown;
@@ -297,6 +300,7 @@ class Core {
         void handle_horizontal_stop(std::optional<component::velocity>& vel);
         void handle_shoot(float deltaSeconds, std::optional<component::position>& pos);
         void handle_start(std::optional<component::position>& pos);
+        void handle_hitbox();
 
         void handleServerCommands();
         void handleMoveCommand(std::istringstream& iss);

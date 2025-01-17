@@ -123,6 +123,22 @@ void Core::handle_start(std::optional<component::position>& pos)
     }
 }
 
+void Core::handle_hitbox()
+{
+    if (keysPressed[keyBindings["Hitbox"].getKey()]) {
+        if (!inputState.hitboxSent) {
+           inputState.hitboxSent = true;
+            if (isHitbox == false) {
+                isHitbox = true;
+            } else if (isHitbox == true) {
+                isHitbox = false;
+            }
+        }
+    } else {
+        inputState.hitboxSent = false;
+    }
+}
+
 void Core::control_system()
 {
     if (isReplay){
@@ -149,6 +165,7 @@ void Core::control_system()
             handle_vertical_movement(deltaSeconds, vel, drawable, pos);
             handle_horizontal_movement(deltaSeconds, vel, drawable, pos);
             handle_shoot(deltaSeconds, pos);
+            handle_hitbox();
         }
     }
 }

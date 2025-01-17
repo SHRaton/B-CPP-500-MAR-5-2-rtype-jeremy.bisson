@@ -287,6 +287,32 @@ void Core::gui_gameover() {
     }
 }
 
+void Core::draw_hitbox()
+{
+    if (!isHitbox) {
+        return;
+    }
+    auto const &positions = reg.get_components<component ::position>();
+    auto const &drawables = reg.get_components<component ::drawable>();
+    for (size_t i = 0; i < positions.size() && i < drawables.size(); ++i)
+    {
+        auto const &pos = positions[i];
+        auto const &drawable = drawables[i];
+        if (pos && drawable)
+        {
+            sf::RectangleShape hitbox(sf::Vector2f(
+                drawable.value().sprite.getGlobalBounds().width,
+                drawable.value().sprite.getGlobalBounds().height
+            ));
+            hitbox.setFillColor(sf::Color::Transparent);
+            hitbox.setOutlineColor(sf::Color::Red);
+            hitbox.setOutlineThickness(5);
+            hitbox.setPosition(pos.value().x, pos.value().y);
+            renderTexture.draw(hitbox);
+        }
+    }
+}
+
 void Core::display_all()
 {
     window.clear();
@@ -304,6 +330,7 @@ void Core::display_all()
     renderTexture.draw(hudBackground);
     renderTexture.draw(scoreBackground);
     sys.draw_system(reg, renderTexture);
+    draw_hitbox();
     renderTexture.draw(fpsText);
     renderTexture.draw(latencyText);
     renderTexture.draw(globalScore_text);
