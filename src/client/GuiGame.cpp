@@ -256,8 +256,15 @@ void Core::gui_gameover() {
         window.getSize().y / 2 - gameOverSprite.getGlobalBounds().height / 2
     );
 
+    // Configuration du fade in
+    float fadeAlpha = 0.0f;
+    const float fadeSpeed = 200.0f; // Vitesse du fade (en alpha par seconde)
+    sf::Clock fadeClock;
+
     sf::Event event;
     while (window.isOpen()) {
+        float deltaTime = fadeClock.restart().asSeconds();
+
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) ||
@@ -278,6 +285,12 @@ void Core::gui_gameover() {
                     network->send(messageStream.str());
                 }
             }
+        }
+
+        // Mise Ã  jour de l'alpha pour le fade
+        if (fadeAlpha < 255.0f) {
+            fadeAlpha = std::min(fadeAlpha + (fadeSpeed * deltaTime), 200.0f);
+            gameOverSprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(fadeAlpha)));
         }
 
         window.clear(sf::Color::Black);
