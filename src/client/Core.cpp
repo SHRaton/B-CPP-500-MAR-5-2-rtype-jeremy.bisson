@@ -55,6 +55,9 @@ void Core::updateCurrentMap()
     if (levelSelected == 3) {
         currentMap = CurrentMap("Level_3/background.png", "Level_3/mob1.png", 6, "Level_3/mob2.png", 3, "Level_3/boss.png", 3, "Level_3/obstacle.png");
     }
+    if (levelSelected == 4) {
+        currentMap = CurrentMap("Level_4/background.png", "Level_4/mob1.png", 4, "Level_4/mob2.png", 3, "Level_3/boss.png", 3, "Level_3/obstacle.png");
+    }
 }
 
 void Core::loadAssets()
@@ -183,6 +186,24 @@ void Core::loadAssets()
     }
     Game1Music.setLoop(true);
     Game1Music.setVolume(soundVolume * 80.0);
+
+    if (!Game2Music.openFromFile("../ressources/sounds/game2.wav")) {
+        std::cout << "Error loading menu music" << std::endl;
+    }
+    Game2Music.setLoop(true);
+    Game2Music.setVolume(soundVolume * 80.0);
+    
+    if (!Game3Music.openFromFile("../ressources/sounds/game3.wav")) {
+        std::cout << "Error loading menu music" << std::endl;
+    }
+    Game3Music.setLoop(true);
+    Game3Music.setVolume(soundVolume * 100.0);
+
+    if (!Game4Music.openFromFile("../ressources/sounds/game4.wav")) {
+        std::cout << "Error loading menu music" << std::endl;
+    }
+    Game4Music.setLoop(true);
+    Game4Music.setVolume(soundVolume * 100.0);
 
     // MUSIC + SON BOSS
 

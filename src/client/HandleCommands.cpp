@@ -90,6 +90,9 @@ void Core::handleBossSpawn(std::istringstream& iss)
     iss >> boss_type >> x >> y;
     isScrollingBackground = false;
     Game1Music.stop();
+    Game2Music.stop();
+    Game3Music.stop();
+    Game4Music.stop();
     BossMusic1.play();
     screamboss_sound1.play();
 

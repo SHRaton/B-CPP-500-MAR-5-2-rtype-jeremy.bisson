@@ -365,6 +365,10 @@ class Core {
         sf::Music Game1Music;
         sf::Music BossMusic1;
 
+        sf::Music Game2Music;
+        sf::Music Game3Music;
+        sf::Music Game4Music;
+
         sf::Music gameoverMusic;
         sf::Music winMusic;
 
