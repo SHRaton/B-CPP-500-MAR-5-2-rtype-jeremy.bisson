@@ -14,6 +14,9 @@
 #include <sstream>
 #include "../server/ServerNetwork.hpp"
 #include "KeyBinding.hpp"
+#include "LevelEditor.hpp"
+#include "CurrentMap.hpp"
+#include "EntityPosition.hpp"
 
 /**
  * @brief Classe principale du client de jeu
@@ -75,62 +78,6 @@ enum DaltonismType {
     DEUTERANOPIA,  // Rouge-vert (faiblesse des cônes verts)
     TRITANOPIA,    // Bleu-jaune (rare)
     NONE
-};
-
-class CurrentMap {
-    public:
-        CurrentMap(std::string map, std::string mob1, int mob1_frames, std::string mob2, int mob2_frames, std::string boss, int boss_frames, std::string obstacle) :
-            map(map),
-            mob1(mob1),
-            mob1_frames(mob1_frames),
-            mob2(mob2),
-            mob2_frames(mob2_frames),
-            boss(boss),
-            boss_frames(boss_frames),
-            obstacle(obstacle)
-        {
-            Utils utils;
-            map_sprite = utils.cat("../ressources/sprites/" + map);
-            mob1_sprite = utils.cat("../ressources/sprites/" + mob1);
-            mob2_sprite = utils.cat("../ressources/sprites/" + mob2);
-            boss_sprite = utils.cat("../ressources/sprites/" + boss);
-            obstacle_sprite = utils.cat("../ressources/sprites/" + obstacle);
-
-        };
-        ~CurrentMap() = default;
-
-        sf::Sprite &getBackgroundSprite() { return map_sprite; }
-        sf::Sprite &getMob1Sprite() { return mob1_sprite; }
-        sf::Sprite &getMob2Sprite() { return mob2_sprite; }
-        sf::Sprite &getBossSprite() { return boss_sprite; }
-        sf::Sprite &getObstacleSprite() { return obstacle_sprite; }
-
-        std::string getMap() { return map; }
-        std::string getMob1() { return mob1; }
-        std::string getMob2() { return mob2; }
-        std::string getBoss() { return boss; }
-        std::string getObstacle() { return obstacle; }
-
-        int getMob1Frames() { return mob1_frames; }
-        int getMob2Frames() { return mob2_frames; }
-        int getBossFrames() { return boss_frames; }
-
-
-    private:
-        std::string map;
-        std::string mob1;
-        int mob1_frames;
-        std::string mob2;
-        int mob2_frames;
-        std::string boss;
-        int boss_frames;
-        std::string obstacle;
-
-        sf::Sprite map_sprite;
-        sf::Sprite mob1_sprite;
-        sf::Sprite mob2_sprite;
-        sf::Sprite boss_sprite;
-        sf::Sprite obstacle_sprite;
 };
 
 class Core {
@@ -245,6 +192,7 @@ class Core {
         sf::Sprite ready;
         sf::Sprite start;
         sf::Sprite replay;
+        sf::Sprite level_editor;
 
         // Texture to concat all draw and apply Shader on texture
         sf::RenderTexture renderTexture;
@@ -280,6 +228,7 @@ class Core {
             bool superShootSent = false;
             bool startSent = false;
             bool hitboxSent = false;
+            bool levelEditorSent = false;
         };
 
         float shootCooldown;
@@ -445,7 +394,9 @@ class Core {
         void display_lobby();
         std::vector<sf::Sprite> shipSprites;
         void load_levels();
-        void handleBossSpawn(std::istringstream& iss);
+        void handleBossSpawnCommand(std::istringstream& iss);
+        void handleLevelEditorCommand(std::istringstream& iss);
+        std::vector<EntityPosition> entities;
 
         void startExplosionAt(float x, float y);
         void updateExplosions(float deltaSeconds);

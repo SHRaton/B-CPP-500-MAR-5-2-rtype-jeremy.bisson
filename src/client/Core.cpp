@@ -4,7 +4,7 @@
 Core::Core() :
         window(sf::VideoMode(1920, 1080), "R-Type"),
         player(0),
-        currentMap("Level_1/background.png", "Level_1/mob1.png", 8, "Level_1/mob2.png", 3, "Level_1/boss.png", 8, "Level_1/obstacle.png")
+        currentMap("level1.json", "Level_1/background.png", "Level_1/mob1.png", 8, "Level_1/mob2.png", 3, "Level_1/boss.png", 8, "Level_1/obstacle.png")
 {
     loadAssets();
 }
@@ -47,13 +47,13 @@ void Core::loadAssetsGame()
 void Core::updateCurrentMap()
 {
     if (levelSelected == 1) {
-        currentMap = CurrentMap("Level_1/background.png", "Level_1/mob1.png", 8, "Level_1/mob2.png", 3, "Level_1/boss.png", 8, "Level_1/obstacle.png");
+        currentMap = CurrentMap("level1.json", "Level_1/background.png", "Level_1/mob1.png", 8, "Level_1/mob2.png", 3, "Level_1/boss.png", 8, "Level_1/obstacle.png");
     }
     if (levelSelected == 2) {
-        currentMap = CurrentMap("Level_2/background.png", "Level_2/mob1.png", 2, "Level_2/mob2.png", 4, "Level_2/boss.png", 4, "Level_2/obstacle.png");
+        currentMap = CurrentMap("level2.json", "Level_2/background.png", "Level_2/mob1.png", 2, "Level_2/mob2.png", 4, "Level_2/boss.png", 4, "Level_2/obstacle.png");
     }
     if (levelSelected == 3) {
-        currentMap = CurrentMap("Level_3/background.png", "Level_3/mob1.png", 6, "Level_3/mob2.png", 3, "Level_3/boss.png", 3, "Level_3/obstacle.png");
+        currentMap = CurrentMap("level3.json", "Level_3/background.png", "Level_3/mob1.png", 6, "Level_3/mob2.png", 3, "Level_3/boss.png", 3, "Level_3/obstacle.png");
     }
 }
 

@@ -71,8 +71,8 @@ void Core::updateLevelSelector()
         } else if (isDropdownOpen) {
             for (size_t i = 0; i < levelButtons.size(); i++) {
                 if (levelButtons[i].getGlobalBounds().contains(worldMousePosition)) {
-                    updateCurrentMap();
                     levelSelected = i + 1;
+                    updateCurrentMap();
                     isDropdownOpen = false;
                     buttonSound_click.play();
                     break;
@@ -113,6 +113,7 @@ void Core::display_lobby()
     //renderTexture.draw(ready);
     renderTexture.draw(start);
     renderTexture.draw(replay);
+    renderTexture.draw(level_editor);
     renderTexture.draw(nb_players_text);
     int playerCount = 0;
     for (const auto& player : otherPlayers) {
@@ -276,6 +277,9 @@ void Core::gui_lobby()
     replay = utils.cat("../ressources/background/replay.png");
     utils.setOriginToMiddle(replay);
     replay.setPosition(1420, 675);
+    level_editor = utils.cat("../ressources/background/level_editor.png");
+    utils.setOriginToMiddle(level_editor);
+    level_editor.setPosition(1420, 240);
 
     std::vector<sf::Vector2f> shipPositions = {
         {1500, 400},  // Position vaisseau 1
@@ -345,6 +349,20 @@ void Core::gui_lobby()
             } else {
                 inputState.startSent = false;
             }
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                if (level_editor.getGlobalBounds().contains(worldMousePosition)) {
+                    if (!inputState.levelEditorSent) {
+                        buttonSound_click.play();
+                        std::ostringstream messageStream;
+                        messageStream << encode_action(GameAction::LEVEL_EDITOR) << " " << currentMap.getFilepath();
+                        std::cout << "msg ---> " << messageStream.str() << std::endl;
+                        network->send(messageStream.str());
+                        inputState.levelEditorSent = true;
+                    }
+                }
+            } else {
+                inputState.levelEditorSent = false;
+            }
         }
 
         while (registryWindow.pollEvent(event)) {
@@ -364,6 +382,8 @@ void Core::gui_lobby()
         start.setScale(scale2, scale2);
         auto scale3 = replay.getGlobalBounds().contains(worldMousePosition) ? 1.1f : 1.0f;
         replay.setScale(scale3, scale3);
+        auto scale4 = level_editor.getGlobalBounds().contains(worldMousePosition) ? 1.1f : 1.0f;
+        level_editor.setScale(scale4, scale4);
         nb_players_text.setString(std::to_string(nb_player) + " / 4");
 
         handleServerCommands();

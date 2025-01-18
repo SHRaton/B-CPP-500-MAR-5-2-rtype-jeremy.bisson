@@ -77,14 +77,17 @@ void Core::handleServerCommands()
         handleGetLevelsCommand(iss);
     }
     else if (code == encode_action(GameAction::BOSS_SPAWN)) {
-        handleBossSpawn(iss);
+        handleBossSpawnCommand(iss);
+    }
+    else if (code == encode_action(GameAction::LEVEL_EDITOR)) {
+        handleLevelEditorCommand(iss);
     }
     else {
         std::cout << "Commande inconnue : " << buffer << std::endl;
     }
 }
 
-void Core::handleBossSpawn(std::istringstream& iss)
+void Core::handleBossSpawnCommand(std::istringstream& iss)
 {
      int boss_type, x, y;
     iss >> boss_type >> x >> y;
@@ -136,6 +139,20 @@ void Core::handleLooseCommand(std::istringstream& iss)
     gui_gameover();
 }
 
+void Core::handleLevelEditorCommand(std::istringstream& iss)
+{
+    int type;
+    float x, y;
+
+    if (iss >> type >> x >> y) {  // Si on peut lire 3 entiers de iss
+        entities.emplace_back(type, x, y);  // Ajoute l'entité au vecteur
+    } else {  // Si iss est vide
+        LevelEditor levelEditor(entities, currentMap);  // Crée le LevelEditor avec les entités
+        levelEditor.run();  // Lance le LevelEditor
+        entities.clear();   // Réinitialise le vecteur pour la prochaine utilisation
+    }
+}
+
 void Core::handleGetLevelsCommand(std::istringstream& iss)
 {
     std::string fullMessage;
@@ -147,6 +164,7 @@ void Core::handleGetLevelsCommand(std::istringstream& iss)
     while (messageStream >> file) {
         levelFiles.push_back(file);
     }
+    std::sort(levelFiles.begin(), levelFiles.end());
 }
 
 void Core::handleMoveCommand(std::istringstream& iss)
