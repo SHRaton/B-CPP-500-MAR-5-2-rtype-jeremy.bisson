@@ -246,25 +246,71 @@ void Core::gui_gameover() {
         throw std::runtime_error("Error loading game over texture");
     }
     gameOverSprite.setTexture(gameOverTexture);
+    
+    // Arrêt et démarrage des musiques avec fade out
+    const float musicFadeSpeed = 2.0f;
+    float currentVolume = 100.0f;
+    while (currentVolume > 0) {
+        currentVolume -= musicFadeSpeed;
+        Game1Music.setVolume(currentVolume);
+        BossMusic1.setVolume(currentVolume);
+        sf::sleep(sf::milliseconds(10));
+    }
     Game1Music.stop();
-    gameoverMusic.play();
+    Game2Music.stop();
+    Game3Music.stop();
+    Game4Music.stop();
     BossMusic1.stop();
     
-    // Centrer l'image
-    gameOverSprite.setPosition(
+    // Démarrage de la musique game over avec fade in
+    gameoverMusic.setVolume(0);
+    gameoverMusic.play();
+    float gameoverVolume = 0;
+    while (gameoverVolume < 100) {
+        gameoverVolume += musicFadeSpeed;
+        gameoverMusic.setVolume(gameoverVolume);
+        sf::sleep(sf::milliseconds(10));
+    }
+
+    // Configuration des effets visuels
+    float fadeAlpha = 0.0f;
+    const float fadeSpeed = 255.0f;
+    float scale = 1.2f;
+    const float scaleSpeed = 0.3f;
+    const float shakeIntensity = 5.0f;
+    
+    sf::Clock effectsClock;
+    sf::Clock shakeClock;
+    bool effectsComplete = false;
+    
+    // Position centrale initiale
+    sf::Vector2f centerPosition(
         window.getSize().x / 2 - gameOverSprite.getGlobalBounds().width / 2,
         window.getSize().y / 2 - gameOverSprite.getGlobalBounds().height / 2
     );
+    gameOverSprite.setPosition(centerPosition);
+    gameOverSprite.setOrigin(
+        gameOverSprite.getGlobalBounds().width / 2,
+        gameOverSprite.getGlobalBounds().height / 2
+    );
+    gameOverSprite.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 
-    // Configuration du fade in
-    float fadeAlpha = 0.0f;
-    const float fadeSpeed = 200.0f; // Vitesse du fade (en alpha par seconde)
-    sf::Clock fadeClock;
+    // Système de particules amélioré
+    struct Particle {
+        sf::RectangleShape shape;
+        sf::Vector2f velocity;
+        float lifetime;
+        float maxLifetime;
+        float size;
+    };
+    std::vector<Particle> particles;
+    sf::Clock particleClock;
 
     sf::Event event;
     while (window.isOpen()) {
-        float deltaTime = fadeClock.restart().asSeconds();
+        float deltaTime = effectsClock.restart().asSeconds();
 
+        // Gestion des événements
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || 
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) ||
@@ -286,16 +332,79 @@ void Core::gui_gameover() {
                 }
             }
         }
-
-        // Mise Ã  jour de l'alpha pour le fade
-        if (fadeAlpha < 255.0f) {
-            fadeAlpha = std::min(fadeAlpha + (fadeSpeed * deltaTime), 200.0f);
-            gameOverSprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(fadeAlpha)));
+        if (!effectsComplete) {
+            // Fade in
+            if (fadeAlpha < 255.0f) {
+                fadeAlpha = std::min(fadeAlpha + (fadeSpeed * deltaTime), 255.0f);
+                gameOverSprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(fadeAlpha)));
+            }
+            if (scale > 1.0f) {
+                scale = std::max(1.0f, scale - (scaleSpeed * deltaTime));
+                gameOverSprite.setScale(scale, scale);
+            }
+            if (shakeClock.getElapsedTime().asSeconds() < 0.5f) {
+                float shakeX = (std::rand() % 100 - 50) * 0.01f * shakeIntensity;
+                float shakeY = (std::rand() % 100 - 50) * 0.01f * shakeIntensity;
+                gameOverSprite.setPosition(
+                    window.getSize().x / 2 + shakeX,
+                    window.getSize().y / 2 + shakeY
+                );
+            }
+            if (fadeAlpha >= 255.0f && scale <= 1.0f) {
+                effectsComplete = true;
+                gameOverSprite.setPosition(window.getSize().x / 2, window.getSize().y / 2);
+            }
         }
+        if (particleClock.getElapsedTime().asSeconds() > 0.01f) {
+        for (int i = 0; i < 8; i++) { // Augmentation du nombre de particules
+            Particle particle;
+            particle.size = 3.0f + (std::rand() % 5);
+            particle.shape.setSize(sf::Vector2f(particle.size, particle.size));
+            int r = 255;
+            int g = std::rand() % 100 + 50;
+            particle.shape.setFillColor(sf::Color(r, g, 0, 255));
+            particle.shape.setPosition(
+                std::rand() % window.getSize().x,  // Position X aléatoire sur toute la largeur
+                window.getSize().y + 10
+            );
+            float centerDistance = std::abs((window.getSize().x / 2) - particle.shape.getPosition().x);
+            float velocityMultiplier = 1.0f - (centerDistance / (window.getSize().x / 2)) * 0.3f;
+            
+            particle.velocity = sf::Vector2f(
+                (std::rand() % 200 - 100) * 0.5f,
+                (-250 - (std::rand() % 150)) * velocityMultiplier // Vitesse verticale variable
+            );
+            particle.maxLifetime = 1.5f + (std::rand() % 100) / 100.0f;
+            particle.lifetime = particle.maxLifetime;
+            particles.push_back(particle);
+        }
+        particleClock.restart();
+    }
 
+    // Mise à jour des particules
+    for (auto it = particles.begin(); it != particles.end();) {
+        it->lifetime -= deltaTime;
+        it->shape.move(it->velocity * deltaTime);
+        float centerOffset = (window.getSize().x / 2) - it->shape.getPosition().x;
+        it->velocity.x += centerOffset * 0.02f * deltaTime; // Légère attraction vers le centre
+        it->velocity.y += 50.f * deltaTime; // Gravité réduite
+        float scale = it->lifetime / it->maxLifetime;
+        it->shape.setSize(sf::Vector2f(it->size * scale, it->size * scale));
+        float alpha = (it->lifetime / it->maxLifetime) * 255;
+        sf::Color currentColor = it->shape.getFillColor();
+        it->shape.setFillColor(sf::Color(currentColor.r, currentColor.g, currentColor.b, static_cast<sf::Uint8>(alpha)));
+        if (it->lifetime <= 0) {
+            it = particles.erase(it);
+        } else {
+            ++it;
+        }
+    }
         window.clear(sf::Color::Black);
         window.draw(gameOverSprite);
         window.draw(save_replay);
+        for (const auto& particle : particles) {
+            window.draw(particle.shape);
+        }
         window.display();
     }
 }
@@ -411,9 +520,15 @@ void Core::gui_game()
     sf::Event event;
 
     menuMusic.stop();
-    Game1Music.play();
-    BossMusic1.stop();
-
+    if (levelSelected == 1) {
+        Game1Music.play();
+    } else if (levelSelected == 2) {
+        Game2Music.play();
+    } else if (levelSelected == 3) {
+        Game3Music.play();
+    } else if (levelSelected == 4) {
+        Game4Music.play();
+    }
     registryWindow.create(sf::VideoMode(1400, 1080), "ECS Debuger");
 
     position_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::milliseconds(2));
