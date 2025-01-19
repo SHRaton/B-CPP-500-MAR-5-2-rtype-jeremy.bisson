@@ -31,6 +31,7 @@ private:
     Utils utils;
     sf::RenderWindow window;
     sf::Sprite background;
+    sf::Sprite hud;
     int levelSelected;
     CurrentMap currentMap;
     std::vector<sf::Sprite> entitySprites;
@@ -38,4 +39,8 @@ private:
     sf::RectangleShape progressBackground;
     sf::RectangleShape progressBar;
     UDPNetworkClient& network;
+
+    sf::Clock animationClock;
+    int currentFrame_mob1 = 0;
+    int currentFrame_mob2 = 0;
 };

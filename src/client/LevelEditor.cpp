@@ -81,10 +81,77 @@ void LevelEditor::drawAll()
 
     // Update progress bar width based on scroll position
     float progress = -background.getPosition().x / (background.getGlobalBounds().width - window.getSize().x);
-    progress = std::max(0.0f, std::min(1.0f, progress));  // Clamp entre 0 et 1
+    progress = std::max(0.0f, std::min(1.0f, progress)); // Clamp entre 0 et 1
     progressBar.setSize(sf::Vector2f(300 * progress, 20));
     window.draw(progressBackground);
     window.draw(progressBar);
+    window.draw(hud);
+
+    // Animation logic
+    // if (animationClock.getElapsedTime().asSeconds() >= 0.5) {
+    //     currentFrame_mob1 = (currentFrame_mob1 + 1) % currentMap.getMob1Frames();
+    //     currentFrame_mob2 = (currentFrame_mob2 + 1) % currentMap.getMob2Frames();
+    //     animationClock.restart();
+    // }
+
+    const int start_x = 63;
+    const int offset_x = 73;
+    const int offset_y = 970;
+    const float size = 50.0f;
+
+    // Mob1
+    sf::Sprite mob1 = currentMap.getMob1Sprite();
+    float frameWidth = static_cast<float>(mob1.getGlobalBounds().width / currentMap.getMob1Frames());
+    float frameHeight = static_cast<float>(mob1.getGlobalBounds().height);
+    sf::IntRect rect(0, 0, frameWidth, frameHeight);
+    mob1.setTextureRect(rect);
+    mob1.setScale(size/frameWidth, size/frameHeight);
+    mob1.setPosition(start_x + offset_x*0, offset_y);
+    window.draw(mob1);
+
+    // Mob2
+    sf::Sprite mob2 = currentMap.getMob2Sprite();
+    frameWidth = static_cast<float>(mob2.getGlobalBounds().width / currentMap.getMob2Frames());
+    frameHeight = static_cast<float>(mob2.getGlobalBounds().height);
+    sf::IntRect rect2(0, 0, frameWidth, frameHeight);
+    mob2.setTextureRect(rect2);
+    mob2.setScale(size/frameWidth, size/frameHeight);
+    mob2.setPosition(start_x + offset_x*1, offset_y);
+    window.draw(mob2);
+
+    // Pow1
+    sf::Sprite pow1 = utils.cat("../ressources/sprites/pow1.png");
+    pow1.setPosition(start_x + offset_x*2, offset_y);
+    pow1.setScale(size/pow1.getGlobalBounds().width, size/pow1.getGlobalBounds().height);
+    window.draw(pow1);
+
+    // Pow2
+    sf::Sprite pow2 = utils.cat("../ressources/sprites/pow2.png");
+    pow2.setPosition(start_x + offset_x*3, offset_y);
+    pow2.setScale(size/pow2.getGlobalBounds().width, size/pow2.getGlobalBounds().height);
+    window.draw(pow2);
+
+    // Pow3
+    sf::Sprite pow3 = utils.cat("../ressources/sprites/pow3.png");
+    pow3.setPosition(start_x + offset_x*4, offset_y);
+    pow3.setScale(size/pow3.getGlobalBounds().width, size/pow3.getGlobalBounds().height);
+    window.draw(pow3);
+
+    // Force
+    sf::Sprite force = utils.cat("../ressources/sprites/force.png");
+    frameWidth = static_cast<float>(force.getTexture()->getSize().x / 12);
+    frameHeight = static_cast<float>(force.getTexture()->getSize().y);
+    sf::IntRect rect3(0, 0, frameWidth, frameHeight);
+    force.setTextureRect(rect3);
+    force.setPosition(start_x + offset_x*5, offset_y);
+    force.setScale(size/force.getGlobalBounds().width, size/force.getGlobalBounds().height);
+    window.draw(force);
+
+    // Meteor
+    sf::Sprite meteor = utils.cat("../ressources/sprites/meteor.png");
+    meteor.setPosition(start_x + offset_x*6, offset_y);
+    meteor.setScale(size/meteor.getGlobalBounds().width, size/meteor.getGlobalBounds().height);
+    window.draw(meteor);
 
     window.display();
 }
@@ -92,6 +159,7 @@ void LevelEditor::drawAll()
 void LevelEditor::setAssets()
 {
     background = currentMap.getBackgroundSprite();
+    hud = utils.cat("../ressources/sprites/hud.png");
 
     progressBackground.setFillColor(sf::Color(100, 100, 100));
     progressBackground.setSize(sf::Vector2f(300, 20));  // Largeur de base et hauteur

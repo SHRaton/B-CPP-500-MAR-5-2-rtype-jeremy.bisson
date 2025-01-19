@@ -29,6 +29,7 @@ void Core::loadAssetsGame()
 {
     deltaClock.restart();
     laserClock.restart();
+    clock_scrolling.restart();
     laserPowerUpLogo = utils.cat("../ressources/sprites/laser_logo.png");
     save_replay = utils.cat("../ressources/background/replay.png");
     if (!explosionTexture.loadFromFile("../ressources/sprites/kill.png")) {
