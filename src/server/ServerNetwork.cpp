@@ -308,6 +308,10 @@ void ServerNetwork::handleLevelEditor(const MediatorContext& context, const std:
 void ServerNetwork::handleHighScore(const MediatorContext& context, const std::vector<std::string>& params)
 {
     boost::asio::ip::udp::endpoint client = context.client;
+    if (client == boost::asio::ip::udp::endpoint()) {
+        std::cout << Colors::RED << "[Erreur] : Pas de client pour envoyer le message" << Colors::RESET << std::endl;
+        return;
+    }
     std::string message = encode_action(GameAction::HIGHSCORE) + " " + params[0];
     socket_.send_to(boost::asio::buffer(message), client);
 }
