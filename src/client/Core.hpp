@@ -302,6 +302,7 @@ class Core {
         struct PlayerInfo {
             bool isReady;
             int id;
+            std::string name;
             int hp;
             sf::Text hpText;
         };

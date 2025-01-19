@@ -151,7 +151,7 @@ void ServerNetwork::handleDisconnect(const MediatorContext& context, const std::
 void ServerNetwork::handleConnect(const MediatorContext& context, const std::vector<std::string>& params)
 {
     if (context.client.address().is_unspecified()) {
-        broadcast_message(encode_action(GameAction::CONNECT) + " " + params[params.size() - 1]);
+        broadcast_message(encode_action(GameAction::CONNECT) + " " + params[params.size() - 2] + " " + params[params.size() - 1]);
         return;
     }
     boost::asio::ip::udp::endpoint client = context.client;
@@ -162,11 +162,13 @@ void ServerNetwork::handleConnect(const MediatorContext& context, const std::vec
               << client.address().to_string()
               << ":" << client.port() << Colors::RESET << std::endl;
 
-    for (int i = 0; i < params.size() - 1; i++) {
-        socket_.send_to(boost::asio::buffer(encode_action(GameAction::CONNECT) + " " + params[i]), client);
+
+    for (int i = 0; i < params.size() - 2; i+=2) {
+        std::cout << params[i] << " : " << std::endl;
+        socket_.send_to(boost::asio::buffer(encode_action(GameAction::CONNECT) + " " + params[i] + " " + params[i + 1]), client);
     }
-    socket_.send_to(boost::asio::buffer("OK " + params[params.size() - 1]), client); //TODO: Remplacer OK par du binaire
-    broadcast_message(client, encode_action(GameAction::CONNECT) + " " + params[params.size() - 1]);
+    socket_.send_to(boost::asio::buffer("OK " + params[params.size() - 2]), client); //TODO: Remplacer OK par du binaire
+    broadcast_message(client, encode_action(GameAction::CONNECT) + " " + params[params.size() - 2] + " " + params[params.size() - 1]);
 }
 
 void ServerNetwork::handleMoves(const std::string& action, const MediatorContext& context, const std::vector<std::string>& params)

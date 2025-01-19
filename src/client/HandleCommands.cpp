@@ -122,6 +122,7 @@ void Core::handleBossSpawnCommand(std::istringstream& iss)
         int frameHeight = currentMap.getBossSprite().getGlobalBounds().height;
         sf::IntRect rect(0, 0, frameWidth, frameHeight);
         boss.setTextureRect(rect);
+        boss.setScale(800/boss.getGlobalBounds().height, 800/boss.getGlobalBounds().height);
         
         reg.emplace_component<component::health>(newBoss, component::health{1000});
         reg.emplace_component<component::damage>(newBoss, component::damage{50});
@@ -132,8 +133,6 @@ void Core::handleBossSpawnCommand(std::istringstream& iss)
             sf::Clock()
         });
     }
-    
-    boss.setScale(4, 4);
     reg.emplace_component<component::drawable>(newBoss, component::drawable{boss});
 }
 
@@ -222,6 +221,7 @@ void Core::handleMobSpawnCommand(std::istringstream& iss)
         int frameHeight = currentMap.getMob1Sprite().getGlobalBounds().height;
         sf::IntRect rect(0, 0, frameWidth, frameHeight);
         mob.setTextureRect(rect);
+        mob.setScale(50/mob.getGlobalBounds().width, 50/mob.getGlobalBounds().height);
         
         reg.emplace_component<component::health>(newMob, component::health{300});
         reg.emplace_component<component::damage>(newMob, component::damage{10});
@@ -237,6 +237,7 @@ void Core::handleMobSpawnCommand(std::istringstream& iss)
         int frameHeight = currentMap.getMob2Sprite().getGlobalBounds().height;
         sf::IntRect rect(0, 0, frameWidth, frameHeight);
         mob.setTextureRect(rect);
+        mob.setScale(70/mob.getGlobalBounds().width, 70/mob.getGlobalBounds().height);
         
         reg.emplace_component<component::health>(newMob, component::health{100});
         reg.emplace_component<component::damage>(newMob, component::damage{40});
@@ -247,14 +248,14 @@ void Core::handleMobSpawnCommand(std::istringstream& iss)
             sf::Clock()
         });
     }
-    mob.setScale(3, 3);
     reg.emplace_component<component::drawable>(newMob, component::drawable{mob});
 }
 
 void Core::handleConnectCommand(std::istringstream& iss)
 {
     int id;
-    iss >> id;
+    std::string name;
+    iss >> id >> name;
 
     nb_player++;
     joiningSound.play();
@@ -276,6 +277,7 @@ void Core::handleConnectCommand(std::istringstream& iss)
     PlayerInfo playerInfo;
     playerInfo.isReady = false;
     playerInfo.id = id;
+    playerInfo.name = name;
     playerInfo.hp = 100;
     playerInfo.hpText.setFont(font);
     playerInfo.hpText.setCharacterSize(35);
@@ -475,7 +477,6 @@ void Core::handlePowerUpCommand(std::istringstream& iss)
     else if (type == 50) {
         reg.emplace_component<component::drawable>(powerup, component::drawable{sprite5});
         reg.emplace_component<component::velocity>(powerup, component::velocity{-5, 0});
-        sprite5.setScale(4, 4);
     }
     reg.emplace_component<component::type>(powerup, component::type{type});
 }

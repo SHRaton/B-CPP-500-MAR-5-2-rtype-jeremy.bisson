@@ -65,6 +65,9 @@
  */
 
 namespace component{
+    typedef struct name {
+        std::string name;
+    } Name;
     typedef struct health {
         int hp;
     } Health;

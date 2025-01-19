@@ -45,7 +45,7 @@ void Core::login()
     if (!str_name.empty() && !str_ip.empty() && !str_port.empty()) {
         try {
             initialize_network(str_ip, std::stoi(str_port));
-            network->send(encode_action(GameAction::CONNECT));
+            network->send(encode_action(GameAction::CONNECT) + " " + str_name);
             utils.printLog(str_name + " logged in");
             std::cout << Color::YELLOW << "[Client] Connected to " << Color::BLUE << str_ip << ":" << str_port << Color::RESET << std::endl;
             gui_lobby();
@@ -70,7 +70,7 @@ void Core::login_auto(std::string ip, std::string port)
     str_port = port;
     try {
         initialize_network(str_ip, std::stoi(str_port));
-        network->send(encode_action(GameAction::CONNECT));
+        network->send(encode_action(GameAction::CONNECT) + " " + str_name);
         gui_lobby();
         gui_game();
     } catch (const std::exception& e) {

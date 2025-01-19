@@ -119,14 +119,14 @@ void Core::display_lobby()
     for (const auto& player : otherPlayers) {
         sf::Text lobbyText;
         lobbyText.setFont(font);
-        lobbyText.setCharacterSize(30);
+        lobbyText.setCharacterSize(25);
         if (playerCount == network->getId()) {
             lobbyText.setFillColor(sf::Color::Red);
         } else {
             lobbyText.setFillColor(sf::Color::White);
         }
         lobbyText.setPosition(1300, 395 + (50 * playerCount));
-        lobbyText.setString("Player " + std::to_string(playerCount + 1));
+        lobbyText.setString(otherPlayers[playerCount].name);
         renderTexture.draw(lobbyText);
         if (playerCount < shipSprites.size()) {
             renderTexture.draw(shipSprites[playerCount]);
@@ -181,14 +181,14 @@ void Core::load_spaceship()
         if (buffer.rfind(encode_action(GameAction::CONNECT), 0) == 0) {
             nb_player++;
             std::istringstream iss(buffer);
-            std::string code;
+            std::string code, name;
             int id;
-            iss >> code >> id;
+            iss >> code >> id >> name;
 
             auto newPlayer = reg.spawn_entity();
-            std::cout << "Créer AUTRE sprite " << i << std::endl;
+            std::cout << "Créer AUTRE sprite " << id << std::endl;
 
-            sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(i) + ".png");
+            sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(id) + ".png");
             vaisseau.setPosition(200, 500);
             sf::IntRect rect(vaisseau.getGlobalBounds().width / 5 * 2, 0, 
                      vaisseau.getGlobalBounds().width / 5, 
@@ -207,6 +207,7 @@ void Core::load_spaceship()
             PlayerInfo playerInfo;
             playerInfo.isReady = false;
             playerInfo.id = id;
+            playerInfo.name = name;
             playerInfo.hp = 100;
             playerInfo.hpText.setFont(font);
             playerInfo.hpText.setCharacterSize(35);
@@ -237,6 +238,7 @@ void Core::load_spaceship()
         PlayerInfo playerInfo;
         playerInfo.isReady = false;
         playerInfo.id = player;
+        playerInfo.name = str_name;
         playerInfo.hp = 100;
         playerInfo.hpText.setFont(font);
         playerInfo.hpText.setCharacterSize(35);

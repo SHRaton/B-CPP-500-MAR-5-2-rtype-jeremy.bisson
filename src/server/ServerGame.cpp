@@ -51,6 +51,7 @@ ServerGame::ServerGame(Mediator &med) : med(med), lua()
 
     std::cout << "Lua VM initialized!" << std::endl;
 
+    reg.register_component<component::name>();
     reg.register_component<component::position>();
     reg.register_component<component::velocity>();
     reg.register_component<component::drawable>();
@@ -662,14 +663,14 @@ void ServerGame::spawnMob(JsonEntity entity)
         reg.emplace_component<component::damage>(mob, component::damage{10});
         reg.emplace_component<component::velocity>(mob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(mob, component::type{10});
-        reg.emplace_component<component::size>(mob, component::size{100, 50});
+        reg.emplace_component<component::size>(mob, component::size{50, 50});
         reg.emplace_component<component::invincible>(mob, component::invincible{false});
     } else if (type == 1) {
         reg.emplace_component<component::health>(mob, component::health{100});
         reg.emplace_component<component::damage>(mob, component::damage{40});
         reg.emplace_component<component::velocity>(mob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(mob, component::type{11});
-        reg.emplace_component<component::size>(mob, component::size{100, 50});
+        reg.emplace_component<component::size>(mob, component::size{70, 70});
         reg.emplace_component<component::invincible>(mob, component::invincible{false});
     }
     std::vector<std::string> newParams;
@@ -1186,6 +1187,7 @@ void ServerGame::handleConnect(const MediatorContext& context, const std::vector
 {
     handleHighScore(context, params);
     Entity player = reg.spawn_entity();
+    reg.emplace_component<component::name>(player, component::name{params[0]});
     reg.emplace_component<component::position>(player, component::position{200, 500});
     reg.emplace_component<component::velocity>(player, component::velocity{0, 0});
     reg.emplace_component<component::controllable>(player, component::controllable{true});
@@ -1204,19 +1206,20 @@ void ServerGame::handleConnect(const MediatorContext& context, const std::vector
     std::vector<std::string> newParams;
 
     auto &controllables = reg.get_components<component::controllable>();
+    auto &names = reg.get_components<component::name>();
     for (size_t i = 0; i < controllables.size(); ++i)
     {
         auto &controllable = controllables[i];
-        if (controllable)
+        auto &name = names[i];
+        if (controllable && name)
         {
             if (controllable.value().is_controllable)
             {
                 newParams.push_back(std::to_string(i));
+                newParams.push_back(name.value().name);
             }
         }
     }
-
-
     med.notify(Sender::GAME, "CONNECT", newParams, context);
 }
 

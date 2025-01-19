@@ -236,7 +236,6 @@ int LevelEditor::spawnEntity(sf::Event event)
         } else if (event.key.code == sf::Keyboard::T) {
             sf::Sprite entity = utils.cat("../ressources/sprites/meteor.png");
             entity.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
-            entity.setScale(4, 4);
             entitySprites.push_back(entity);
             return 50;
         }
