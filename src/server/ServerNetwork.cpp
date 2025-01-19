@@ -307,7 +307,7 @@ void ServerNetwork::handleHighScore(const MediatorContext& context, const std::v
 {
     boost::asio::ip::udp::endpoint client = context.client;
     std::string message = encode_action(GameAction::HIGHSCORE) + " " + params[0];
-    broadcast_message(message);
+    socket_.send_to(boost::asio::buffer(message), client);
 }
 
 void ServerNetwork::handleBossSpawn(const MediatorContext& context, const std::vector<std::string>& params)

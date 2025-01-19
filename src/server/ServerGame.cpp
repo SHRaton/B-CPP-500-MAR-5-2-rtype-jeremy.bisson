@@ -483,7 +483,7 @@ void ServerGame::handleHighScore(const MediatorContext& context, const std::vect
     nlohmann::json highscoreData;
     file >> highscoreData;
     highscore = highscoreData["highscore"];
-    med.notify(Sender::GAME, "HIGHSCORE", {std::to_string(highscore)}, MediatorContext());
+    med.notify(Sender::GAME, "HIGHSCORE", {std::to_string(highscore)}, context);
     file.close();
     std::cout << "Highscore: " << highscore << std::endl;
 }

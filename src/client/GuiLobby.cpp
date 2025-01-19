@@ -172,7 +172,7 @@ void Core::load_spaceship()
     int i = 0;
     for (const auto& buffer : messages) {
         std::cout << "Mess: " << buffer << "\n";
-        if (messages[i].rfind("HIGHSCORE", 0) == 0) {
+        if (messages[i].rfind(encode_action(GameAction::HIGHSCORE), 0) == 0) {
             std::cout << "RECUP ET STOCKER ICI";
         }
         if (messages[i].rfind("OK", 0) == 0) {
