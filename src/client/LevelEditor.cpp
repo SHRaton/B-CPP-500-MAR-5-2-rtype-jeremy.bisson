@@ -6,8 +6,9 @@
 //Quand c'est fini, le serveur envoie LEVEL_EDITOR (sans arguments)
 // et le client crée un LevelEditor avec le std::vector<EntityPosition> en argument
 
-LevelEditor::LevelEditor(std::vector<EntityPosition> entities, CurrentMap current_map) :
-    currentMap(current_map)
+LevelEditor::LevelEditor(std::vector<EntityPosition> entities, CurrentMap current_map, UDPNetworkClient& network) :
+    currentMap(current_map),
+    network(network)
 {
     window.create(sf::VideoMode(1920, 1080), "Level Editor");
     setAssets();
@@ -175,6 +176,12 @@ int LevelEditor::spawnEntity(sf::Event event)
     return -1;
 }
 
+std::string LevelEditor::encode_action(GameAction action)
+{
+    std::bitset<6> bits(static_cast<unsigned long>(action));
+    return bits.to_string();
+}
+
 void LevelEditor::run() {
     while (window.isOpen()) {
         sf::Event event;
@@ -182,18 +189,24 @@ void LevelEditor::run() {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
-            if (int entity_type = spawnEntity(event) != -1) {
+            int entity_type = spawnEntity(event);
+            if (entity_type != -1) {
                 int positionX = sf::Mouse::getPosition(window).x;
                 int relativeX = positionX - background.getPosition().x;
                 int relativeY = sf::Mouse::getPosition(window).y;
-                
                 //send to server LEVEL_EDITOR entity_type, relativeX, relativeY, filename
+                std::ostringstream messageStream;
+                messageStream << encode_action(GameAction::LEVEL_EDITOR) << " " << entity_type << " " << relativeX << " " << relativeY << " " << currentMap.getFilepath();
+                network.send(messageStream.str());
             }
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::BackSpace) {
                 for (auto it = entitySprites.begin(); it != entitySprites.end(); ++it) {
                     if (it->getGlobalBounds().contains(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y)) {
                         int entity_id = it - entitySprites.begin();
                         //send to server LEVEL_EDITOR -1 entity_id filename
+                        std::ostringstream messageStream;
+                        messageStream << encode_action(GameAction::LEVEL_EDITOR) << " -1 " << entity_id << " " << currentMap.getFilepath();
+                        network.send(messageStream.str());
                         entitySprites.erase(it);
                         break;
                     }

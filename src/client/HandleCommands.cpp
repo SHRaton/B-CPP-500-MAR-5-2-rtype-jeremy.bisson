@@ -150,7 +150,7 @@ void Core::handleLevelEditorCommand(std::istringstream& iss)
     if (iss >> type >> x >> y) {  // Si on peut lire 3 entiers de iss
         entities.emplace_back(type, x, y);  // Ajoute l'entité au vecteur
     } else {  // Si iss est vide
-        LevelEditor levelEditor(entities, currentMap);  // Crée le LevelEditor avec les entités
+        LevelEditor levelEditor(entities, currentMap, *network);  // Crée le LevelEditor avec les entités
         levelEditor.run();  // Lance le LevelEditor
         entities.clear();   // Réinitialise le vecteur pour la prochaine utilisation
     }

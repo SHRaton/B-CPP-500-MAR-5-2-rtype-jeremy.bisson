@@ -954,12 +954,13 @@ void ServerGame::checkLaserExpiration()
 void ServerGame::addEntityToLevel(int entityType, int x, int y, std::string filename)
 {
     nlohmann::json entityData;
-
-    std::ifstream inputFile(filename);
+    std::string fullPath = "../src/json/" + filename;
+    std::ifstream inputFile(fullPath);
     if (!inputFile.is_open()) {
         std::cerr << "Erreur : Impossible d'ouvrir le fichier level1.json." << std::endl;
         return;
     }
+    std::cout << "debug entity" << entityType << x << y << std::endl;
 
     nlohmann::json levelData;
     inputFile >> levelData;
@@ -1015,7 +1016,7 @@ void ServerGame::addEntityToLevel(int entityType, int x, int y, std::string file
         std::cerr << "Erreur : Le fichier JSON ne contient pas une liste d'entités valide." << std::endl;
         return;
     }
-    std::ofstream outputFile(filename);
+    std::ofstream outputFile(fullPath);
     if (!outputFile.is_open()) {
         std::cerr << "Erreur : Impossible d'ouvrir le fichier level1.json en écriture." << std::endl;
         return;
@@ -1034,9 +1035,9 @@ void ServerGame::getEntityOnLevel(std::string filename)
         std::string subtype = entity.subtype;
         int intType = 0;
         if (type == "powerup") {
-            if (subtype == "heal") {
+            if (subtype == "triple_shoot") {
                 intType = 0;
-            } else if (subtype == "triple_shoot") {
+            } else if (subtype == "heal") {
                 intType = 1;
             } else if (subtype == "force") {
                 intType = 2;

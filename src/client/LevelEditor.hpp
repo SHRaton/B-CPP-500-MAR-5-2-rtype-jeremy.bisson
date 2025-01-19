@@ -8,11 +8,16 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "UDPNetworkClient.hpp"
+#include "Utils.hpp"
+#include "../server/ServerNetwork.hpp"
 
 class LevelEditor {
 public:
-    LevelEditor(std::vector<EntityPosition> entities, CurrentMap current_map);
+    LevelEditor(std::vector<EntityPosition> entities, CurrentMap current_map, UDPNetworkClient& network);
     ~LevelEditor();
+
+    std::string encode_action(GameAction action);
 
     void run();
     void drawAll();
@@ -32,4 +37,5 @@ private:
     std::string filename;
     sf::RectangleShape progressBackground;
     sf::RectangleShape progressBar;
+    UDPNetworkClient& network;
 };
