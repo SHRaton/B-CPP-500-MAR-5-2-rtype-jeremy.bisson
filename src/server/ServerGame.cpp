@@ -156,17 +156,17 @@ void ServerGame::initTimers(bool isAi)
     setup_laser_shot_timer(*laser_shot_timer_);
 
     // Timer temporaire de win
-    win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1500));
-    win_timer_->async_wait([this](const boost::system::error_code& ec) {
-        if (!ec) {
-            med.notify(Sender::GAME, "WIN", {}, MediatorContext());
-            //StopAllTimers();
-            saveHighScore();
-            state = GameState::LOBBY;
-            win_timer_->cancel();
-            std::cout << "SHEEEEEESSSSSSHHH CEST LA WIN" << std::endl;
-        }
-    });
+    // win_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1500));
+    // win_timer_->async_wait([this](const boost::system::error_code& ec) {
+    //     if (!ec) {
+    //         med.notify(Sender::GAME, "WIN", {}, MediatorContext());
+    //         //StopAllTimers();
+    //         saveHighScore();
+    //         state = GameState::LOBBY;
+    //         win_timer_->cancel();
+    //         std::cout << "SHEEEEEESSSSSSHHH CEST LA WIN" << std::endl;
+    //     }
+    // });
 
     game_over_timer_ = std::make_unique<boost::asio::steady_timer>(io_context_, std::chrono::seconds(1));
     setup_game_over_timer(*game_over_timer_);
@@ -762,11 +762,8 @@ void ServerGame::checkAllCollisions()
     for (size_t i = 0; i < positions.size(); ++i) {
 
         for (size_t j = i + 1; j < positions.size(); ++j) {
-            std::cout << "Checking collision between " << i << " and " << j << std::endl;
-            std::cout << types[i].value().type << " " << types[j].value().type << std::endl;
 
             if (types[i].has_value() && types[j].has_value()) {
-                std::cout << "ça passe" << std::endl;
                 // Si l'un des deux est un joueur, on vérifie son invincibilité
                 if ((types[i].value().type == 5 && invincibles[i].has_value() && invincibles[i].value().is_invincible) ||
                     (types[j].value().type == 5 && invincibles[j].has_value() && invincibles[j].value().is_invincible) ||
@@ -775,15 +772,12 @@ void ServerGame::checkAllCollisions()
                     continue;
                 }
             }
-            std::cout << "ça passe" << std::endl;
 
             if (positions[i].has_value() == false || positions[j].has_value() == false) {
                 std::cout << "No position for entity !!!!!!!!!!!!!!!!!!!!!!!!! " << i << std::endl;
                 std::cout << "No position for entity !!!!!!!!!!!!!!!!!!!!!!!!! " << j << std::endl;
             }
-            std::cout << "ça passe pas" << std::endl;
             if (isColliding(positions[i].value(), positions[j].value(), sizes[i].value(), sizes[j].value())) {
-                std::cout << "ça nique" << std::endl;
                 if ((types[i].value().type == 5 || types[i].value().type == 30) && ((types[j].value().type >= 10 && types[j].value().type <= 19) || types[j].value().type == 50) ) { // MOB vs PLAYER
                     healths[i].value().hp -= 50;
                     invincibles[i].value().is_invincible = true;
@@ -853,7 +847,6 @@ void ServerGame::checkAllCollisions()
                         handleColision(dummyContext, collisionParams);
                     }
                 } else if ((types[i].value().type == 6 || types[i].value().type == 8)  && (types[j].value().type >= 10 && types[j].value().type <= 19)) { // BULLET vs MOB
-                    std::cout << "c la ptn de merde2" << std::endl;
                     healths[j].value().hp -= damages[i].value().dmg;
                     invincibles[j].value().is_invincible = true;
                     invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
@@ -870,6 +863,11 @@ void ServerGame::checkAllCollisions()
                                 med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
                             }
                         }
+                        if (types[j].value().type == 17 || types[j].value().type == 18 || types[j].value().type == 19) {
+                            saveHighScore();
+                            med.notify(Sender::GAME, "WIN",  {}, MediatorContext());
+                            return;
+                        }
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(j)});
                         reg.kill_entity(Entity(j));
@@ -877,7 +875,6 @@ void ServerGame::checkAllCollisions()
                         return;
                     }
                 } else if ((types[i].value().type >= 10 && types[i].value().type <= 19) && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
-                    std::cout << "c la ptn de merde" << std::endl;
                     healths[i].value().hp -= damages[j].value().dmg;
                     invincibles[i].value().is_invincible = true;
                     invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
@@ -893,6 +890,11 @@ void ServerGame::checkAllCollisions()
                                 };
                                 med.notify(Sender::GAME, "SCORE_UPDATE", scoreParams, MediatorContext());
                             }
+                        }
+                        if (types[i].value().type == 17 || types[i].value().type == 18 || types[i].value().type == 19) {
+                            saveHighScore();
+                            med.notify(Sender::GAME, "WIN",  {}, MediatorContext());
+                            return;
                         }
                         MediatorContext dummyContext;
                         handleDeath(dummyContext, std::vector<std::string>{std::to_string(i)});
