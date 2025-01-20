@@ -189,6 +189,12 @@ class Core {
         sf::Vector2f worldMousePosition;
         sf::Sprite background_lobby;
         sf::Sprite background_lobby2;
+        sf::Sprite left_arrow_lobby;
+        sf::Sprite right_arrow_lobby;
+        int currentSkin_id = 0;
+        int nb_skins = 6;
+        void updateCurrentSkin();
+        sf::Sprite currentSkin;
         sf::Sprite ready;
         sf::Sprite start;
         sf::Sprite replay;
@@ -229,6 +235,7 @@ class Core {
             bool startSent = false;
             bool hitboxSent = false;
             bool levelEditorSent = false;
+            bool changeSkinSent = false;
         };
 
         float shootCooldown;
@@ -398,9 +405,11 @@ class Core {
         void handleLooseCommand(std::istringstream& iss);
         void display_lobby();
         std::vector<sf::Sprite> shipSprites;
+        std::vector<sf::Vector2f> shipPositions;
         void load_levels();
         void handleBossSpawnCommand(std::istringstream& iss);
         void handleLevelEditorCommand(std::istringstream& iss);
+        void handleChangeSkinCommand(std::istringstream& iss);
         std::vector<EntityPosition> entities;
 
         void startExplosionAt(float x, float y);

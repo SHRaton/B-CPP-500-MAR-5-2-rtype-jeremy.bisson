@@ -82,6 +82,9 @@ void Core::handleServerCommands()
     else if (code == encode_action(GameAction::LEVEL_EDITOR)) {
         handleLevelEditorCommand(iss);
     }
+    else if (code == encode_action(GameAction::CHANGE_SKIN)) {
+        handleChangeSkinCommand(iss);
+    }
     else {
         std::cout << "Commande inconnue : " << buffer << std::endl;
     }
@@ -113,7 +116,7 @@ void Core::handleBossSpawnCommand(std::istringstream& iss)
     float barWidth = 800.f;
     float barHeight = 30.f;
     float barX = (window.getSize().x - barWidth) / 2;
-    float barY = 50.f;
+    float barY = (window.getSize().y - 50);
 
     bossHealthBarBackground.setSize(sf::Vector2f(barWidth, barHeight));
     bossHealthBarBackground.setPosition(barX, barY);
@@ -173,6 +176,27 @@ void Core::handleLevelEditorCommand(std::istringstream& iss)
         levelEditor.run();  // Lance le LevelEditor
         entities.clear();   // Réinitialise le vecteur pour la prochaine utilisation
     }
+}
+
+void Core::handleChangeSkinCommand(std::istringstream& iss)
+{
+    int id, skinId;
+    iss >> id >> skinId;
+
+    sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(skinId) + ".png");
+    vaisseau.setTextureRect(sf::IntRect(68, 0, 32, 32));
+    vaisseau.setPosition(shipPositions[id]);
+    vaisseau.setScale(2.0f, 2.0f);
+    shipSprites[id] = vaisseau;
+
+    sf::Sprite sprite = utils.cat("../ressources/sprites/vaisseau" + std::to_string(skinId) + ".png");
+    sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 5, sprite.getGlobalBounds().height);
+    sprite.setTextureRect(rect);
+    sprite.setScale(3, 3);
+    auto& drawables = reg.get_components<component::drawable>();
+    drawables[id].value().sprite = sprite;
+
+    std::cout << "SOMEONE CHANGED SKIN -> " << id << "/" << skinId << std::endl;
 }
 
 void Core::handleGetLevelsCommand(std::istringstream& iss)

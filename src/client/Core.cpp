@@ -61,6 +61,15 @@ void Core::updateCurrentMap()
     }
 }
 
+void Core::updateCurrentSkin()
+{
+    currentSkin = utils.cat("../ressources/sprites/vaisseau" + std::to_string(currentSkin_id) + ".png");
+    currentSkin.setTextureRect(sf::IntRect(68, 0, 32, 32));
+    utils.setOriginToMiddle(currentSkin);
+    currentSkin.setPosition(785, 620);
+    currentSkin.setScale(5, 5);
+}
+
 void Core::loadAssets()
 {
     nb_player = 0;
@@ -71,6 +80,8 @@ void Core::loadAssets()
     daltonismType = DaltonismType::NONE;
     isScrollingBackground = true;
     isHitbox = false;
+
+    updateCurrentSkin();
 
     initializeKeyBindings();
 

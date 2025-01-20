@@ -520,6 +520,12 @@ void ServerGame::handleHighScore(const MediatorContext& context, const std::vect
     std::cout << "Highscore: " << highscore << std::endl;
 }
 
+void ServerGame::handleChangeSkin(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    med.notify(Sender::GAME, "CHANGE_SKIN", params, context);
+    std::cout << "Change Skin {" << params[0] << params[1] << "}" << std::endl;
+}
+
 void ServerGame::saveHighScore()
 {
     if (score > highscore) {
@@ -852,7 +858,7 @@ void ServerGame::checkAllCollisions()
                     invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
                     std::cout << Colors::RED << "Mob hp: " << healths[j].value().hp << std::endl;
                     // Mob
-                    if(healths[j].value().hp <= 0){
+                    if (healths[j].value().hp <= 0) {
                         for (size_t k = 0; k < types.size(); ++k) {
                             if (types[k].has_value() && types[k].value().type == 5) {
                                 score += 10;
@@ -880,7 +886,7 @@ void ServerGame::checkAllCollisions()
                     invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
                     std::cout << Colors::RED << "Mob hp: " << healths[i].value().hp << std::endl;
                     // Mob
-                    if(healths[i].value().hp <= 0){
+                    if (healths[i].value().hp <= 0) {
                         for (size_t k = 0; k < types.size(); ++k) {
                             if (types[k].has_value() && types[k].value().type == 5) {
                                 score += 10;

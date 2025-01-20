@@ -38,6 +38,8 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             game->handleLevelEditor(context, params);
         } else if (action == "HIGHSCORE") {
             game->handleHighScore(context, params);
+        } else if (action == "CHANGE_SKIN") {
+            game->handleChangeSkin(context, params);
         }
     } else if (sender == Sender::GAME) { //Communication entre Game et Network
         if (action == "CONNECT") {
@@ -90,6 +92,8 @@ void Mediator::notify(Sender sender, const std::string& action, const std::vecto
             network->handleHighScore(context, params);
         } else if (action == "BOSS_SPAWN") {
             network->handleBossSpawn(context, params);
+        } else if (action == "CHANGE_SKIN") {
+            network->handleChangeSkin(context, params);
         }
     }
 }

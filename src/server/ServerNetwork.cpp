@@ -61,6 +61,7 @@ std::string ServerNetwork::get_action_name(GameAction action) {
         case GameAction::PLAY_REPLAY: return "PLAY_REPLAY";
         case GameAction::SCORE_UPDATE: return "SCORE_UPDATE";
         case GameAction::HIGHSCORE: return "HIGHSCORE";
+        case GameAction::CHANGE_SKIN: return "CHANGE_SKIN";
         default: return "UNKNOWN";
     }
 }
@@ -320,6 +321,13 @@ void ServerNetwork::handleBossSpawn(const MediatorContext& context, const std::v
 {
     boost::asio::ip::udp::endpoint client = context.client;
     std::string message = encode_action(GameAction::BOSS_SPAWN) + " " + params[0] + " " + params[1] + " " + params[2];
+    broadcast_message(message);
+}
+
+void ServerNetwork::handleChangeSkin(const MediatorContext& context, const std::vector<std::string>& params)
+{
+    boost::asio::ip::udp::endpoint client = context.client;
+    std::string message = encode_action(GameAction::CHANGE_SKIN) + " " + params[0] + " " + params[1];
     broadcast_message(message);
 }
 

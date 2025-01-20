@@ -101,6 +101,9 @@ void Core::display_lobby()
     renderTexture.draw(latencyText);
     renderTexture.draw(background_lobby2);
     renderTexture.draw(background_lobby);
+    renderTexture.draw(left_arrow_lobby);
+    renderTexture.draw(right_arrow_lobby);
+    renderTexture.draw(currentSkin);
     updateLevelSelector();
     renderTexture.draw(dropdownButton);
     renderTexture.draw(dropdownText);
@@ -268,8 +271,14 @@ void Core::gui_lobby()
     nb_players_text.setString(std::to_string(nb_player) + " / 4");
 
     // Chargement des textures de base
-    background_lobby = utils.cat("../ressources/background/lobby3.png");
+    background_lobby = utils.cat("../ressources/background/lobby4.png");
     background_lobby2 = utils.cat("../ressources/background/background.png");
+    left_arrow_lobby = utils.cat("../ressources/background/left_arrow.png");
+    utils.setOriginToMiddle(left_arrow_lobby);
+    left_arrow_lobby.setPosition(490, 580);
+    right_arrow_lobby = utils.cat("../ressources/background/right_arrow.png");
+    utils.setOriginToMiddle(right_arrow_lobby);
+    right_arrow_lobby.setPosition(1050, 580);
     // ready = utils.cat("../ressources/background/ready.png");
     // utils.setOriginToMiddle(ready);
     // ready.setPosition(1420, 675);
@@ -283,12 +292,13 @@ void Core::gui_lobby()
     utils.setOriginToMiddle(level_editor);
     level_editor.setPosition(1420, 240);
 
-    std::vector<sf::Vector2f> shipPositions = {
+    std::vector<sf::Vector2f> shipPositionsTemp = {
         {1500, 400},  // Position vaisseau 1
         {1500, 450},  // Position vaisseau 2
         {1500, 500},  // Position vaisseau 3
         {1500, 550}  // Position vaisseau 4
     };
+    shipPositions = shipPositionsTemp;
 
     for (int i = 0; i < 4; i++) {
         sf::Sprite vaisseau = utils.cat("../ressources/sprites/vaisseau" + std::to_string(i) + ".png");
@@ -348,8 +358,39 @@ void Core::gui_lobby()
                     isReplay = true;
                     send_input_if_needed(GameAction::PLAY_REPLAY, inputState.startSent);
                 }
+                if (left_arrow_lobby.getGlobalBounds().contains(worldMousePosition)) {
+                    buttonSound_click.play();
+                    if (currentSkin_id - 1 >= 0) {
+                        currentSkin_id -= 1;
+                    } else {
+                        currentSkin_id = nb_skins - 1;
+                    }
+                    updateCurrentSkin();
+                    if (!inputState.changeSkinSent) {
+                        std::ostringstream messageStream;
+                        messageStream << encode_action(GameAction::CHANGE_SKIN) << " " << network->getId() << " " << currentSkin_id;
+                        network->send(messageStream.str());
+                        inputState.changeSkinSent = true;
+                    }
+                }
+                if (right_arrow_lobby.getGlobalBounds().contains(worldMousePosition)) {
+                    buttonSound_click.play();
+                    if (currentSkin_id + 1 < nb_skins) {
+                        currentSkin_id += 1;
+                    } else {
+                        currentSkin_id = 0;
+                    }
+                    updateCurrentSkin();
+                    if (!inputState.changeSkinSent) {
+                        std::ostringstream messageStream;
+                        messageStream << encode_action(GameAction::CHANGE_SKIN) << " " << network->getId() << " " << currentSkin_id;
+                        network->send(messageStream.str());
+                        inputState.changeSkinSent = true;
+                    }
+                }
             } else {
                 inputState.startSent = false;
+                inputState.changeSkinSent = false;
             }
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 if (level_editor.getGlobalBounds().contains(worldMousePosition)) {
@@ -386,6 +427,10 @@ void Core::gui_lobby()
         replay.setScale(scale3, scale3);
         auto scale4 = level_editor.getGlobalBounds().contains(worldMousePosition) ? 1.1f : 1.0f;
         level_editor.setScale(scale4, scale4);
+        auto scale5 = left_arrow_lobby.getGlobalBounds().contains(worldMousePosition) ? 1.1f : 1.0f;
+        left_arrow_lobby.setScale(scale5, scale5);
+        auto scale6 = right_arrow_lobby.getGlobalBounds().contains(worldMousePosition) ? 1.1f : 1.0f;
+        right_arrow_lobby.setScale(scale6, scale6);
         nb_players_text.setString(std::to_string(nb_player) + " / 4");
 
         handleServerCommands();
