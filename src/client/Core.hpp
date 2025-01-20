@@ -147,7 +147,7 @@ class Core {
         // Int
         int select_button;
         int failed_connection;
-        int globalScore;
+        int globalScore = 0;
 
         // Textes
         sf::Font font;
