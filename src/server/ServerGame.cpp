@@ -357,41 +357,35 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
 
                 for (size_t i = 0; i < types.size(); ++i) {
                     if (types[i].has_value() && types[i].value().type >= 17 && types[i].value().type <= 19){
-                            std::cout << Colors::RED << "EEEEEENNNNNNNOORRRRRRRMEEEEEEEEE FILLLLLSSSS DEEEEEEEE PUTTTTTTTEEEEEE" << Colors::RESET << std::endl;
-                            auto const &positions_optional = reg.get_components<component::position>()[i];
-                            if (!positions_optional.has_value()) {
-                                continue;  // Skip cette entité si elle n'a pas de position
-                            }
-                            auto const &positions = positions_optional.value();
+                        int x_offset = 50;
+                        auto const &positions = reg.get_components<component::position>()[i].value();
+                        struct MissileConfig {
+                            int x_offset;
+                            int y_offset;
+                            int vx;
+                            int vy;
+                        };
+            
+                        std::vector<MissileConfig> missiles = {
+                            {20, -20, 1, -1},   // Missile vers le haut
+                            {20, 0, 1, 0},      // Missile droit
+                            {20, 20, 1, 1}      // Missile vers le bas
+                        };
+            
+                        for (const auto& missile : missiles) {
                             Entity bullet = reg.spawn_entity();
-                            int x_offset = 50;
-                            struct MissileConfig {
-                                int x_offset;
-                                int y_offset;
-                                int vx;
-                                int vy;
-                            };
+                            std::vector<std::string> newParams;
+                            newParams.push_back(std::to_string(positions.x + missile.x_offset));
+                            newParams.push_back(std::to_string(positions.y + missile.y_offset));
+                            reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y + missile.y_offset});
+                            reg.emplace_component<component::velocity>(bullet, component::velocity{-5, 0});
+                            reg.emplace_component<component::damage>(bullet, component::damage{50});
+                            reg.emplace_component<component::type>(bullet, component::type{7});
+                            reg.emplace_component<component::size>(bullet, component::size{10, 10});
+                            // handleMoove()
+                            med.notify(Sender::GAME, "MOB_SHOOT", newParams, dummyContext);
+                        }
 
-                            std::vector<MissileConfig> missiles = {
-                                {20, -20, 1, -1},   // Missile vers le haut
-                                {20, 0, 1, 0},      // Missile droit
-                                {20, 20, 1, 1}      // Missile vers le bas
-                            };
-
-                            for (const auto& missile : missiles) {
-                                Entity bullet = reg.spawn_entity();
-                                std::vector<std::string> newParams;
-                                std::cout << "Spawning bullet for entity " << i << " at (" << positions.x + missile.x_offset << ", " << positions.y + missile.y_offset << ")" << std::endl;
-                                newParams.push_back(std::to_string(positions.x + missile.x_offset));
-                                newParams.push_back(std::to_string(positions.y + missile.y_offset));
-                                reg.emplace_component<component::position>(bullet, component::position{positions.x + missile.x_offset, positions.y + missile.y_offset});
-                                reg.emplace_component<component::velocity>(bullet, component::velocity{-5, 0});
-                                // reg.emplace_component<component::damage>(bullet, component::damage{50});
-                                reg.emplace_component<component::type>(bullet, component::type{7});
-                                reg.emplace_component<component::size>(bullet, component::size{10, 10});
-                                // handleMoove()
-                                med.notify(Sender::GAME, "MOB_SHOOT", newParams, dummyContext);
-                            }
 
                             lua["boss_ai"](i, positions.x, positions.y);
                         }
