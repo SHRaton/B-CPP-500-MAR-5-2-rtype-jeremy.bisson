@@ -1,0 +1,27 @@
+name: R-Type Discord Notification
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Discord notification
+        uses: appleboy/discord-action@master
+        with:
+          webhook_id: "1330845130147627040"
+          webhook_token: "4tD9VKGUWO4AtffMww_S6FiraHsRWBwqg0iiGho-BkTHxjK6KZhVLZhNHrt0mVbqZ77z"
+          message: |
+            🎮 **R-Type Push Notification**
+            
+            🚀 Nouveau push sur la branche main !
+            
+            👤 **Auteur :** ${{ github.event.head_commit.author.name }}
+            📝 **Message :** ${{ github.event.head_commit.message }}
+            
+            🔗 **Lien :** ${{ github.event.head_commit.url }}
