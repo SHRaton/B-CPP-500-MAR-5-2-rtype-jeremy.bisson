@@ -202,6 +202,9 @@ void Core::gui_gamewin() {
     }
     gameWinSprite.setTexture(gameWinTexture);
     Game1Music.stop();
+    Game2Music.stop();
+    Game3Music.stop();
+    Game4Music.stop();
     winMusic.play();
     
     // Centrer l'image
