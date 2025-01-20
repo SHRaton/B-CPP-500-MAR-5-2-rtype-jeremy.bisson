@@ -570,13 +570,6 @@ void Core::updatePlayerHealth(int id, int newHealth)
             } else {
                 player.hpText.setFillColor(sf::Color::Blue);
             }
-            // Check for player death
-            if (newHealth <= 0) {
-
-                std::ostringstream messageStream;
-                messageStream << encode_action(GameAction::DEATH) << " " << id;
-                network->send(messageStream.str());
-            }
             break;
         }
     }
@@ -614,16 +607,20 @@ void Core::handleDeathCommand(std::istringstream& iss) {
     auto& healths = reg.get_components<component::health>();
     auto& positions = reg.get_components<component::position>();
     auto& types = reg.get_components<component::type>();
+    auto& controllables = reg.get_components<component::controllable>();
 
     if (positions[id] && types[id] && (types[id].value().type == 10 || types[id].value().type == 11 || types[id].value().type == 17)) {
         float posX = positions[id].value().x;
         float posY = positions[id].value().y;
         startExplosionAt(posX, posY);
     }
-    if (id == network->getId()) {
-        std::cout << "Mort du joueur " << id << std::endl;
+    if (controllables[id] && healths[id] && types[id] && types[id].value().type == 667) {
         healths[id].value().hp = 0;
-        updatePlayerHealth(id, healths[id].value().hp);
+        updatePlayerHealth(id, 0);
+    }
+    if (id == network->getId()) {
+        healths[id].value().hp = 0;
+        updatePlayerHealth(id, 0);
         isDead = true;
     }
     reg.kill_entity(Entity(id));
