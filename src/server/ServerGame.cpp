@@ -37,6 +37,7 @@ ServerGame::ServerGame(Mediator &med) : med(med), lua()
         reg.emplace_component<component::position>(bullet, component::position{x, y});
         reg.emplace_component<component::velocity>(bullet, component::velocity{5, 0});
         reg.emplace_component<component::type>(bullet, component::type{6});
+        reg.emplace_component<component::damage>(bullet, component::damage{50});
         reg.emplace_component<component::size>(bullet, component::size{10, 10});
         std::vector<std::string> newParams;
         newParams.push_back(std::to_string(x));
@@ -755,10 +756,15 @@ void ServerGame::checkAllCollisions()
     auto& bits = reg.get_components<component::bits>();
     auto& damages = reg.get_components<component::damage>();
 
+    std::cout << positions.size() << std::endl;
     for (size_t i = 0; i < positions.size(); ++i) {
 
         for (size_t j = i + 1; j < positions.size(); ++j) {
+            std::cout << "Checking collision between " << i << " and " << j << std::endl;
+            std::cout << types[i].value().type << " " << types[j].value().type << std::endl;
+
             if (types[i].has_value() && types[j].has_value()) {
+                std::cout << "ça passe" << std::endl;
                 // Si l'un des deux est un joueur, on vérifie son invincibilité
                 if ((types[i].value().type == 5 && invincibles[i].has_value() && invincibles[i].value().is_invincible) ||
                     (types[j].value().type == 5 && invincibles[j].has_value() && invincibles[j].value().is_invincible) ||
@@ -767,12 +773,15 @@ void ServerGame::checkAllCollisions()
                     continue;
                 }
             }
+            std::cout << "ça passe" << std::endl;
 
             if (positions[i].has_value() == false || positions[j].has_value() == false) {
                 std::cout << "No position for entity !!!!!!!!!!!!!!!!!!!!!!!!! " << i << std::endl;
                 std::cout << "No position for entity !!!!!!!!!!!!!!!!!!!!!!!!! " << j << std::endl;
             }
+            std::cout << "ça passe pas" << std::endl;
             if (isColliding(positions[i].value(), positions[j].value(), sizes[i].value(), sizes[j].value())) {
+                std::cout << "ça nique" << std::endl;
                 if ((types[i].value().type == 5 || types[i].value().type == 30) && ((types[j].value().type >= 10 && types[j].value().type <= 19) || types[j].value().type == 50) ) { // MOB vs PLAYER
                     healths[i].value().hp -= 50;
                     invincibles[i].value().is_invincible = true;
@@ -865,6 +874,7 @@ void ServerGame::checkAllCollisions()
                         return;
                     }
                 } else if (types[i].value().type >= 10 && types[i].value().type <= 13 && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
+                    std::cout << "c la ptn de merde" << std::endl;
                     healths[i].value().hp -= damages[j].value().dmg;
                     invincibles[i].value().is_invincible = true;
                     invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
