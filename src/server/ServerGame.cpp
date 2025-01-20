@@ -853,10 +853,11 @@ void ServerGame::checkAllCollisions()
                         handleColision(dummyContext, collisionParams);
                     }
                 } else if ((types[i].value().type == 6 || types[i].value().type == 8)  && (types[j].value().type >= 10 && types[j].value().type <= 19)) { // BULLET vs MOB
+                    std::cout << "c la ptn de merde2" << std::endl;
                     healths[j].value().hp -= damages[i].value().dmg;
                     invincibles[j].value().is_invincible = true;
                     invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
-                    std::cout << Colors::RED << "Mob hp: " << healths[i].value().hp << std::endl;
+                    std::cout << Colors::RED << "Mob hp: " << healths[j].value().hp << std::endl;
                     // Mob
                     if(healths[j].value().hp <= 0){
                         for (size_t k = 0; k < types.size(); ++k) {
