@@ -439,4 +439,11 @@ class Core {
         void initializeKeyBindings();
         void handleKeyBindingChange(sf::Keyboard::Key newKey);
 
+
+        sf::RectangleShape bossHealthBarBackground;
+        sf::RectangleShape bossHealthBarFill;
+        bool isBossActive = false;
+        int currentBossHealth = 1000;
+        int maxBossHealth = 1000;
+
 };

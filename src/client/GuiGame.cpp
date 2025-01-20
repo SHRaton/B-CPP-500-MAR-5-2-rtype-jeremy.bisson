@@ -456,6 +456,30 @@ void Core::display_all()
     renderTexture.draw(scoreBackground);
     sys.draw_system(reg, renderTexture);
     draw_hitbox();
+    if (isBossActive) {
+        auto& healths = reg.get_components<component::health>();
+        for (size_t i = 0; i < healths.size(); ++i) {
+            auto& types = reg.get_components<component::type>();
+            if (healths[i] && types[i] && types[i].value().type == 17) {
+                currentBossHealth = healths[i].value().hp;
+                std::cout << "Vie du boss" << currentBossHealth << std::endl;
+                float healthPercentage = static_cast<float>(currentBossHealth) / maxBossHealth;
+                bossHealthBarFill.setSize(sf::Vector2f(
+                    bossHealthBarBackground.getSize().x * healthPercentage,
+                    bossHealthBarBackground.getSize().y
+                ));
+                // Change la couleur en fonction de la santé
+                if (healthPercentage < 0.3f) {
+                    bossHealthBarFill.setFillColor(sf::Color::Red);
+                } else if (healthPercentage < 0.6f) {
+                    bossHealthBarFill.setFillColor(sf::Color::Yellow);
+                }
+                renderTexture.draw(bossHealthBarBackground);
+                renderTexture.draw(bossHealthBarFill);
+                break;
+            }
+        }
+    }
     renderTexture.draw(fpsText);
     renderTexture.draw(latencyText);
     renderTexture.draw(globalScore_text);

@@ -105,6 +105,26 @@ void Core::handleBossSpawnCommand(std::istringstream& iss)
     flashOverlay.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
     flashOverlay.setFillColor(sf::Color(255, 0, 0, static_cast<sf::Uint8>(flashAlpha)));
 
+    // Initialisation de la barre de vie du boss
+    isBossActive = true;
+    currentBossHealth = maxBossHealth;
+    
+    // Configuration de la barre de vie
+    float barWidth = 800.f;
+    float barHeight = 30.f;
+    float barX = (window.getSize().x - barWidth) / 2;
+    float barY = 50.f;
+
+    bossHealthBarBackground.setSize(sf::Vector2f(barWidth, barHeight));
+    bossHealthBarBackground.setPosition(barX, barY);
+    bossHealthBarBackground.setFillColor(sf::Color(100, 100, 100));
+    bossHealthBarBackground.setOutlineThickness(2.f);
+    bossHealthBarBackground.setOutlineColor(sf::Color::Black);
+
+    bossHealthBarFill.setSize(sf::Vector2f(barWidth, barHeight));
+    bossHealthBarFill.setPosition(barX, barY);
+    bossHealthBarFill.setFillColor(sf::Color::Green);
+
     auto newBoss = reg.spawn_entity();
     std::string boss_path;
     
@@ -608,7 +628,9 @@ void Core::handleDeathCommand(std::istringstream& iss) {
     auto& positions = reg.get_components<component::position>();
     auto& types = reg.get_components<component::type>();
     auto& controllables = reg.get_components<component::controllable>();
-
+    if (types[id].value().type == 17 || types[id].value().type == 18 || types[id].value().type == 19) {
+        isBossActive = false;
+    }
     if (positions[id] && types[id] && (types[id].value().type == 10 || types[id].value().type == 11 || types[id].value().type == 17)) {
         float posX = positions[id].value().x;
         float posY = positions[id].value().y;
