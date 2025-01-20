@@ -703,12 +703,14 @@ void ServerGame::spawnBoss(JsonEntity entity)
         reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
         reg.emplace_component<component::type>(boss, component::type{18});
         reg.emplace_component<component::size>(boss, component::size{200, 100});
+        reg.emplace_component<component::invincible>(boss, component::invincible{false});
     } else if (type == 2) {
         reg.emplace_component<component::health>(boss, component::health{3000});
         reg.emplace_component<component::damage>(boss, component::damage{150});
         reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
         reg.emplace_component<component::type>(boss, component::type{19});
         reg.emplace_component<component::size>(boss, component::size{200, 100});
+        reg.emplace_component<component::invincible>(boss, component::invincible{false});
     }
 
     std::vector<std::string> newParams;
@@ -850,7 +852,7 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                } else if ((types[i].value().type == 6 || types[i].value().type == 8)  && types[j].value().type >= 10 && types[j].value().type <= 13) { // BULLET vs MOB
+                } else if ((types[i].value().type == 6 || types[i].value().type == 8)  && (types[j].value().type >= 10 && types[j].value().type <= 19)) { // BULLET vs MOB
                     healths[j].value().hp -= damages[i].value().dmg;
                     invincibles[j].value().is_invincible = true;
                     invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
@@ -873,7 +875,7 @@ void ServerGame::checkAllCollisions()
                         checkAllCollisions();
                         return;
                     }
-                } else if (types[i].value().type >= 10 && types[i].value().type <= 13 && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
+                } else if ((types[i].value().type >= 10 && types[i].value().type <= 19) && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
                     std::cout << "c la ptn de merde" << std::endl;
                     healths[i].value().hp -= damages[j].value().dmg;
                     invincibles[i].value().is_invincible = true;
