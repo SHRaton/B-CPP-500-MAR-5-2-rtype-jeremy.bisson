@@ -146,6 +146,76 @@ Table of contents
     - STOP_X/STOP_Y: Axis-specific movement stops
     - Separate vertical and horizontal controls
 
+
+
+Protocol Examples
+
+    7.1 Connection Sequence Example
+    Client -> Server:  "11111"                     # CONNECT request
+    Server -> Client:  "OK 2"                      # Connection accepted, player ID 2
+    Server -> Others:  "11111 2"                   # Broadcast new player
+
+    7.2 Movement Example
+    Client -> Server:  "00110 2"                   # Player 2 moves UP
+    Server -> Others:  "00110 2"                   # Broadcast movement
+    Client -> Server:  "10000 2"                   # Player 2 stops vertical movement
+    Server -> Others:  "10000 2"                   # Broadcast stop
+
+    7.3 Combat Sequence Example
+    Client -> Server:  "00001 2"                   # Player 2 shoots
+    Server -> All:     "00001 400 300"            # Broadcast shot at x:400 y:300
+    Server -> All:     "01011 0 800 400"          # Enemy spawn type 0 at x:800 y:400
+    Server -> All:     "01100 800 400"            # Enemy shoots from x:800 y:400
+
+    7.4 Power-up Interaction Example
+    Server -> All:     "01001 1 500 300"          # Power-up spawn type 1 at x:500 y:300
+    Client -> Server:  "10100 2 1"                # Player 2 collides with power-up type 1
+    Server -> All:     "10100 2 1"                # Broadcast collision
+
+    7.5 Game State Changes Example
+    Client -> Server:  "10111"                    # START game request
+    Server -> All:     "10111"                    # Broadcast game start
+    Server -> All:     "11001 2 100"             # Player 2 score update to 100
+    Server -> All:     "10101"                    # Game WIN condition
+
+    7.6 Replay System Example
+    Client -> Server:  "11010"                    # Save replay request
+    Server -> Client:  "OK"                       # Replay saved
+    Client -> Server:  "11100"                    # Play replay request
+    Server -> Client:  [Sequence of timestamped actions]
+
+    7.7 Disconnection Example
+    Client -> Server:  "11011 2"                  # Player 2 disconnects
+    Server -> Others:  "11011 2"                  # Broadcast disconnection
+    Server -> All:     "10010 2"                  # Player 2 death notification
+    
+    7.8 Complete Game Session Example
+
+    Connection:
+    Client -> Server:  "11111"                 # Connect
+    Server -> Client:  "OK 2"                  # Assigned ID 2
+    Server -> Others:  "11111 2"               # New player broadcast
+    Game Start:
+    Client -> Server:  "10111"                 # Request start
+    Server -> All:     "10111"                 # Game starts
+    Gameplay Sequence:
+    Client -> Server:  "00110 2"               # Move up
+    Client -> Server:  "00001 2"               # Shoot
+    Server -> All:     "00001 450 300"         # Shot at position
+    Server -> All:     "01011 0 800 400"       # Enemy appears
+    Server -> All:     "10100 2 0"             # Hit enemy
+    Server -> All:     "11001 2 10"            # Score update
+    Game End:
+    Server -> All:     "10101"                 # Win condition
+    Client -> Server:  "11011 2"               # Disconnect
+    Server -> Others:  "11011 2"               # Player left
+
+
+
+Note: These examples demonstrate typical message sequences but may be
+abbreviated for clarity. In actual implementation, additional
+parameters or status messages might be included.
+
 Implementation Recommendations:
     1. Use thread-safe queues for message processing
     2. Implement retry mechanism for critical actions
