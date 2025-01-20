@@ -48,7 +48,6 @@ ServerGame::ServerGame(Mediator &med) : med(med), lua()
     loadLuaScript("../src/lua/enemy_ai.lua");
     loadLuaScript("../src/lua/enemy_ai2.lua");
     loadLuaScript("../src/lua/boss_ai.lua");
-    loadJson("../src/json/level1.json");
 
     std::cout << "Lua VM initialized!" << std::endl;
 
@@ -83,6 +82,7 @@ void ServerGame::loadLuaScript(const std::string& scriptPath) {
 }
 
 void ServerGame::loadJson(const std::string& filename) {
+    allEntities.clear();
     std::ifstream file(filename);
     if (!file) {
         std::cerr << "Impossible de lire le fichier : " << filename << std::endl;
@@ -1296,6 +1296,9 @@ void ServerGame::handleStart(const MediatorContext& context, const std::vector<s
 
     std::cout << "Game started" << std::endl;
     state = GameState::INGAME;
+    int lvlNumber = std::stoi(params[0]);
+    std::string filename = "level" + std::to_string(lvlNumber) + ".json";
+    loadJson("../src/json/" + filename);
     initTimers(isAI);
     med.notify(Sender::GAME, "START", params, context);
 }
