@@ -1155,6 +1155,32 @@ void ServerGame::deleteEntityOnLevel(int entityId, std::string filename)
     allEntities.clear();
 }
 
+void ServerGame::generateLevel(std::string filename)
+{
+    std::string fullPath = "../src/json/" + filename;
+    nlohmann::json levelData;
+    levelData["entities"] = nlohmann::json::array();
+    std::ofstream outputFile(fullPath);
+    if (!outputFile.is_open()) {
+        std::cerr << "Erreur : Impossible d'ouvrir le fichier level1.json en écriture." << std::endl;
+        return;
+    }
+    outputFile << levelData.dump(4); // Écrit le JSON avec une indentation de 4 espaces
+    outputFile.close();
+    for (int i = 0; i < 20; i++) {
+        int type = rand() % 2 + 10;
+        int x = rand() % 8000 + 1000;
+        int y = rand() % 800 + 100;
+        addEntityToLevel(type, x, y, filename);
+    }
+    for (int i = 0; i < 5; i++) {
+        int type = rand() % 4;
+        int x = rand() % 8000 + 1000;
+        int y = rand() % 800 + 100;
+        addEntityToLevel(type, x, y, filename);
+    }
+}
+
 //===================================COMMANDS=================================
 
 void ServerGame::handleLevelEditor(const MediatorContext& context, const std::vector<std::string>& params)
@@ -1202,6 +1228,11 @@ void ServerGame::handleGetLevels(const MediatorContext& context, const std::vect
                     maxLevel = std::max(maxLevel, level);
                 }
             }
+        }
+        if (maxLevel == 0) {
+            std::cout << "Aucun niveau trouvé, génération du niveau 1..." << std::endl;
+            generateLevel("level1.json");
+            fileList.push_back("level1.json");
         }
         med.notify(Sender::GAME, "GET_LEVELS", fileList, context);
     } catch (const std::exception& e) {

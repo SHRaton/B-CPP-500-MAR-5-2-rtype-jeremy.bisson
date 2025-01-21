@@ -103,6 +103,7 @@ class ServerGame : public ISender {
         void addEntityToLevel(int entityType, int x, int y, std::string filename);
         void getEntityOnLevel(std::string filename);
         void deleteEntityOnLevel(int entityId, std::string filename);
+        void generateLevel(std::string filename);
         void saveHighScore();
 
 
