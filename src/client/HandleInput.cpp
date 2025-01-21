@@ -159,7 +159,7 @@ void Core::handle_movement_update(float deltaSeconds, std::optional<component::v
                                 std::optional<component::drawable>& drawable, 
                                 std::optional<component::position>& pos)
 {
-    if (!vel || !pos) return;
+    if (!vel || !pos || !drawable) return;
 
     bool leftPressed = keysPressed[keyBindings["Left"].getKey()];
     bool rightPressed = keysPressed[keyBindings["Right"].getKey()];
@@ -170,18 +170,34 @@ void Core::handle_movement_update(float deltaSeconds, std::optional<component::v
     float newVy = vel->vy;
     bool stateChanged = false;
 
-    // Gestion du mouvement horizontal
-    if (leftPressed && !rightPressed && pos.value().x >= 0) {
-        if (newVx != -baseSpeed) {
-            newVx = -baseSpeed;
-            stateChanged = true;
-            send_input_if_needed(GameAction::LEFT, inputState.leftSent);
+    // Gestion du mouvement horizontal avec vérification des limites
+    if (leftPressed && !rightPressed) {
+        if (pos.value().x < 0) {
+            if (newVx != 0) {
+                newVx = 0;
+                stateChanged = true;
+                send_input_if_needed(GameAction::STOP_X, inputState.horizontalStopSent);
+            }
+        } else {
+            if (newVx != -baseSpeed) {
+                newVx = -baseSpeed;
+                stateChanged = true;
+                send_input_if_needed(GameAction::LEFT, inputState.leftSent);
+            }
         }
-    } else if (rightPressed && !leftPressed && pos.value().x <= 1810) {
-        if (newVx != baseSpeed) {
-            newVx = baseSpeed;
-            stateChanged = true;
-            send_input_if_needed(GameAction::RIGHT, inputState.rightSent);
+    } else if (rightPressed && !leftPressed) {
+        if (pos.value().x > 1810) {
+            if (newVx != 0) {
+                newVx = 0;
+                stateChanged = true;
+                send_input_if_needed(GameAction::STOP_X, inputState.horizontalStopSent);
+            }
+        } else {
+            if (newVx != baseSpeed) {
+                newVx = baseSpeed;
+                stateChanged = true;
+                send_input_if_needed(GameAction::RIGHT, inputState.rightSent);
+            }
         }
     } else if (!leftPressed && !rightPressed && newVx != 0) {
         newVx = 0;
@@ -189,23 +205,46 @@ void Core::handle_movement_update(float deltaSeconds, std::optional<component::v
         send_input_if_needed(GameAction::STOP_X, inputState.horizontalStopSent);
     }
 
-    // Gestion du mouvement vertical
-    if (upPressed && !downPressed && pos.value().y >= 0) {
-        if (newVy != -baseSpeed) {
-            newVy = -baseSpeed;
-            stateChanged = true;
-            send_input_if_needed(GameAction::UP, inputState.upSent);
+    // Gestion du mouvement vertical avec vérification des limites et animations
+    if (upPressed && !downPressed) {
+        if (pos.value().y < 0) {
+            if (newVy != 0) {
+                newVy = 0;
+                stateChanged = true;
+                send_input_if_needed(GameAction::STOP_Y, inputState.verticalStopSent);
+            }
+            animate_to_neutral(deltaSeconds, drawable);
+        } else {
+            if (newVy != -baseSpeed) {
+                newVy = -baseSpeed;
+                stateChanged = true;
+                send_input_if_needed(GameAction::UP, inputState.upSent);
+            }
+            animate_up(deltaSeconds, drawable);
         }
-    } else if (downPressed && !upPressed && pos.value().y <= 1080) {
-        if (newVy != baseSpeed) {
-            newVy = baseSpeed;
-            stateChanged = true;
-            send_input_if_needed(GameAction::DOWN, inputState.downSent);
+    } else if (downPressed && !upPressed) {
+        if (pos.value().y > 970) {  // Utilisation de 970 comme dans le code original
+            if (newVy != 0) {
+                newVy = 0;
+                stateChanged = true;
+                send_input_if_needed(GameAction::STOP_Y, inputState.verticalStopSent);
+            }
+            animate_to_neutral(deltaSeconds, drawable);
+        } else {
+            if (newVy != baseSpeed) {
+                newVy = baseSpeed;
+                stateChanged = true;
+                send_input_if_needed(GameAction::DOWN, inputState.downSent);
+            }
+            animate_down(deltaSeconds, drawable);
         }
-    } else if (!upPressed && !downPressed && newVy != 0) {
-        newVy = 0;
-        stateChanged = true;
-        send_input_if_needed(GameAction::STOP_Y, inputState.verticalStopSent);
+    } else if (!upPressed && !downPressed) {
+        if (newVy != 0) {
+            newVy = 0;
+            stateChanged = true;
+            send_input_if_needed(GameAction::STOP_Y, inputState.verticalStopSent);
+        }
+        animate_to_neutral(deltaSeconds, drawable);
     }
 
     // Mise à jour de la vélocité seulement si nécessaire
@@ -214,7 +253,7 @@ void Core::handle_movement_update(float deltaSeconds, std::optional<component::v
         vel->vy = newVy;
     }
 
-    // Réinitialisation des flags d'envoi si les touches ne sont plus pressées
+    // Réinitialisation des flags d'envoi
     if (!leftPressed) inputState.leftSent = false;
     if (!rightPressed) inputState.rightSent = false;
     if (!upPressed) inputState.upSent = false;
