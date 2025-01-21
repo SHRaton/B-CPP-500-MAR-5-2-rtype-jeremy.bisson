@@ -468,4 +468,7 @@ class Core {
         int currentBossHealth = 1000;
         int maxBossHealth = 1000;
 
+
+        sf::Sprite perspectiveSprite;
+        sf::Texture perspectiveTexture;
 };

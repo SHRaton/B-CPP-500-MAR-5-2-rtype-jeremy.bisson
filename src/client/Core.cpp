@@ -44,6 +44,15 @@ void Core::loadAssetsGame()
     globalScore_text.setPosition(775, 10);
     globalScore_text.setString("Score : " + std::to_string(globalScore));
 
+    if (levelSelected == 4) {
+        if (!perspectiveTexture.loadFromFile("../ressources/sprites/Level_4/perspective.png")) {
+            throw std::runtime_error("Failed to load perspective texture");
+        }
+        perspectiveSprite.setTexture(perspectiveTexture);
+        // On s'assure que le sprite de perspective soit à la même position que le background
+        perspectiveSprite.setPosition(currentMap.getBackgroundSprite().getPosition());
+    }
+
     updateCurrentMap();
 }
 
@@ -60,6 +69,8 @@ void Core::updateCurrentMap()
     }
     if (levelSelected == 4) {
         currentMap = CurrentMap("level4.json", "Level_4/background.png", "Level_4/mob1.png", 4, "Level_4/mob2.png", 3, "Level_4/boss.png", 6, "Level_3/obstacle.png");
+        // Réinitialiser la position du sprite de perspective
+        perspectiveSprite.setPosition(currentMap.getBackgroundSprite().getPosition());
     }
 }
 

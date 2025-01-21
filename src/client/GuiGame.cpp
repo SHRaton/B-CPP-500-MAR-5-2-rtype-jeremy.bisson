@@ -443,12 +443,24 @@ void Core::display_all()
 {
     window.clear();
     renderTexture.clear(sf::Color::Black);
+    
     if (isDead) {
         states.shader = &blackAndWhiteShader;
     } else {
         states.shader = nullptr;
     }
+
     renderTexture.draw(currentMap.getBackgroundSprite());
+    
+    sys.draw_system(reg, renderTexture);
+    draw_hitbox();
+
+    renderTexture.draw(PlayerHUD1);
+    renderTexture.draw(PlayerHUD2);
+    renderTexture.draw(PlayerHUD3);
+    renderTexture.draw(PlayerHUD4);
+    renderTexture.draw(hudBackground);
+    renderTexture.draw(scoreBackground);
     renderTexture.draw(PlayerHUD1);
     renderTexture.draw(PlayerHUD2);
     renderTexture.draw(PlayerHUD3);
@@ -456,6 +468,10 @@ void Core::display_all()
     renderTexture.draw(hudBackground);
     renderTexture.draw(scoreBackground);
     sys.draw_system(reg, renderTexture);
+    if (levelSelected == 4) {
+        perspectiveSprite.setPosition(currentMap.getBackgroundSprite().getPosition());
+        renderTexture.draw(perspectiveSprite);
+    }
     draw_hitbox();
     if (isBossActive) {
         auto& healths = reg.get_components<component::health>();
