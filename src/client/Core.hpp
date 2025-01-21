@@ -230,6 +230,8 @@ class Core {
             bool downSent = false;
             bool leftSent = false;
             bool rightSent = false;
+            bool horizontalStopSent = false;
+            bool verticalStopSent = false;
             bool shootSent = false;
             bool superShootSent = false;
             bool startSent = false;
@@ -255,6 +257,9 @@ class Core {
         std::optional<component::drawable>& drawable, std::optional<component::position>& pos);
         void handle_horizontal_movement(float deltaSeconds, std::optional<component::velocity>& vel,
         std::optional<component::drawable>& drawable, std::optional<component::position>& pos);
+        void handle_movement_update(float deltaSeconds, std::optional<component::velocity>& vel,
+                                std::optional<component::drawable>& drawable, 
+                                std::optional<component::position>& pos);
         void update_animation(float deltaSeconds, std::optional<component::drawable>& drawable);
         void handle_idle_animation(float deltaSeconds, std::optional<component::drawable>& drawable);
         void update_sprite_frame(sf::Sprite& sprite);

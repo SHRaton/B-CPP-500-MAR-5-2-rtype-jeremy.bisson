@@ -650,7 +650,6 @@ void Core::updatePlayerId()
         }
     }
     network->setId(-1);
-    std::cout << "Aucune entité contrôlable trouvée, ID du joueur défini à -1" << std::endl;
 }
 
 void Core::handleWinCommand(std::istringstream& iss)
@@ -660,7 +659,10 @@ void Core::handleWinCommand(std::istringstream& iss)
 
 void Core::handleStartCommand(std::istringstream& iss)
 {
-    std::cout << "START THE GAME COTE CLIENT";
+    int lvl;
+    iss >> lvl;
+    std::cout << "START THE GAME COTE CLIENT " << lvl;
+    levelSelected = lvl;
     gui_game();
 }
 

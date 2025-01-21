@@ -14,8 +14,21 @@ void Core::handle_horizontal_movement(float deltaSeconds, std::optional<componen
 {
     if (!vel) return;
     
-    // Handle left movement
-    if (keysPressed[keyBindings["Left"].getKey()]) {
+    bool leftPressed = keysPressed[keyBindings["Left"].getKey()];
+    bool rightPressed = keysPressed[keyBindings["Right"].getKey()];
+    
+    // Determine the effective direction based on both keys
+    if (leftPressed && rightPressed) {
+        // If both keys are pressed, prioritize the last pressed key
+        // Alternative: could stop movement instead
+        handle_horizontal_stop(vel);
+        inputState.leftSent = false;
+        inputState.rightSent = false;
+        return;
+    }
+    
+    // Handle movement based on single key press
+    if (leftPressed) {
         if (pos.value().x < 0) {
             handle_horizontal_stop(vel);
         } else {
@@ -26,9 +39,8 @@ void Core::handle_horizontal_movement(float deltaSeconds, std::optional<componen
         inputState.leftSent = false;
     }
 
-    // Handle right movement 
-    if (keysPressed[keyBindings["Right"].getKey()]) {
-        if (pos.value().x > 1810) {  // Ajustez cette valeur selon la largeur de votre fenêtre
+    if (rightPressed) {
+        if (pos.value().x > 1810) {
             handle_horizontal_stop(vel);
         } else {
             vel->vx = baseSpeed;
@@ -38,8 +50,8 @@ void Core::handle_horizontal_movement(float deltaSeconds, std::optional<componen
         inputState.rightSent = false;
     }
 
-    // Handle horizontal stop
-    if (!keysPressed[keyBindings["Left"].getKey()] && !keysPressed[keyBindings["Right"].getKey()]) {
+    // If no movement keys are pressed, stop
+    if (!leftPressed && !rightPressed) {
         handle_horizontal_stop(vel);
     }
 }
@@ -142,6 +154,75 @@ void Core::handle_hitbox()
     }
 }
 
+// Modification de Core::handle_horizontal_movement et handle_vertical_movement
+void Core::handle_movement_update(float deltaSeconds, std::optional<component::velocity>& vel,
+                                std::optional<component::drawable>& drawable, 
+                                std::optional<component::position>& pos)
+{
+    if (!vel || !pos) return;
+
+    bool leftPressed = keysPressed[keyBindings["Left"].getKey()];
+    bool rightPressed = keysPressed[keyBindings["Right"].getKey()];
+    bool upPressed = keysPressed[keyBindings["Up"].getKey()];
+    bool downPressed = keysPressed[keyBindings["Down"].getKey()];
+
+    float newVx = vel->vx;
+    float newVy = vel->vy;
+    bool stateChanged = false;
+
+    // Gestion du mouvement horizontal
+    if (leftPressed && !rightPressed && pos.value().x >= 0) {
+        if (newVx != -baseSpeed) {
+            newVx = -baseSpeed;
+            stateChanged = true;
+            send_input_if_needed(GameAction::LEFT, inputState.leftSent);
+        }
+    } else if (rightPressed && !leftPressed && pos.value().x <= 1810) {
+        if (newVx != baseSpeed) {
+            newVx = baseSpeed;
+            stateChanged = true;
+            send_input_if_needed(GameAction::RIGHT, inputState.rightSent);
+        }
+    } else if (!leftPressed && !rightPressed && newVx != 0) {
+        newVx = 0;
+        stateChanged = true;
+        send_input_if_needed(GameAction::STOP_X, inputState.horizontalStopSent);
+    }
+
+    // Gestion du mouvement vertical
+    if (upPressed && !downPressed && pos.value().y >= 0) {
+        if (newVy != -baseSpeed) {
+            newVy = -baseSpeed;
+            stateChanged = true;
+            send_input_if_needed(GameAction::UP, inputState.upSent);
+        }
+    } else if (downPressed && !upPressed && pos.value().y <= 1080) {
+        if (newVy != baseSpeed) {
+            newVy = baseSpeed;
+            stateChanged = true;
+            send_input_if_needed(GameAction::DOWN, inputState.downSent);
+        }
+    } else if (!upPressed && !downPressed && newVy != 0) {
+        newVy = 0;
+        stateChanged = true;
+        send_input_if_needed(GameAction::STOP_Y, inputState.verticalStopSent);
+    }
+
+    // Mise à jour de la vélocité seulement si nécessaire
+    if (stateChanged) {
+        vel->vx = newVx;
+        vel->vy = newVy;
+    }
+
+    // Réinitialisation des flags d'envoi si les touches ne sont plus pressées
+    if (!leftPressed) inputState.leftSent = false;
+    if (!rightPressed) inputState.rightSent = false;
+    if (!upPressed) inputState.upSent = false;
+    if (!downPressed) inputState.downSent = false;
+    if (newVx == 0) inputState.horizontalStopSent = false;
+    if (newVy == 0) inputState.verticalStopSent = false;
+}
+
 void Core::control_system()
 {
     if (isReplay){
@@ -165,8 +246,7 @@ void Core::control_system()
             break;
         }
         if (controllable && vel && drawable && controllable.value().is_controllable && pos) {
-            handle_vertical_movement(deltaSeconds, vel, drawable, pos);
-            handle_horizontal_movement(deltaSeconds, vel, drawable, pos);
+            handle_movement_update(deltaSeconds, vel, drawable, pos);
             handle_shoot(deltaSeconds, pos);
             handle_hitbox();
         }
