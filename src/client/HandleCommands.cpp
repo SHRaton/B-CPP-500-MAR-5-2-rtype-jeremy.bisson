@@ -463,12 +463,12 @@ void Core::handleLaserShootCommands(std::istringstream& iss)
 
 void Core::handleMobShootCommand(std::istringstream& iss)
 {
-    int x, y;
-    iss >> x >> y;
+    int x, y, vx, vy;
+    iss >> x >> y >> vx >> vy;
 
     Entity missile = reg.spawn_entity();
     reg.emplace_component<component::position>(missile, component::position{x, y});
-    reg.emplace_component<component::velocity>(missile, component::velocity{-5, 0});
+    reg.emplace_component<component::velocity>(missile, component::velocity{vx, vy});
     sf::Sprite sprite = utils.cat("../ressources/sprites/shoot_mob.png");
     sf::IntRect rect(0, 0, sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height);
     sprite.setTextureRect(rect);

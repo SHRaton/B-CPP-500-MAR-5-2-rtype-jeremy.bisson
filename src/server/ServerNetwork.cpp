@@ -248,7 +248,7 @@ void ServerNetwork::handlePowerUpSpawn(const MediatorContext& context, const std
 void ServerNetwork::handleMobShoot(const MediatorContext& context, const std::vector<std::string>& params)
 {
     boost::asio::ip::udp::endpoint client = context.client;
-    std::string message = encode_action(GameAction::MOB_SHOOT) + " " + params[0] + " " + params[1];
+    std::string message = encode_action(GameAction::MOB_SHOOT) + " " + params[0] + " " + params[1] + " " + params[2] + " " + params[3];
     broadcast_message(message);
 }
 

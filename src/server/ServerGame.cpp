@@ -230,6 +230,7 @@ void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
 {
     position_timer.async_wait([this, &position_timer](const boost::system::error_code& ec) {
         if (!ec) {
+            std::cout << "position" << std::endl;
             Systems::position_system(reg);
             //Utilisation d'un itérateur pour pouvoir supprimer des éléments en itérant
             for (auto it = allEntities.begin(); it != allEntities.end(); ) {
@@ -364,20 +365,22 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
                             int vx;
                             int vy;
                         };
-            
+
                         std::vector<MissileConfig> missiles = {
-                            {20, -20, 1, -1},   // Missile vers le haut
-                            {20, 0, 1, 0},      // Missile droit
-                            {20, 20, 1, 1}      // Missile vers le bas
+                            {20, 400, -1, -1},   // Missile vers le haut
+                            {20, 400, -1, 0},      // Missile droit
+                            {20, 400, -1, 1}      // Missile vers le bas
                         };
-            
+
                         for (const auto& missile : missiles) {
                             Entity bullet = reg.spawn_entity();
                             std::vector<std::string> newParams;
                             newParams.push_back(std::to_string(positions.x + missile.x_offset));
                             newParams.push_back(std::to_string(positions.y + missile.y_offset));
+                            newParams.push_back(std::to_string(missile.vx));
+                            newParams.push_back(std::to_string(missile.vy));
                             reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y + missile.y_offset});
-                            reg.emplace_component<component::velocity>(bullet, component::velocity{-5, 0});
+                            reg.emplace_component<component::velocity>(bullet, component::velocity{missile.vx, missile.vy});
                             reg.emplace_component<component::damage>(bullet, component::damage{50});
                             reg.emplace_component<component::type>(bullet, component::type{7});
                             reg.emplace_component<component::size>(bullet, component::size{10, 10});
@@ -394,6 +397,8 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
                         std::vector<std::string> newParams;
                         newParams.push_back(std::to_string(positions.x));
                         newParams.push_back(std::to_string(positions.y));
+                        newParams.push_back(std::to_string(-5));
+                        newParams.push_back(std::to_string(0));
 
                         reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
                         reg.emplace_component<component::velocity>(bullet, component::velocity{-5, 0});
