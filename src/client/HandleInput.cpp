@@ -86,6 +86,9 @@ void Core::handle_shoot(float deltaSeconds, std::optional<component::position>& 
     laserPowerUpLogo.setScale(0.1, 0.1);
     laserPowerUpLogo.setPosition(pos.value().x + 70, pos.value().y - 40);
 
+    forcePowerUpLogo.setScale(3, 3);
+    forcePowerUpLogo.setPosition(pos.value().x + 100, pos.value().y);
+
     if (keysPressed[keyBindings["Shoot"].getKey()] && shootCooldown >= 0.3) {
         send_input_if_needed(GameAction::SHOOT, inputState.shootSent);
         if (!laserActive) {

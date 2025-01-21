@@ -537,14 +537,27 @@ void Core::handleCollisionCommand(std::istringstream& iss)
         if (type == 10 && invincibles[id].value().is_invincible == false) {
             handleMobCollision(id, healths, drawables, invincibles);
         }
-        else if (type == 0 || type == 1 || type == 2) {
+        else if (type == 0 || type == 1 || type == 2 || type == 3) {
             handlePowerUpCollision(id, type, healths);
         }
         else if (type == 7 && invincibles[id].value().is_invincible == false) {
             handleMobMissileCollision(id, healths, drawables, invincibles);
         }
-
+        else if (type == 6) {
+            handleMissileMobCollision(id, healths, drawables);
+        }
         updatePlayerHealth(id, healths[id].value().hp);
+    }
+}
+
+void Core::handleMissileMobCollision(int id, sparse_array<component::health>& healths, sparse_array<component::drawable>& drawables)
+{
+    if (!healths[id]) return;
+    healths[id].value().hp -= 50;
+
+    hitBossClock.restart();
+    if (drawables[id]) {
+        drawables[id].value().sprite.setColor(sf::Color(255, 0, 0, 175));
     }
 }
 
@@ -573,6 +586,13 @@ void Core::handlePowerUpCollision(int id, int type, sparse_array<component::heal
             healths[id].value().hp += 10;
             if (healths[id].value().hp > 100) {
                 healths[id].value().hp = 100;
+            }
+            break;
+        case 2:
+            if (id == network->getId()) {
+                forceActive = true;
+                forceClock.restart();
+                forceAnimClock.restart();
             }
             break;
         case 3:
@@ -626,7 +646,6 @@ void Core::updatePlayerId()
     for (size_t i = 0; i < types.size(); ++i) {
         if (types[i] && types[i].value().type == 696) {
             network->setId(i);
-            std::cout << "Mise à jour de l'ID du joueur à " << i << std::endl;
             return;
         }
     }

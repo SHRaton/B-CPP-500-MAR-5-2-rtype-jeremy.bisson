@@ -31,6 +31,8 @@ void Core::loadAssetsGame()
     laserClock.restart();
     clock_scrolling.restart();
     laserPowerUpLogo = utils.cat("../ressources/sprites/laser_logo.png");
+    forcePowerUpLogo = utils.cat("../ressources/sprites/force.png");
+    forcePowerUpLogo.setTextureRect(sf::IntRect(0, 0, forcePowerUpLogo.getGlobalBounds().width / 12, forcePowerUpLogo.getGlobalBounds().height));
     save_replay = utils.cat("../ressources/background/replay.png");
     if (!explosionTexture.loadFromFile("../ressources/sprites/kill.png")) {
         throw std::runtime_error("Failed to load explosion texture");
@@ -183,6 +185,8 @@ void Core::loadAssets()
     shootBar.setSize(sf::Vector2f(70, 5));
 
     laserActive = false;
+    forceActive = false;
+    frameForce = 0;
 
     soundVolume = 0.5f;
     //MUSIC MENU + LOGIN

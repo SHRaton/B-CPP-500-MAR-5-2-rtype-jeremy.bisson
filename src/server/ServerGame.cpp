@@ -230,7 +230,6 @@ void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
 {
     position_timer.async_wait([this, &position_timer](const boost::system::error_code& ec) {
         if (!ec) {
-            std::cout << "position" << std::endl;
             Systems::position_system(reg);
             //Utilisation d'un itérateur pour pouvoir supprimer des éléments en itérant
             for (auto it = allEntities.begin(); it != allEntities.end(); ) {
@@ -482,14 +481,15 @@ void ServerGame::setup_force_shot_timer(boost::asio::steady_timer& force_shot_ti
     force_shot_timer.async_wait([this, &force_shot_timer](const boost::system::error_code& ec) {
         if (!ec) {
             auto &force = reg.get_components<component::force>();
+            int x_offset = 80;
             for (size_t i = 0; i < force.size(); ++i) {
                 if (force[i].has_value() && force[i].value().is_active) {
                     Entity bullet = reg.spawn_entity();
                     auto const &positions = reg.get_components<component::position>()[i].value();
                     std::vector<std::string> newParams;
-                    newParams.push_back(std::to_string(positions.x));
+                    newParams.push_back(std::to_string(positions.x + x_offset));
                     newParams.push_back(std::to_string(positions.y));
-                    reg.emplace_component<component::position>(bullet, component::position{positions.x, positions.y});
+                    reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y});
                     if (force[i].value().is_front == 0) {  // Ajout des parenthèses après if
                         reg.emplace_component<component::velocity>(bullet, component::velocity{10, 0});
                     } else {
@@ -1333,7 +1333,7 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
         auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
         auto& triple_shots = reg.get_components<component::triple_shot>();
         auto& laser_shots = reg.get_components<component::laser_shot>();
-        int x_offset = 50;
+        int x_offset = 80;
         if(laser_shots.size() > player_id && laser_shots[player_id].value().is_active){
             handleLaserShoot(context, params);
             return;
@@ -1347,9 +1347,9 @@ void ServerGame::handleShoot(const MediatorContext& context, const std::vector<s
             };
 
             std::vector<MissileConfig> missiles = {
-                {20, -20, 1, -1},   // Missile vers le haut
-                {20, 0, 1, 0},      // Missile droit
-                {20, 20, 1, 1}      // Missile vers le bas
+                {x_offset, -20, 1, -1},   // Missile vers le haut
+                {x_offset, 0, 1, 0},      // Missile droit
+                {x_offset, 20, 1, 1}      // Missile vers le bas
             };
 
             for (const auto& missile : missiles) {
@@ -1422,7 +1422,7 @@ void ServerGame::handleLaserShoot(const MediatorContext& context, const std::vec
         int player_id = std::stoi(params[0]);
         auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
         auto& laser_shots = reg.get_components<component::laser_shot>();
-        int x_offset = 50;
+        int x_offset = 80;
 
         if (laser_shots.size() > player_id && laser_shots[player_id].value().is_active) {
             Entity bullet = reg.spawn_entity();
@@ -1454,7 +1454,7 @@ void ServerGame::handleSuperShoot(const MediatorContext& context, const std::vec
         int player_id = std::stoi(params[0]);
         auto const &positions = reg.get_components<component::position>()[std::stoi(params[0])].value();
         auto& super_shots = reg.get_components<component::super_shot>();
-        int x_offset = 50;
+        int x_offset = 80;
 
         if (super_shots.size() > player_id && super_shots[player_id].value().is_ready) {
             // Super tir (plus grand et plus puissant)
