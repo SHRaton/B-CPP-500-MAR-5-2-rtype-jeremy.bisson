@@ -364,12 +364,28 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
                             int vx;
                             int vy;
                         };
+                        std::vector<MissileConfig> missiles;
 
-                        std::vector<MissileConfig> missiles = {
-                            {20, 400, -1, -1},   // Missile vers le haut
-                            {20, 400, -1, 0},      // Missile droit
-                            {20, 400, -1, 1}      // Missile vers le bas
-                        };
+                        if (types[i].value().type == 17) {
+                            missiles = {
+                                {20, 400, -1, -1},   // Missile vers le haut
+                                {20, 400, -1, 0},      // Missile droit
+                                {20, 400, -1, 1}      // Missile vers le bas
+                            };
+                        } else if (types[i].value().type == 18) {
+                            int randomy = rand() % 300;
+                            missiles = {
+                                {20, 400 - randomy, -10, 0},   // Missile vers le haut
+                                {20, 400, -10, 0},      // Missile droit
+                                {20, 400 + randomy, -10, 0}      // Missile vers le bas
+                            };
+                        } else if (types[i].value().type == 19) {
+                            int randomNumber = rand() % 7 + 2;
+                            for (int j = 0; j < randomNumber; j++) {
+                                int randomy = rand() % 400 - 200;
+                                missiles.push_back({20, 400 - randomy, -5, 0});
+                            }
+                        }
 
                         for (const auto& missile : missiles) {
                             Entity bullet = reg.spawn_entity();
@@ -707,23 +723,23 @@ void ServerGame::spawnBoss(JsonEntity entity)
         reg.emplace_component<component::size>(boss, component::size{500, 800});
         reg.emplace_component<component::invincible>(boss, component::invincible{false});
     } else if (type == 1) {
-        reg.emplace_component<component::health>(boss, component::health{2000});
-        reg.emplace_component<component::damage>(boss, component::damage{100});
+        reg.emplace_component<component::health>(boss, component::health{1000});
+        reg.emplace_component<component::damage>(boss, component::damage{50});
         reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
         reg.emplace_component<component::type>(boss, component::type{18});
-        reg.emplace_component<component::size>(boss, component::size{200, 100});
+        reg.emplace_component<component::size>(boss, component::size{500, 800});
         reg.emplace_component<component::invincible>(boss, component::invincible{false});
     } else if (type == 2) {
-        reg.emplace_component<component::health>(boss, component::health{3000});
-        reg.emplace_component<component::damage>(boss, component::damage{150});
+        reg.emplace_component<component::health>(boss, component::health{1000});
+        reg.emplace_component<component::damage>(boss, component::damage{50});
         reg.emplace_component<component::velocity>(boss, component::velocity{-5, 0});
         reg.emplace_component<component::type>(boss, component::type{19});
-        reg.emplace_component<component::size>(boss, component::size{200, 100});
+        reg.emplace_component<component::size>(boss, component::size{500, 800});
         reg.emplace_component<component::invincible>(boss, component::invincible{false});
     }
 
     std::vector<std::string> newParams;
-    newParams.push_back(std::to_string(type));
+    newParams.push_back(std::to_string(0));
     newParams.push_back(std::to_string(x));
     newParams.push_back(std::to_string(y));
     med.notify(Sender::GAME, "BOSS_SPAWN", newParams);

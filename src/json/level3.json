@@ -1,6 +1,15 @@
 {
     "entities": [
       {
+        "behavior": "automatic",
+        "position": {
+            "x": 4500,
+            "y": 200
+        },
+        "subtype": "boss3",
+        "type": "boss"
+    },
+      {
         "type": "mob",
         "subtype": "enemy1",
         "position": { "x": 1900, "y": 200 }
