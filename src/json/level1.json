@@ -1,65 +1,365 @@
 {
-    "entities": [
+  "entities": [
       {
-        "type": "mob",
-        "subtype": "enemy1",
-        "position": { "x": 1900, "y": 200 }
+          "behavior": "automatic",
+          "position": {
+              "x": 4500,
+              "y": 200
+          },
+          "subtype": "boss1",
+          "type": "boss"
       },
       {
-        "type": "mob",
-        "subtype": "enemy2",
-        "position": { "x": 2150, "y": 250 }
+          "position": {
+              "x": 646,
+              "y": 289
+          },
+          "subtype": "enemy1",
+          "type": "mob"
       },
       {
-        "type": "mob",
-        "subtype": "enemy1",
-        "position": { "x": 2500, "y": 250 },
-        "behavior": "automatic"
+          "position": {
+              "x": 824,
+              "y": 521
+          },
+          "subtype": "enemy2",
+          "type": "mob"
       },
       {
-        "type": "mob",
-        "subtype": "enemy2",
-        "position": { "x": 3500, "y": 250 },
-        "behavior": "automatic"
+          "position": {
+              "x": 1266,
+              "y": 668
+          },
+          "subtype": "heal",
+          "type": "powerup"
       },
       {
-        "type": "mob",
-        "subtype": "enemy2",
-        "position": { "x": 4500, "y": 250 },
-        "behavior": "automatic"
+          "position": {
+              "x": 1134,
+              "y": 380
+          },
+          "subtype": "triple_shoot",
+          "type": "powerup"
       },
       {
-        "type": "mob",
-        "subtype": "enemy2",
-        "position": { "x": 5500, "y": 250 },
-        "behavior": "automatic"
+          "position": {
+              "x": 368,
+              "y": 725
+          },
+          "subtype": "force",
+          "type": "powerup"
       },
       {
-        "type": "mob",
-        "subtype": "enemy2",
-        "position": { "x": 6500, "y": 250 },
-        "behavior": "automatic"
+          "position": {
+              "x": 6893,
+              "y": 437
+          },
+          "subtype": "enemy1",
+          "type": "mob"
       },
       {
-        "type": "powerup",
-        "subtype": "force",
-        "position": { "x": 2000, "y": 300 }
+          "position": {
+              "x": 7367,
+              "y": 746
+          },
+          "subtype": "enemy2",
+          "type": "mob"
       },
-
       {
-        "type": "boss",
-        "subtype": "boss1",
-        "position": { "x": 2000, "y": 200 },
-        "behavior": "automatic"
+          "position": {
+              "x": 7100,
+              "y": 231
+          },
+          "subtype": "enemy2",
+          "type": "mob"
       },
-
-
-
-
       {
-        "type": "decor",
-        "subtype": "brick",
-        "position": { "x": 2000, "y": 300 }
+          "position": {
+              "x": 6333,
+              "y": 627
+          },
+          "subtype": "enemy1",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 8748,
+              "y": 395
+          },
+          "subtype": "brick",
+          "type": "decor"
+      },
+      {
+          "position": {
+              "x": 8082,
+              "y": 309
+          },
+          "subtype": "brick",
+          "type": "decor"
+      },
+      {
+          "position": {
+              "x": 9266,
+              "y": 976
+          },
+          "subtype": "brick",
+          "type": "decor"
+      },
+      {
+          "position": {
+              "x": 13273,
+              "y": 487
+          },
+          "subtype": "enemy1",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 12811,
+              "y": 376
+          },
+          "subtype": "enemy1",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 12927,
+              "y": 759
+          },
+          "subtype": "enemy2",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 13743,
+              "y": 401
+          },
+          "subtype": "enemy2",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 13524,
+              "y": 900
+          },
+          "subtype": "enemy2",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 10380,
+              "y": 746
+          },
+          "subtype": "enemy1",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 10744,
+              "y": 393
+          },
+          "subtype": "enemy1",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 9784,
+              "y": 303
+          },
+          "subtype": "enemy1",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 10346,
+              "y": 609
+          },
+          "subtype": "enemy2",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 7530,
+              "y": 604
+          },
+          "subtype": "laser",
+          "type": "powerup"
+      },
+      {
+          "position": {
+              "x": 7842,
+              "y": 263
+          },
+          "subtype": "laser",
+          "type": "powerup"
+      },
+      {
+          "position": {
+              "x": 4341,
+              "y": 414
+          },
+          "subtype": "force",
+          "type": "powerup"
+      },
+      {
+          "position": {
+              "x": 4048,
+              "y": 332
+          },
+          "subtype": "enemy1",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 4103,
+              "y": 648
+          },
+          "subtype": "enemy2",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 3654,
+              "y": 262
+          },
+          "subtype": "enemy1",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 3696,
+              "y": 684
+          },
+          "subtype": "enemy2",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 4909,
+              "y": 317
+          },
+          "subtype": "enemy2",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 3031,
+              "y": 151
+          },
+          "subtype": "enemy2",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 3047,
+              "y": 660
+          },
+          "subtype": "enemy2",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 2238,
+              "y": 448
+          },
+          "subtype": "enemy2",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 1663,
+              "y": 292
+          },
+          "subtype": "enemy2",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 2741,
+              "y": 449
+          },
+          "subtype": "heal",
+          "type": "powerup"
+      },
+      {
+          "position": {
+              "x": 4597,
+              "y": 519
+          },
+          "subtype": "heal",
+          "type": "powerup"
+      },
+      {
+          "position": {
+              "x": 4344,
+              "y": 207
+          },
+          "subtype": "heal",
+          "type": "powerup"
+      },
+      {
+          "position": {
+              "x": 3513,
+              "y": 645
+          },
+          "subtype": "heal",
+          "type": "powerup"
+      },
+      {
+          "position": {
+              "x": 6086,
+              "y": 411
+          },
+          "subtype": "enemy2",
+          "type": "mob"
+      },
+      {
+          "position": {
+              "x": 5710,
+              "y": 737
+          },
+          "subtype": "triple_shoot",
+          "type": "powerup"
+      },
+      {
+          "position": {
+              "x": 5907,
+              "y": 268
+          },
+          "subtype": "triple_shoot",
+          "type": "powerup"
+      },
+      {
+          "position": {
+              "x": 6408,
+              "y": 235
+          },
+          "subtype": "force",
+          "type": "powerup"
+      },
+      {
+          "position": {
+              "x": 6702,
+              "y": 675
+          },
+          "subtype": "brick",
+          "type": "decor"
+      },
+      {
+          "position": {
+              "x": 6792,
+              "y": 179
+          },
+          "subtype": "brick",
+          "type": "decor"
+      },
+      {
+          "position": {
+              "x": 4638,
+              "y": 148
+          },
+          "subtype": "brick",
+          "type": "decor"
       }
-    ]
+  ]
 }

@@ -14,8 +14,21 @@ void Core::handle_horizontal_movement(float deltaSeconds, std::optional<componen
 {
     if (!vel) return;
     
-    // Handle left movement
-    if (keysPressed[keyBindings["Left"].getKey()]) {
+    bool leftPressed = keysPressed[keyBindings["Left"].getKey()];
+    bool rightPressed = keysPressed[keyBindings["Right"].getKey()];
+    
+    // Determine the effective direction based on both keys
+    if (leftPressed && rightPressed) {
+        // If both keys are pressed, prioritize the last pressed key
+        // Alternative: could stop movement instead
+        handle_horizontal_stop(vel);
+        inputState.leftSent = false;
+        inputState.rightSent = false;
+        return;
+    }
+    
+    // Handle movement based on single key press
+    if (leftPressed) {
         if (pos.value().x < 0) {
             handle_horizontal_stop(vel);
         } else {
@@ -26,9 +39,8 @@ void Core::handle_horizontal_movement(float deltaSeconds, std::optional<componen
         inputState.leftSent = false;
     }
 
-    // Handle right movement 
-    if (keysPressed[keyBindings["Right"].getKey()]) {
-        if (pos.value().x > 1810) {  // Ajustez cette valeur selon la largeur de votre fenêtre
+    if (rightPressed) {
+        if (pos.value().x > 1810) {
             handle_horizontal_stop(vel);
         } else {
             vel->vx = baseSpeed;
@@ -38,8 +50,8 @@ void Core::handle_horizontal_movement(float deltaSeconds, std::optional<componen
         inputState.rightSent = false;
     }
 
-    // Handle horizontal stop
-    if (!keysPressed[keyBindings["Left"].getKey()] && !keysPressed[keyBindings["Right"].getKey()]) {
+    // If no movement keys are pressed, stop
+    if (!leftPressed && !rightPressed) {
         handle_horizontal_stop(vel);
     }
 }
@@ -85,6 +97,9 @@ void Core::handle_shoot(float deltaSeconds, std::optional<component::position>& 
 
     laserPowerUpLogo.setScale(0.1, 0.1);
     laserPowerUpLogo.setPosition(pos.value().x + 70, pos.value().y - 40);
+
+    forcePowerUpLogo.setScale(3, 3);
+    forcePowerUpLogo.setPosition(pos.value().x + 100, pos.value().y);
 
     if (keysPressed[keyBindings["Shoot"].getKey()] && shootCooldown >= 0.3) {
         send_input_if_needed(GameAction::SHOOT, inputState.shootSent);
@@ -139,6 +154,114 @@ void Core::handle_hitbox()
     }
 }
 
+// Modification de Core::handle_horizontal_movement et handle_vertical_movement
+void Core::handle_movement_update(float deltaSeconds, std::optional<component::velocity>& vel,
+                                std::optional<component::drawable>& drawable, 
+                                std::optional<component::position>& pos)
+{
+    if (!vel || !pos || !drawable) return;
+
+    bool leftPressed = keysPressed[keyBindings["Left"].getKey()];
+    bool rightPressed = keysPressed[keyBindings["Right"].getKey()];
+    bool upPressed = keysPressed[keyBindings["Up"].getKey()];
+    bool downPressed = keysPressed[keyBindings["Down"].getKey()];
+
+    float newVx = vel->vx;
+    float newVy = vel->vy;
+    bool stateChanged = false;
+
+    // Gestion du mouvement horizontal avec vérification des limites
+    if (leftPressed && !rightPressed) {
+        if (pos.value().x < 0) {
+            if (newVx != 0) {
+                newVx = 0;
+                stateChanged = true;
+                send_input_if_needed(GameAction::STOP_X, inputState.horizontalStopSent);
+            }
+        } else {
+            if (newVx != -baseSpeed) {
+                newVx = -baseSpeed;
+                stateChanged = true;
+                send_input_if_needed(GameAction::LEFT, inputState.leftSent);
+            }
+        }
+    } else if (rightPressed && !leftPressed) {
+        if (pos.value().x > 1810) {
+            if (newVx != 0) {
+                newVx = 0;
+                stateChanged = true;
+                send_input_if_needed(GameAction::STOP_X, inputState.horizontalStopSent);
+            }
+        } else {
+            if (newVx != baseSpeed) {
+                newVx = baseSpeed;
+                stateChanged = true;
+                send_input_if_needed(GameAction::RIGHT, inputState.rightSent);
+            }
+        }
+    } else if (!leftPressed && !rightPressed && newVx != 0) {
+        newVx = 0;
+        stateChanged = true;
+        send_input_if_needed(GameAction::STOP_X, inputState.horizontalStopSent);
+    }
+
+    // Gestion du mouvement vertical avec vérification des limites et animations
+    if (upPressed && !downPressed) {
+        if (pos.value().y < 0) {
+            if (newVy != 0) {
+                newVy = 0;
+                stateChanged = true;
+                send_input_if_needed(GameAction::STOP_Y, inputState.verticalStopSent);
+            }
+            animate_to_neutral(deltaSeconds, drawable);
+        } else {
+            if (newVy != -baseSpeed) {
+                newVy = -baseSpeed;
+                stateChanged = true;
+                send_input_if_needed(GameAction::UP, inputState.upSent);
+            }
+            animate_up(deltaSeconds, drawable);
+        }
+    } else if (downPressed && !upPressed) {
+        if (pos.value().y > 970) {  // Utilisation de 970 comme dans le code original
+            if (newVy != 0) {
+                newVy = 0;
+                stateChanged = true;
+                send_input_if_needed(GameAction::STOP_Y, inputState.verticalStopSent);
+            }
+            animate_to_neutral(deltaSeconds, drawable);
+        } else {
+            if (newVy != baseSpeed) {
+                newVy = baseSpeed;
+                stateChanged = true;
+                send_input_if_needed(GameAction::DOWN, inputState.downSent);
+            }
+            animate_down(deltaSeconds, drawable);
+        }
+    } else if (!upPressed && !downPressed) {
+        if (newVy != 0) {
+            newVy = 0;
+            stateChanged = true;
+            send_input_if_needed(GameAction::STOP_Y, inputState.verticalStopSent);
+        }
+        animate_to_neutral(deltaSeconds, drawable);
+    }
+
+    // Mise à jour de la vélocité seulement si nécessaire
+    if (stateChanged) {
+        vel->vx = newVx;
+        vel->vy = newVy;
+    }
+
+    // Réinitialisation des flags d'envoi
+    if (!leftPressed) inputState.leftSent = false;
+    if (!rightPressed) inputState.rightSent = false;
+    if (!upPressed) inputState.upSent = false;
+    if (!downPressed) inputState.downSent = false;
+    if (newVx == 0) inputState.horizontalStopSent = false;
+    if (newVy == 0) inputState.verticalStopSent = false;
+}
+
 void Core::control_system()
 {
     if (isReplay){
@@ -162,8 +285,7 @@ void Core::control_system()
             break;
         }
         if (controllable && vel && drawable && controllable.value().is_controllable && pos) {
-            handle_vertical_movement(deltaSeconds, vel, drawable, pos);
-            handle_horizontal_movement(deltaSeconds, vel, drawable, pos);
+            handle_movement_update(deltaSeconds, vel, drawable, pos);
             handle_shoot(deltaSeconds, pos);
             handle_hitbox();
         }

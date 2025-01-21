@@ -205,6 +205,7 @@ void Core::gui_gamewin() {
     Game2Music.stop();
     Game3Music.stop();
     Game4Music.stop();
+    BossMusic1.stop();
     winMusic.play();
     
     // Centrer l'image
@@ -460,9 +461,12 @@ void Core::display_all()
         auto& healths = reg.get_components<component::health>();
         for (size_t i = 0; i < healths.size(); ++i) {
             auto& types = reg.get_components<component::type>();
+            auto& drawables = reg.get_components<component::drawable>();
             if (healths[i] && types[i] && types[i].value().type == 17) {
+                if (hitBossClock.getElapsedTime().asSeconds() > 0.2) {
+                    drawables[i].value().sprite.setColor(sf::Color::White);
+                }
                 currentBossHealth = healths[i].value().hp;
-                std::cout << "Vie du boss" << currentBossHealth << std::endl;
                 float healthPercentage = static_cast<float>(currentBossHealth) / maxBossHealth;
                 bossHealthBarFill.setSize(sf::Vector2f(
                     bossHealthBarBackground.getSize().x * healthPercentage,
@@ -491,6 +495,21 @@ void Core::display_all()
                 renderTexture.draw(laserPowerUpLogo);
             } else {
                 laserActive = false;
+            }
+        }
+        if (forceActive) {
+            if (forceClock.getElapsedTime().asSeconds() <= 4.95) {
+                if (forceAnimClock.getElapsedTime().asSeconds() > 0.1) {
+                    frameForce = (frameForce + 1) % 12;
+                    forcePowerUpLogo.setTextureRect(
+                        sf::IntRect(frameForce * forcePowerUpLogo.getTextureRect().width, 0, forcePowerUpLogo.getTextureRect().width, forcePowerUpLogo.getTextureRect().height)
+                    );
+                    forceAnimClock.restart();
+                }
+                renderTexture.draw(forcePowerUpLogo);
+            } else {
+                forceActive = false;
+                frameForce = 0;
             }
         }
     }

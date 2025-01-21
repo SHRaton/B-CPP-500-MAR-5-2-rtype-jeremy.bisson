@@ -31,6 +31,8 @@ void Core::loadAssetsGame()
     laserClock.restart();
     clock_scrolling.restart();
     laserPowerUpLogo = utils.cat("../ressources/sprites/laser_logo.png");
+    forcePowerUpLogo = utils.cat("../ressources/sprites/force.png");
+    forcePowerUpLogo.setTextureRect(sf::IntRect(0, 0, forcePowerUpLogo.getGlobalBounds().width / 12, forcePowerUpLogo.getGlobalBounds().height));
     save_replay = utils.cat("../ressources/background/replay.png");
     if (!explosionTexture.loadFromFile("../ressources/sprites/kill.png")) {
         throw std::runtime_error("Failed to load explosion texture");
@@ -57,7 +59,7 @@ void Core::updateCurrentMap()
         currentMap = CurrentMap("level3.json", "Level_3/background.png", "Level_3/mob1.png", 6, "Level_3/mob2.png", 3, "Level_3/boss.png", 3, "Level_3/obstacle.png");
     }
     if (levelSelected == 4) {
-        currentMap = CurrentMap("level4.json", "Level_4/background.png", "Level_4/mob1.png", 4, "Level_4/mob2.png", 3, "Level_3/boss.png", 3, "Level_3/obstacle.png");
+        currentMap = CurrentMap("level4.json", "Level_4/background.png", "Level_4/mob1.png", 4, "Level_4/mob2.png", 3, "Level_4/boss.png", 6, "Level_3/obstacle.png");
     }
 }
 
@@ -183,6 +185,8 @@ void Core::loadAssets()
     shootBar.setSize(sf::Vector2f(70, 5));
 
     laserActive = false;
+    forceActive = false;
+    frameForce = 0;
 
     soundVolume = 0.5f;
     //MUSIC MENU + LOGIN

@@ -262,7 +262,7 @@ void ServerNetwork::handleWin(const MediatorContext& context, const std::vector<
 void ServerNetwork::handleStart(const MediatorContext& context, const std::vector<std::string>& params)
 {
     boost::asio::ip::udp::endpoint client = context.client;
-    std::string message = encode_action(GameAction::START);
+    std::string message = encode_action(GameAction::START) + " " + params[0];
     broadcast_message(message);
 }
 

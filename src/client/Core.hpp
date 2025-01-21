@@ -230,6 +230,8 @@ class Core {
             bool downSent = false;
             bool leftSent = false;
             bool rightSent = false;
+            bool horizontalStopSent = false;
+            bool verticalStopSent = false;
             bool shootSent = false;
             bool superShootSent = false;
             bool startSent = false;
@@ -244,10 +246,20 @@ class Core {
         sf::Clock laserClock;
         sf::Sprite laserPowerUpLogo;
 
+        bool forceActive;
+        sf::Clock forceClock;
+        int frameForce;
+        sf::Clock forceAnimClock;
+        sf::Sprite forcePowerUpLogo;
+        sf::Clock hitBossClock;
+
         void handle_vertical_movement(float deltaSeconds, std::optional<component::velocity>& vel,
         std::optional<component::drawable>& drawable, std::optional<component::position>& pos);
         void handle_horizontal_movement(float deltaSeconds, std::optional<component::velocity>& vel,
         std::optional<component::drawable>& drawable, std::optional<component::position>& pos);
+        void handle_movement_update(float deltaSeconds, std::optional<component::velocity>& vel,
+                                std::optional<component::drawable>& drawable, 
+                                std::optional<component::position>& pos);
         void update_animation(float deltaSeconds, std::optional<component::drawable>& drawable);
         void handle_idle_animation(float deltaSeconds, std::optional<component::drawable>& drawable);
         void update_sprite_frame(sf::Sprite& sprite);
@@ -279,6 +291,7 @@ class Core {
         void handleMobCollision(int id, sparse_array<component::health>& healths, 
                             sparse_array<component::drawable>& drawables,
                             sparse_array<component::invincible>& invincibles);
+        void handleMissileMobCollision(int id, sparse_array<component::health>& healths, sparse_array<component::drawable>& drawables);
         void handleWinCommand(std::istringstream& iss);
         void handleStartCommand(std::istringstream& iss);
         void handleScoreUpdateCommand(std::istringstream& iss);
