@@ -205,6 +205,7 @@ void Core::gui_gamewin() {
     Game2Music.stop();
     Game3Music.stop();
     Game4Music.stop();
+    BossMusic1.stop();
     winMusic.play();
     
     // Centrer l'image
