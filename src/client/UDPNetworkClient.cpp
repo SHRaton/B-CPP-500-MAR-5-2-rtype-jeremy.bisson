@@ -30,8 +30,8 @@ void UDPNetworkClient::send(const std::string& message)
     std::lock_guard<std::mutex> lock(m_send_mutex);
     m_send_queue.push(message);
     m_io_context->post([this]() { process_send_queue(); });
-    utils.printTerminal(Color::BLUE, "SEND MESSAGE (\"" + message + "\")");
-    utils.printLog("SEND MESSAGE (\"" + message + "\")");
+    //utils.printTerminal(Color::BLUE, "SEND MESSAGE (\"" + message + "\")");
+    //utils.printLog("SEND MESSAGE (\"" + message + "\")");
 }
 
 std::optional<std::string> UDPNetworkClient::receive() {
@@ -41,8 +41,8 @@ std::optional<std::string> UDPNetworkClient::receive() {
     }
     std::string message = m_received_messages.front();
     m_received_messages.pop_front();
-    utils.printTerminal(Color::YELLOW, "RECEIVED MESSAGE (\"" + message + "\")");
-    utils.printLog("RECEIVED MESSAGE (\"" + message + "\")");
+    //utils.printTerminal(Color::YELLOW, "RECEIVED MESSAGE (\"" + message + "\")");
+    //utils.printLog("RECEIVED MESSAGE (\"" + message + "\")");
     return message;
 }
 
@@ -50,10 +50,10 @@ std::vector<std::string> UDPNetworkClient::receive_all() {
     std::lock_guard<std::mutex> lock(m_receive_mutex);
     std::vector<std::string> messages(m_received_messages.begin(), m_received_messages.end());
     m_received_messages.clear();
-    for (const auto& msg : messages) {
+    /*for (const auto& msg : messages) {
         utils.printTerminal(Color::YELLOW, "RECEIVED MESSAGE (\"" + msg + "\")");
         utils.printLog("RECEIVED MESSAGE (\"" + msg + "\")");
-    }
+    }*/
     return messages;
 }
 
@@ -72,7 +72,7 @@ void UDPNetworkClient::stop() {
     m_is_running = false;
     m_io_context->stop();
     utils.printTerminal(Color::RED, "CONNECTION UDP CLOSED");
-    utils.printLog("CONNECTION UDP CLOSED");
+    //utils.printLog("CONNECTION UDP CLOSED");
     if (m_io_thread.joinable()) {
         m_io_thread.join();
     }

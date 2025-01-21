@@ -11,7 +11,7 @@
 
 void Core::handleServerCommands()
 {
-    network->print_message_queue();
+    //network->print_message_queue();
     buffer = network->receive().value_or("");
 
     if (buffer.empty()) return;

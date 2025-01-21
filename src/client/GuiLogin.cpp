@@ -46,7 +46,7 @@ void Core::login()
         try {
             initialize_network(str_ip, std::stoi(str_port));
             network->send(encode_action(GameAction::CONNECT) + " " + str_name);
-            utils.printLog(str_name + " logged in");
+            //utils.printLog(str_name + " logged in");
             std::cout << Color::YELLOW << "[Client] Connected to " << Color::BLUE << str_ip << ":" << str_port << Color::RESET << std::endl;
             gui_lobby();
             //gui_game();

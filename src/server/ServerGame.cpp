@@ -6,24 +6,29 @@ ServerGame::ServerGame(Mediator &med) : med(med), lua()
 
     // Exemple d'exposition d'une méthode pour manipuler l'IA
     lua.set_function("update_velocity", [&](size_t entityId, double vx, double vy) {
-        std::cout << "Updating velocity for entity " << entityId << " to (" << vx << ", " << vy << ")" << std::endl;
         auto& velocities = reg.get_components<component::velocity>();
         if (entityId < velocities.size() && velocities[entityId]) {
+            int oldVx = velocities[entityId]->vx;
+            int oldVy = velocities[entityId]->vy;
             velocities[entityId]->vx = vx;
             velocities[entityId]->vy = vy;
-            if (vx > 0) {
-                handleMoves("RIGHT", MediatorContext(), {std::to_string(entityId)});
-            } else if (vx < 0) {
-                handleMoves("LEFT", MediatorContext(), {std::to_string(entityId)});
-            } else {
-                handleMoves("STOP_X", MediatorContext(), {std::to_string(entityId)});
+            if (oldVx != vx){
+                if (vx > 0) {
+                    handleMoves("RIGHT", MediatorContext(), {std::to_string(entityId)});
+                } else if (vx < 0) {
+                    handleMoves("LEFT", MediatorContext(), {std::to_string(entityId)});
+                } else {
+                    handleMoves("STOP_X", MediatorContext(), {std::to_string(entityId)});
+                }
             }
-            if (vy > 0) {
-                handleMoves("DOWN", MediatorContext(), {std::to_string(entityId)});
-            } else if (vy < 0) {
-                handleMoves("UP", MediatorContext(), {std::to_string(entityId)});
-            } else {
-                handleMoves("STOP_Y", MediatorContext(), {std::to_string(entityId)});
+            if (oldVy != vy){
+                if (vy > 0) {
+                    handleMoves("DOWN", MediatorContext(), {std::to_string(entityId)});
+                } else if (vy < 0) {
+                    handleMoves("UP", MediatorContext(), {std::to_string(entityId)});
+                } else {
+                    handleMoves("STOP_Y", MediatorContext(), {std::to_string(entityId)});
+                }
             }
         }
     });
@@ -100,13 +105,6 @@ void ServerGame::loadJson(const std::string& filename) {
         jsonEntity.y = entity["position"]["y"];
         std::cout << "Entity: " << jsonEntity.type << " at (" << jsonEntity.x << ", " << jsonEntity.y << ")" << std::endl;
 
-        if (entity.contains("behavior")) {
-            jsonEntity.behavior = entity["behavior"];
-            std::cout << "  Behavior: " << jsonEntity.behavior << std::endl;
-        } else {
-            jsonEntity.behavior = "";
-            std::cout << "  No behavior" << std::endl;
-        }
         allEntities.push_back(jsonEntity);
     }
     std::sort(allEntities.begin(), allEntities.end(), [](const JsonEntity& a, const JsonEntity& b) {
@@ -764,7 +762,6 @@ void ServerGame::checkAllCollisions()
     auto& bits = reg.get_components<component::bits>();
     auto& damages = reg.get_components<component::damage>();
 
-    std::cout << positions.size() << std::endl;
     for (size_t i = 0; i < positions.size(); ++i) {
 
         for (size_t j = i + 1; j < positions.size(); ++j) {

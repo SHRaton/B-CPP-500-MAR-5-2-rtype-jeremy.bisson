@@ -398,9 +398,9 @@ void ServerNetwork::broadcast_message(const boost::asio::ip::udp::endpoint& send
     for (const auto& client : clients_) {
         if (client.first != sender) {
             socket_.send_to(boost::asio::buffer(message), client.first);
-            std::cout << Colors::GREEN << "[ServerNetwork] Message forwarded to: [" 
+           /* std::cout << Colors::GREEN << "[ServerNetwork] Message forwarded to: [" 
                      << client.first.address().to_string() << ":" 
-                     << client.first.port() << "]" << Colors::RESET << std::endl;
+                     << client.first.port() << "]" << Colors::RESET << std::endl;*/
         }
     }
 }
