@@ -880,6 +880,7 @@ void ServerGame::checkAllCollisions()
                         checkAllCollisions();
                         return;
                     }
+                    handleColision(MediatorContext(), std::vector<std::string>{std::to_string(j), std::to_string(6)});
                 } else if ((types[i].value().type >= 10 && types[i].value().type <= 19) && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
                     healths[i].value().hp -= damages[j].value().dmg;
                     invincibles[i].value().is_invincible = true;
@@ -908,6 +909,7 @@ void ServerGame::checkAllCollisions()
                         checkAllCollisions();
                         return;
                     }
+                    handleColision(MediatorContext(), std::vector<std::string>{std::to_string(i), std::to_string(6)});
                 } else if ((types[i].value().type >= 0 && types[i].value().type <= 4) && types[j].value().type == 5) { // PLAYER vs POWERUP
                     if (types[i].value().type == 0) {
                         triple_shots[j].value().is_active = true;
