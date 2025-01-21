@@ -660,14 +660,14 @@ void ServerGame::spawnMob(JsonEntity entity)
     } // rajouter d'autres types de mobs ici
     reg.emplace_component<component::position>(mob, component::position{x, y});
     if (type == 0) {
-        reg.emplace_component<component::health>(mob, component::health{300});
+        reg.emplace_component<component::health>(mob, component::health{100});
         reg.emplace_component<component::damage>(mob, component::damage{10});
         reg.emplace_component<component::velocity>(mob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(mob, component::type{10});
         reg.emplace_component<component::size>(mob, component::size{50, 50});
         reg.emplace_component<component::invincible>(mob, component::invincible{false});
     } else if (type == 1) {
-        reg.emplace_component<component::health>(mob, component::health{100});
+        reg.emplace_component<component::health>(mob, component::health{5});
         reg.emplace_component<component::damage>(mob, component::damage{40});
         reg.emplace_component<component::velocity>(mob, component::velocity{-5, 0});
         reg.emplace_component<component::type>(mob, component::type{11});
@@ -854,8 +854,10 @@ void ServerGame::checkAllCollisions()
                     }
                 } else if ((types[i].value().type == 6 || types[i].value().type == 8)  && (types[j].value().type >= 10 && types[j].value().type <= 19)) { // BULLET vs MOB
                     healths[j].value().hp -= damages[i].value().dmg;
-                    invincibles[j].value().is_invincible = true;
-                    invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+                    if (types[i].value().type == 6) {
+                        invincibles[j].value().is_invincible = true;
+                        invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+                    }
                     std::cout << Colors::RED << "Mob hp: " << healths[j].value().hp << std::endl;
                     // Mob
                     if (healths[j].value().hp <= 0) {
@@ -883,8 +885,10 @@ void ServerGame::checkAllCollisions()
                     handleColision(MediatorContext(), std::vector<std::string>{std::to_string(j), std::to_string(6)});
                 } else if ((types[i].value().type >= 10 && types[i].value().type <= 19) && (types[j].value().type == 6 || types[i].value().type == 8)) { // BULLET vs MOB
                     healths[i].value().hp -= damages[j].value().dmg;
-                    invincibles[i].value().is_invincible = true;
-                    invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+                    if (types[j].value().type == 6) {
+                        invincibles[i].value().is_invincible = true;
+                        invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+                    }
                     std::cout << Colors::RED << "Mob hp: " << healths[i].value().hp << std::endl;
                     // Mob
                     if (healths[i].value().hp <= 0) {
@@ -1426,7 +1430,7 @@ void ServerGame::handleLaserShoot(const MediatorContext& context, const std::vec
 
             reg.emplace_component<component::position>(bullet, component::position{positions.x + x_offset, positions.y});
             reg.emplace_component<component::velocity>(bullet, component::velocity{0, 0});
-            reg.emplace_component<component::damage>(bullet, component::damage{600});
+            reg.emplace_component<component::damage>(bullet, component::damage{5});
             reg.emplace_component<component::type>(bullet, component::type{8});
             reg.emplace_component<component::size>(bullet, component::size{1900, 10}); // Fine mais longue
 
