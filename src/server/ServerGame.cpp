@@ -250,7 +250,7 @@ void ServerGame::setup_position_timer(boost::asio::steady_timer& position_timer)
                 }
             }
 
-            position_timer.expires_at(position_timer.expiry() + std::chrono::milliseconds(10));
+            position_timer.expires_at(position_timer.expiry() + std::chrono::milliseconds(8));
             setup_position_timer(position_timer);
         }
     });
@@ -412,7 +412,7 @@ void ServerGame::setup_iaMobs(boost::asio::steady_timer& ia_timer)
                         }
                     }
                 }
-                ia_timer.expires_from_now(std::chrono::milliseconds(500));
+                ia_timer.expires_from_now(std::chrono::milliseconds(1000));
                 setup_iaMobs(ia_timer);
             } else {
                 std::cout << Colors::RED << "[Error] IA timer error: " << ec.message() << Colors::RESET << std::endl;
@@ -766,7 +766,7 @@ void ServerGame::checkAllCollisions()
     auto& force = reg.get_components<component::force>();
     auto& bits = reg.get_components<component::bits>();
     auto& damages = reg.get_components<component::damage>();
-
+    try {
     for (size_t i = 0; i < positions.size(); ++i) {
 
         for (size_t j = i + 1; j < positions.size(); ++j) {
@@ -820,7 +820,7 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                } else if (types[j].value().type == 7 && types[i].value().type == 5) { // MOB_BULLET vs PLAYER
+                } else if (types[j].value().type == 7 && types[i].value().type == 5 || types[i].value().type == 30) { // MOB_BULLET vs PLAYER
                     healths[i].value().hp -= 30;
                     invincibles[i].value().is_invincible = true;
                     invincibles[i].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
@@ -837,7 +837,7 @@ void ServerGame::checkAllCollisions()
                         MediatorContext dummyContext;
                         handleColision(dummyContext, collisionParams);
                     }
-                } else if (types[i].value().type == 7 && types[j].value().type == 5) { // MOB_BULLET vs PLAYER
+                } else if (types[i].value().type == 7 && types[j].value().type == 5 || types[j].value().type == 30) { // MOB_BULLET vs PLAYER
                     healths[j].value().hp -= 30;
                     invincibles[j].value().is_invincible = true;
                     invincibles[j].value().expiration_time = std::chrono::steady_clock::now() + std::chrono::seconds(1);
@@ -979,6 +979,9 @@ void ServerGame::checkAllCollisions()
                 }
             }
         }
+    }
+    } catch (const std::exception& e) {
+        std::cerr << "Error in checkAllCollisions: " << e.what() << std::endl;
     }
 }
 

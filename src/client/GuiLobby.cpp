@@ -150,7 +150,7 @@ void Core::display_lobby()
 void Core::load_levels()
 {
     network->send(encode_action(GameAction::GET_LEVELS));
-    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    std::this_thread::sleep_for(std::chrono::milliseconds(800));
     std::string message = network->receive().value_or("");
     if (message.empty()) {
         throw std::runtime_error("Erreur de connexion au serveur!");
@@ -165,7 +165,7 @@ void Core::load_levels()
 
 void Core::load_spaceship()
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    std::this_thread::sleep_for(std::chrono::milliseconds(800));
     std::vector<std::string> messages = network->receive_all();
     if (messages.empty()) {
         throw std::runtime_error("Erreur de connexion au serveur!");
