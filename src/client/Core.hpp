@@ -152,6 +152,7 @@ class Core {
         // Textes
         sf::Font font;
         sf::Text text_name;
+        sf::Text highscoreText;
         sf::Text text_ip;
         sf::Text text_port;
         sf::Text text_failed;

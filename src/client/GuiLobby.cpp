@@ -118,6 +118,7 @@ void Core::display_lobby()
     renderTexture.draw(replay);
     renderTexture.draw(level_editor);
     renderTexture.draw(nb_players_text);
+    renderTexture.draw(highscoreText);
     int playerCount = 0;
     for (const auto& player : otherPlayers) {
         sf::Text lobbyText;
@@ -176,7 +177,10 @@ void Core::load_spaceship()
     for (const auto& buffer : messages) {
         std::cout << "Mess: " << buffer << "\n";
         if (messages[i].rfind(encode_action(GameAction::HIGHSCORE), 0) == 0) {
-            std::cout << "RECUP ET STOCKER ICI";
+            std::istringstream iss(buffer);
+            std::string code, highscore;
+            iss >> code >> highscore;
+            highscoreText.setString("Highscore: " + highscore);
         }
         if (messages[i].rfind("OK", 0) == 0) {
             break;

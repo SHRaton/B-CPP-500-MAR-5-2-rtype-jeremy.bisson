@@ -94,6 +94,11 @@ void Core::loadAssets()
     isScrollingBackground = true;
     isHitbox = false;
 
+    highscoreText.setFont(font);
+    highscoreText.setCharacterSize(30);
+    highscoreText.setFillColor(sf::Color::White);
+    highscoreText.setPosition(850, 850);
+    highscoreText.setString("Highscore : Not Found");
     updateCurrentSkin();
 
     initializeKeyBindings();
