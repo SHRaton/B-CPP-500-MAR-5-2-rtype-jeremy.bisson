@@ -192,7 +192,7 @@ class Core {
         sf::Sprite left_arrow_lobby;
         sf::Sprite right_arrow_lobby;
         int currentSkin_id = 0;
-        int nb_skins = 8;
+        int nb_skins = 10;
         void updateCurrentSkin();
         sf::Sprite currentSkin;
         sf::Sprite ready;
