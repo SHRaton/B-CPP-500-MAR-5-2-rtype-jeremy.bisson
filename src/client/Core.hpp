@@ -343,6 +343,7 @@ class Core {
         sf::Music gameoverMusic;
         sf::Music winMusic;
 
+        sf::Music LobbyMusic;
         
         sf::SoundBuffer screamboss_buffer1;
         sf::Sound screamboss_sound1;

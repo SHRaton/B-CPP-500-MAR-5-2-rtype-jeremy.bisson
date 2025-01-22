@@ -168,12 +168,16 @@ void Core::handleLevelEditorCommand(std::istringstream& iss)
 {
     int type;
     float x, y;
+    menuMusic.stop();
+    LobbyMusic.play();
 
     if (iss >> type >> x >> y) {  // Si on peut lire 3 entiers de iss
         entities.emplace_back(type, x, y);  // Ajoute l'entité au vecteur
     } else {  // Si iss est vide
         LevelEditor levelEditor(entities, currentMap, *network);  // Crée le LevelEditor avec les entités
         levelEditor.run();  // Lance le LevelEditor
+        menuMusic.play();
+        LobbyMusic.stop();
         entities.clear();   // Réinitialise le vecteur pour la prochaine utilisation
     }
 }

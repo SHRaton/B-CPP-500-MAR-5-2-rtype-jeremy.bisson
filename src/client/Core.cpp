@@ -304,6 +304,11 @@ void Core::loadAssets()
     }
     gameoverMusic.setVolume(soundVolume * 150.0);
 
+    if (!LobbyMusic.openFromFile("../ressources/sounds/lobbyMusic.wav")) {
+        std::cout << "Error loading menu music" << std::endl;
+    }
+    LobbyMusic.setVolume(soundVolume * 150.0);
+
     flashOverlay.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
     flashOverlay.setFillColor(sf::Color(255, 0, 0, 0));
 
